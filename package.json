@@ -2,12 +2,16 @@
   "name": "dalmatian",
   "version": "0.0.1",
   "description": "test for new cmu bot",
-  "main": "./src/index.ts",
+  "main": "./build/index.ts",
   "scripts": {
     "build": "rm -rf ./build && tsc",
     "start": "pnpm run start:bot",
     "start:bot": "pnpm run build && node ./build/index.ts"
   },
   "author": "ScottyLabs",
-  "license": ""
+  "license": "",
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "dotenv": "^17.2.2"
+  }
 }
