@@ -1,6 +1,6 @@
 # Dalmation
 
-Dalmation is a Diccord bot designed for CMU students, providing easy access to campus resources like CMUCourses and CMUEats right at their fingertips!
+Dalmation is a Discord bot designed for CMU students, providing easy access to campus resources like CMUCourses and CMUEats right at their fingertips!
 
 ## Development
 
