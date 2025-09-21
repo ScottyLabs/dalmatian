@@ -69,19 +69,26 @@ function formatLocations(locations : location[]) : EmbedBuilder[] {
       currentEmbed = new EmbedBuilder();
     }
 
+    // TODO: refactor
+    let locationFieldBody : string = "Today's Hours: " + location.times.filter(time => {
+      const now = new Date();
+      return time.start.day === now.getDay();
+    }).map(time => {
+      const startHour = time.start.hour;
+      const startMinute = time.start.minute < 10 ? `0${time.start.minute}` : time.start.minute;
+
+      const endHour = time.end.hour;
+      const endMinute = time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
+      return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+    }).join(", ");
+    if (locationFieldBody === "Today's Hours: ") {
+      locationFieldBody += "Closed";
+    }
+    locationFieldBody += '\n' + location.location;
+
     currentEmbed.addFields({
         name: location.name,
-        value: "Today's Hours: " + location.times.filter(time => {
-          const now = new Date();
-          return time.start.day === now.getDay();
-        }).map(time => {
-          const startHour = time.start.hour;
-          const startMinute = time.start.minute < 10 ? `0${time.start.minute}` : time.start.minute;
-
-          const endHour = time.end.hour;
-          const endMinute = time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
-          return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-        }).join(", ") + '\n' + location.location,
+        value: locationFieldBody,
     });
   }
 
