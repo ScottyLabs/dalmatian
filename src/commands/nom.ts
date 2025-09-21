@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { Command } from "../types.js";
 
 interface Time {
@@ -56,13 +56,35 @@ function isOpen(location: location, time : Time) : boolean {
   return false;
 }
 
+function formatLocations(locations : location[]) : EmbedBuilder {
+  const embed = new EmbedBuilder()
+    .setTitle("Dining Locations")
+    .setDescription("Here are the current dining locations:")
+    .addFields(
+      ...locations.map(location => ({
+        name: location.name,
+        value: "Today's Hours: " + location.times.filter(time => {
+          const now = new Date();
+          return time.start.day === now.getDay();
+        }).map(time => {
+          const startHour = time.start.hour;
+          const startMinute = time.start.minute < 10 ? `0${time.start.minute}` : time.start.minute;
+
+          const endHour = time.end.hour;
+          const endMinute = time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
+          return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+        }).join(", ") + "\n" + location.location,
+      }))
+    );
+  return embed;
+}
+
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("nom")
     .setDescription("Show on-campus dining locations & hours"),
   execute: async (interaction) => {
     getLocations().then(locations => {
-      // TODO: implement
       const rightNow : Time = {
         day: new Date().getDay(),
         hour: new Date().getHours(),
@@ -70,9 +92,8 @@ const command: Command = {
       };
 
       const openLocations = locations.filter(location => isOpen(location, rightNow));
-      console.log(openLocations);
 
-      interaction.reply("to be implemented :(");
+      interaction.reply({ embeds: [formatLocations(openLocations)] });
     });
   }
 };
