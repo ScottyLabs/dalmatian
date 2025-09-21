@@ -56,12 +56,20 @@ function isOpen(location: location, time : Time) : boolean {
   return false;
 }
 
-function formatLocations(locations : location[]) : EmbedBuilder {
-  const embed = new EmbedBuilder()
+function formatLocations(locations : location[]) : EmbedBuilder[] {
+  // embed field limit is 25, new embed for every 25
+  const embeds = [];
+  let currentEmbed = new EmbedBuilder()
     .setTitle("Dining Locations")
-    .setDescription("Here are the current dining locations:")
-    .addFields(
-      ...locations.map(location => ({
+    .setDescription("Here are the current dining locations:");
+
+  for (const location of locations) {
+    if ((currentEmbed.data.fields?.length ?? 0) >= 25) {
+      embeds.push(currentEmbed);
+      currentEmbed = new EmbedBuilder();
+    }
+
+    currentEmbed.addFields({
         name: location.name,
         value: "Today's Hours: " + location.times.filter(time => {
           const now = new Date();
@@ -73,10 +81,12 @@ function formatLocations(locations : location[]) : EmbedBuilder {
           const endHour = time.end.hour;
           const endMinute = time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
           return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-        }).join(", ") + "\n" + location.location,
-      }))
-    );
-  return embed;
+        }).join(", ") + '\n' + location.location,
+    });
+  }
+
+  embeds.push(currentEmbed);
+  return embeds;
 }
 
 const command: Command = {
