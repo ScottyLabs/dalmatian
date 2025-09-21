@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { Command } from "../types.js";
+import { Command } from "../types";
 
 interface Time {
   day: number,
@@ -98,7 +98,7 @@ function formatLocations(locations : location[]) : EmbedBuilder[] {
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("nom")
+    .setName("dining")
     .setDescription("Show on-campus dining locations & hours")
     .addSubcommand(subcommand =>
       subcommand
