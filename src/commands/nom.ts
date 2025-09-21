@@ -1,6 +1,12 @@
 import { SlashCommandBuilder } from "discord.js";
 import { Command } from "../types.js";
 
+interface Time {
+  day: number,
+  hour: number,
+  minute: number,
+}
+
 interface location {
   conceptID: number,
   name: string,
@@ -15,16 +21,8 @@ interface location {
   acceptOnlineOrders: boolean,
   times: [
     {
-      start: {
-        day: number,
-        hour: number,
-        minute: number
-      },
-      end: {
-        day: number,
-        hour: number,
-        minute: number
-      }
+      start: Time,
+      end: Time
     }
   ]
 }
@@ -48,6 +46,11 @@ const command: Command = {
   execute: async (interaction) => {
     getLocations().then(locations => {
       // TODO: implement
+      const rightNow : Time = {
+        day: new Date().getDay(),
+        hour: new Date().getHours(),
+        minute: new Date().getMinutes()
+      };
 
       interaction.reply("to be implemented :(");
     });
