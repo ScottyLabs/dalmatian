@@ -7,7 +7,7 @@ interface Time {
   minute: number,
 }
 
-interface location {
+interface Location {
   conceptID: number,
   name: string,
   shortDescription: string,
@@ -27,7 +27,7 @@ interface location {
   ]
 }
 
-function getLocations(): Promise<location[]> {
+function getLocations(): Promise<Location[]> {
   const request : RequestInfo = new Request("https://dining.apis.scottylabs.org/locations", {
     method: "GET",
   });
@@ -35,11 +35,11 @@ function getLocations(): Promise<location[]> {
   return fetch(request)
     .then(res => res.json())
     .then(data => {
-      return data.locations as location[];
+      return data.locations as Location[];
     });
 }
 
-function isOpen(location: location, time : Time) : boolean {
+function isOpen(location: Location, time : Time) : boolean {
   const nowDay = time.day;
   const nowHour = time.hour;
   const nowMinute = time.minute;
@@ -56,7 +56,7 @@ function isOpen(location: location, time : Time) : boolean {
   return false;
 }
 
-function formatLocations(locations : location[]) : EmbedBuilder[] {
+function formatLocations(locations : Location[]) : EmbedBuilder[] {
   // embed field limit is 25, new embed for every 25
   const embeds = [];
   let currentEmbed = new EmbedBuilder()
