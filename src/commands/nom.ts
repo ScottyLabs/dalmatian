@@ -39,6 +39,23 @@ function getLocations(): Promise<location[]> {
     });
 }
 
+function isOpen(location: location, time : Time) : boolean {
+  const nowDay = time.day;
+  const nowHour = time.hour;
+  const nowMinute = time.minute;
+
+  for (const openTime of location.times) {
+    if (openTime.start.day === nowDay) {
+      if (openTime.start.hour < nowHour || (openTime.start.hour === nowHour && openTime.start.minute <= nowMinute)) {
+        if (openTime.end.hour > nowHour || (openTime.end.hour === nowHour && openTime.end.minute > nowMinute)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("nom")
@@ -51,6 +68,9 @@ const command: Command = {
         hour: new Date().getHours(),
         minute: new Date().getMinutes()
       };
+
+      const openLocations = locations.filter(location => isOpen(location, rightNow));
+      console.log(openLocations);
 
       interaction.reply("to be implemented :(");
     });
