@@ -39,20 +39,19 @@ function getLocations(): Promise<Location[]> {
     });
 }
 
-function isOpen(location: Location, time : Time) : boolean {
-  const nowDay = time.day;
-  const nowHour = time.hour;
-  const nowMinute = time.minute;
-
-  for (const openTime of location.times) {
-    if (openTime.start.day === nowDay) {
-      if (openTime.start.hour < nowHour || (openTime.start.hour === nowHour && openTime.start.minute <= nowMinute)) {
-        if (openTime.end.hour > nowHour || (openTime.end.hour === nowHour && openTime.end.minute > nowMinute)) {
-          return true;
-        }
-      }
-    }
+function isBetween(now : Time, start : Time, end : Time) : boolean {
+  if (start.day === now.day || end.day === now.day) {
+    return start.hour < now.hour && now.hour < end.hour
+      || (start.hour === now.hour && start.minute <= now.minute)
+      || (end.hour === now.hour && now.minute <= end.minute);
   }
+  return start.day < now.day && now.day < end.day;
+}
+
+function isOpen(location: Location, time : Time) : boolean {
+  for (const openTime of location.times)
+    if(isBetween(time, openTime.start, openTime.end))
+      return true;
   return false;
 }
 
