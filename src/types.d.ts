@@ -1,13 +1,13 @@
-import { SlashCommandBuilder }  from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, Client }  from 'discord.js';
 
 //TODO: add text commands to this interface
 export interface Command {
   data: Pick<SlashCommandBuilder, 'name' | 'toJSON'>;
-  execute: (interaction: ApplicationCommand) => void;
+  execute: (interaction: ChatInputCommandInteraction) => void;
 }
 
 export interface Event {
   name: string;
   once?: boolean | false;
-  execute: (...args?) => void;
+  execute: (...args: any[]) => void;
 }

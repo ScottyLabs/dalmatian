@@ -1,13 +1,12 @@
-import { Client } from 'discord.js';
+import { Client, SlashCommandBuilder } from 'discord.js';
 import { Command } from '../types';
 
 const command : Command = {
-  data: {
-    name: 'ping',
-    toJSON: () => ({ name: 'ping', description: 'returns ping of bot' })
-  },
+  data: new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('Replies with Pong! and latency.'),
   execute: async (interaction) => {
-    await interaction.reply(`Pong! Latency is ${Date.now() - interaction.createdTimestamp}ms.`);
+    await interaction.reply(`Pong! Latency is ${Date.now() - interaction.createdTimestamp} ms.`);
   }
 }
 

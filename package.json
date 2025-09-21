@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf ./build && tsc",
     "start": "pnpm run start:bot",
-    "start:bot": "pnpm run build && node ./build/index.js"
+    "start:bot": "pnpm run build && node --env-file=.env ./build/index.js"
   },
   "author": "ScottyLabs",
   "license": "",
