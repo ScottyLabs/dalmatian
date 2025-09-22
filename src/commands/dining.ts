@@ -111,23 +111,23 @@ const command: Command = {
         .setName("open")
         .setDescription("Show currently open dining locations")),
   execute: async (interaction) => {
-    getLocations().then(locations => {
-      if (interaction.options.getSubcommand() === "all") {
-        interaction.reply({ embeds: formatLocations(locations.sort((a, b) => a.name.localeCompare(b.name))) });
-        return;
-      }
-      if (interaction.options.getSubcommand() === "open") {
-        const rightNow : Time = {
-          day: new Date().getDay(),
-          hour: new Date().getHours(),
-          minute: new Date().getMinutes()
-        };
+    const locations = await getLocations();
 
-        const openLocations = locations.filter(location => isOpen(location, rightNow));
+    if (interaction.options.getSubcommand() === "all") {
+      interaction.reply({ embeds: formatLocations(locations.sort((a, b) => a.name.localeCompare(b.name))) });
+      return;
+    }
+    if (interaction.options.getSubcommand() === "open") {
+      const rightNow : Time = {
+        day: new Date().getDay(),
+        hour: new Date().getHours(),
+        minute: new Date().getMinutes()
+      };
 
-        interaction.reply({ embeds: formatLocations(openLocations.sort((a, b) => a.name.localeCompare(b.name))) });
-      }
-    });
+      const openLocations = locations.filter(location => isOpen(location, rightNow));
+
+      interaction.reply({ embeds: formatLocations(openLocations.sort((a, b) => a.name.localeCompare(b.name))) });
+    }
   }
 };
 
