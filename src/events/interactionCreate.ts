@@ -9,7 +9,7 @@ const event: Event<Events.InteractionCreate> = {
 
     const command = interaction.client.commands.get(interaction.commandName);
     if (!command) {
-      console.error(`No command matching "${command}" found`);
+      console.error(`No command matching "${interaction.commandName}" found`);
       return;
     }
 
