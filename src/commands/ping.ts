@@ -1,13 +1,15 @@
-import { Client, SlashCommandBuilder } from 'discord.js';
-import { Command } from '../types';
+import { SlashCommandBuilder } from "discord.js";
+import { Command } from "../types";
 
-const command : Command = {
+const command: Command = {
   data: new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription('Replies with Pong! and latency.'),
-  execute: async (interaction) => {
-    await interaction.reply(`Pong! Latency is ${Date.now() - interaction.createdTimestamp} ms.`);
-  }
-}
+    .setName("ping")
+    .setDescription("Replies with Pong! and latency."),
+  async execute(interaction) {
+    await interaction.reply(
+      `Pong! Latency is ${Date.now() - interaction.createdTimestamp} ms.`
+    );
+  },
+};
 
 export default command;
