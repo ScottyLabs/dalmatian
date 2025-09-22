@@ -19,12 +19,10 @@ interface Location {
     lng: number
   },
   acceptOnlineOrders: boolean,
-  times: [
-    {
+  times:{
       start: Time,
       end: Time
-    }
-  ]
+    }[]
 }
 
 function getLocations(): Promise<Location[]> {
