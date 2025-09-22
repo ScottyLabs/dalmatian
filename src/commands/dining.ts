@@ -140,6 +140,18 @@ const command: Command = {
     if (interaction.options.getSubcommand() === "search") {
       interaction.reply("Search command not yet implemented. :(");
     }
+  },
+  autocomplete: async (client, interaction) => {
+    const focusedValue = interaction.options.getFocused();
+
+    const locations = await getLocations();
+
+    const choices = locations
+      .filter(location => location.name.toLowerCase().startsWith(focusedValue.toLowerCase()))
+      .slice(0, 25)
+      .map(location => ({ name: location.name, value: location.name }));
+
+    await interaction.respond(choices);
   }
 };
 
