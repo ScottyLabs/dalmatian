@@ -18,7 +18,7 @@ interface Location {
     lat: number,
     lng: number
   },
-  acceptOnlineOrders: boolean,
+  acceptsOnlineOrders: boolean,
   times:{
       start: Time,
       end: Time
