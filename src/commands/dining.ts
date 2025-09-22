@@ -109,7 +109,16 @@ const command: Command = {
     .addSubcommand(subcommand =>
       subcommand
         .setName("open")
-        .setDescription("Show currently open dining locations")),
+        .setDescription("Show currently open dining locations"))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName("search")
+        .setDescription("Search for a specific dining location")
+        .addStringOption(option =>
+          option.setName("query")
+            .setDescription("The name of the dining location to search for")
+            .setRequired(true)
+            .setAutocomplete(true))),
   execute: async (interaction) => {
     const locations = await getLocations();
 
@@ -127,6 +136,9 @@ const command: Command = {
       const openLocations = locations.filter(location => isOpen(location, rightNow));
 
       interaction.reply({ embeds: formatLocations(openLocations.sort((a, b) => a.name.localeCompare(b.name))) });
+    }
+    if (interaction.options.getSubcommand() === "search") {
+      interaction.reply("Search command not yet implemented. :(");
     }
   }
 };
