@@ -54,6 +54,11 @@ function isOpen(location: Location, time : Time) : boolean {
 }
 
 function formatLocations(locations : Location[]) : EmbedBuilder[] {
+  if(locations.length === 0) {
+    return [new EmbedBuilder()
+      .setTitle("Dining Locations")
+      .setDescription("No dining locations currently open.")];
+  }
   // embed field limit is 25, new embed for every 25
   const embeds = [];
   let currentEmbed = new EmbedBuilder()
