@@ -174,7 +174,9 @@ const command: Command = {
       interaction.reply({ embeds: formatLocations(openLocations.sort((a, b) => a.name.localeCompare(b.name))) });
     }
     if (interaction.options.getSubcommand() === "search") {
-      interaction.reply("Search command not yet implemented. :(");
+      const query = interaction.options.getString("query", true).toLowerCase();
+      const matchedLocations = locations.filter(location => location.name.toLowerCase().includes(query));
+      return interaction.reply({ embeds: [formatLocation(matchedLocations[0])] });
     }
   },
   autocomplete: async (client, interaction) => {
