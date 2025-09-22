@@ -1,8 +1,14 @@
 # Dalmation
-Dalmation is a discord bot written for the use of Carnegie Mellon University students as an extension to other ScottyLabs resources such as CMUCourses and CMUEats.
+
+Dalmation is a Discord bot designed for CMU students, providing easy access to campus resources like CMUCourses and CMUEats right at their fingertips!
 
 ## Development
-Rename `.env.example` to `.env` and insert your bot details
 
-Use `pnpm i` to install dependencies
-Use `pnpm start:bot` to run the bot
+Rename `.env.example` to `.env` and edit the fields. Then run
+
+```bash
+# install dependencies
+pnpm install
+# start the bot
+pnpm start
+```
