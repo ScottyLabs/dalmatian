@@ -53,6 +53,42 @@ function isOpen(location: Location, time : Time) : boolean {
   return false;
 }
 
+function formatLocation(location : Location) : EmbedBuilder {
+  if(!location) {
+    return new EmbedBuilder()
+      .setTitle("Dining Location Not Found")
+      .setDescription("The specified dining location could not be found.");
+  }
+
+  let embed = new EmbedBuilder()
+    .setTitle(location.name)
+    .setDescription(location.description)
+    .addFields(
+      { name: "Location", value: location.location },
+      { name: "Today's Hours", value: location.times.filter(time => {
+        const now = new Date();
+        return time.start.day === now.getDay();
+      }).map(time => {
+        const startHour = time.start.hour;
+        const startMinute = time.start.minute < 10 ? `0${time.start.minute}` : time.start.minute;
+
+        const endHour = time.end.hour;
+        const endMinute = time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
+        return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+      }
+      ).join(", ") || "Closed" }
+    )
+    .addFields(
+      { name: "Accepts Online Orders", value: location.acceptsOnlineOrders ? "Yes" : "No" }
+    )
+    .setURL(location.url);
+
+  const url = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  embed.setImage(url);
+
+  return embed;
+}
+
 function formatLocations(locations : Location[]) : EmbedBuilder[] {
   if(locations.length === 0) {
     return [new EmbedBuilder()
