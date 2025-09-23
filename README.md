@@ -12,3 +12,12 @@ pnpm install
 # start the bot
 pnpm start
 ```
+
+Alternatively, you can use Docker:
+
+```bash
+# prepare environmental variables
+cp .env.example .env
+# build docker image and run
+docker build -t dalmatian . && docker run -p 3213 --env-file .env dalmatian
+```
