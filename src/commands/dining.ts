@@ -184,10 +184,12 @@ const command: Command = {
 
     const locations = await getLocations();
 
-    const choices = locations
-      .filter(location => location.name.toLowerCase().startsWith(focusedValue.toLowerCase()))
-      .slice(0, 25)
-      .map(location => ({ name: location.name, value: location.name }));
+		const choices = search(focusedValue.toLowerCase(), locations, {
+			// ignoreCase is true by default
+			keySelector: (loc) => loc.name,
+		})
+			.slice(0, 25)
+			.map((loc) => ({ name: loc.name, value: loc.name }));
 
     await interaction.respond(choices);
   }
