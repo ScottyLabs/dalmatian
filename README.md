@@ -10,7 +10,7 @@ Node.js >= 22.12.0 is required, but the development of Dalmatian uses v24.
 # install dependencies
 pnpm install
 # prepare environmental variables
-cp .env.exampel .env
+cp .env.example .env
 # start the bot (remember to edit the fields in .env)
 pnpm start
 ```
