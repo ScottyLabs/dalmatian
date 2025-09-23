@@ -18,7 +18,7 @@ interface Location {
     lat: number,
     lng: number
   },
-  acceptOnlineOrders: boolean,
+  acceptsOnlineOrders: boolean,
   times:{
       start: Time,
       end: Time
@@ -51,6 +51,42 @@ function isOpen(location: Location, time : Time) : boolean {
     if(isBetween(time, openTime.start, openTime.end))
       return true;
   return false;
+}
+
+function formatLocation(location : Location) : EmbedBuilder {
+  if(!location) {
+    return new EmbedBuilder()
+      .setTitle("Dining Location Not Found")
+      .setDescription("The specified dining location could not be found.");
+  }
+
+  let embed = new EmbedBuilder()
+    .setTitle(location.name)
+    .setDescription(location.description)
+    .addFields(
+      { name: "Location", value: location.location },
+      { name: "Today's Hours", value: location.times.filter(time => {
+        const now = new Date();
+        return time.start.day === now.getDay();
+      }).map(time => {
+        const startHour = time.start.hour;
+        const startMinute = time.start.minute < 10 ? `0${time.start.minute}` : time.start.minute;
+
+        const endHour = time.end.hour;
+        const endMinute = time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
+        return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+      }
+      ).join(", ") || "Closed" }
+    )
+    .addFields(
+      { name: "Accepts Online Orders", value: location.acceptsOnlineOrders ? "Yes" : "No" }
+    )
+    .setURL(location.url);
+
+  const url = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  embed.setImage(url);
+
+  return embed;
 }
 
 function formatLocations(locations : Location[]) : EmbedBuilder[] {
@@ -109,7 +145,16 @@ const command: Command = {
     .addSubcommand(subcommand =>
       subcommand
         .setName("open")
-        .setDescription("Show currently open dining locations")),
+        .setDescription("Show currently open dining locations"))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName("search")
+        .setDescription("Search for a specific dining location")
+        .addStringOption(option =>
+          option.setName("query")
+            .setDescription("The name of the dining location to search for")
+            .setRequired(true)
+            .setAutocomplete(true))),
   execute: async (interaction) => {
     const locations = await getLocations();
 
@@ -128,6 +173,23 @@ const command: Command = {
 
       interaction.reply({ embeds: formatLocations(openLocations.sort((a, b) => a.name.localeCompare(b.name))) });
     }
+    if (interaction.options.getSubcommand() === "search") {
+      const query = interaction.options.getString("query", true).toLowerCase();
+      const matchedLocations = locations.filter(location => location.name.toLowerCase().includes(query));
+      return interaction.reply({ embeds: [formatLocation(matchedLocations[0])] });
+    }
+  },
+  autocomplete: async (client, interaction) => {
+    const focusedValue = interaction.options.getFocused();
+
+    const locations = await getLocations();
+
+    const choices = locations
+      .filter(location => location.name.toLowerCase().startsWith(focusedValue.toLowerCase()))
+      .slice(0, 25)
+      .map(location => ({ name: location.name, value: location.name }));
+
+    await interaction.respond(choices);
   }
 };
 
