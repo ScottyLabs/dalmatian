@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { Command } from "../types";
+import { search } from "fast-fuzzy";
 
 interface Time {
   day: number,
