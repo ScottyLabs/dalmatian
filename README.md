@@ -1,6 +1,6 @@
 # Dalmatian
 
-Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMUCourses and CMUEats right at their fingertips!
+Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMUCourses and CMUEats right at your fingertips!
 
 ## Development
 
