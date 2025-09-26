@@ -1,6 +1,6 @@
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
 import type { Client } from "discord.js";
-import { readdirSync } from "fs";
-import { join } from "path";
 import type { Event } from "../types";
 
 module.exports = (client: Client) => {

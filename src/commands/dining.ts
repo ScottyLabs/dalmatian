@@ -1,6 +1,6 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { Command } from "../types";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
+import type { Command } from "../types";
 
 interface Time {
   day: number;
@@ -228,12 +228,12 @@ const command: Command = {
 
     const locations = await getLocations();
 
-		const choices = search(focusedValue.toLowerCase(), locations, {
-			// ignoreCase is true by default
-			keySelector: (loc) => loc.name,
-		})
-			.slice(0, 25)
-			.map((loc) => ({ name: loc.name, value: loc.name }));
+    const choices = search(focusedValue.toLowerCase(), locations, {
+      // ignoreCase is true by default
+      keySelector: (loc) => loc.name,
+    })
+      .slice(0, 25)
+      .map((loc) => ({ name: loc.name, value: loc.name }));
 
     await interaction.respond(choices);
   },
