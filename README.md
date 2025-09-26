@@ -15,6 +15,15 @@ cp .env.example .env
 pnpm start
 ```
 
+Alternatively, you can use Docker:
+
+```bash
+# prepare environmental variables
+cp .env.example .env
+# build docker image and run
+docker build -t dalmatian . && docker run -p 3213 --env-file .env dalmatian
+```
+
 ## Contributing
 
 Please check [CONTRIBUTING.md](CONTRIBUTING.md) before you contribute to this project!
