@@ -19,23 +19,24 @@ module.exports = (client: Client) => {
     client.commands.set(command.data.name, command);
   });
 
-  const rest = new REST().setToken(process.env.TOKEN as string);
+  const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
   (async () => {
     try {
       console.log("Started refreshing application (/) commands.");
 
       await rest
-        .put(Routes.applicationCommands(process.env.CLIENT_ID as string), {
+        .put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), {
           body: commands.map((command) => command.toJSON()),
         })
-        .then((data: any) => {
-          return console.log(
-            `Successfully reloaded ${data.length} application (/) commands.`,
+        .then((data: unknown) => {
+          const commandCount = Array.isArray(data) ? data.length : "unknown";
+          console.log(
+            `Successfully reloaded ${commandCount} application (/) commands.`
           );
         });
-    } catch (error: any) {
-      console.error(error);
+    } catch (error: unknown) {
+      console.error(error instanceof Error ? error.message : String(error));
     }
   })();
 };

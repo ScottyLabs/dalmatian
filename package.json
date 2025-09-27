@@ -1,7 +1,7 @@
 {
   "name": "dalmatian",
   "version": "0.0.1",
-  "description": "test for new cmu bot",
+  "description": "ScottyLabs Discord Bot",
   "main": "./build/index.js",
   "scripts": {
     "check": "pnpm biome check --write",
@@ -9,7 +9,8 @@
     "start": "pnpm run build && node --env-file=.env ./build/index.js"
   },
   "author": "ScottyLabs",
-  "license": "",
+  "private": true,
+  "license": "UNLICENSED",
   "dependencies": {
     "@types/node": "^24.5.2",
     "discord.js": "^14.22.1",

@@ -1,7 +1,7 @@
 import type {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
-  Client,
+  ClientEvents,
   SlashCommandBuilder,
 } from "discord.js";
 
@@ -12,8 +12,8 @@ export interface Command {
   autocomplete?: (client: Client, interaction: AutocompleteInteraction) => void;
 }
 
-export interface Event {
-  name: string;
-  once?: boolean | false;
-  execute: (...args: any[]) => void;
+export interface Event<K extends keyof ClientEvents> {
+  name: K;
+  once: boolean;
+  execute: (...args: ClientEvents[K]) => void;
 }

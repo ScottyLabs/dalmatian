@@ -8,10 +8,16 @@ module.exports = (client: Client) => {
 
   readdirSync(eventsDir).forEach((file) => {
     if (!file.endsWith(".js")) return;
-    const event: Event = require(join(eventsDir, file)).default;
-    event.once
-      ? client.once(event.name, (...args) => event.execute(client, ...args))
-      : client.on(event.name, (...args) => event.execute(client, ...args));
+    
+    const event = require(join(eventsDir, file)).default as Event<
+      keyof ClientEvents
+    >;
+
+    if (event.once) {
+      client.once(event.name, (...args) => event.execute(...args));
+    } else {
+      client.on(event.name, (...args) => event.execute(...args));
+    }
     console.log(`Loaded event ${event.name}`);
   });
 };

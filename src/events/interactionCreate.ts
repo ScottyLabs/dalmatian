@@ -6,19 +6,17 @@ import {
 } from "discord.js";
 import type { Command, Event } from "../types";
 
-const event: Event = {
-  name: "interactionCreate",
-  execute: async (client: Client, interaction: Interaction) => {
-    if (
-      interaction.type !== InteractionType.ApplicationCommand &&
-      interaction.type !== InteractionType.ApplicationCommandAutocomplete
-    )
-      return;
+const event: Event<Events.InteractionCreate> = {
+  name: Events.InteractionCreate,
+  once: false,
+  async execute(interaction) {
+    if (!interaction.isChatInputCommand()) return;
 
-    const command: Command | undefined = client.commands.get(
-      interaction.commandName,
-    );
-    if (!command) return;
+    const command = interaction.client.commands.get(interaction.commandName);
+    if (!command) {
+      console.error(`No command matching "${interaction.commandName}" found`);
+      return;
+    }
 
     if (interaction.type === InteractionType.ApplicationCommand) {
       try {

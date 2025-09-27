@@ -31,7 +31,7 @@ function getLocations(): Promise<Location[]> {
     "https://dining.apis.scottylabs.org/locations",
     {
       method: "GET",
-    },
+    }
   );
 
   return fetch(request)
