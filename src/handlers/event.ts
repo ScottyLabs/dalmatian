@@ -4,20 +4,20 @@ import type { Client, ClientEvents } from "discord.js";
 import type { Event } from "../types";
 
 module.exports = (client: Client) => {
-  const eventsDir = join(__dirname, "../events");
+    const eventsDir = join(__dirname, "../events");
 
-  readdirSync(eventsDir).forEach((file) => {
-    if (!file.endsWith(".js")) return;
+    readdirSync(eventsDir).forEach((file) => {
+        if (!file.endsWith(".js")) return;
 
-    const event = require(join(eventsDir, file)).default as Event<
-      keyof ClientEvents
-    >;
+        const event = require(join(eventsDir, file)).default as Event<
+            keyof ClientEvents
+        >;
 
-    if (event.once) {
-      client.once(event.name, (...args) => event.execute(...args));
-    } else {
-      client.on(event.name, (...args) => event.execute(...args));
-    }
-    console.log(`Loaded event ${event.name}`);
-  });
+        if (event.once) {
+            client.once(event.name, (...args) => event.execute(...args));
+        } else {
+            client.on(event.name, (...args) => event.execute(...args));
+        }
+        console.log(`Loaded event ${event.name}`);
+    });
 };
