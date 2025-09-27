@@ -27,7 +27,7 @@ interface Location {
 }
 
 function getLocations(): Promise<Location[]> {
-  const request: RequestInfo = new Request(
+  const request: Request = new Request(
     "https://dining.apis.scottylabs.org/locations",
     {
       method: "GET",
@@ -35,7 +35,7 @@ function getLocations(): Promise<Location[]> {
   );
 
   return fetch(request)
-    .then((res) => res.json())
+    .then((res) => res.json() as Promise<{ locations: Location[] }>)
     .then((data) => {
       return data.locations as Location[];
     });
