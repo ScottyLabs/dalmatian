@@ -1,16 +1,16 @@
 import {
   type ChatInputCommandInteraction,
-  type Client,
-  type Interaction,
+  Events,
   InteractionType,
 } from "discord.js";
-import type { Command, Event } from "../types";
+import type { Event } from "../types";
 
 const event: Event<Events.InteractionCreate> = {
   name: Events.InteractionCreate,
   once: false,
   async execute(interaction) {
-    if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand() && !interaction.isAutocomplete())
+      return;
 
     const command = interaction.client.commands.get(interaction.commandName);
     if (!command) {
@@ -29,12 +29,13 @@ const event: Event<Events.InteractionCreate> = {
         });
       }
     }
+
     if (
       interaction.type === InteractionType.ApplicationCommandAutocomplete &&
       command.autocomplete
     ) {
       try {
-        await command.autocomplete(client, interaction);
+        await command.autocomplete(interaction.client, interaction);
       } catch (error) {
         console.error(error);
       }

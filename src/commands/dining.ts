@@ -31,7 +31,7 @@ function getLocations(): Promise<Location[]> {
     "https://dining.apis.scottylabs.org/locations",
     {
       method: "GET",
-    }
+    },
   );
 
   return fetch(request)
@@ -185,7 +185,7 @@ const command: Command = {
             .setAutocomplete(true),
         ),
     ),
-  execute: async (interaction) => {
+  async execute(interaction) {
     const locations = await getLocations();
 
     if (interaction.options.getSubcommand() === "all") {
@@ -223,7 +223,7 @@ const command: Command = {
       });
     }
   },
-  autocomplete: async (client, interaction) => {
+  async autocomplete(_client, interaction) {
     const focusedValue = interaction.options.getFocused();
 
     const locations = await getLocations();
