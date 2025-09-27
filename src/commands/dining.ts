@@ -65,6 +65,12 @@ function formatLocation(location: Location): EmbedBuilder {
       .setDescription("The specified dining location could not be found.");
   }
 
+  const now: Time = {
+    day: new Date().getDay(),
+    hour: new Date().getHours(),
+    minute: new Date().getMinutes(),
+  };
+
   const embed = new EmbedBuilder()
     .setTitle(location.name)
     .setDescription(location.description)
@@ -74,10 +80,7 @@ function formatLocation(location: Location): EmbedBuilder {
         name: "Today's Hours",
         value:
           location.times
-            .filter((time) => {
-              const now = new Date();
-              return time.start.day === now.getDay();
-            })
+            .filter(({ start, end }) => isBetween(now, start, end))
             .map((time) => {
               const startHour = time.start.hour;
               const startMinute =
@@ -125,35 +128,30 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
       currentEmbed = new EmbedBuilder();
     }
 
-    // TODO: refactor
-    let locationFieldBody: string =
-      "Today's Hours: " +
-      location.times
-        .filter((time) => {
-          const now = new Date();
-          return time.start.day === now.getDay();
-        })
-        .map((time) => {
-          const startHour = time.start.hour;
-          const startMinute =
-            time.start.minute < 10
-              ? `0${time.start.minute}`
-              : time.start.minute;
+    const now: Time = {
+      day: new Date().getDay(),
+      hour: new Date().getHours(),
+      minute: new Date().getMinutes(),
+    };
 
-          const endHour = time.end.hour;
-          const endMinute =
-            time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
-          return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-        })
-        .join(", ");
-    if (locationFieldBody === "Today's Hours: ") {
-      locationFieldBody += "Closed";
-    }
-    locationFieldBody += `\n${location.location}`;
+    const hours = location.times
+      .filter(({ start, end }) => isBetween(now, start, end))
+      .map((time) => {
+        const startHour = time.start.hour;
+        const startMinute =
+          time.start.minute < 10 ? `0${time.start.minute}` : time.start.minute;
+
+        const endHour = time.end.hour;
+        const endMinute =
+          time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
+        return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+      });
+
+    const hoursStr = hours.length === 0 ? "Closed" : hours.join(",");
 
     currentEmbed.addFields({
       name: location.name,
-      value: locationFieldBody,
+      value: `Today's Hours: ${hoursStr}\n${location.location}`,
     });
   }
 
@@ -223,6 +221,7 @@ const command: Command = {
       });
     }
   },
+
   async autocomplete(_client, interaction) {
     const focusedValue = interaction.options.getFocused();
 
