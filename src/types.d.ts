@@ -1,4 +1,5 @@
-import {
+import type {
+  AutocompleteInteraction,
   ChatInputCommandInteraction,
   ClientEvents,
   SlashCommandBuilder,
@@ -8,6 +9,7 @@ import {
 export interface Command {
   data: Pick<SlashCommandBuilder, "name" | "toJSON">;
   execute: (interaction: ChatInputCommandInteraction) => void;
+  autocomplete?: (client: Client, interaction: AutocompleteInteraction) => void;
 }
 
 export interface Event<K extends keyof ClientEvents> {

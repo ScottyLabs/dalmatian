@@ -1,5 +1,10 @@
-import { Events } from "discord.js";
-import { Event } from "../types";
+import {
+  type ChatInputCommandInteraction,
+  type Client,
+  type Interaction,
+  InteractionType,
+} from "discord.js";
+import type { Command, Event } from "../types";
 
 const event: Event<Events.InteractionCreate> = {
   name: Events.InteractionCreate,
@@ -13,14 +18,26 @@ const event: Event<Events.InteractionCreate> = {
       return;
     }
 
-    try {
-      await command.execute(interaction);
-    } catch (error) {
-      console.error(error);
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      });
+    if (interaction.type === InteractionType.ApplicationCommand) {
+      try {
+        await command.execute(interaction as ChatInputCommandInteraction);
+      } catch (error) {
+        console.error(error);
+        await interaction.reply({
+          content: "There was an error while executing this command!",
+          ephemeral: true,
+        });
+      }
+    }
+    if (
+      interaction.type === InteractionType.ApplicationCommandAutocomplete &&
+      command.autocomplete
+    ) {
+      try {
+        await command.autocomplete(client, interaction);
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
 };

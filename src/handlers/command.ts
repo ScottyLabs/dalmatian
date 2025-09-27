@@ -1,7 +1,12 @@
-import { Client, REST, Routes, SlashCommandBuilder } from "discord.js";
-import { readdirSync } from "fs";
-import { join } from "path";
-import { Command } from "../types";
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
+import {
+  type Client,
+  REST,
+  Routes,
+  type SlashCommandBuilder,
+} from "discord.js";
+import type { Command } from "../types";
 
 module.exports = (client: Client) => {
   const commands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];

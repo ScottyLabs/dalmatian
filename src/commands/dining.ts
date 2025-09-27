@@ -1,5 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { Command } from "../types";
+import { search } from "fast-fuzzy";
+import type { Command } from "../types";
 
 interface Time {
   day: number;
@@ -18,7 +19,7 @@ interface Location {
     lat: number;
     lng: number;
   };
-  acceptOnlineOrders: boolean;
+  acceptsOnlineOrders: boolean;
   times: {
     start: Time;
     end: Time;
@@ -55,6 +56,53 @@ function isOpen(location: Location, time: Time): boolean {
   for (const openTime of location.times)
     if (isBetween(time, openTime.start, openTime.end)) return true;
   return false;
+}
+
+function formatLocation(location: Location): EmbedBuilder {
+  if (!location) {
+    return new EmbedBuilder()
+      .setTitle("Dining Location Not Found")
+      .setDescription("The specified dining location could not be found.");
+  }
+
+  const embed = new EmbedBuilder()
+    .setTitle(location.name)
+    .setDescription(location.description)
+    .addFields(
+      { name: "Location", value: location.location },
+      {
+        name: "Today's Hours",
+        value:
+          location.times
+            .filter((time) => {
+              const now = new Date();
+              return time.start.day === now.getDay();
+            })
+            .map((time) => {
+              const startHour = time.start.hour;
+              const startMinute =
+                time.start.minute < 10
+                  ? `0${time.start.minute}`
+                  : time.start.minute;
+
+              const endHour = time.end.hour;
+              const endMinute =
+                time.end.minute < 10 ? `0${time.end.minute}` : time.end.minute;
+              return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+            })
+            .join(", ") || "Closed",
+      },
+    )
+    .addFields({
+      name: "Accepts Online Orders",
+      value: location.acceptsOnlineOrders ? "Yes" : "No",
+    })
+    .setURL(location.url);
+
+  const url = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  embed.setImage(url);
+
+  return embed;
 }
 
 function formatLocations(locations: Location[]): EmbedBuilder[] {
@@ -101,7 +149,7 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
     if (locationFieldBody === "Today's Hours: ") {
       locationFieldBody += "Closed";
     }
-    locationFieldBody += "\n" + location.location;
+    locationFieldBody += `\n${location.location}`;
 
     currentEmbed.addFields({
       name: location.name,
@@ -118,20 +166,32 @@ const command: Command = {
     .setName("dining")
     .setDescription("Show on-campus dining locations & hours")
     .addSubcommand((subcommand) =>
-      subcommand.setName("all").setDescription("Show all dining locations")
+      subcommand.setName("all").setDescription("Show all dining locations"),
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("open")
-        .setDescription("Show currently open dining locations")
+        .setDescription("Show currently open dining locations"),
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("search")
+        .setDescription("Search for a specific dining location")
+        .addStringOption((option) =>
+          option
+            .setName("query")
+            .setDescription("The name of the dining location to search for")
+            .setRequired(true)
+            .setAutocomplete(true),
+        ),
     ),
-  async execute(interaction) {
+  execute: async (interaction) => {
     const locations = await getLocations();
 
     if (interaction.options.getSubcommand() === "all") {
       interaction.reply({
         embeds: formatLocations(
-          locations.sort((a, b) => a.name.localeCompare(b.name))
+          locations.sort((a, b) => a.name.localeCompare(b.name)),
         ),
       });
       return;
@@ -144,15 +204,38 @@ const command: Command = {
       };
 
       const openLocations = locations.filter((location) =>
-        isOpen(location, rightNow)
+        isOpen(location, rightNow),
       );
 
       interaction.reply({
         embeds: formatLocations(
-          openLocations.sort((a, b) => a.name.localeCompare(b.name))
+          openLocations.sort((a, b) => a.name.localeCompare(b.name)),
         ),
       });
     }
+    if (interaction.options.getSubcommand() === "search") {
+      const query = interaction.options.getString("query", true).toLowerCase();
+      const matchedLocations = locations.filter((location) =>
+        location.name.toLowerCase().includes(query),
+      );
+      return interaction.reply({
+        embeds: [formatLocation(matchedLocations[0])],
+      });
+    }
+  },
+  autocomplete: async (client, interaction) => {
+    const focusedValue = interaction.options.getFocused();
+
+    const locations = await getLocations();
+
+    const choices = search(focusedValue.toLowerCase(), locations, {
+      // ignoreCase is true by default
+      keySelector: (loc) => loc.name,
+    })
+      .slice(0, 25)
+      .map((loc) => ({ name: loc.name, value: loc.name }));
+
+    await interaction.respond(choices);
   },
 };
 
