@@ -1,6 +1,6 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import type { Client } from "discord.js";
+import type { Client, ClientEvents } from "discord.js";
 import type { Event } from "../types";
 
 module.exports = (client: Client) => {
@@ -8,7 +8,7 @@ module.exports = (client: Client) => {
 
   readdirSync(eventsDir).forEach((file) => {
     if (!file.endsWith(".js")) return;
-    
+
     const event = require(join(eventsDir, file)).default as Event<
       keyof ClientEvents
     >;

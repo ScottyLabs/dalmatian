@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { Command } from "../types";
+import type { Command } from "../types";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -7,7 +7,7 @@ const command: Command = {
     .setDescription("Replies with Pong! and latency."),
   async execute(interaction) {
     await interaction.reply(
-      `Pong! Latency is ${Date.now() - interaction.createdTimestamp} ms.`
+      `Pong! Latency is ${Date.now() - interaction.createdTimestamp} ms.`,
     );
   },
 };

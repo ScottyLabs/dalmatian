@@ -1,6 +1,6 @@
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { readdirSync } from "fs";
-import { join } from "path";
 import type { Command } from "./types";
 
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;

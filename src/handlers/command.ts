@@ -32,7 +32,7 @@ module.exports = (client: Client) => {
         .then((data: unknown) => {
           const commandCount = Array.isArray(data) ? data.length : "unknown";
           console.log(
-            `Successfully reloaded ${commandCount} application (/) commands.`
+            `Successfully reloaded ${commandCount} application (/) commands.`,
           );
         });
     } catch (error: unknown) {
