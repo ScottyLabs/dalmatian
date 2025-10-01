@@ -18,6 +18,4 @@ FROM base
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app/build
 
-EXPOSE 3213
-
 CMD ["node", "./build/index.js"]

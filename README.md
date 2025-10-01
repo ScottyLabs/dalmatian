@@ -21,7 +21,7 @@ Alternatively, you can use Docker:
 # prepare environmental variables
 cp .env.example .env
 # build docker image and run
-docker build -t dalmatian . && docker run -p 3213 --env-file .env dalmatian
+docker build -t dalmatian . && docker run --rm --env-file .env --name dalmatian dalmatian
 ```
 
 ## Contributing
