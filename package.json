@@ -6,7 +6,9 @@
   "scripts": {
     "check": "pnpm biome check --write",
     "build": "pnpm run check && pnpm tsc",
-    "start": "pnpm run build && node --env-file=.env ./build/index.js"
+    "start": "pnpm run build && node --env-file=.env ./build/index.js",
+    "docker": "docker build -t dalmatian . && docker run -d --rm --env-file .env --name dalmatian dalmatian && echo \"docker container is up!\"",
+    "docker:stop": "docker stop dalmatian"
   },
   "author": "ScottyLabs",
   "license": "",

@@ -20,8 +20,16 @@ Alternatively, you can use Docker:
 ```bash
 # prepare environmental variables
 cp .env.example .env
-# build docker image and run
-docker build -t dalmatian . && docker run --rm --env-file .env --name dalmatian dalmatian
+# build docker image and run (you need to stop the container before rebuilding it)
+pnpm docker
+# stop the container
+pnpm docker:stop
+
+# docker commands
+## build docker image and run
+docker build -t dalmatian . && docker run -d --rm --env-file .env --name dalmatian dalmatian
+## stop the container (the `--rm` flag will remove the container after it's stopeed)
+docker stop dalmatian
 ```
 
 ## Contributing
