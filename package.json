@@ -13,7 +13,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@types/node": "^24.5.2",
-    "discord.js": "^14.22.1",
+    "discord.js": "^14.23.0",
     "dotenv": "^17.2.2",
     "fast-fuzzy": "^1.12.0"
   },
