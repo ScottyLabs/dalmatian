@@ -1,25 +1,47 @@
 {
-  "name": "dalmatian",
-  "version": "0.0.1",
-  "description": "ScottyLabs Discord Bot",
-  "main": "./build/index.js",
-  "scripts": {
-    "check": "pnpm biome check --write",
-    "build": "pnpm run check && pnpm tsc",
-    "start": "pnpm run build && node --env-file=.env ./build/index.js"
-  },
-  "author": "ScottyLabs",
-  "private": true,
-  "license": "UNLICENSED",
-  "dependencies": {
-    "@types/node": "^24.5.2",
-    "discord.js": "^14.22.1",
-    "dotenv": "^17.2.2",
-    "fast-fuzzy": "^1.12.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
-    "@tsconfig/node24": "^24.0.1",
-    "typescript": "^5.9.2"
-  }
+    "name": "dalmatian",
+    "module": "src/index.ts",
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@biomejs/biome": "^2.2.5",
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "@types/bun": "latest",
+        "@tsconfig/node24": "^24.0.1",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.3",
+        "oxlint": "^1.22.0",
+        "oxlint-tsgolint": "^0.2.0",
+        "typescript": "^5.9.3"
+    },
+    "license": "(MIT OR Apache-2.0)",
+    "scripts": {
+        "start": "bun run src/index.ts",
+        "lint": "oxlint --type-aware",
+        "format": "biome format --write",
+        "docker": "docker build -t dalmatian . && docker run -d --rm --env-file .env --name dalmatian dalmatian && echo \"docker container is up!\"",
+        "docker:stop": "docker stop dalmatian"
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "lint-staged": {
+        "**/*.{js,ts,svelte}": [
+            "bun lint",
+            "bun format"
+        ]
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "@types/node": "^24.7.1",
+        "discord.js": "^14.23.2",
+        "dotenv": "^17.2.3",
+        "fast-fuzzy": "^1.12.0"
+    },
+    "packageManager": "bun@1.2.22"
 }
