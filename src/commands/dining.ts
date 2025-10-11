@@ -58,7 +58,7 @@ function isOpen(location: Location, time: Time): boolean {
     return false;
 }
 
-function formatLocation(location: Location): EmbedBuilder {
+function formatLocation(location: Location | undefined): EmbedBuilder {
     if (!location) {
         return new EmbedBuilder()
             .setTitle("Dining Location Not Found")
