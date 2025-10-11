@@ -46,5 +46,7 @@ export default (client: Client) => {
                 error instanceof Error ? error.message : String(error),
             );
         }
-    })();
+    })().catch((error: unknown) => {
+        console.error(error instanceof Error ? error.message : String(error));
+    });
 };

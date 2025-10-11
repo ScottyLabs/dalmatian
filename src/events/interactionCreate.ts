@@ -24,9 +24,7 @@ const event: Event<Events.InteractionCreate> = {
 
         if (interaction.type === InteractionType.ApplicationCommand) {
             try {
-                await command.execute(
-                    interaction as ChatInputCommandInteraction,
-                );
+                command.execute(interaction as ChatInputCommandInteraction);
             } catch (error) {
                 console.error(error);
                 await interaction.reply({
@@ -42,7 +40,7 @@ const event: Event<Events.InteractionCreate> = {
             command.autocomplete
         ) {
             try {
-                await command.autocomplete(interaction.client, interaction);
+                command.autocomplete(interaction.client, interaction);
             } catch (error) {
                 console.error(error);
             }

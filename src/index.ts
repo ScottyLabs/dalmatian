@@ -30,4 +30,4 @@ readdirSync(handlersDir).forEach(async (handler) => {
     }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+await client.login(process.env.DISCORD_TOKEN);
