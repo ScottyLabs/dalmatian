@@ -16,4 +16,4 @@ Recommended VSCode extensions:
 
 ## Pushing Your Changes
 
-Please run `pnpm check` before commiting your changes.
+Please run `bun lint` and `bun format` before commiting your changes.
