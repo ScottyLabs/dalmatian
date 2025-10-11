@@ -199,12 +199,11 @@ const command: Command = {
         const locations = await getLocations();
 
         if (interaction.options.getSubcommand() === "all") {
-            interaction.reply({
+            return interaction.reply({
                 embeds: formatLocations(
                     locations.sort((a, b) => a.name.localeCompare(b.name)),
                 ),
             });
-            return;
         }
         if (interaction.options.getSubcommand() === "open") {
             const rightNow: Time = {
@@ -217,7 +216,7 @@ const command: Command = {
                 isOpen(location, rightNow),
             );
 
-            interaction.reply({
+            return interaction.reply({
                 embeds: formatLocations(
                     openLocations.sort((a, b) => a.name.localeCompare(b.name)),
                 ),
@@ -230,6 +229,7 @@ const command: Command = {
             const matchedLocations = locations.filter((location) =>
                 location.name.toLowerCase().includes(query),
             );
+
             return interaction.reply({
                 embeds: [formatLocation(matchedLocations[0])],
             });
