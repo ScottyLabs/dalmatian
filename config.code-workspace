@@ -1,0 +1,39 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always"
+        },
+        "files.readonlyInclude": {
+            "**/bun.lock": true
+        },
+        "biome.lsp.bin": "./node_modules/.bin/biome",
+        "svelte.enable-ts-plugin": true,
+        "typescript.experimental.useTsgo": true,
+        "typescript.preferences.importModuleSpecifier": "non-relative",
+        "oxc.enable": true,
+        "[javascript]": {
+            "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescript]": {
+            "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[json]": {
+            "editor.defaultFormatter": "biomejs.biome"
+        },
+        // Agrees with .editorconfig, but needed for some reason
+        "files.insertFinalNewline": true
+    },
+    "extensions": {
+        "recommendations": [
+            "oxc.oxc-vscode",
+            "biomejs.biome",
+            "typescriptteam.native-preview"
+        ]
+    }
+}
