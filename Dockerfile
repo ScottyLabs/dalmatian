@@ -1,8 +1,8 @@
-FROM oven/bun:latest AS base
+FROM oven/bun:latest
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* bun.lock* ./
+COPY package.json bun.lock* ./
 
 RUN bun install --production --no-save
 
