@@ -12,6 +12,7 @@ Recommended VSCode extensions:
 - [Dependi](https://marketplace.visualstudio.com/items?itemName=fill-labs.dependi)
 - [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome)
 - [Oxc](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode)
+- [Typescript (Native Preview)](https://marketplace.visualstudio.com/items?itemName=typescriptteam.native-preview)
 
 You will also need git installed.
 
