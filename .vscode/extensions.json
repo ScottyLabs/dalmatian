@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "fill-labs.dependi",
+        "oxc.oxc-vscode",
+        "biomejs.biome",
+        "typescriptteam.native-preview"
+    ]
+}

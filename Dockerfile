@@ -1,21 +1,11 @@
-FROM node:24.8.0-alpine3.22 AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+FROM oven/bun:latest
 
 WORKDIR /app
-COPY package.json pnpm-lock.yaml* ./
 
-FROM base AS prod-deps
-RUN pnpm install --prod --frozen-lockfile
+COPY package.json bun.lock* ./
 
-FROM base AS build
-RUN pnpm install --frozen-lockfile
+RUN bun install --production --no-save
+
 COPY . .
-RUN pnpm run build
 
-FROM base
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/build /app/build
-
-CMD ["node", "./build/index.js"]
+CMD ["bun", "src/index.ts"]

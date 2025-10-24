@@ -8,11 +8,11 @@ Node.js >= 22.12.0 is required, but the development of Dalmatian uses v24.
 
 ```bash
 # install dependencies
-pnpm install
+bun install
 # prepare environmental variables
 cp .env.example .env
 # start the bot (remember to edit the fields in .env)
-pnpm start
+bun start
 ```
 
 Alternatively, you can use Docker:
@@ -21,9 +21,9 @@ Alternatively, you can use Docker:
 # prepare environmental variables
 cp .env.example .env
 # build docker image and run (you need to stop the container before rebuilding it)
-pnpm docker
+bun docker
 # stop the container
-pnpm docker:stop
+bun docker:stop
 
 # docker commands
 ## build docker image and run
