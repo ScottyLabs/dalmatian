@@ -25,7 +25,10 @@ In your application, under the Bot tab, reset your token and copy the token for 
 
 Under the OAuth2 tab, grab the client ID for `DISCORD_CLIENT_ID`
 
-Also if you want, create a Google Cloud project for an API key with `Maps Javascript API` and `Maps Static API` products activated for `GOOGLE_MAPS_API_KEY`. This will be used in the `dining` command. Of course, the bot will still work without errors without this API key.
+The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` keys. Additionally, you can set up `GOOGLE_MAPS_API_KEY` to debug `formatLocation` in `dining.ts`.
+1. Head to https://console.cloud.google.com/ and create a new project.
+2. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
+3. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
 
 ## Forking and Branching
 You are not able to commit to main. You may either branch off main in the repository or fork the repository for your own usage.
