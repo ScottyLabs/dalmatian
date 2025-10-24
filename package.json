@@ -4,7 +4,7 @@
     "type": "module",
     "private": true,
     "devDependencies": {
-        "@biomejs/biome": "^2.2.7",
+        "@biomejs/biome": "^2.3.0",
         "@commitlint/cli": "^20.1.0",
         "@commitlint/config-conventional": "^20.0.0",
         "@types/bun": "latest",
@@ -12,7 +12,7 @@
         "husky": "^9.1.7",
         "lint-staged": "^16.2.6",
         "oxlint": "^1.24.0",
-        "oxlint-tsgolint": "^0.2.1",
+        "oxlint-tsgolint": "0.3.0",
         "typescript": "^5.9.3"
     },
     "license": "(MIT OR Apache-2.0)",
@@ -30,7 +30,7 @@
     },
     "dependencies": {
         "@types/node": "^24.9.1",
-        "discord.js": "^14.23.2",
+        "discord.js": "14.24.0",
         "dotenv": "^17.2.3",
         "fast-fuzzy": "^1.12.0"
     },
