@@ -24,6 +24,7 @@
         "**/bun.lock": true
     },
     "biome.lsp.bin": "./node_modules/.bin/biome",
+    "svelte.enable-ts-plugin": true,
     "typescript.experimental.useTsgo": true,
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "oxc.enable": true,

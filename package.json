@@ -28,6 +28,12 @@
             "@commitlint/config-conventional"
         ]
     },
+    "lint-staged": {
+        "**/*.{js,ts,svelte}": [
+            "bun lint",
+            "bun format"
+        ]
+    },
     "dependencies": {
         "@types/node": "^24.9.1",
         "discord.js": "14.24.0",
