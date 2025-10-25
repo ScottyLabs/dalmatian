@@ -1,6 +1,6 @@
-import type { Client, ClientEvents } from "discord.js";
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
+import type { Client, ClientEvents } from "discord.js";
 import type { Event } from "../types.d.ts";
 
 export default (client: Client) => {
