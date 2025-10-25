@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
-import type { Command } from "../types";
+import type { Command } from "../types.d.ts";
 
 interface Time {
     day: number;
