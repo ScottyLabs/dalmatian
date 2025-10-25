@@ -7,7 +7,7 @@ import {
     Routes,
     type SlashCommandBuilder,
 } from "discord.js";
-import type { Command } from "../types";
+import type { Command } from "../types.d.ts";
 
 export default (client: Client) => {
     const commands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];

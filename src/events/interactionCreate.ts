@@ -3,7 +3,7 @@ import {
     Events,
     InteractionType,
 } from "discord.js";
-import type { Event } from "../types";
+import type { Event } from "../types.d.ts";
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
