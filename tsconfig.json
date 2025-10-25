@@ -6,6 +6,7 @@
         "module": "nodenext",
         "moduleDetection": "force",
         "allowJs": true,
+        "outDir": "build",
         // Best practices
         "strict": true,
         "skipLibCheck": true,
