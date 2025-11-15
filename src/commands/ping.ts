@@ -7,7 +7,7 @@ const command: Command = {
         .setDescription("Replies with Pong! and latency."),
     async execute(interaction) {
         const reply = await interaction.reply({
-            content: "🏓 Pinging…",
+            content: "Pinging...",
             fetchReply: true,
         });
 
@@ -20,12 +20,12 @@ const command: Command = {
             .setDescription("Here are the current latency statistics:")
             .addFields(
                 {
-                    name: "📡 Roundtrip Latency",
+                    name: "Latency",
                     value: `\`${roundTrip}ms\``,
                     inline: true,
                 },
                 {
-                    name: "🌐 WebSocket Ping",
+                    name: "Ping",
                     value: `\`${wsPing}ms\``,
                     inline: true,
                 },
