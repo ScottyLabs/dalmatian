@@ -136,8 +136,7 @@ const command: Command = {
                                 `**${course.courseID}**: ${course.name}`,
                         )
                         .join("\n"),
-                )
-                .setColor(0x00ae86);
+                );
 
             return interaction.reply({ embeds: [embed] });
         }
