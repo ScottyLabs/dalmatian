@@ -74,6 +74,46 @@ const command: Command = {
                     flags: MessageFlags.Ephemeral,
                 });
             }
+
+            const unlockCourses: {
+                courseID: string;
+                name: string;
+            }[] = [];
+
+            for (const course of Object.values(coursesData)) {
+                for (const prereq of course.prereqs) {
+                    if (courseCode === prereq) {
+                        unlockCourses.push({
+                            courseID: course.courseID,
+                            name: course.name,
+                        });
+                        break;
+                    }
+                }
+            }
+
+            unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
+
+            if (unlockCourses.length === 0) {
+                return interaction.reply({
+                    content: `No courses found that are unlocked by ${courseCode}.`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const embed = new EmbedBuilder()
+                .setTitle(`Courses unlocked by ${courseCode}`)
+                .setDescription(
+                    unlockCourses
+                        .map(
+                            (course) =>
+                                `**${course.courseID}**: ${course.name}`,
+                        )
+                        .join("\n"),
+                )
+                .setColor(0x00ae86);
+
+            return interaction.reply({ embeds: [embed] });
         }
     },
 };
