@@ -3,3 +3,6 @@ build/
 
 .env
 .DS_Store
+
+# jetbrains files
+.idea/*
