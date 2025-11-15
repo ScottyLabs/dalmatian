@@ -6,35 +6,31 @@ const command: Command = {
         .setName("ping")
         .setDescription("Replies with Pong! and latency."),
     async execute(interaction) {
-        const reply = await interaction.reply({
-            content: "Pinging...",
-            fetchReply: true,
-        });
+        await interaction.reply("Pinging...");
+
+        const reply = await interaction.fetchReply();
 
         const roundTrip = reply.createdTimestamp - interaction.createdTimestamp;
         const wsPing = interaction.client.ws.ping;
 
         const embed = new EmbedBuilder()
-            .setColor("#5A9EC9")
             .setTitle("🏓 Pong!")
             .setDescription("Here are the current latency statistics:")
             .addFields(
                 {
-                    name: "Latency",
-                    value: `\`${roundTrip}ms\``,
+                    name: "Roundtrip",
+                    value: `${roundTrip}ms`,
                     inline: true,
                 },
                 {
-                    name: "Ping",
-                    value: `\`${wsPing}ms\``,
+                    name: "Heartbeat",
+                    value: `${wsPing}ms`,
                     inline: true,
                 },
             )
-            .setFooter({ text: `Requested by ${interaction.user.username}` })
             .setTimestamp();
 
         await interaction.editReply({
-            content: "",
             embeds: [embed],
         });
     },
