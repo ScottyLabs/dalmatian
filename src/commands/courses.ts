@@ -1,4 +1,10 @@
-import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
+import {
+    bold,
+    EmbedBuilder,
+    MessageFlags,
+    SlashCommandBuilder,
+    underline,
+} from "discord.js";
 import CoursesData from "../data/courses.json" with { type: "json" };
 import type { Command } from "../types.d.ts";
 
@@ -58,6 +64,19 @@ const command: Command = {
                         )
                         .setRequired(true),
                 ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("course-info")
+                .setDescription("Get detailed information about a course")
+                .addStringOption((option) =>
+                    option
+                        .setName("course_code")
+                        .setDescription(
+                            "The course code (a two-digit number followed by a three-digit number, e.g., 15-112 or 21127)",
+                        )
+                        .setRequired(true),
+                ),
         ),
     async execute(interaction) {
         const coursesData = loadCoursesData();
@@ -71,6 +90,13 @@ const command: Command = {
                 return interaction.reply({
                     content:
                         "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (!coursesData[courseCode]) {
+                return interaction.reply({
+                    content: `Course with code ${courseCode} not found.`,
                     flags: MessageFlags.Ephemeral,
                 });
             }
@@ -112,6 +138,52 @@ const command: Command = {
                         .join("\n"),
                 )
                 .setColor(0x00ae86);
+
+            return interaction.reply({ embeds: [embed] });
+        }
+        if (interaction.options.getSubcommand() === "course-info") {
+            const courseCode = formatCourseNumber(
+                interaction.options.getString("course_code", true),
+            );
+
+            if (!courseCode) {
+                return interaction.reply({
+                    content:
+                        "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (!coursesData[courseCode]) {
+                return interaction.reply({
+                    content: `Course with code ${courseCode} not found.`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const course = coursesData[courseCode];
+
+            const embed = new EmbedBuilder()
+                .setTitle(
+                    bold(underline(`${course.courseID}: ${course.name}`)) +
+                        ` (${course.units} units)`,
+                )
+                .setDescription(`${bold(course.department)}\n ${course.desc}`)
+                .addFields(
+                    {
+                        name: "Prerequisites",
+                        value: course.prereqString || "None",
+                        inline: true,
+                    },
+                    {
+                        name: "Corequisites",
+                        value:
+                            course.coreqs.length > 0
+                                ? course.coreqs.join(", ")
+                                : "None",
+                        inline: true,
+                    },
+                );
 
             return interaction.reply({ embeds: [embed] });
         }
