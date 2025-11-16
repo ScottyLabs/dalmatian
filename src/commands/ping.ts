@@ -27,7 +27,7 @@ const command: Command = {
                 value:
                     interaction.client.ws.ping > 0
                         ? `${interaction.client.ws.ping} ms`
-                        : "Try Again Later…",
+                        : "Try Again Later...",
                 inline: true,
             },
         );
