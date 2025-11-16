@@ -11,7 +11,6 @@ const command: Command = {
         const reply = await interaction.fetchReply();
 
         const roundTrip = reply.createdTimestamp - interaction.createdTimestamp;
-        const wsPing = interaction.client.ws.ping;
 
         const embed = new EmbedBuilder()
             .setTitle("🏓 Pong!")
@@ -19,12 +18,15 @@ const command: Command = {
             .addFields(
                 {
                     name: "Roundtrip",
-                    value: `${roundTrip}ms`,
+                    value: `${roundTrip} ms`,
                     inline: true,
                 },
                 {
-                    name: "Heartbeat",
-                    value: `${wsPing}ms`,
+                    name: "Ping",
+                    value:
+                        interaction.client.ws.ping > 0
+                            ? `${interaction.client.ws.ping} ms`
+                            : "…",
                     inline: true,
                 },
             )
