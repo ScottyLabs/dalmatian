@@ -15,6 +15,7 @@ const command: Command = {
         const reply = await interaction.fetchReply();
 
         const roundTrip = reply.createdTimestamp - interaction.createdTimestamp;
+        const wsPing = interaction.client.ws.ping;
 
         const embed = new EmbedBuilder().setTitle("🏓 Pong!").addFields(
             {
@@ -24,10 +25,7 @@ const command: Command = {
             },
             {
                 name: "Ping",
-                value:
-                    interaction.client.ws.ping > 0
-                        ? `${interaction.client.ws.ping} ms`
-                        : "Try Again Later...",
+                value: wsPing > 0 ? `${wsPing} ms` : "Try Again Later...",
                 inline: true,
             },
         );
