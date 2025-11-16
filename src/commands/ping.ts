@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import type { Command } from "../types.d.ts";
 
 const command: Command = {
@@ -6,9 +6,33 @@ const command: Command = {
         .setName("ping")
         .setDescription("Replies with Pong! and latency."),
     async execute(interaction) {
-        await interaction.reply(
-            `Pong! Latency is ${Date.now() - interaction.createdTimestamp} ms.`,
+        const embed0 = new EmbedBuilder().setTitle("Pinging...");
+
+        await interaction.reply({
+            embeds: [embed0],
+        });
+
+        const reply = await interaction.fetchReply();
+
+        const roundTrip = reply.createdTimestamp - interaction.createdTimestamp;
+        const wsPing = interaction.client.ws.ping;
+
+        const embed = new EmbedBuilder().setTitle("🏓 Pong!").addFields(
+            {
+                name: "Roundtrip",
+                value: `${roundTrip} ms`,
+                inline: true,
+            },
+            {
+                name: "Ping",
+                value: wsPing > 0 ? `${wsPing} ms` : "Try Again Later...",
+                inline: true,
+            },
         );
+
+        await interaction.editReply({
+            embeds: [embed],
+        });
     },
 };
 
