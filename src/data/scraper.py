@@ -4,7 +4,7 @@ from typing import Dict, List, Optional, Tuple
 import os
 from dotenv import load_dotenv
 import requests
-from models.syllabus_data import Department, Season, SyllabusMap, Year
+from data.syllabus_data import Department, Season, SyllabusMap, Year
 import re
 import json
 from collections import defaultdict
@@ -51,7 +51,7 @@ def parse_title(title: str) -> Tuple[str, str]:
     m = re.search(r"\((\d{2,5}X+)\)", title)
     if m:
         return m.group(1), ""
-    
+
     # F25 00XXX -> "00XXX"
     m = re.search(r"\b[FS][0-9]{2}\s+([0-9]{5})", title)
     if m:
@@ -223,7 +223,7 @@ def process_department_modules(
     except ValueError:
         print("Invalid JSON in items response")
         return None
-    
+
     print(f"[process_department_modules] Found {len(items)} items")
 
     # Debug print all items

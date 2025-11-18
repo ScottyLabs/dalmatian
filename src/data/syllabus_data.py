@@ -1,5 +1,3 @@
-# models/syllabus_data.py
-
 from dataclasses import dataclass
 from typing import Dict, Tuple, List
 
