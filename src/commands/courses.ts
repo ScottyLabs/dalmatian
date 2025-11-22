@@ -5,20 +5,20 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import CoursesData from "../data/finalCourseJSON.json" with {type: "json"};
-import type {Command} from "../types.d.ts";
+import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+import type { Command } from "../types.d.ts";
 
 type Session = {
     term: string;
     section: string;
     instructors: string[];
     url: string;
-}
+};
 
 type Course = {
     id: string;
     name: string;
-    syllabi: Session[]
+    syllabi: Session[];
     desc: string;
     prereqs: string[];
     prereqString: string;
@@ -135,14 +135,11 @@ const command: Command = {
                 .setTitle(`Courses unlocked by ${courseCode}`)
                 .setDescription(
                     unlockCourses
-                        .map(
-                            (course) =>
-                                `**${course.id}**: ${course.name}`,
-                        )
+                        .map((course) => `**${course.id}**: ${course.name}`)
                         .join("\n"),
                 );
 
-            return interaction.reply({embeds: [embed]});
+            return interaction.reply({ embeds: [embed] });
         }
         if (interaction.options.getSubcommand() === "course-info") {
             const courseCode = formatCourseNumber(
@@ -169,7 +166,7 @@ const command: Command = {
             const embed = new EmbedBuilder()
                 .setTitle(
                     bold(underline(`${course.id}: ${course.name}`)) +
-                    ` (${course.units} units)`,
+                        ` (${course.units} units)`,
                 )
                 .setDescription(`${bold(course.department)}\n ${course.desc}`)
                 .addFields(
@@ -188,7 +185,7 @@ const command: Command = {
                     },
                 );
 
-            return interaction.reply({embeds: [embed]});
+            return interaction.reply({ embeds: [embed] });
         }
     },
 };
