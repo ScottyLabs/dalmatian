@@ -5,33 +5,37 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import CoursesData from "../data/courses.json" with { type: "json" };
-import type { Command } from "../types.d.ts";
+import CoursesData from "../data/finalCourseJSON.json" with {type: "json"};
+import type {Command} from "../types.d.ts";
+
+type Session = {
+    term: string;
+    section: string;
+    instructors: string[];
+    url: string;
+}
 
 type Course = {
-    _id: {
-        $oid: string;
-    };
-    courseID: string;
+    id: string;
+    name: string;
+    syllabi: Session[]
     desc: string;
     prereqs: string[];
     prereqString: string;
     coreqs: string[];
     crosslisted: string[];
-    name: string;
     units: string;
     department: string;
-    numTerms: number;
 };
 
 function loadCoursesData(): Record<string, Course> {
     const raw = CoursesData as Record<string, Course>;
     const map: Record<string, Course> = {};
 
-    for (const course of Object.values(raw)) {
-        if (!course) continue;
-        const key = formatCourseNumber(course.courseID) ?? course.courseID;
-        map[key] = course;
+    for (const courseid of Object.keys(raw)) {
+        if (!raw[courseid]) continue;
+        const key = formatCourseNumber(courseid) ?? courseid;
+        map[key] = raw[courseid];
     }
 
     return map;
@@ -102,7 +106,7 @@ const command: Command = {
             }
 
             const unlockCourses: {
-                courseID: string;
+                id: string;
                 name: string;
             }[] = [];
 
@@ -110,7 +114,7 @@ const command: Command = {
                 for (const prereq of course.prereqs) {
                     if (courseCode === prereq) {
                         unlockCourses.push({
-                            courseID: course.courseID,
+                            id: course.id,
                             name: course.name,
                         });
                         break;
@@ -118,7 +122,7 @@ const command: Command = {
                 }
             }
 
-            unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
+            unlockCourses.sort((a, b) => a.id.localeCompare(b.id));
 
             if (unlockCourses.length === 0) {
                 return interaction.reply({
@@ -133,12 +137,12 @@ const command: Command = {
                     unlockCourses
                         .map(
                             (course) =>
-                                `**${course.courseID}**: ${course.name}`,
+                                `**${course.id}**: ${course.name}`,
                         )
                         .join("\n"),
                 );
 
-            return interaction.reply({ embeds: [embed] });
+            return interaction.reply({embeds: [embed]});
         }
         if (interaction.options.getSubcommand() === "course-info") {
             const courseCode = formatCourseNumber(
@@ -164,8 +168,8 @@ const command: Command = {
 
             const embed = new EmbedBuilder()
                 .setTitle(
-                    bold(underline(`${course.courseID}: ${course.name}`)) +
-                        ` (${course.units} units)`,
+                    bold(underline(`${course.id}: ${course.name}`)) +
+                    ` (${course.units} units)`,
                 )
                 .setDescription(`${bold(course.department)}\n ${course.desc}`)
                 .addFields(
@@ -184,7 +188,7 @@ const command: Command = {
                     },
                 );
 
-            return interaction.reply({ embeds: [embed] });
+            return interaction.reply({embeds: [embed]});
         }
     },
 };
