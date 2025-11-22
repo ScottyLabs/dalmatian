@@ -6,3 +6,9 @@ build/
 
 # jetbrains files
 .idea/*
+
+# .pyc files
+*.pyc
+
+# __pycache__
+**/__pycache__/
