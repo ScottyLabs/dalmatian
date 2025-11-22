@@ -48,6 +48,21 @@ function formatCourseNumber(courseNumber: string): string | null {
     return null;
 }
 
+function fetchCourseUnlocks(
+    courseData: Record<string, Course>,
+    courseNumber: string,
+): Course[] {
+    const unlocks: Course[] = [];
+
+    for (const course of Object.values(courseData)) {
+        if (course.prereqs.includes(courseNumber)) {
+            unlocks.push(course);
+        }
+    }
+
+    return unlocks;
+}
+
 const command: Command = {
     data: new SlashCommandBuilder()
         .setName("courses")
@@ -101,22 +116,13 @@ const command: Command = {
                 });
             }
 
-            const unlockCourses: {
-                courseID: string;
-                name: string;
-            }[] = [];
-
-            for (const course of Object.values(coursesData)) {
-                for (const prereq of course.prereqs) {
-                    if (courseCode === prereq) {
-                        unlockCourses.push({
-                            courseID: course.courseID,
-                            name: course.name,
-                        });
-                        break;
-                    }
-                }
-            }
+            const unlockCourses = fetchCourseUnlocks(
+                coursesData,
+                courseCode,
+            ).map((course) => ({
+                courseID: course.courseID,
+                name: course.name,
+            }));
 
             unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
 
