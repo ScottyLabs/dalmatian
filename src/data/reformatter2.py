@@ -26,13 +26,30 @@ with open('courses.json') as f:
 #             "numTerms": 56
 #         },
 
-for item in new:
-    for match in old.values():
-        if match["courseID"][:2] + match["courseID"][3:] == item["id"]:
-            id = item['id']
-            for tocopy in ["desc", "prereqs", "prereqString", "coreqs", "crosslisted", "units", "department"]:
-                item[tocopy] = match[tocopy]
-            result[id] = item
+for match in old.values():
+    course_id_normalized = match["courseID"][:2] + match["courseID"][3:]
+
+    # Create base structure from old data
+    result[course_id_normalized] = {
+        "id": course_id_normalized,
+        "name": match["name"],
+        "syllabi": [],  # Default to empty array
+        "desc": match["desc"],
+        "prereqs": match["prereqs"],
+        "prereqString": match["prereqString"],
+        "coreqs": match["coreqs"],
+        "crosslisted": match["crosslisted"],
+        "units": match["units"],
+        "department": match["department"]
+    }
+
+    # Find matching new data and add syllabi if available
+    for item in new:
+        if item["id"] == course_id_normalized:
+            result[course_id_normalized]["syllabi"] = item["syllabi"]
+            # Update name from new data if available (newer data might be more accurate)
+            if "name" in item:
+                result[course_id_normalized]["name"] = item["name"]
             break
 
 with open('finalCourseJSON.json', 'w') as f:
