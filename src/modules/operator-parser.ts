@@ -1,7 +1,6 @@
 export type Expr =
     | { type: "Literal"; value: string }
-    | { type: "Unary"; op: "NOT"; expr: Expr }
-    | { type: "Binary"; op: "AND" | "OR"; left: Expr; right: Expr };
+    | { type: "Operator"; op: "AND" | "OR"; left: Expr; right: Expr };
 
 function tokenize(input: string): string[] {
     return input
@@ -12,7 +11,7 @@ function tokenize(input: string): string[] {
 }
 
 // recursive descent parser
-export function parseExpr(input: string): Expr {
+function parseExpr(input: string): Expr {
     const tokens = tokenize(input);
     let pos = 0;
 
@@ -31,7 +30,7 @@ export function parseExpr(input: string): Expr {
         while (peek() === "OR") {
             const op = consume();
             const right = parseTerm();
-            node = { type: "Binary", op: op as "OR", left: node, right };
+            node = { type: "Operator", op: op as "OR", left: node, right };
         }
 
         return node;
@@ -43,18 +42,14 @@ export function parseExpr(input: string): Expr {
         while (peek() === "AND") {
             const op = consume();
             const right = parseFactor();
-            node = { type: "Binary", op: op as "AND", left: node, right };
+            node = { type: "Operator", op: op as "AND", left: node, right };
         }
 
         return node;
     }
 
     function parseFactor(): Expr {
-        if (peek() === "NOT") {
-            consume();
-            const expr = parseFactor();
-            return { type: "Unary", op: "NOT", expr };
-        } else if (peek() === "(") {
+        if (peek() === "(") {
             consume();
             const expr = parseExpression();
             if (consume() !== ")") {
@@ -74,4 +69,30 @@ export function parseExpr(input: string): Expr {
     }
 
     return result;
+}
+
+// this parses specifically for courses, maybe can be generalized later
+function evaluateExpr<T>(expr: Expr, lookup: (value: string) => T[]): T[] {
+    switch (expr.type) {
+        case "Literal":
+            return lookup(expr.value);
+        case "Operator": {
+            const leftItems = evaluateExpr(expr.left, lookup);
+            const rightItems = evaluateExpr(expr.right, lookup);
+            if (expr.op === "AND") {
+                return leftItems.filter((item) => rightItems.includes(item));
+            } else {
+                // OR
+                return Array.from(new Set([...leftItems, ...rightItems]));
+            }
+        }
+    }
+}
+
+export function parseAndEvaluate<T>(
+    input: string,
+    lookup: (value: string) => T[],
+): T[] {
+    const expr = parseExpr(input);
+    return evaluateExpr(expr, lookup);
 }

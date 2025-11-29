@@ -6,6 +6,7 @@ import {
     underline,
 } from "discord.js";
 import CoursesData from "../data/courses.json" with { type: "json" };
+import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { Command } from "../types.d.ts";
 
 type Course = {
@@ -73,9 +74,9 @@ const command: Command = {
                 .setDescription("Shows all the courses a course unlocks")
                 .addStringOption((option) =>
                     option
-                        .setName("course_code")
+                        .setName("courses_string")
                         .setDescription(
-                            "The course code (a two-digit number followed by a three-digit number, e.g., 15-112 or 21127)",
+                            "The course code (e.g., 15-112 or 21127), optionally combined with AND/OR operators",
                         )
                         .setRequired(true),
                 ),
@@ -97,44 +98,54 @@ const command: Command = {
         const coursesData = loadCoursesData();
 
         if (interaction.options.getSubcommand() === "unlocks") {
-            const courseCode = formatCourseNumber(
-                interaction.options.getString("course_code", true),
+            function lookup(value: string): Course[] {
+                const courseCode = formatCourseNumber(value);
+
+                if (!courseCode) {
+                    throw Error(
+                        `Please provide a valid course code in the format XX-XXX or XXXXX.`,
+                    );
+                }
+
+                if (!coursesData[courseCode]) {
+                    throw Error(`Course with code ${courseCode} not found.`);
+                }
+
+                return fetchCourseUnlocks(coursesData, courseCode).map(
+                    (course) => ({
+                        courseID: course.courseID,
+                        name: course.name,
+                    }),
+                );
+            }
+
+            const courseString = interaction.options.getString(
+                "courses_string",
+                true,
             );
 
-            if (!courseCode) {
+            const unlockCourses = parseAndEvaluate<Course>(
+                courseString,
+                lookup,
+            );
+            /*.catch((err) => {
                 return interaction.reply({
-                    content:
-                        "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                    content: err.message,
                     flags: MessageFlags.Ephemeral,
                 });
-            }
-
-            if (!coursesData[courseCode]) {
-                return interaction.reply({
-                    content: `Course with code ${courseCode} not found.`,
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
-
-            const unlockCourses = fetchCourseUnlocks(
-                coursesData,
-                courseCode,
-            ).map((course) => ({
-                courseID: course.courseID,
-                name: course.name,
-            }));
+            });*/
 
             unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
 
             if (unlockCourses.length === 0) {
                 return interaction.reply({
-                    content: `No courses found that are unlocked by ${courseCode}.`,
+                    content: `No courses found that are unlocked by ${courseString}.`,
                     flags: MessageFlags.Ephemeral,
                 });
             }
 
             const embed = new EmbedBuilder()
-                .setTitle(`Courses unlocked by ${courseCode}`)
+                .setTitle(`Courses unlocked by ${courseString}`)
                 .setDescription(
                     unlockCourses
                         .map(
