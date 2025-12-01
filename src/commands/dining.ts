@@ -262,35 +262,31 @@ const command: Command = {
             const matchedLocations = locations.filter((location) => {
                 const nameMatches = query
                     ? location.name.toLowerCase().includes(query)
-                    : true;
+                    : false;
 
                 const buildingMatches = building
-                    ? location.location.toLowerCase().includes(building) ||
-                      (location.locAliases?.some((alias) =>
-                          alias.toLowerCase().includes(building),
-                      ) ??
-                          false)
-                    : true;
+                    ? search(building, [
+                          location.location,
+                          ...(location.locAliases ?? []),
+                      ]).length > 0
+                    : false;
 
-                return nameMatches && buildingMatches;
+                return nameMatches || buildingMatches;
             });
 
             if (matchedLocations.length == 0) {
-                return interaction.reply("No location found");
-            }
-
-            if (!query && building) {
                 return interaction.reply({
-                    embeds: formatLocations(
-                        matchedLocations.sort((a, b) =>
-                            a.name.localeCompare(b.name),
-                        ),
-                    ),
+                    content: "No location found",
+                    flags: MessageFlags.Ephemeral,
                 });
             }
 
             return interaction.reply({
-                embeds: [formatLocation(matchedLocations[0])],
+                embeds: formatLocations(
+                    matchedLocations.sort((a, b) =>
+                        a.name.localeCompare(b.name),
+                    ),
+                ),
             });
         }
     },
@@ -314,10 +310,11 @@ const command: Command = {
             const buildings = [
                 ...new Set(
                     locations
-                        .map((loc) => loc.location?.split(",")[0].trim())
-                        .filter(
-                            (b): b is string => b !== undefined && b !== "",
-                        ),
+                        .flatMap((loc) => [
+                            loc.location?.split(",")[0].trim(),
+                            ...(loc.locAliases ?? []),
+                        ])
+                        .filter((b): b is string => !!b),
                 ),
             ];
 
