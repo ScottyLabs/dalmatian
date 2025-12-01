@@ -1,5 +1,8 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
+import diningLocationData from "../data/diningLocationData.json" with {
+    type: "json",
+};
 import type { Command } from "../types.d.ts";
 
 interface Time {
@@ -11,6 +14,7 @@ interface Time {
 interface Location {
     conceptID: number;
     name: string;
+    locAliases?: string[];
     shortDescription: string;
     description: string;
     url: string;
@@ -26,6 +30,11 @@ interface Location {
     }[];
 }
 
+let locationToAliases: Record<string, string[]> = {};
+for (const item of diningLocationData) {
+    locationToAliases[item.name] = item.aliases;
+}
+
 function getLocations(): Promise<Location[]> {
     const request: Request = new Request(
         "https://dining.apis.scottylabs.org/locations",
@@ -37,7 +46,14 @@ function getLocations(): Promise<Location[]> {
     return fetch(request)
         .then((res) => res.json() as Promise<{ locations: Location[] }>)
         .then((data) => {
-            return data.locations as Location[];
+            let newData = data.locations;
+            for (let i = 0; i < newData.length; i++) {
+                const locName = newData[i]!.location.split(",")[0].trim();
+                if (locationToAliases[locName]) {
+                    newData[i]!.locAliases = locationToAliases[locName];
+                }
+            }
+            return newData as Location[];
         });
 }
 
@@ -187,11 +203,18 @@ const command: Command = {
                 .setDescription("Search for a specific dining location")
                 .addStringOption((option) =>
                     option
-                        .setName("query")
+                        .setName("name")
+                        .setDescription("Search by name for dining locations")
+                        .setRequired(false)
+                        .setAutocomplete(true),
+                )
+                .addStringOption((option) =>
+                    option
+                        .setName("building")
                         .setDescription(
-                            "The name of the dining location to search for",
+                            "Search by building for dining locations",
                         )
-                        .setRequired(true)
+                        .setRequired(false)
                         .setAutocomplete(true),
                 ),
         ),
@@ -223,30 +246,94 @@ const command: Command = {
             });
         }
         if (interaction.options.getSubcommand() === "search") {
-            const query = interaction.options
-                .getString("query", true)
-                .toLowerCase();
-            const matchedLocations = locations.filter((location) =>
-                location.name.toLowerCase().includes(query),
-            );
+            const rawQuery = interaction.options.getString("name");
+            const query = rawQuery?.toLowerCase() ?? null;
+
+            const rawBuilding = interaction.options.getString("building");
+            const building = rawBuilding?.toLowerCase() ?? null;
+
+            if (!building && !query) {
+                return interaction.reply({
+                    content: "You must provide an input",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const matchedLocations = locations.filter((location) => {
+                const nameMatches = query
+                    ? location.name.toLowerCase().includes(query)
+                    : false;
+
+                const buildingMatches = building
+                    ? search(building, [
+                          location.location,
+                          ...(location.locAliases ?? []),
+                      ]).length > 0
+                    : false;
+
+                return nameMatches || buildingMatches;
+            });
+
+            if (matchedLocations.length == 0) {
+                return interaction.reply({
+                    content: "No location found",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
 
             return interaction.reply({
-                embeds: [formatLocation(matchedLocations[0])],
+                embeds: formatLocations(
+                    matchedLocations.sort((a, b) =>
+                        a.name.localeCompare(b.name),
+                    ),
+                ),
             });
         }
     },
 
     async autocomplete(_client, interaction) {
-        const focusedValue = interaction.options.getFocused();
+        const focusedOption = interaction.options.getFocused(true);
+        const focusedValue = focusedOption.value.toLowerCase();
 
         const locations = await getLocations();
 
-        const choices = search(focusedValue.toLowerCase(), locations, {
-            // ignoreCase is true by default
-            keySelector: (loc) => loc.name,
-        })
-            .slice(0, 25)
-            .map((loc) => ({ name: loc.name, value: loc.name }));
+        let choices: { name: string; value: string }[] = [];
+
+        if (focusedOption.name === "name") {
+            choices = search(focusedValue, locations, {
+                // ignoreCase is true by default
+                keySelector: (loc) => loc.name,
+            })
+                .slice(0, 25)
+                .map((loc) => ({ name: loc.name, value: loc.name }));
+        } else if (focusedOption.name === "building") {
+            const buildingMap = new Map<string, string>();
+            locations.forEach((loc) => {
+                const buildingName = loc.location.split(",")[0].trim();
+                buildingMap.set(buildingName, buildingName);
+                loc.locAliases?.forEach((alias) => {
+                    buildingMap.set(alias, buildingName);
+                });
+            });
+
+            const matchedKeys = search(
+                focusedValue,
+                Array.from(buildingMap.keys()),
+                {
+                    ignoreCase: true,
+                },
+            ).slice(0, 25);
+
+            const seen = new Set<string>();
+            choices = [];
+            for (const key of matchedKeys) {
+                const displayName = buildingMap.get(key)!;
+                if (!seen.has(displayName)) {
+                    choices.push({ name: displayName, value: displayName });
+                    seen.add(displayName);
+                }
+            }
+        }
 
         await interaction.respond(choices);
     },
