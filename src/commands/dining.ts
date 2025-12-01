@@ -307,22 +307,32 @@ const command: Command = {
                 .slice(0, 25)
                 .map((loc) => ({ name: loc.name, value: loc.name }));
         } else if (focusedOption.name === "building") {
-            const buildings = [
-                ...new Set(
-                    locations
-                        .flatMap((loc) => [
-                            loc.location?.split(",")[0].trim(),
-                            ...(loc.locAliases ?? []),
-                        ])
-                        .filter((b): b is string => !!b),
-                ),
-            ];
+            const buildingMap = new Map<string, string>();
+            locations.forEach((loc) => {
+                const buildingName = loc.location.split(",")[0].trim();
+                buildingMap.set(buildingName, buildingName);
+                loc.locAliases?.forEach((alias) => {
+                    buildingMap.set(alias, buildingName);
+                });
+            });
 
-            choices = search(focusedValue, buildings, {
-                keySelector: (building) => building,
-            })
-                .slice(0, 25)
-                .map((building) => ({ name: building, value: building }));
+            const matchedKeys = search(
+                focusedValue,
+                Array.from(buildingMap.keys()),
+                {
+                    ignoreCase: true,
+                },
+            ).slice(0, 25);
+
+            const seen = new Set<string>();
+            choices = [];
+            for (const key of matchedKeys) {
+                const displayName = buildingMap.get(key)!;
+                if (!seen.has(displayName)) {
+                    choices.push({ name: displayName, value: displayName });
+                    seen.add(displayName);
+                }
+            }
         }
 
         await interaction.respond(choices);
