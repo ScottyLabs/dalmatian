@@ -1,5 +1,13 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import {
+    EmbedBuilder,
+    NameplateData,
+    Options,
+    SlashCommandBuilder,
+} from "discord.js";
 import { search } from "fast-fuzzy";
+import diningLocationData from "../data/diningLocationData.json" with {
+    type: "json",
+};
 import type { Command } from "../types.d.ts";
 
 interface Time {
@@ -11,6 +19,7 @@ interface Time {
 interface Location {
     conceptID: number;
     name: string;
+    locAliases?: string[];
     shortDescription: string;
     description: string;
     url: string;
@@ -34,10 +43,22 @@ function getLocations(): Promise<Location[]> {
         },
     );
 
+    let locationToAliases: Record<string, string[]> = {};
+    for (const item of diningLocationData) {
+        locationToAliases[item.name] = item.aliases;
+    }
+
     return fetch(request)
         .then((res) => res.json() as Promise<{ locations: Location[] }>)
         .then((data) => {
-            return data.locations as Location[];
+            let newData = data.locations;
+            for (let i = 0; i < newData.length; i++) {
+                const locName = newData[i]!.location.split(",")[0].trim();
+                if (locationToAliases[locName]) {
+                    newData[i]!.locAliases = locationToAliases[locName];
+                }
+            }
+            return newData as Location[];
         });
 }
 
@@ -187,11 +208,18 @@ const command: Command = {
                 .setDescription("Search for a specific dining location")
                 .addStringOption((option) =>
                     option
-                        .setName("query")
+                        .setName("name")
+                        .setDescription("Search by name for dining locations")
+                        .setRequired(false)
+                        .setAutocomplete(true),
+                )
+                .addStringOption((option) =>
+                    option
+                        .setName("building")
                         .setDescription(
-                            "The name of the dining location to search for",
+                            "Search by  building for dining locations",
                         )
-                        .setRequired(true)
+                        .setRequired(false)
                         .setAutocomplete(true),
                 ),
         ),
@@ -223,12 +251,48 @@ const command: Command = {
             });
         }
         if (interaction.options.getSubcommand() === "search") {
-            const query = interaction.options
-                .getString("query", true)
-                .toLowerCase();
-            const matchedLocations = locations.filter((location) =>
-                location.name.toLowerCase().includes(query),
-            );
+            const rawQuery = interaction.options.getString("name");
+            const query = rawQuery?.toLowerCase() ?? null;
+
+            const rawBuilding = interaction.options.getString("building");
+            const building = rawBuilding?.toLowerCase() ?? null;
+
+            if (!building && !query) {
+                return interaction.reply({
+                    content: "You must provide an input",
+                    ephemeral: true,
+                });
+            }
+
+            const matchedLocations = locations.filter((location) => {
+                const nameMatches = query
+                    ? location.name.toLowerCase().includes(query)
+                    : true;
+
+                const buildingMatches = building
+                    ? location.location.toLowerCase().includes(building) ||
+                      (location.locAliases?.some((alias) =>
+                          alias.toLowerCase().includes(building),
+                      ) ??
+                          false)
+                    : true;
+
+                return nameMatches && buildingMatches;
+            });
+
+            if (matchedLocations.length == 0) {
+                return interaction.reply("No location found");
+            }
+
+            if (!query && building) {
+                return interaction.reply({
+                    embeds: formatLocations(
+                        matchedLocations.sort((a, b) =>
+                            a.name.localeCompare(b.name),
+                        ),
+                    ),
+                });
+            }
 
             return interaction.reply({
                 embeds: [formatLocation(matchedLocations[0])],
@@ -237,16 +301,37 @@ const command: Command = {
     },
 
     async autocomplete(_client, interaction) {
-        const focusedValue = interaction.options.getFocused();
+        const focusedOption = interaction.options.getFocused(true);
+        const focusedValue = focusedOption.value.toLowerCase();
 
         const locations = await getLocations();
 
-        const choices = search(focusedValue.toLowerCase(), locations, {
-            // ignoreCase is true by default
-            keySelector: (loc) => loc.name,
-        })
-            .slice(0, 25)
-            .map((loc) => ({ name: loc.name, value: loc.name }));
+        let choices: { name: string; value: string }[] = [];
+
+        if (focusedOption.name === "name") {
+            choices = search(focusedValue.toLowerCase(), locations, {
+                // ignoreCase is true by default
+                keySelector: (loc) => loc.name,
+            })
+                .slice(0, 25)
+                .map((loc) => ({ name: loc.name, value: loc.name }));
+        } else if (focusedOption.name === "building") {
+            const buildings = [
+                ...new Set(
+                    locations
+                        .map((loc) => loc.location?.split(",")[0].trim())
+                        .filter(
+                            (b): b is string => b !== undefined && b !== "",
+                        ),
+                ),
+            ];
+
+            choices = search(focusedValue, buildings, {
+                keySelector: (building) => building,
+            })
+                .slice(0, 25)
+                .map((building) => ({ name: building, value: building }));
+        }
 
         await interaction.respond(choices);
     },
