@@ -1,9 +1,4 @@
-import {
-    EmbedBuilder,
-    NameplateData,
-    Options,
-    SlashCommandBuilder,
-} from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
 import diningLocationData from "../data/diningLocationData.json" with {
     type: "json",
@@ -35,6 +30,11 @@ interface Location {
     }[];
 }
 
+let locationToAliases: Record<string, string[]> = {};
+for (const item of diningLocationData) {
+    locationToAliases[item.name] = item.aliases;
+}
+
 function getLocations(): Promise<Location[]> {
     const request: Request = new Request(
         "https://dining.apis.scottylabs.org/locations",
@@ -42,11 +42,6 @@ function getLocations(): Promise<Location[]> {
             method: "GET",
         },
     );
-
-    let locationToAliases: Record<string, string[]> = {};
-    for (const item of diningLocationData) {
-        locationToAliases[item.name] = item.aliases;
-    }
 
     return fetch(request)
         .then((res) => res.json() as Promise<{ locations: Location[] }>)
@@ -217,7 +212,7 @@ const command: Command = {
                     option
                         .setName("building")
                         .setDescription(
-                            "Search by  building for dining locations",
+                            "Search by building for dining locations",
                         )
                         .setRequired(false)
                         .setAutocomplete(true),
@@ -260,7 +255,7 @@ const command: Command = {
             if (!building && !query) {
                 return interaction.reply({
                     content: "You must provide an input",
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
 
@@ -309,7 +304,7 @@ const command: Command = {
         let choices: { name: string; value: string }[] = [];
 
         if (focusedOption.name === "name") {
-            choices = search(focusedValue.toLowerCase(), locations, {
+            choices = search(focusedValue, locations, {
                 // ignoreCase is true by default
                 keySelector: (loc) => loc.name,
             })
