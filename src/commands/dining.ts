@@ -75,6 +75,13 @@ function isOpen(location: Location, time: Time): boolean {
     return false;
 }
 
+function format12Hour(hour: number, minute: number) {
+    const period = hour >= 12 ? "PM" : "AM";
+    const h = hour % 12 === 0 ? 12 : hour % 12;
+    const m = minute < 10 ? `0${minute}` : minute;
+    return `${h}:${m} ${period}`;
+}
+
 function formatLocation(location: Location | undefined): EmbedBuilder {
     if (!location) {
         return new EmbedBuilder()
@@ -90,31 +97,41 @@ function formatLocation(location: Location | undefined): EmbedBuilder {
         minute: new Date().getMinutes(),
     };
 
+    const nowOpenTimes = location.times.filter(({ start, end }) =>
+        isBetween(now, start, end),
+    );
+
+    const currentStatus =
+        nowOpenTimes.length > 0
+            ? nowOpenTimes
+                  .map((time) => {
+                      return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
+                  })
+                  .join(", ")
+            : "closed";
+
+    const fullSchedule =
+        location.times
+            .map((time) => {
+                return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
+            })
+            .join(", ") || "closed";
+
     const embed = new EmbedBuilder()
         .setTitle(location.name)
         .setDescription(location.description)
         .addFields(
             { name: "Location", value: location.location },
             {
-                name: "Today's Hours",
+                name: "Open Status",
                 value:
-                    location.times
-                        .filter(({ start, end }) => isBetween(now, start, end))
-                        .map((time) => {
-                            const startHour = time.start.hour;
-                            const startMinute =
-                                time.start.minute < 10
-                                    ? `0${time.start.minute}`
-                                    : time.start.minute;
-
-                            const endHour = time.end.hour;
-                            const endMinute =
-                                time.end.minute < 10
-                                    ? `0${time.end.minute}`
-                                    : time.end.minute;
-                            return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-                        })
-                        .join(", ") || "Closed",
+                    currentStatus === "closed"
+                        ? "Closed now"
+                        : `Open now: ${currentStatus}`,
+            },
+            {
+                name: "Today's Hours",
+                value: fullSchedule,
             },
         )
         .addFields({
@@ -134,14 +151,18 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
         return [
             new EmbedBuilder()
                 .setTitle("Dining Locations")
-                .setDescription("No dining locations currently open."),
+                .setDescription(
+                    "No dining locations matching search currently open.",
+                ),
         ];
     }
     // embed field limit is 25, new embed for every 25
     const embeds = [];
     let currentEmbed = new EmbedBuilder()
         .setTitle("Dining Locations")
-        .setDescription("Here are the current dining locations:");
+        .setDescription(
+            "Here are the current dining locations matching search:",
+        );
 
     for (const location of locations) {
         if ((currentEmbed.data.fields?.length ?? 0) >= 25) {
@@ -155,28 +176,37 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
             minute: new Date().getMinutes(),
         };
 
-        const hours = location.times
-            .filter(({ start, end }) => isBetween(now, start, end))
-            .map((time) => {
-                const startHour = time.start.hour;
-                const startMinute =
-                    time.start.minute < 10
-                        ? `0${time.start.minute}`
-                        : time.start.minute;
+        const nowOpenTimes = location.times.filter(({ start, end }) =>
+            isBetween(now, start, end),
+        );
 
-                const endHour = time.end.hour;
-                const endMinute =
-                    time.end.minute < 10
-                        ? `0${time.end.minute}`
-                        : time.end.minute;
-                return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-            });
+        const currentStatus =
+            nowOpenTimes.length > 0
+                ? nowOpenTimes
+                      .map(
+                          (time) =>
+                              `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
+                                  time.end.hour,
+                                  time.end.minute,
+                              )}`,
+                      )
+                      .join(", ")
+                : "Closed";
 
-        const hoursStr = hours.length === 0 ? "Closed" : hours.join(",");
+        const fullSchedule =
+            location.times
+                .map(
+                    (time) =>
+                        `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
+                            time.end.hour,
+                            time.end.minute,
+                        )}`,
+                )
+                .join(", ") || "Closed";
 
         currentEmbed.addFields({
             name: location.name,
-            value: `Today's Hours: ${hoursStr}\n${location.location}`,
+            value: `Status: ${currentStatus === "Closed" ? "Closed now" : `Open now: ${currentStatus}`}\nToday's Hours: ${fullSchedule}\n${location.location}`,
         });
     }
 
