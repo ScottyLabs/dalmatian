@@ -1,3 +1,4 @@
+import { match } from "assert";
 import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
 import diningLocationData from "../data/diningLocationData.json" with {
@@ -48,7 +49,7 @@ function getLocations(): Promise<Location[]> {
         .then((data) => {
             let newData = data.locations;
             for (let i = 0; i < newData.length; i++) {
-                const locName = newData[i]!.location.split(",")[0].trim();
+                const locName = newData[i]!.location.split(",")[0]!.trim();
                 if (locationToAliases[locName]) {
                     newData[i]!.locAliases = locationToAliases[locName];
                 }
@@ -262,22 +263,28 @@ const command: Command = {
             const matchedLocations = locations.filter((location) => {
                 const nameMatches = query
                     ? location.name.toLowerCase().includes(query)
-                    : false;
+                    : true;
 
                 const buildingMatches = building
                     ? search(building, [
                           location.location,
                           ...(location.locAliases ?? []),
                       ]).length > 0
-                    : false;
+                    : true;
 
-                return nameMatches || buildingMatches;
+                return nameMatches && buildingMatches;
             });
 
             if (matchedLocations.length == 0) {
                 return interaction.reply({
                     content: "No location found",
                     flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (matchedLocations.length === 1) {
+                return interaction.reply({
+                    embeds: [formatLocation(matchedLocations[0])],
                 });
             }
 
@@ -309,7 +316,7 @@ const command: Command = {
         } else if (focusedOption.name === "building") {
             const buildingMap = new Map<string, string>();
             locations.forEach((loc) => {
-                const buildingName = loc.location.split(",")[0].trim();
+                const buildingName = loc.location.split(",")[0]!.trim();
                 buildingMap.set(buildingName, buildingName);
                 loc.locAliases?.forEach((alias) => {
                     buildingMap.set(alias, buildingName);
