@@ -73,7 +73,7 @@ function isOpen(location: Location, time: Time): boolean {
     for (const openTime of location.times)
         if (
             isBetween(time, openTime.start, openTime.end) &&
-            openTime.day == time.day
+            openTime.start.day == time.day
         )
             return true;
     return false;
