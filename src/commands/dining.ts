@@ -1,4 +1,3 @@
-import { match } from "assert";
 import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
 import diningLocationData from "../data/diningLocationData.json" with {
