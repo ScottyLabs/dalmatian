@@ -107,7 +107,10 @@ function loadFCEData(): Record<string, FCEData> {
         const num = record["Num"];
         if (!dept || !num) continue;
 
-        const formattedCode = formatCourseNumber(num)!;
+        // The Num column is a 5-digit number (e.g., "48025")
+        // We need to format it as "48-025"
+        if (num.length !== 5 || !/^\d{5}$/.test(num)) continue;
+        const formattedCode = `${num.slice(0, 2)}-${num.slice(2)}`;
 
         const hrsPerWeek = parseFloat(record["Hrs Per Week"] ?? "");
         const overallTeachingRate = parseFloat(
@@ -384,10 +387,10 @@ const command: SlashCommand = {
             if (validCourses.length === 1) {
                 const { code, course, fce } = validCourses[0]!;
 
-                let description = null;
+                let description = `Based on ${fce.count} evaluations`;
 
                 if (notFound.length > 0) {
-                    description = `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                    description += `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
                 }
 
                 const embed = new EmbedBuilder()
@@ -396,12 +399,12 @@ const command: SlashCommand = {
                     .addFields(
                         {
                             name: "Overall Teaching Rate",
-                            value: `**${fce.overallTeachingRate.toFixed(2)}** / 5`,
+                            value: fce.overallTeachingRate.toFixed(2),
                             inline: true,
                         },
                         {
                             name: "Overall Course Rate",
-                            value: `**${fce.overallCourseRate.toFixed(2)}** / 5`,
+                            value: fce.overallCourseRate.toFixed(2),
                             inline: true,
                         },
                         {
@@ -410,16 +413,16 @@ const command: SlashCommand = {
                         },
                         {
                             name: "Hours Per Week",
-                            value: `**${fce.hrsPerWeek.toFixed(2)}**`,
+                            value: fce.hrsPerWeek.toFixed(2),
                             inline: true,
                         },
                         {
                             name: "Average Response Rate",
-                            value: `**${fce.responseRate.toFixed(1)}%**`,
+                            value: `${fce.responseRate.toFixed(1)}%`,
                             inline: true,
                         },
                     )
-                    .setFooter({ text: `Based on ${fce.count} evaluations` });
+                    .setFooter({ text: "FCE ratings are on a scale of 1-5." });
 
                 return interaction.reply({ embeds: [embed] });
             } else {
