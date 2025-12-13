@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Resnik Hall",
+        "aliases": ["Resnik", "RES", "Reznik", "Tartans Pavilion"]
+    },
+    {
+        "name": "College of Fine Arts",
+        "aliases": ["CFA", "Fine Arts"]
+    },
+    {
+        "name": "Cohon Center",
+        "aliases": ["Cohon University Center", "CUC", "University Center", "UC"]
+    },
+    {
+        "name": "Posner Hall",
+        "aliases": ["Posner", "POS"]
+    },
+    {
+        "name": "Wean Hall",
+        "aliases": ["WEH", "Wean"]
+    },
+    {
+        "name": "Forbes Beeler Apartments",
+        "aliases": ["FBA", "Forbes-Beeler", "Beeler"]
+    },
+    {
+        "name": "Newell-Simon Atrium",
+        "aliases": ["NSH Atrium", "Newell-Simon Hall Atrium", "NSH"]
+    },
+    {
+        "name": "Gates Hillman Centers",
+        "aliases": ["Gates", "GHC", "Gates-Hillman", "Hillman"]
+    },
+    {
+        "name": "Tepper Building",
+        "aliases": ["Tepper", "TEP"]
+    },
+    {
+        "name": "Mellon Institute",
+        "aliases": ["MI", "Mellon"]
+    },
+    {
+        "name": "Scott Hall",
+        "aliases": ["Scott", "Scott Hall of Science"]
+    },
+    {
+        "name": "Scaife Hall",
+        "aliases": ["Scaife", "SC", "Scaife Engineering"]
+    },
+    {
+        "name": "Morewood Gardens",
+        "aliases": ["Morewood", "Mudge Annex (old)", "MOR", "MOE"]
+    },
+    {
+        "name": "Highmark Center for Health",
+        "aliases": ["Highmark", "Highmark Health Center"]
+    }
+]

@@ -1,5 +1,8 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
+import diningLocationData from "../data/diningLocationData.json" with {
+    type: "json",
+};
 import type { Command } from "../types.d.ts";
 
 interface Time {
@@ -11,6 +14,7 @@ interface Time {
 interface Location {
     conceptID: number;
     name: string;
+    locAliases?: string[];
     shortDescription: string;
     description: string;
     url: string;
@@ -26,6 +30,11 @@ interface Location {
     }[];
 }
 
+let locationToAliases: Record<string, string[]> = {};
+for (const item of diningLocationData) {
+    locationToAliases[item.name] = item.aliases;
+}
+
 function getLocations(): Promise<Location[]> {
     const request: Request = new Request(
         "https://dining.apis.scottylabs.org/locations",
@@ -37,7 +46,14 @@ function getLocations(): Promise<Location[]> {
     return fetch(request)
         .then((res) => res.json() as Promise<{ locations: Location[] }>)
         .then((data) => {
-            return data.locations as Location[];
+            let newData = data.locations;
+            for (let i = 0; i < newData.length; i++) {
+                const locName = newData[i]!.location.split(",")[0]!.trim();
+                if (locationToAliases[locName]) {
+                    newData[i]!.locAliases = locationToAliases[locName];
+                }
+            }
+            return newData as Location[];
         });
 }
 
@@ -54,8 +70,19 @@ function isBetween(now: Time, start: Time, end: Time): boolean {
 
 function isOpen(location: Location, time: Time): boolean {
     for (const openTime of location.times)
-        if (isBetween(time, openTime.start, openTime.end)) return true;
+        if (
+            isBetween(time, openTime.start, openTime.end) &&
+            openTime.start.day == time.day
+        )
+            return true;
     return false;
+}
+
+function format12Hour(hour: number, minute: number) {
+    const period = hour >= 12 ? "PM" : "AM";
+    const h = hour % 12 === 0 ? 12 : hour % 12;
+    const m = minute < 10 ? `0${minute}` : minute;
+    return `${h}:${m} ${period}`;
 }
 
 function formatLocation(location: Location | undefined): EmbedBuilder {
@@ -73,31 +100,44 @@ function formatLocation(location: Location | undefined): EmbedBuilder {
         minute: new Date().getMinutes(),
     };
 
+    const nowOpenTimes = location.times.filter(({ start, end }) =>
+        isBetween(now, start, end),
+    );
+
+    const currentStatus =
+        nowOpenTimes.length > 0
+            ? nowOpenTimes
+                  .filter((time) => {
+                      return time.start.day == now.day && isOpen(location, now);
+                  })
+                  .map((time) => {
+                      return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
+                  })
+                  .join(", ")
+            : "closed";
+
+    const fullSchedule =
+        location.times
+            .filter((time) => {
+                return time.start.day == now.day;
+            })
+            .map((time) => {
+                return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
+            })
+            .join(", ") || "closed";
+
     const embed = new EmbedBuilder()
         .setTitle(location.name)
         .setDescription(location.description)
         .addFields(
             { name: "Location", value: location.location },
             {
+                name: "Open Status",
+                value: currentStatus === "closed" ? "Closed now" : `Open now`,
+            },
+            {
                 name: "Today's Hours",
-                value:
-                    location.times
-                        .filter(({ start, end }) => isBetween(now, start, end))
-                        .map((time) => {
-                            const startHour = time.start.hour;
-                            const startMinute =
-                                time.start.minute < 10
-                                    ? `0${time.start.minute}`
-                                    : time.start.minute;
-
-                            const endHour = time.end.hour;
-                            const endMinute =
-                                time.end.minute < 10
-                                    ? `0${time.end.minute}`
-                                    : time.end.minute;
-                            return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-                        })
-                        .join(", ") || "Closed",
+                value: fullSchedule,
             },
         )
         .addFields({
@@ -117,14 +157,18 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
         return [
             new EmbedBuilder()
                 .setTitle("Dining Locations")
-                .setDescription("No dining locations currently open."),
+                .setDescription(
+                    "No dining locations matching search currently open.",
+                ),
         ];
     }
     // embed field limit is 25, new embed for every 25
     const embeds = [];
     let currentEmbed = new EmbedBuilder()
         .setTitle("Dining Locations")
-        .setDescription("Here are the current dining locations:");
+        .setDescription(
+            "Here are the current dining locations matching search:",
+        );
 
     for (const location of locations) {
         if ((currentEmbed.data.fields?.length ?? 0) >= 25) {
@@ -138,28 +182,47 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
             minute: new Date().getMinutes(),
         };
 
-        const hours = location.times
-            .filter(({ start, end }) => isBetween(now, start, end))
-            .map((time) => {
-                const startHour = time.start.hour;
-                const startMinute =
-                    time.start.minute < 10
-                        ? `0${time.start.minute}`
-                        : time.start.minute;
+        const nowOpenTimes = location.times.filter(({ start, end }) =>
+            isBetween(now, start, end),
+        );
 
-                const endHour = time.end.hour;
-                const endMinute =
-                    time.end.minute < 10
-                        ? `0${time.end.minute}`
-                        : time.end.minute;
-                return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
-            });
+        const currentStatus =
+            nowOpenTimes.length > 0
+                ? nowOpenTimes
+                      .filter((time) => {
+                          return (
+                              time.start.day == now.day && isOpen(location, now)
+                          );
+                      })
+                      .map(
+                          (time) =>
+                              `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
+                                  time.end.hour,
+                                  time.end.minute,
+                              )}`,
+                      )
+                      .join(", ")
+                : "closed";
 
-        const hoursStr = hours.length === 0 ? "Closed" : hours.join(",");
+        const fullSchedule =
+            location.times
+                .filter((time) => {
+                    return time.start.day == now.day;
+                })
+                .map(
+                    (time) =>
+                        `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
+                            time.end.hour,
+                            time.end.minute,
+                        )}`,
+                )
+                .join(", ") || "Closed";
 
         currentEmbed.addFields({
             name: location.name,
-            value: `Today's Hours: ${hoursStr}\n${location.location}`,
+            value: `**Location:** ${location.location}
+                    **Open Status:** ${currentStatus === "closed" ? "Closed now" : "Open now"}
+                    **Today's Hours:** ${fullSchedule}`,
         });
     }
 
@@ -187,11 +250,18 @@ const command: Command = {
                 .setDescription("Search for a specific dining location")
                 .addStringOption((option) =>
                     option
-                        .setName("query")
+                        .setName("name")
+                        .setDescription("Search by name for dining locations")
+                        .setRequired(false)
+                        .setAutocomplete(true),
+                )
+                .addStringOption((option) =>
+                    option
+                        .setName("building")
                         .setDescription(
-                            "The name of the dining location to search for",
+                            "Search by building for dining locations",
                         )
-                        .setRequired(true)
+                        .setRequired(false)
                         .setAutocomplete(true),
                 ),
         ),
@@ -223,30 +293,100 @@ const command: Command = {
             });
         }
         if (interaction.options.getSubcommand() === "search") {
-            const query = interaction.options
-                .getString("query", true)
-                .toLowerCase();
-            const matchedLocations = locations.filter((location) =>
-                location.name.toLowerCase().includes(query),
-            );
+            const rawQuery = interaction.options.getString("name");
+            const query = rawQuery?.toLowerCase() ?? null;
+
+            const rawBuilding = interaction.options.getString("building");
+            const building = rawBuilding?.toLowerCase() ?? null;
+
+            if (!building && !query) {
+                return interaction.reply({
+                    content: "You must provide an input",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const matchedLocations = locations.filter((location) => {
+                const nameMatches = query
+                    ? location.name.toLowerCase().includes(query)
+                    : true;
+
+                const buildingMatches = building
+                    ? search(building, [
+                          location.location,
+                          ...(location.locAliases ?? []),
+                      ]).length > 0
+                    : true;
+
+                return nameMatches && buildingMatches;
+            });
+
+            if (matchedLocations.length == 0) {
+                return interaction.reply({
+                    content: "No location found",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (matchedLocations.length === 1) {
+                return interaction.reply({
+                    embeds: [formatLocation(matchedLocations[0])],
+                });
+            }
 
             return interaction.reply({
-                embeds: [formatLocation(matchedLocations[0])],
+                embeds: formatLocations(
+                    matchedLocations.sort((a, b) =>
+                        a.name.localeCompare(b.name),
+                    ),
+                ),
             });
         }
     },
 
     async autocomplete(_client, interaction) {
-        const focusedValue = interaction.options.getFocused();
+        const focusedOption = interaction.options.getFocused(true);
+        const focusedValue = focusedOption.value.toLowerCase();
 
         const locations = await getLocations();
 
-        const choices = search(focusedValue.toLowerCase(), locations, {
-            // ignoreCase is true by default
-            keySelector: (loc) => loc.name,
-        })
-            .slice(0, 25)
-            .map((loc) => ({ name: loc.name, value: loc.name }));
+        let choices: { name: string; value: string }[] = [];
+
+        if (focusedOption.name === "name") {
+            choices = search(focusedValue, locations, {
+                // ignoreCase is true by default
+                keySelector: (loc) => loc.name,
+            })
+                .slice(0, 25)
+                .map((loc) => ({ name: loc.name, value: loc.name }));
+        } else if (focusedOption.name === "building") {
+            const buildingMap = new Map<string, string>();
+            locations.forEach((loc) => {
+                const buildingName = loc.location.split(",")[0]!.trim();
+                buildingMap.set(buildingName, buildingName);
+                loc.locAliases?.forEach((alias) => {
+                    buildingMap.set(alias, buildingName);
+                });
+            });
+
+            const matchedKeys = search(
+                focusedValue,
+                Array.from(buildingMap.keys()),
+                {
+                    ignoreCase: true,
+                },
+            ).slice(0, 25);
+
+            const seen = new Set<string>();
+            choices = [];
+            for (const key of matchedKeys) {
+                const displayName = buildingMap.get(key)!;
+                if (!seen.has(displayName)) {
+                    choices.push({ name: displayName, value: displayName });
+                    seen.add(displayName);
+                }
+            }
+        }
 
         await interaction.respond(choices);
     },

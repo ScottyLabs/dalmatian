@@ -24,7 +24,7 @@
         "**/bun.lock": true
     },
     "biome.lsp.bin": "./node_modules/.bin/biome",
-    "typescript.experimental.useTsgo": true,
+    "typescript.experimental.useTsgo": false,
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "oxc.enable": true,
     "files.insertFinalNewline": true
