@@ -6,7 +6,7 @@ import {
     underline,
 } from "discord.js";
 import CoursesData from "../data/courses.json" with { type: "json" };
-import { parseAndEvaluate } from "../modules/operator-parser.ts";
+import { parseAndEvaluate, UserError } from "../modules/operator-parser.ts";
 import type { Command } from "../types.d.ts";
 
 type Course = {
@@ -102,20 +102,23 @@ const command: Command = {
                 const courseCode = formatCourseNumber(value);
 
                 if (!courseCode) {
-                    throw Error(
-                        `Please provide a valid course code in the format XX-XXX or XXXXX.`,
+                    throw new (UserError || Error)(
+                        `Invalid course code "${value}". Please provide a valid course code in the format XX-XXX or XXXXX.`,
                     );
                 }
 
                 if (!coursesData[courseCode]) {
-                    throw Error(`Course with code ${courseCode} not found.`);
+                    throw new (UserError || Error)(
+                        `Course with code ${courseCode} not found.`,
+                    );
                 }
 
                 return fetchCourseUnlocks(coursesData, courseCode).map(
-                    (course) => ({
-                        courseID: course.courseID,
-                        name: course.name,
-                    }),
+                    (course) =>
+                        ({
+                            courseID: course.courseID,
+                            name: course.name,
+                        }) as Course,
                 );
             }
 
@@ -128,17 +131,21 @@ const command: Command = {
                 true,
             );
 
-            const unlockCourses = parseAndEvaluate<Course>(
-                courseString,
-                lookup,
-                equals,
-            );
-            /*.catch((err) => {
+            let unlockCourses: Course[];
+            try {
+                unlockCourses = parseAndEvaluate<Course>(
+                    courseString,
+                    lookup,
+                    equals,
+                );
+            } catch (error: unknown) {
+                const errorMessage =
+                    error instanceof Error ? error.message : String(error);
                 return interaction.reply({
-                    content: err.message,
+                    content: `Error: ${errorMessage}`,
                     flags: MessageFlags.Ephemeral,
                 });
-            });*/
+            }
 
             unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
 

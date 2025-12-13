@@ -1,3 +1,11 @@
+// Custom error class to distinguish user-thrown errors from framework wrapper errors
+class UserError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "UserError";
+    }
+}
+
 export type Expr =
     | { type: "Literal"; value: string }
     | { type: "Operator"; op: "AND" | "OR"; left: Expr; right: Expr };
@@ -79,7 +87,17 @@ function evaluateExpr<T>(
 ): T[] {
     switch (expr.type) {
         case "Literal":
-            return lookup(expr.value);
+            try {
+                return lookup(expr.value);
+            } catch (err) {
+                // If it's already a UserError, rethrow as-is. Otherwise wrap it.
+                if (err instanceof UserError) {
+                    throw err;
+                }
+                throw new Error(
+                    `Error evaluating '${expr.value}': ${err instanceof Error ? err.message : String(err)}`,
+                );
+            }
         case "Operator": {
             const leftItems = evaluateExpr(expr.left, lookup, equals);
             const rightItems = evaluateExpr(expr.right, lookup, equals);
@@ -114,6 +132,18 @@ export function parseAndEvaluate<T>(
     lookup: (value: string) => T[],
     equals: (a: T, b: T) => boolean,
 ): T[] {
-    const expr = parseExpr(input);
-    return evaluateExpr(expr, lookup, equals);
+    try {
+        const expr = parseExpr(input);
+        return evaluateExpr(expr, lookup, equals);
+    } catch (err) {
+        // If it's already a UserError, rethrow as-is. Otherwise wrap it.
+        if (err instanceof UserError) {
+            throw err;
+        }
+        throw new Error(
+            `Failed to parse and evaluate '${input}': ${err instanceof Error ? err.message : String(err)}`,
+        );
+    }
 }
+
+export { UserError };
