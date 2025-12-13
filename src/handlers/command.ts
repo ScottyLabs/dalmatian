@@ -71,10 +71,7 @@ export default (client: Client) => {
 
             await rest
                 .put(
-                    Routes.applicationGuildCommands(
-                        process.env.DISCORD_CLIENT_ID,
-                        "1449512254541139980",
-                    ),
+                    Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
                     {
                         body: contextCommands.map((command) =>
                             command.toJSON(),
