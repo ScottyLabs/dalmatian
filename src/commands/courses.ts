@@ -107,10 +107,7 @@ function loadFCEData(): Record<string, FCEData> {
         const num = record["Num"];
         if (!dept || !num) continue;
 
-        // The Num column is a 5-digit number (e.g., "48025")
-        // We need to format it as "48-025"
-        if (num.length !== 5 || !/^\d{5}$/.test(num)) continue;
-        const formattedCode = `${num.slice(0, 2)}-${num.slice(2)}`;
+        const formattedCode = formatCourseNumber(num)!;
 
         const hrsPerWeek = parseFloat(record["Hrs Per Week"] ?? "");
         const overallTeachingRate = parseFloat(
