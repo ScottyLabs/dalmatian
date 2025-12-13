@@ -384,10 +384,10 @@ const command: Command = {
             if (validCourses.length === 1) {
                 const { code, course, fce } = validCourses[0]!;
 
-                let description = `Based on ${fce.count} evaluations`;
+                let description = null;
 
                 if (notFound.length > 0) {
-                    description += `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                    description = `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
                 }
 
                 const embed = new EmbedBuilder()
@@ -396,12 +396,12 @@ const command: Command = {
                     .addFields(
                         {
                             name: "Overall Teaching Rate",
-                            value: fce.overallTeachingRate.toFixed(2),
+                            value: `**${fce.overallTeachingRate.toFixed(2)}** / 5`,
                             inline: true,
                         },
                         {
                             name: "Overall Course Rate",
-                            value: fce.overallCourseRate.toFixed(2),
+                            value: `**${fce.overallCourseRate.toFixed(2)}** / 5`,
                             inline: true,
                         },
                         {
@@ -410,16 +410,16 @@ const command: Command = {
                         },
                         {
                             name: "Hours Per Week",
-                            value: fce.hrsPerWeek.toFixed(2),
+                            value: `**${fce.hrsPerWeek.toFixed(2)}**`,
                             inline: true,
                         },
                         {
                             name: "Average Response Rate",
-                            value: `${fce.responseRate.toFixed(1)}%`,
+                            value: `**${fce.responseRate.toFixed(1)}%**`,
                             inline: true,
                         },
                     )
-                    .setFooter({ text: "FCE ratings are on a scale of 1-5." });
+                    .setFooter({ text: `Based on ${fce.count} evaluations` });
 
                 return interaction.reply({ embeds: [embed] });
             } else {
