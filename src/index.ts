@@ -1,13 +1,14 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import type { Command } from "./types.d.ts";
+import type { Command, ContextCommand } from "./types.d.ts";
 
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
 
 declare module "discord.js" {
     interface Client {
         commands: Collection<string, Command>;
+        contextCommands: Collection<string, ContextCommand>;
     }
 }
 
@@ -16,6 +17,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+client.contextCommands = new Collection();
 
 const handlersDir = join(__dirname, "./handlers");
 readdirSync(handlersDir).forEach(async (handler) => {
