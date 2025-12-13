@@ -144,18 +144,44 @@ const command: Command = {
                 });
             }
 
-            const embed = new EmbedBuilder()
-                .setTitle(`Courses unlocked by ${courseString}`)
-                .setDescription(
-                    unlockCourses
-                        .map(
-                            (course) =>
-                                `**${course.courseID}**: ${course.name}`,
-                        )
-                        .join("\n"),
-                );
+            const embeds = [];
+            while (unlockCourses.length > 0) {
+                // search up to 4096 characters for Discord embed limit
+                // TODO: refactor later there's no way this is the most efficient way
+                const chunk: { courseID: string; name: string }[] = [];
+                let charCount = 0;
 
-            return interaction.reply({ embeds: [embed] });
+                while (
+                    unlockCourses.length > 0 &&
+                    charCount +
+                        unlockCourses[0].courseID.length +
+                        unlockCourses[0].name.length +
+                        4 <
+                        4096
+                ) {
+                    const course = unlockCourses.shift()!;
+                    chunk.push(course);
+                    charCount +=
+                        course.courseID.length + course.name.length + 7;
+                }
+
+                const chunkEmbed = new EmbedBuilder()
+                    .setTitle(`Courses unlocked by ${courseString} (cont.)`)
+                    .setDescription(
+                        chunk
+                            .map(
+                                (course) =>
+                                    `**${course.courseID}**: ${course.name}`,
+                            )
+                            .join("\n"),
+                    );
+
+                embeds.push(chunkEmbed);
+            }
+
+            embeds[0].setTitle(`Courses unlocked by ${courseString}`);
+
+            return interaction.reply({ embeds: embeds });
         }
         if (interaction.options.getSubcommand() === "course-info") {
             const courseCode = formatCourseNumber(
