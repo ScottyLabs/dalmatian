@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { parse } from "csv-parse/sync";
 import {
     bold,
     EmbedBuilder,
@@ -26,6 +29,16 @@ type Course = {
     crosslisted: string[];
     units: string;
     department: string;
+};
+
+type FCEData = {
+    courseNum: string;
+    courseName: string;
+    overallTeachingRate: number;
+    overallCourseRate: number;
+    hrsPerWeek: number;
+    responseRate: number;
+    count: number;
 };
 
 function loadCoursesData(): Record<string, Course> {
@@ -79,6 +92,74 @@ function coreqjoiner(coreqs: string[]): string {
     return result.join(", ");
 }
 
+function loadFCEData(): Record<string, FCEData> {
+    const fceMap: Record<string, FCEData> = {};
+    const csvPath = join(__dirname, "../data/fce_data.csv");
+    const csvContent = readFileSync(csvPath, "utf-8");
+
+    const records = parse(csvContent, {
+        columns: true,
+        skip_empty_lines: true,
+    }) as Array<Record<string, string>>;
+
+    for (const record of records) {
+        const dept = record["Dept"];
+        const num = record["Num"];
+        if (!dept || !num) continue;
+
+        // The Num column is a 5-digit number (e.g., "48025")
+        // We need to format it as "48-025"
+        if (num.length !== 5 || !/^\d{5}$/.test(num)) continue;
+        const formattedCode = `${num.slice(0, 2)}-${num.slice(2)}`;
+
+        const hrsPerWeek = parseFloat(record["Hrs Per Week"] ?? "");
+        const overallTeachingRate = parseFloat(
+            record["Overall teaching rate"] ?? "",
+        );
+        const overallCourseRate = parseFloat(
+            record["Overall course rate"] ?? "",
+        );
+        const responseRate = parseFloat(record["Response Rate"] ?? "");
+
+        if (
+            isNaN(hrsPerWeek) ||
+            isNaN(overallTeachingRate) ||
+            isNaN(overallCourseRate)
+        )
+            continue;
+
+        if (!fceMap[formattedCode]) {
+            const courseName = record["Course Name"] ?? "";
+            fceMap[formattedCode] = {
+                courseNum: formattedCode,
+                courseName: courseName,
+                overallTeachingRate: 0,
+                overallCourseRate: 0,
+                hrsPerWeek: 0,
+                responseRate: 0,
+                count: 0,
+            };
+        }
+
+        fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
+        fceMap[formattedCode].overallCourseRate += overallCourseRate;
+        fceMap[formattedCode].hrsPerWeek += hrsPerWeek;
+        fceMap[formattedCode].responseRate += responseRate;
+        fceMap[formattedCode].count++;
+    }
+
+    for (const courseCode in fceMap) {
+        const data = fceMap[courseCode];
+        if (!data) continue;
+        data.overallTeachingRate = data.overallTeachingRate / data.count;
+        data.overallCourseRate = data.overallCourseRate / data.count;
+        data.hrsPerWeek = data.hrsPerWeek / data.count;
+        data.responseRate = data.responseRate / data.count;
+    }
+
+    return fceMap;
+}
+
 const command: Command = {
     data: new SlashCommandBuilder()
         .setName("courses")
@@ -105,6 +186,19 @@ const command: Command = {
                         .setName("course_code")
                         .setDescription(
                             "The course code (a two-digit number followed by a three-digit number, e.g., 15-112 or 21127)",
+                        )
+                        .setRequired(true),
+                ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("fce")
+                .setDescription("Get average FCE ratings for courses")
+                .addStringOption((option) =>
+                    option
+                        .setName("course_codes")
+                        .setDescription(
+                            "Course codes separated by spaces (e.g., 15-112 21-127 15-122)",
                         )
                         .setRequired(true),
                 ),
@@ -215,6 +309,145 @@ const command: Command = {
                 );
 
             return interaction.reply({ embeds: [embed] });
+        }
+        if (interaction.options.getSubcommand() === "fce") {
+            const input = interaction.options.getString("course_codes", true);
+            const rawCodes = input.split(/\s+/).filter((code) => code.trim());
+
+            if (rawCodes.length === 0) {
+                return interaction.reply({
+                    content: "Please provide at least one course code.",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (rawCodes.length > 10) {
+                return interaction.reply({
+                    content: "Please provide no more than 10 courses at once.",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            type ValidCourse = {
+                code: string;
+                course: Course;
+                fce: FCEData;
+            };
+
+            const fceData = loadFCEData();
+            const validCourses: Array<ValidCourse> = [];
+            const invalidCodes: string[] = [];
+            const noCourseData: string[] = [];
+            const noFCEData: string[] = [];
+
+            for (const rawCode of rawCodes) {
+                const courseCode = formatCourseNumber(rawCode);
+
+                if (!courseCode) {
+                    invalidCodes.push(rawCode);
+                    continue;
+                }
+
+                if (!coursesData[courseCode]) {
+                    noCourseData.push(courseCode);
+                    continue;
+                }
+
+                if (!fceData[courseCode]) {
+                    noFCEData.push(courseCode);
+                    continue;
+                }
+
+                validCourses.push({
+                    code: courseCode,
+                    course: coursesData[courseCode],
+                    fce: fceData[courseCode],
+                });
+            }
+
+            if (validCourses.length === 0) {
+                let errorMsg = "No valid courses with FCE data found.\n";
+                if (invalidCodes.length > 0) {
+                    errorMsg += `Invalid format: ${invalidCodes.join(", ")}`;
+                }
+                if (noCourseData.length > 0) {
+                    errorMsg += `Not found: ${noCourseData.join(", ")}`;
+                }
+                if (noFCEData.length > 0) {
+                    errorMsg += `No FCE data: ${noFCEData.join(", ")}`;
+                }
+                return interaction.reply({
+                    content: errorMsg,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const notFound = [...invalidCodes, ...noCourseData, ...noFCEData];
+
+            if (validCourses.length === 1) {
+                const { code, course, fce } = validCourses[0]!;
+
+                let description = `Based on ${fce.count} evaluations`;
+
+                if (notFound.length > 0) {
+                    description += `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                }
+
+                const embed = new EmbedBuilder()
+                    .setTitle(`${code}: ${course.name} (${course.units} units)`)
+                    .setDescription(description)
+                    .addFields(
+                        {
+                            name: "Overall Teaching Rate",
+                            value: fce.overallTeachingRate.toFixed(2),
+                            inline: true,
+                        },
+                        {
+                            name: "Overall Course Rate",
+                            value: fce.overallCourseRate.toFixed(2),
+                            inline: true,
+                        },
+                        {
+                            name: "",
+                            value: "",
+                        },
+                        {
+                            name: "Hours Per Week",
+                            value: fce.hrsPerWeek.toFixed(2),
+                            inline: true,
+                        },
+                        {
+                            name: "Average Response Rate",
+                            value: `${fce.responseRate.toFixed(1)}%`,
+                            inline: true,
+                        },
+                    )
+                    .setFooter({ text: "FCE ratings are on a scale of 1-5." });
+
+                return interaction.reply({ embeds: [embed] });
+            } else {
+                let description = "";
+                let totalHours = 0;
+                let totalUnits = 0;
+
+                for (const { code, course, fce } of validCourses) {
+                    const courseName = fce.courseName.toUpperCase();
+                    description += `**${code}** (${courseName}) = **${fce.hrsPerWeek.toFixed(1)} hours/week**\n`;
+                    totalHours += fce.hrsPerWeek;
+                    totalUnits += Number(course.units);
+                }
+
+                description += `Total FCE = **${totalHours.toFixed(1)} hours/week** (${totalUnits} units)`;
+                if (notFound.length > 0) {
+                    description += `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                }
+
+                const embed = new EmbedBuilder()
+                    .setTitle(`FCE for ${validCourses.length} Courses`)
+                    .setDescription(description);
+
+                return interaction.reply({ embeds: [embed] });
+            }
         }
     },
 };
