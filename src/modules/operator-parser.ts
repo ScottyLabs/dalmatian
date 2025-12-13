@@ -72,18 +72,38 @@ function parseExpr(input: string): Expr {
 }
 
 // this parses specifically for courses, maybe can be generalized later
-function evaluateExpr<T>(expr: Expr, lookup: (value: string) => T[]): T[] {
+function evaluateExpr<T>(
+    expr: Expr,
+    lookup: (value: string) => T[],
+    equals: (a: T, b: T) => boolean,
+): T[] {
     switch (expr.type) {
         case "Literal":
             return lookup(expr.value);
         case "Operator": {
-            const leftItems = evaluateExpr(expr.left, lookup);
-            const rightItems = evaluateExpr(expr.right, lookup);
+            const leftItems = evaluateExpr(expr.left, lookup, equals);
+            const rightItems = evaluateExpr(expr.right, lookup, equals);
             if (expr.op === "AND") {
-                return leftItems.filter((item) => rightItems.includes(item));
+                // AND
+                const result: T[] = [];
+                leftItems.forEach((leftItem) => {
+                    rightItems.forEach((rightItem) => {
+                        if (equals(leftItem, rightItem)) {
+                            result.push(leftItem);
+                        }
+                    });
+                });
+                return result;
             } else {
                 // OR
-                return Array.from(new Set([...leftItems, ...rightItems]));
+
+                const result: T[] = [...leftItems];
+                rightItems.forEach((item) => {
+                    if (!result.some((resItem) => equals(resItem, item))) {
+                        result.push(item);
+                    }
+                });
+                return result;
             }
         }
     }
@@ -92,7 +112,8 @@ function evaluateExpr<T>(expr: Expr, lookup: (value: string) => T[]): T[] {
 export function parseAndEvaluate<T>(
     input: string,
     lookup: (value: string) => T[],
+    equals: (a: T, b: T) => boolean,
 ): T[] {
     const expr = parseExpr(input);
-    return evaluateExpr(expr, lookup);
+    return evaluateExpr(expr, lookup, equals);
 }

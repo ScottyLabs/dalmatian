@@ -119,6 +119,10 @@ const command: Command = {
                 );
             }
 
+            function equals(a: Course, b: Course): boolean {
+                return a.courseID === b.courseID;
+            }
+
             const courseString = interaction.options.getString(
                 "courses_string",
                 true,
@@ -127,6 +131,7 @@ const command: Command = {
             const unlockCourses = parseAndEvaluate<Course>(
                 courseString,
                 lookup,
+                equals,
             );
             /*.catch((err) => {
                 return interaction.reply({
