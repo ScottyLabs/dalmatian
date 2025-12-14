@@ -3,7 +3,7 @@ import { search } from "fast-fuzzy";
 import diningLocationData from "../data/diningLocationData.json" with {
     type: "json",
 };
-import type { Command } from "../types.d.ts";
+import type { SlashCommand } from "../types.d.ts";
 
 interface Time {
     day: number;
@@ -230,7 +230,7 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
     return embeds;
 }
 
-const command: Command = {
+const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("dining")
         .setDescription("Show on-campus dining locations & hours")
