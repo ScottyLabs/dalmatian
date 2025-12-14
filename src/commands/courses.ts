@@ -6,7 +6,7 @@ import {
     underline,
 } from "discord.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
-import type { Command } from "../types.d.ts";
+import type { SlashCommand } from "../types.d.ts";
 
 type Session = {
     term: string;
@@ -79,7 +79,7 @@ function coreqjoiner(coreqs: string[]): string {
     return result.join(", ");
 }
 
-const command: Command = {
+const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("courses")
         .setDescription("Get information about courses offered at CMU")
