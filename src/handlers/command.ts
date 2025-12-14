@@ -8,47 +8,19 @@ import {
     Routes,
     type SlashCommandBuilder,
 } from "discord.js";
-import type { Command, ContextCommand } from "../types.d.ts";
+import type { ContextCommand, SlashCommand } from "../types.d.ts";
 
 export default (client: Client) => {
-    const commands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];
+    const slashCommands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];
 
-    const commandsDir = join(__dirname, "../commands");
-    readdirSync(commandsDir).forEach((file) => {
+    const slashCommandsDir = join(__dirname, "../commands");
+    readdirSync(slashCommandsDir).forEach((file) => {
         if (!file.endsWith(".ts")) return;
-        const command: Command = require(join(commandsDir, file)).default;
-        commands.push(command.data);
-        client.commands.set(command.data.name, command);
-    });
-
-    const rest = new REST().setToken(process.env.DISCORD_TOKEN);
-
-    (async () => {
-        try {
-            console.log("Started refreshing application (/) commands.");
-
-            await rest
-                .put(
-                    Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
-                    {
-                        body: commands.map((command) => command.toJSON()),
-                    },
-                )
-                .then((data: unknown) => {
-                    const commandCount = Array.isArray(data)
-                        ? data.length
-                        : "unknown";
-                    console.log(
-                        `Successfully reloaded ${commandCount} application (/) commands.`,
-                    );
-                });
-        } catch (error: unknown) {
-            console.error(
-                error instanceof Error ? error.message : String(error),
-            );
-        }
-    })().catch((error: unknown) => {
-        console.error(error instanceof Error ? error.message : String(error));
+        const command: SlashCommand = require(
+            join(slashCommandsDir, file),
+        ).default;
+        slashCommands.push(command.data);
+        client.slashCommands.set(command.data.name, command);
     });
 
     const contextCommands: Pick<
@@ -56,26 +28,32 @@ export default (client: Client) => {
         "name" | "toJSON"
     >[] = [];
 
-    const contextDir = join(__dirname, "../contextCommands");
-    readdirSync(contextDir).forEach((file) => {
+    const contextCommandsDir = join(__dirname, "../contextCommands");
+    readdirSync(contextCommandsDir).forEach((file) => {
         if (!file.endsWith(".ts")) return;
-
-        const command: ContextCommand = require(join(contextDir, file)).default;
+        const command: ContextCommand = require(
+            join(contextCommandsDir, file),
+        ).default;
         contextCommands.push(command.data);
         client.contextCommands.set(command.data.name, command);
     });
 
+    const rest = new REST().setToken(process.env.DISCORD_TOKEN);
+
     (async () => {
         try {
-            console.log("Started refreshing global context menu commands...");
+            console.log("Started refreshing application commands.");
+
+            const allCommands = [
+                ...slashCommands.map((command) => command.toJSON()),
+                ...contextCommands.map((command) => command.toJSON()),
+            ];
 
             await rest
                 .put(
                     Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
                     {
-                        body: contextCommands.map((command) =>
-                            command.toJSON(),
-                        ),
+                        body: allCommands,
                     },
                 )
                 .then((data: unknown) => {
@@ -83,7 +61,7 @@ export default (client: Client) => {
                         ? data.length
                         : "unknown";
                     console.log(
-                        `Successfully reloaded ${commandCount} global context menu commands.`,
+                        `Successfully reloaded ${commandCount} application commands (${slashCommands.length} slash, ${contextCommands.length} context menu).`,
                     );
                 });
         } catch (error: unknown) {

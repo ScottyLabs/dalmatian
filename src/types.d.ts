@@ -7,8 +7,8 @@ import type {
     SlashCommandBuilder,
 } from "discord.js";
 
-//TODO: add text commands to this interface
-export interface Command {
+// TODO: add text commands to this interface
+export interface SlashCommand {
     data: Pick<SlashCommandBuilder, "name" | "toJSON">;
     execute: (interaction: ChatInputCommandInteraction) => void;
     autocomplete?: (

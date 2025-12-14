@@ -17,7 +17,7 @@ const event: Event<Events.InteractionCreate> = {
         const client = interaction.client as Client;
 
         if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
-            const command = client.commands.get(interaction.commandName);
+            const command = client.slashCommands.get(interaction.commandName);
             if (!command) {
                 console.error(
                     `No command matching "${interaction.commandName}" found`,
