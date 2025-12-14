@@ -69,11 +69,18 @@ const event: Event<Events.InteractionCreate> = {
                 );
             } catch (error) {
                 console.error(error);
-                await interaction.reply({
-                    content:
-                        "There was an error while executing this context menu command!",
-                    flags: MessageFlags.Ephemeral,
-                });
+                if (interaction.deferred || interaction.replied) {
+                    await interaction.editReply({
+                        content:
+                            "There was an error while executing this context menu command!",
+                    });
+                } else {
+                    await interaction.reply({
+                        content:
+                            "There was an error while executing this context menu command!",
+                        flags: MessageFlags.Ephemeral,
+                    });
+                }
             }
         }
     },
