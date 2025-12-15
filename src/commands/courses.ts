@@ -9,7 +9,7 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.js";
+import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 
@@ -488,17 +488,35 @@ const command: SlashCommand = {
                 return interaction.reply({ embeds: [embed] });
             } else {
                 let description = "";
-                let totalHours = 0;
                 let totalUnits = 0;
 
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
                     description += `${hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`)} = ${bold(`${fce.hrsPerWeek.toFixed(1)} hrs/wk`)}\n`;
-                    totalHours += fce.hrsPerWeek;
                     totalUnits += Number(course.units);
                 }
 
+                let totalHours = validCourses.reduce(
+                    (sum, { fce }) => sum + fce.hrsPerWeek,
+                    0,
+                );
+                const fywMinis = validCourses.filter(({ code }) =>
+                    FYW_MINIS.includes(code),
+                );
+
+                if (fywMinis.length == 2) {
+                    const miniWorkload =
+                        fywMinis[0]!.fce.hrsPerWeek +
+                        fywMinis[1]!.fce.hrsPerWeek;
+                    const miniAvg = miniWorkload / 2;
+                    totalHours -= miniWorkload;
+                    totalHours += miniAvg;
+                }
+
                 description += `Total FCE = ${bold(`${totalHours.toFixed(1)} hrs/wk`)} (${totalUnits} units)`;
+                if (fywMinis.length == 2) {
+                    description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
+                }
                 if (notFound.length > 0) {
                     description += `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
                 }
