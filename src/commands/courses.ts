@@ -105,7 +105,11 @@ function loadFCEData(): Record<string, FCEData> {
     for (const record of records) {
         const dept = record["Dept"];
         const num = record["Num"];
+        const semester = record["Sem"];
         if (!dept || !num) continue;
+
+        // Skip summer semesters
+        if (semester && semester.toLowerCase().includes("summer")) continue;
 
         const formattedCode = formatCourseNumber(num)!;
 
