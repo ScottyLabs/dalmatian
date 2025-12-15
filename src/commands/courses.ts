@@ -422,66 +422,63 @@ const command: SlashCommand = {
             if (validCourses.length === 1) {
                 const { code, course, fce } = validCourses[0]!;
 
-                let description = `${bold("Aggregate Data (past 5 years)")}\n\
-                                   Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 •\
-                                   Course Rate: ${bold(fce.overallCourseRate.toFixed(2))}/5\n\
-                                   Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk •\
-                                   Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}\n\n`;
+                type InstructorFCE = {
+                    teachingRate: number;
+                    courseRate: number;
+                    workload: number;
+                    responseRate: number;
+                    count: number;
+                    lastTaught: string;
+                };
 
-                if (notFound.length > 0) {
-                    description += `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found\n\n`;
+                const instructorMap = new Map<string, InstructorFCE>();
+
+                for (const record of fce.records) {
+                    const instructor = record.instructor;
+                    if (!instructorMap.has(instructor)) {
+                        instructorMap.set(instructor, {
+                            teachingRate: 0,
+                            courseRate: 0,
+                            workload: 0,
+                            responseRate: 0,
+                            count: 0,
+                            lastTaught: `${record.semester} ${record.year}`,
+                        });
+                    }
+                    const stats = instructorMap.get(instructor)!;
+                    stats.teachingRate += record.overallTeachingRate;
+                    stats.courseRate += record.overallCourseRate;
+                    stats.workload += record.hrsPerWeek;
+                    stats.count++;
                 }
 
                 const embed = new EmbedBuilder()
                     .setTitle(`${code}: ${course.name} (${course.units} units)`)
                     .setURL(`${SCOTTYLABS_URL}/course/${code}`)
-                    .setDescription(description);
+                    .setFields({
+                        name: ":pushpin: Aggregate Data (past 5 years)",
+                        value: `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • \
+                                Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n\
+                                Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • \
+                                Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
+                    });
 
-                const limitedRecords = fce.records.slice(0, 20);
+                let fields = 1;
 
-                const semesters: string[] = [];
-                const instructors: string[] = [];
-                const workloads: string[] = [];
-                const teachings: string[] = [];
-                const courseRates: string[] = [];
+                for (const [instructor, stats] of instructorMap) {
+                    if (fields >= 20) break;
 
-                for (const record of limitedRecords) {
-                    semesters.push(
-                        `${record.semester} ${record.year.toString()}`,
-                    );
-                    instructors.push(record.instructor.toUpperCase());
-                    workloads.push(record.hrsPerWeek.toFixed(2));
-                    teachings.push(record.overallTeachingRate.toFixed(2));
-                    courseRates.push(record.overallCourseRate.toFixed(2));
+                    const fieldValue = `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • \
+                                        Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n\
+                                        Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • \
+                                        Last taught in ${stats.lastTaught}`;
+
+                    embed.addFields({
+                        name: instructor.toUpperCase(),
+                        value: fieldValue,
+                    });
+                    fields++;
                 }
-
-                embed.addFields(
-                    {
-                        name: "Semester",
-                        value: semesters.join("\n"),
-                        inline: true,
-                    },
-                    {
-                        name: "Instructor",
-                        value: instructors.join("\n"),
-                        inline: true,
-                    },
-                    {
-                        name: "Workload",
-                        value: workloads.join("\n"),
-                        inline: true,
-                    },
-                    {
-                        name: "Teaching",
-                        value: teachings.join("\n"),
-                        inline: true,
-                    },
-                    {
-                        name: "Course",
-                        value: courseRates.join("\n"),
-                        inline: true,
-                    },
-                );
 
                 return interaction.reply({ embeds: [embed] });
             } else {
