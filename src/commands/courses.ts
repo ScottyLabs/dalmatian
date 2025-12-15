@@ -466,7 +466,12 @@ const command: SlashCommand = {
                 let fields = 1;
 
                 for (const [instructor, stats] of instructorMap) {
-                    if (fields >= 20) break;
+                    if (fields >= 25) {
+                        embed.setDescription(
+                            `:warning: ${bold("Warning:")} ${instructorMap.size - 24} instructors not shown due to embed field limits`,
+                        );
+                        break;
+                    }
 
                     const fieldValue = `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • \
                                         Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n\
