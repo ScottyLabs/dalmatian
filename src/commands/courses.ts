@@ -424,10 +424,9 @@ const command: SlashCommand = {
 
                 let description = `${bold("Aggregate Data (past 5 years)")}\n\
                                    Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 •\
-                                   Course: ${bold(fce.overallCourseRate.toFixed(2))}/5 •\
-                                   Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk\n\
-                                   Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)} •\
-                                   Based on ${fce.count} evaluations\n\n`;
+                                   Course Rate: ${bold(fce.overallCourseRate.toFixed(2))}/5\n\
+                                   Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk •\
+                                   Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}\n\n`;
 
                 if (notFound.length > 0) {
                     description += `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found\n\n`;
@@ -492,12 +491,12 @@ const command: SlashCommand = {
 
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
-                    description += `${hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`)} = ${bold(`${fce.hrsPerWeek.toFixed(1)} hours/week`)}\n`;
+                    description += `${hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`)} = ${bold(`${fce.hrsPerWeek.toFixed(1)} hrs/wk`)}\n`;
                     totalHours += fce.hrsPerWeek;
                     totalUnits += Number(course.units);
                 }
 
-                description += `Total FCE = ${bold(`${totalHours.toFixed(1)} hours/week`)} (${totalUnits} units)`;
+                description += `Total FCE = ${bold(`${totalHours.toFixed(1)} hrs/wk`)} (${totalUnits} units)`;
                 if (notFound.length > 0) {
                     description += `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
                 }
