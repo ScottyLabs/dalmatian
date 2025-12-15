@@ -41,6 +41,17 @@ type FCEData = {
     hrsPerWeek: number;
     responseRate: number;
     count: number;
+    records: FCERecord[];
+};
+
+type FCERecord = {
+    year: number;
+    semester: string;
+    section: string;
+    instructor: string;
+    hrsPerWeek: number;
+    overallTeachingRate: number;
+    overallCourseRate: number;
 };
 
 function loadCoursesData(): Record<string, Course> {
@@ -148,8 +159,22 @@ function loadFCEData(): Record<string, FCEData> {
                 hrsPerWeek: 0,
                 responseRate: 0,
                 count: 0,
+                records: [],
             };
         }
+
+        const instructor = record["Instructor"] ?? "";
+        const section = record["Section"] ?? "";
+
+        fceMap[formattedCode].records.push({
+            year,
+            semester: semester ?? "",
+            section,
+            instructor,
+            hrsPerWeek,
+            overallTeachingRate,
+            overallCourseRate,
+        });
 
         fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
         fceMap[formattedCode].overallCourseRate += overallCourseRate;
@@ -397,43 +422,67 @@ const command: SlashCommand = {
             if (validCourses.length === 1) {
                 const { code, course, fce } = validCourses[0]!;
 
-                let description = null;
+                let description = `${bold("Aggregate Data (past 5 years)")}\n\
+                                   Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 •\
+                                   Course: ${bold(fce.overallCourseRate.toFixed(2))}/5 •\
+                                   Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk\n\
+                                   Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)} •\
+                                   Based on ${fce.count} evaluations\n\n`;
 
                 if (notFound.length > 0) {
-                    description = `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                    description += `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found\n\n`;
                 }
 
                 const embed = new EmbedBuilder()
                     .setTitle(`${code}: ${course.name} (${course.units} units)`)
                     .setURL(`${SCOTTYLABS_URL}/course/${code}`)
-                    .setDescription(description)
-                    .addFields(
-                        {
-                            name: "Overall Teaching Rate",
-                            value: `${bold(fce.overallTeachingRate.toFixed(2))} / 5`,
-                            inline: true,
-                        },
-                        {
-                            name: "Overall Course Rate",
-                            value: `${bold(fce.overallCourseRate.toFixed(2))} / 5`,
-                            inline: true,
-                        },
-                        {
-                            name: "",
-                            value: "",
-                        },
-                        {
-                            name: "Hours Per Week",
-                            value: bold(fce.hrsPerWeek.toFixed(2)),
-                            inline: true,
-                        },
-                        {
-                            name: "Average Response Rate",
-                            value: `${bold(`${fce.responseRate.toFixed(1)}%`)}`,
-                            inline: true,
-                        },
-                    )
-                    .setFooter({ text: `Based on ${fce.count} evaluations` });
+                    .setDescription(description);
+
+                const limitedRecords = fce.records.slice(0, 20);
+
+                const semesters: string[] = [];
+                const instructors: string[] = [];
+                const workloads: string[] = [];
+                const teachings: string[] = [];
+                const courseRates: string[] = [];
+
+                for (const record of limitedRecords) {
+                    semesters.push(
+                        `${record.semester} ${record.year.toString()}`,
+                    );
+                    instructors.push(record.instructor.toUpperCase());
+                    workloads.push(record.hrsPerWeek.toFixed(2));
+                    teachings.push(record.overallTeachingRate.toFixed(2));
+                    courseRates.push(record.overallCourseRate.toFixed(2));
+                }
+
+                embed.addFields(
+                    {
+                        name: "Semester",
+                        value: semesters.join("\n"),
+                        inline: true,
+                    },
+                    {
+                        name: "Instructor",
+                        value: instructors.join("\n"),
+                        inline: true,
+                    },
+                    {
+                        name: "Workload",
+                        value: workloads.join("\n"),
+                        inline: true,
+                    },
+                    {
+                        name: "Teaching",
+                        value: teachings.join("\n"),
+                        inline: true,
+                    },
+                    {
+                        name: "Course",
+                        value: courseRates.join("\n"),
+                        inline: true,
+                    },
+                );
 
                 return interaction.reply({ embeds: [embed] });
             } else {
