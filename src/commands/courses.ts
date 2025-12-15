@@ -102,14 +102,21 @@ function loadFCEData(): Record<string, FCEData> {
         skip_empty_lines: true,
     }) as Array<Record<string, string>>;
 
+    const currentYear = new Date().getFullYear();
+    const cutoffYear = currentYear - 5;
+
     for (const record of records) {
         const dept = record["Dept"];
         const num = record["Num"];
         const semester = record["Sem"];
+        const year = parseInt(record["Year"] ?? "0");
         if (!dept || !num) continue;
 
         // Skip summer semesters
         if (semester && semester.toLowerCase().includes("summer")) continue;
+
+        // Only consider FCEs from the past 5 years
+        if (year < cutoffYear) continue;
 
         const formattedCode = formatCourseNumber(num)!;
 
