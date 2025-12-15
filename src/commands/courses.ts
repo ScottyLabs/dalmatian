@@ -266,7 +266,7 @@ const command: SlashCommand = {
                 .setTitle(`Courses unlocked by ${courseCode}`)
                 .setDescription(
                     unlockCourses
-                        .map((course) => `**${course.id}**: ${course.name}`)
+                        .map((course) => `${bold(course.id)}: ${course.name}`)
                         .join("\n"),
                 );
 
@@ -400,7 +400,7 @@ const command: SlashCommand = {
                 let description = null;
 
                 if (notFound.length > 0) {
-                    description = `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                    description = `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
                 }
 
                 const embed = new EmbedBuilder()
@@ -410,12 +410,12 @@ const command: SlashCommand = {
                     .addFields(
                         {
                             name: "Overall Teaching Rate",
-                            value: `**${fce.overallTeachingRate.toFixed(2)}** / 5`,
+                            value: `${bold(fce.overallTeachingRate.toFixed(2))} / 5`,
                             inline: true,
                         },
                         {
                             name: "Overall Course Rate",
-                            value: `**${fce.overallCourseRate.toFixed(2)}** / 5`,
+                            value: `${bold(fce.overallCourseRate.toFixed(2))} / 5`,
                             inline: true,
                         },
                         {
@@ -424,12 +424,12 @@ const command: SlashCommand = {
                         },
                         {
                             name: "Hours Per Week",
-                            value: `**${fce.hrsPerWeek.toFixed(2)}**`,
+                            value: bold(fce.hrsPerWeek.toFixed(2)),
                             inline: true,
                         },
                         {
                             name: "Average Response Rate",
-                            value: `**${fce.responseRate.toFixed(1)}%**`,
+                            value: `${bold(`${fce.responseRate.toFixed(1)}%`)}`,
                             inline: true,
                         },
                     )
@@ -443,14 +443,14 @@ const command: SlashCommand = {
 
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
-                    description += `[**${code}** ${hyperlink(courseName, `${SCOTTYLABS_URL}/course/${code}`)} = **${fce.hrsPerWeek.toFixed(1)} hours/week**\n`;
+                    description += `${hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`)} = ${bold(`${fce.hrsPerWeek.toFixed(1)} hours/week`)}\n`;
                     totalHours += fce.hrsPerWeek;
                     totalUnits += Number(course.units);
                 }
 
-                description += `Total FCE = **${totalHours.toFixed(1)} hours/week** (${totalUnits} units)`;
+                description += `Total FCE = ${bold(`${totalHours.toFixed(1)} hours/week`)} (${totalUnits} units)`;
                 if (notFound.length > 0) {
-                    description += `\n:warning: **Warning:** ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+                    description += `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
                 }
 
                 const embed = new EmbedBuilder()
