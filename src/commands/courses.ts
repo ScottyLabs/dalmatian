@@ -5,27 +5,31 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import CoursesData from "../data/courses.json" with { type: "json" };
+import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import { Expr, evaluateExpr, parseExpr } from "../modules/operator-parser.ts";
-import type { Command } from "../types.d.ts";
+import type { SlashCommand } from "../types.d.ts";
+
+type Session = {
+    term: string;
+    section: string;
+    instructors: string[];
+    url: string;
+};
 
 type CourseCode = string & { __brand: "CourseCode" };
 
 //TODO: many of these fields could be made into CourseCodes
 type Course = {
-    _id: {
-        $oid: string;
-    };
-    courseID: string;
+    id: string;
+    name: string;
+    syllabi: Session[];
     desc: string;
     prereqs: string[];
     prereqString: string;
     coreqs: string[];
     crosslisted: string[];
-    name: string;
     units: string;
     department: string;
-    numTerms: number;
 };
 
 function loadCoursesData(): Record<CourseCode, Course> {
@@ -68,7 +72,34 @@ function fetchCourseUnlocks(
     return unlocks;
 }
 
-const command: Command = {
+function prereqstringformatter(prereqstring: string): string | null {
+    //"(21269 or 21256 or 21259 or 21268 or 21254) and (73102 or 73104 or 73100)"
+    const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    for (let i = 0; i < prereqstring.length - 4; i++) {
+        if (
+            prereqstring.charAt(i) in numbers &&
+            prereqstring.charAt(i + 1) in numbers &&
+            prereqstring.charAt(i + 2) in numbers &&
+            prereqstring.charAt(i + 3) in numbers &&
+            prereqstring.charAt(i + 4) in numbers
+        ) {
+            prereqstring =
+                prereqstring.slice(0, i + 2) + "-" + prereqstring.slice(i + 2);
+            i++;
+        }
+    }
+    return prereqstring;
+}
+
+function coreqjoiner(coreqs: string[]): string {
+    let result: (string | null)[] = [];
+    coreqs.forEach((course) => {
+        result.push(formatCourseNumber(course));
+    });
+    return result.join(", ");
+}
+
+const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("courses")
         .setDescription("Get information about courses offered at CMU")
@@ -173,7 +204,7 @@ const command: Command = {
                 equals,
             );
 
-            unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
+            unlockCourses.sort((a, b) => a.id.localeCompare(b.id));
 
             if (unlockCourses === undefined) {
                 return interaction.reply({
@@ -252,21 +283,23 @@ const command: Command = {
 
             const embed = new EmbedBuilder()
                 .setTitle(
-                    bold(underline(`${course.courseID}: ${course.name}`)) +
+                    bold(underline(`${course.id}: ${course.name}`)) +
                         ` (${course.units} units)`,
                 )
                 .setDescription(`${bold(course.department)}\n ${course.desc}`)
                 .addFields(
                     {
                         name: "Prerequisites",
-                        value: course.prereqString || "None",
+                        value:
+                            prereqstringformatter(course.prereqString) ||
+                            "None",
                         inline: true,
                     },
                     {
                         name: "Corequisites",
                         value:
                             course.coreqs.length > 0
-                                ? course.coreqs.join(", ")
+                                ? coreqjoiner(course.coreqs)
                                 : "None",
                         inline: true,
                     },

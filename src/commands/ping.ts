@@ -1,7 +1,7 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import type { Command } from "../types.d.ts";
+import type { SlashCommand } from "../types.d.ts";
 
-const command: Command = {
+const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("ping")
         .setDescription("Replies with Pong! and latency."),
