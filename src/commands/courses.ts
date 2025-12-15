@@ -6,9 +6,12 @@ import {
     underline,
 } from "discord.js";
 import CoursesData from "../data/courses.json" with { type: "json" };
-import { parseAndEvaluate, UserError } from "../modules/operator-parser.ts";
+import { Expr, evaluateExpr, parseExpr } from "../modules/operator-parser.ts";
 import type { Command } from "../types.d.ts";
 
+type CourseCode = string & { __brand: "CourseCode" };
+
+//TODO: many of these fields could be made into CourseCodes
 type Course = {
     _id: {
         $oid: string;
@@ -25,33 +28,34 @@ type Course = {
     numTerms: number;
 };
 
-function loadCoursesData(): Record<string, Course> {
-    const raw = CoursesData as Record<string, Course>;
-    const map: Record<string, Course> = {};
+function loadCoursesData(): Record<CourseCode, Course> {
+    const raw = CoursesData;
+    const map: Record<CourseCode, Course> = {};
 
     for (const course of Object.values(raw)) {
         if (!course) continue;
-        const key = formatCourseNumber(course.courseID) ?? course.courseID;
+        const key = formatCourseNumber(course.courseID);
+        if (!key) continue; // this shouldn't happen since the data should be pre-validated to be correct course codes
         map[key] = course;
     }
 
     return map;
 }
 
-function formatCourseNumber(courseNumber: string): string | null {
+function formatCourseNumber(courseNumber: string): CourseCode | null {
     if (courseNumber.match(/^\d{2}-?\d{3}$/)) {
         if (courseNumber.includes("-")) {
-            return courseNumber;
+            return courseNumber as CourseCode;
         } else {
-            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}`;
+            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}` as CourseCode;
         }
     }
     return null;
 }
 
 function fetchCourseUnlocks(
-    courseData: Record<string, Course>,
-    courseNumber: string,
+    courseData: Record<CourseCode, Course>,
+    courseNumber: CourseCode,
 ): Course[] {
     const unlocks: Course[] = [];
 
@@ -98,22 +102,10 @@ const command: Command = {
         const coursesData = loadCoursesData();
 
         if (interaction.options.getSubcommand() === "unlocks") {
-            function lookup(value: string): Course[] {
-                const courseCode = formatCourseNumber(value);
-
-                if (!courseCode) {
-                    throw new (UserError || Error)(
-                        `Invalid course code "${value}". Please provide a valid course code in the format XX-XXX or XXXXX.`,
-                    );
-                }
-
-                if (!coursesData[courseCode]) {
-                    throw new (UserError || Error)(
-                        `Course with code ${courseCode} not found.`,
-                    );
-                }
-
-                return fetchCourseUnlocks(coursesData, courseCode).map(
+            // TODO: think of a better type name than Course here cuz it's getting reused
+            // or don't because i guess it works actually
+            function lookup(value: CourseCode): Course[] {
+                return fetchCourseUnlocks(coursesData, value).map(
                     (course) =>
                         ({
                             courseID: course.courseID,
@@ -131,23 +123,64 @@ const command: Command = {
                 true,
             );
 
-            let unlockCourses: Course[];
+            // this isn't going to use parseAndEvaluate because I need to undergo value validation
+            // TODO: figure out how to do that innately?
+            const expr: Expr<CourseCode | string> = parseExpr<
+                CourseCode | string
+            >(courseString, (value: string) => {
+                const formatted = formatCourseNumber(value);
+                return formatted ? formatted : value;
+            });
+
+            // check that no course codes are null or invalid
+            // by doing a recursive traversal of the expression tree
+            // this is still error checking though
+            // TODO: make better (maybe when I learn functional)
+            function validateExpr(node: Expr<CourseCode | string>): void {
+                switch (node.type) {
+                    case "Literal":
+                        if (/^\d{2}-\d{3}$/.test(node.value) === false) {
+                            throw new Error(
+                                `Something was wrong with your query. Please check your syntax and try again!`,
+                            );
+                        }
+                        // this could be worded as just !coursesData[node.value] if I made the first if statement into a isCourseCode function
+                        if (!coursesData[node.value as CourseCode]) {
+                            throw new Error(
+                                `Course with code ${node.value} not found.`,
+                            );
+                        }
+                        break;
+                    case "Operator":
+                        validateExpr(node.left);
+                        validateExpr(node.right);
+                        break;
+                }
+            }
+
             try {
-                unlockCourses = parseAndEvaluate<Course>(
-                    courseString,
-                    lookup,
-                    equals,
-                );
-            } catch (error: unknown) {
-                const errorMessage =
-                    error instanceof Error ? error.message : String(error);
+                validateExpr(expr);
+            } catch (e) {
                 return interaction.reply({
-                    content: `Error: ${errorMessage}`,
+                    content: (e as Error).message,
                     flags: MessageFlags.Ephemeral,
                 });
             }
 
+            const unlockCourses = evaluateExpr(
+                expr as Expr<CourseCode>,
+                lookup,
+                equals,
+            );
+
             unlockCourses.sort((a, b) => a.courseID.localeCompare(b.courseID));
+
+            if (unlockCourses === undefined) {
+                return interaction.reply({
+                    content: `Something was wrong with your query. Please check your syntax and try again!`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
 
             if (unlockCourses.length === 0) {
                 return interaction.reply({
@@ -156,7 +189,7 @@ const command: Command = {
                 });
             }
 
-            const embeds = [];
+            const embeds: EmbedBuilder[] = [];
             while (unlockCourses.length > 0) {
                 // search up to 4096 characters for Discord embed limit
                 // TODO: refactor later there's no way this is the most efficient way
@@ -166,7 +199,7 @@ const command: Command = {
                 while (
                     unlockCourses.length > 0 &&
                     charCount +
-                        unlockCourses[0].courseID.length +
+                        unlockCourses[0].courseID.length + // calculates length of this course entry
                         unlockCourses[0].name.length +
                         4 <
                         4096

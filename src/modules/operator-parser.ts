@@ -1,14 +1,6 @@
-// Custom error class to distinguish user-thrown errors from framework wrapper errors
-class UserError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "UserError";
-    }
-}
-
-export type Expr =
-    | { type: "Literal"; value: string }
-    | { type: "Operator"; op: "AND" | "OR"; left: Expr; right: Expr };
+export type Expr<T> =
+    | { type: "Literal"; value: T }
+    | { type: "Operator"; op: "AND" | "OR"; left: Expr<T>; right: Expr<T> };
 
 function tokenize(input: string): string[] {
     return input
@@ -19,7 +11,10 @@ function tokenize(input: string): string[] {
 }
 
 // recursive descent parser
-function parseExpr(input: string): Expr {
+export function parseExpr<TLiteral>(
+    input: string,
+    parseLiteral: (value: string) => TLiteral,
+): Expr<TLiteral> {
     const tokens = tokenize(input);
     let pos = 0;
 
@@ -27,12 +22,12 @@ function parseExpr(input: string): Expr {
     const consume = (): string => {
         const t = tokens[pos++];
         if (t === undefined) {
-            throw new Error("Unexpected end of input");
+            return "";
         }
         return t;
     };
 
-    function parseExpression(): Expr {
+    function parseExpression(): Expr<TLiteral> {
         let node = parseTerm();
 
         while (peek() === "OR") {
@@ -44,7 +39,7 @@ function parseExpr(input: string): Expr {
         return node;
     }
 
-    function parseTerm(): Expr {
+    function parseTerm(): Expr<TLiteral> {
         let node = parseFactor();
 
         while (peek() === "AND") {
@@ -56,54 +51,38 @@ function parseExpr(input: string): Expr {
         return node;
     }
 
-    function parseFactor(): Expr {
+    function parseFactor(): Expr<TLiteral> {
         if (peek() === "(") {
             consume();
             const expr = parseExpression();
-            if (consume() !== ")") {
-                throw new Error("Expected closing parenthesis");
-            }
+            consume(); // consume closing parenthesis if present
             return expr;
         } else {
             const value = consume();
-            return { type: "Literal", value };
+            return { type: "Literal", value: parseLiteral(value) };
         }
     }
 
     const result = parseExpression();
 
-    if (pos < tokens.length) {
-        throw new Error("Unexpected token: " + peek());
-    }
-
     return result;
 }
 
 // this parses specifically for courses, maybe can be generalized later
-function evaluateExpr<T>(
-    expr: Expr,
-    lookup: (value: string) => T[],
-    equals: (a: T, b: T) => boolean,
-): T[] {
+export function evaluateExpr<TLiteral, TResult>(
+    expr: Expr<TLiteral>,
+    lookup: (value: TLiteral) => TResult[],
+    equals: (a: TResult, b: TResult) => boolean,
+): TResult[] {
     switch (expr.type) {
         case "Literal":
-            try {
-                return lookup(expr.value);
-            } catch (err) {
-                // If it's already a UserError, rethrow as-is. Otherwise wrap it.
-                if (err instanceof UserError) {
-                    throw err;
-                }
-                throw new Error(
-                    `Error evaluating '${expr.value}': ${err instanceof Error ? err.message : String(err)}`,
-                );
-            }
+            return lookup(expr.value);
         case "Operator": {
             const leftItems = evaluateExpr(expr.left, lookup, equals);
             const rightItems = evaluateExpr(expr.right, lookup, equals);
             if (expr.op === "AND") {
                 // AND
-                const result: T[] = [];
+                const result: TResult[] = [];
                 leftItems.forEach((leftItem) => {
                     rightItems.forEach((rightItem) => {
                         if (equals(leftItem, rightItem)) {
@@ -115,7 +94,7 @@ function evaluateExpr<T>(
             } else {
                 // OR
 
-                const result: T[] = [...leftItems];
+                const result: TResult[] = [...leftItems];
                 rightItems.forEach((item) => {
                     if (!result.some((resItem) => equals(resItem, item))) {
                         result.push(item);
@@ -127,23 +106,12 @@ function evaluateExpr<T>(
     }
 }
 
-export function parseAndEvaluate<T>(
+export function parseAndEvaluate<TLiteral, TResult>(
     input: string,
-    lookup: (value: string) => T[],
-    equals: (a: T, b: T) => boolean,
-): T[] {
-    try {
-        const expr = parseExpr(input);
-        return evaluateExpr(expr, lookup, equals);
-    } catch (err) {
-        // If it's already a UserError, rethrow as-is. Otherwise wrap it.
-        if (err instanceof UserError) {
-            throw err;
-        }
-        throw new Error(
-            `Failed to parse and evaluate '${input}': ${err instanceof Error ? err.message : String(err)}`,
-        );
-    }
+    parseLiteral: (value: string) => TLiteral,
+    lookup: (value: TLiteral) => TResult[],
+    equals: (a: TResult, b: TResult) => boolean,
+): TResult[] {
+    const expr = parseExpr(input, parseLiteral);
+    return evaluateExpr(expr, lookup, equals);
 }
-
-export { UserError };
