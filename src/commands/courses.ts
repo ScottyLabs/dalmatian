@@ -4,10 +4,12 @@ import { parse } from "csv-parse/sync";
 import {
     bold,
     EmbedBuilder,
+    hyperlink,
     MessageFlags,
     SlashCommandBuilder,
     underline,
 } from "discord.js";
+import { SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 
@@ -403,6 +405,7 @@ const command: SlashCommand = {
 
                 const embed = new EmbedBuilder()
                     .setTitle(`${code}: ${course.name} (${course.units} units)`)
+                    .setURL(`${SCOTTYLABS_URL}/course/${code}`)
                     .setDescription(description)
                     .addFields(
                         {
@@ -440,7 +443,7 @@ const command: SlashCommand = {
 
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
-                    description += `**${code}** (${courseName}) = **${fce.hrsPerWeek.toFixed(1)} hours/week**\n`;
+                    description += `[**${code}** ${hyperlink(courseName, `${SCOTTYLABS_URL}/course/${code}`)} = **${fce.hrsPerWeek.toFixed(1)} hours/week**\n`;
                     totalHours += fce.hrsPerWeek;
                     totalUnits += Number(course.units);
                 }
