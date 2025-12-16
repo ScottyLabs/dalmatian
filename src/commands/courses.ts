@@ -463,6 +463,9 @@ const command: SlashCommand = {
                     `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
                     `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`;
 
+                let content = "";
+                let count = 0;
+
                 for (const [instructor, stats] of instructorMap) {
                     const section =
                         `\n\n${bold(underline(instructor.toUpperCase()))}\n` +
@@ -471,17 +474,16 @@ const command: SlashCommand = {
                         `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
                         `Last taught in ${stats.lastTaught}`;
 
-                    if (description.length + section.length >= 4096) {
-                        //     embed.setDescription(
-                        //         `:warning: ${bold("Warning:")} ${instructorMap.size - 24} instructors not shown due to embed description limits`,
-                        //     );
+                    if (description.length + section.length > 4096) {
+                        content = `:warning: ${bold("Warning:")} ${instructorMap.size - count} instructors not shown due to embed description limits`;
                         break;
                     }
                     description += section;
+                    count++;
                 }
                 embed.setDescription(description);
 
-                return interaction.reply({ embeds: [embed] });
+                return interaction.reply({ content, embeds: [embed] });
             } else {
                 let description = "";
                 let totalUnits = 0;
