@@ -22,7 +22,7 @@ export function parseExpr<TLiteral>(
     const consume = (): string => {
         const t = tokens[pos++];
         if (t === undefined) {
-            return "";
+            throw new Error("Unexpected end of input");
         }
         return t;
     };
@@ -55,7 +55,9 @@ export function parseExpr<TLiteral>(
         if (peek() === "(") {
             consume();
             const expr = parseExpression();
-            consume(); // consume closing parenthesis if present
+            if (consume() !== ")") {
+                throw new Error("Expected ')'");
+            }
             return expr;
         } else {
             const value = consume();
@@ -64,6 +66,10 @@ export function parseExpr<TLiteral>(
     }
 
     const result = parseExpression();
+
+    if (pos < tokens.length) {
+        throw new Error("Unexpected token: " + peek());
+    }
 
     return result;
 }
