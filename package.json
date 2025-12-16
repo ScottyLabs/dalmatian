@@ -39,6 +39,7 @@
     },
     "dependencies": {
         "@types/node": "^24.9.1",
+        "csv-parse": "^6.1.0",
         "discord.js": "14.24.0",
         "dotenv": "^17.2.3",
         "drizzle-orm": "beta",
