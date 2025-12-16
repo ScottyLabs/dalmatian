@@ -32,6 +32,36 @@ The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` key
 2. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
 3. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
 
+## Database Setup
+
+The bot uses PostgreSQL for storing polls and reaction redirect configurations. The database runs in Docker for local development.
+
+1. Start the PostgreSQL database using Docker:
+
+   ```bash
+   docker-compose up -d postgres
+   ```
+
+2. Run database migrations to create the tables:
+
+   ```bash
+   bun run db:migrate
+   ```
+
+3. (Optional) Open Drizzle Studio to inspect the database:
+
+   ```bash
+   bun run db:studio
+   ```
+
+The database will persist data in a Docker volume. To completely reset the database, run:
+
+```bash
+docker-compose down -v
+docker-compose up -d postgres
+bun run db:migrate
+```
+
 ## Forking and Branching
 
 You are not able to commit to main. You may either branch off main in the repository or fork the repository for your own usage.
