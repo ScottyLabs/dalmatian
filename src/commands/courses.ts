@@ -454,38 +454,32 @@ const command: SlashCommand = {
 
                 const embed = new EmbedBuilder()
                     .setTitle(`${code}: ${course.name} (${course.units} units)`)
-                    .setURL(`${SCOTTYLABS_URL}/course/${code}`)
-                    .setFields({
-                        name: ":pushpin: Aggregate Data (past 5 years)",
-                        value:
-                            `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
-                            `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
-                            `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
-                            `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
-                    });
+                    .setURL(`${SCOTTYLABS_URL}/course/${code}`);
 
-                let fields = 1;
+                let description =
+                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years)"))}\n` +
+                    `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
+                    `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
+                    `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
+                    `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`;
 
                 for (const [instructor, stats] of instructorMap) {
-                    if (fields >= 25) {
-                        embed.setDescription(
-                            `:warning: ${bold("Warning:")} ${instructorMap.size - 24} instructors not shown due to embed field limits`,
-                        );
-                        break;
-                    }
-
-                    let fieldValue =
+                    const section =
+                        `\n\n${bold(underline(instructor.toUpperCase()))}\n` +
                         `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                         `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                         `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
                         `Last taught in ${stats.lastTaught}`;
 
-                    embed.addFields({
-                        name: instructor.toUpperCase(),
-                        value: fieldValue,
-                    });
-                    fields++;
+                    if (description.length + section.length >= 4096) {
+                        //     embed.setDescription(
+                        //         `:warning: ${bold("Warning:")} ${instructorMap.size - 24} instructors not shown due to embed description limits`,
+                        //     );
+                        break;
+                    }
+                    description += section;
                 }
+                embed.setDescription(description);
 
                 return interaction.reply({ embeds: [embed] });
             } else {
