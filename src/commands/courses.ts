@@ -477,7 +477,7 @@ const command: SlashCommand = {
                     let fieldValue =
                         `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                         `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
-                        `${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
+                        `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
                         `Last taught in ${stats.lastTaught}`;
 
                     embed.addFields({
