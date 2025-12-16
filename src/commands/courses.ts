@@ -457,10 +457,11 @@ const command: SlashCommand = {
                     .setURL(`${SCOTTYLABS_URL}/course/${code}`)
                     .setFields({
                         name: ":pushpin: Aggregate Data (past 5 years)",
-                        value: `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • \
-                                Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n\
-                                Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • \
-                                Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
+                        value:
+                            `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
+                            `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
+                            `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
+                            `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
                     });
 
                 let fields = 1;
@@ -473,10 +474,11 @@ const command: SlashCommand = {
                         break;
                     }
 
-                    const fieldValue = `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • \
-                                        Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n\
-                                        Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • \
-                                        Last taught in ${stats.lastTaught}`;
+                    let fieldValue =
+                        `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
+                        `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
+                        `${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
+                        `Last taught in ${stats.lastTaught}`;
 
                     embed.addFields({
                         name: instructor.toUpperCase(),
