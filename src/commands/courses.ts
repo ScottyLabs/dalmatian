@@ -59,17 +59,7 @@ type FCERecord = {
 };
 
 function loadCoursesData(): Record<CourseCode, Course> {
-    const raw = CoursesData;
-    const map: Record<CourseCode, Course> = {};
-
-    for (const course of Object.values(raw)) {
-        if (!course) continue;
-        const key = formatCourseNumber(course.courseID);
-        if (!key) continue; // this shouldn't happen since the data should be pre-validated to be correct course codes
-        map[key] = course;
-    }
-
-    return map;
+    return CoursesData as Record<CourseCode, Course>;
 }
 
 function formatCourseNumber(courseNumber: string): CourseCode | null {
@@ -241,14 +231,14 @@ const command: SlashCommand = {
                 return fetchCourseUnlocks(coursesData, value).map(
                     (course) =>
                         ({
-                            courseID: course.courseID,
+                            id: course.id,
                             name: course.name,
                         }) as Course,
                 );
             }
 
             function equals(a: Course, b: Course): boolean {
-                return a.courseID === b.courseID;
+                return a.id === b.id;
             }
 
             const courseString = interaction.options.getString(
@@ -326,38 +316,34 @@ const command: SlashCommand = {
             while (unlockCourses.length > 0) {
                 // search up to 4096 characters for Discord embed limit
                 // TODO: refactor later there's no way this is the most efficient way
-                const chunk: { courseID: string; name: string }[] = [];
+                const chunk: { id: string; name: string }[] = [];
                 let charCount = 0;
 
                 while (
                     unlockCourses.length > 0 &&
                     charCount +
-                        unlockCourses[0].courseID.length + // calculates length of this course entry
-                        unlockCourses[0].name.length +
+                        unlockCourses[0]!.id.length + // calculates length of this course entry
+                        unlockCourses[0]!.name.length +
                         4 <
                         4096
                 ) {
                     const course = unlockCourses.shift()!;
                     chunk.push(course);
-                    charCount +=
-                        course.courseID.length + course.name.length + 7;
+                    charCount += course.id.length + course.name.length + 7;
                 }
 
                 const chunkEmbed = new EmbedBuilder()
                     .setTitle(`Courses unlocked by ${courseString} (cont.)`)
                     .setDescription(
                         chunk
-                            .map(
-                                (course) =>
-                                    `**${course.courseID}**: ${course.name}`,
-                            )
+                            .map((course) => `**${course.id}**: ${course.name}`)
                             .join("\n"),
                     );
 
                 embeds.push(chunkEmbed);
             }
 
-            embeds[0].setTitle(`Courses unlocked by ${courseString}`);
+            embeds[0]!.setTitle(`Courses unlocked by ${courseString}`);
 
             return interaction.reply({ embeds: embeds });
         }
