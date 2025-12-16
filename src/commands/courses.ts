@@ -52,33 +52,6 @@ function formatCourseNumber(courseNumber: string): string | null {
     return null;
 }
 
-function prereqstringformatter(prereqstring: string): string | null {
-    //"(21269 or 21256 or 21259 or 21268 or 21254) and (73102 or 73104 or 73100)"
-    const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    for (let i = 0; i < prereqstring.length - 4; i++) {
-        if (
-            prereqstring.charAt(i) in numbers &&
-            prereqstring.charAt(i + 1) in numbers &&
-            prereqstring.charAt(i + 2) in numbers &&
-            prereqstring.charAt(i + 3) in numbers &&
-            prereqstring.charAt(i + 4) in numbers
-        ) {
-            prereqstring =
-                prereqstring.slice(0, i + 2) + "-" + prereqstring.slice(i + 2);
-            i++;
-        }
-    }
-    return prereqstring;
-}
-
-function coreqjoiner(coreqs: string[]): string {
-    let result: (string | null)[] = [];
-    coreqs.forEach((course) => {
-        result.push(formatCourseNumber(course));
-    });
-    return result.join(", ");
-}
-
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("courses")
@@ -199,16 +172,14 @@ const command: SlashCommand = {
                 .addFields(
                     {
                         name: "Prerequisites",
-                        value:
-                            prereqstringformatter(course.prereqString) ||
-                            "None",
+                        value: course.prereqString || "None",
                         inline: true,
                     },
                     {
                         name: "Corequisites",
                         value:
                             course.coreqs.length > 0
-                                ? coreqjoiner(course.coreqs)
+                                ? course.coreqs.join(", ")
                                 : "None",
                         inline: true,
                     },
