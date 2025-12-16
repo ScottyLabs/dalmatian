@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+import { Expr, evaluateExpr, parseExpr } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
 
 type Session = {
@@ -20,6 +21,9 @@ type Session = {
     url: string;
 };
 
+type CourseCode = string & { __brand: "CourseCode" };
+
+//TODO: many of these fields could be made into CourseCodes
 type Course = {
     id: string;
     name: string;
@@ -54,28 +58,34 @@ type FCERecord = {
     overallCourseRate: number;
 };
 
-function loadCoursesData(): Record<string, Course> {
-    const raw = CoursesData as Record<string, Course>;
-    const map: Record<string, Course> = {};
-
-    for (const courseid of Object.keys(raw)) {
-        if (!raw[courseid]) continue;
-        const key = formatCourseNumber(courseid) ?? courseid;
-        map[key] = raw[courseid];
-    }
-
-    return map;
+function loadCoursesData(): Record<CourseCode, Course> {
+    return CoursesData as Record<CourseCode, Course>;
 }
 
-function formatCourseNumber(courseNumber: string): string | null {
+function formatCourseNumber(courseNumber: string): CourseCode | null {
     if (courseNumber.match(/^\d{2}-?\d{3}$/)) {
         if (courseNumber.includes("-")) {
-            return courseNumber;
+            return courseNumber as CourseCode;
         } else {
-            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}`;
+            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}` as CourseCode;
         }
     }
     return null;
+}
+
+function fetchCourseUnlocks(
+    courseData: Record<CourseCode, Course>,
+    courseNumber: CourseCode,
+): Course[] {
+    const unlocks: Course[] = [];
+
+    for (const course of Object.values(courseData)) {
+        if (course.prereqs.includes(courseNumber)) {
+            unlocks.push(course);
+        }
+    }
+
+    return unlocks;
 }
 
 function loadFCEData(): Record<string, FCEData> {
@@ -178,9 +188,9 @@ const command: SlashCommand = {
                 .setDescription("Shows all the courses a course unlocks")
                 .addStringOption((option) =>
                     option
-                        .setName("course_code")
+                        .setName("courses_string")
                         .setDescription(
-                            "The course code (a two-digit number followed by a three-digit number, e.g., 15-112 or 21127)",
+                            "The course code (e.g., 15-112 or 21127), optionally combined with AND/OR operators",
                         )
                         .setRequired(true),
                 ),
@@ -215,60 +225,127 @@ const command: SlashCommand = {
         const coursesData = loadCoursesData();
 
         if (interaction.options.getSubcommand() === "unlocks") {
-            const courseCode = formatCourseNumber(
-                interaction.options.getString("course_code", true),
-            );
-
-            if (!courseCode) {
-                return interaction.reply({
-                    content:
-                        "Please provide a valid course code in the format XX-XXX or XXXXX.",
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
-
-            if (!coursesData[courseCode]) {
-                return interaction.reply({
-                    content: `Course with code ${courseCode} not found.`,
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
-
-            const unlockCourses: {
-                id: string;
-                name: string;
-            }[] = [];
-
-            for (const course of Object.values(coursesData)) {
-                for (const prereq of course.prereqs) {
-                    if (courseCode === prereq) {
-                        unlockCourses.push({
+            // TODO: think of a better type name than Course here cuz it's getting reused
+            // or don't because i guess it works actually
+            function lookup(value: CourseCode): Course[] {
+                return fetchCourseUnlocks(coursesData, value).map(
+                    (course) =>
+                        ({
                             id: course.id,
                             name: course.name,
-                        });
+                        }) as Course,
+                );
+            }
+
+            function equals(a: Course, b: Course): boolean {
+                return a.id === b.id;
+            }
+
+            const courseString = interaction.options.getString(
+                "courses_string",
+                true,
+            );
+
+            // this isn't going to use parseAndEvaluate because I need to undergo value validation
+            // TODO: figure out how to do that innately?
+            const expr: Expr<CourseCode | string> = parseExpr<
+                CourseCode | string
+            >(courseString, (value: string) => {
+                const formatted = formatCourseNumber(value);
+                return formatted ? formatted : value;
+            });
+
+            // check that no course codes are null or invalid
+            // by doing a recursive traversal of the expression tree
+            // this is still error checking though
+            // TODO: make better (maybe when I learn functional)
+            function validateExpr(node: Expr<CourseCode | string>): void {
+                switch (node.type) {
+                    case "Literal":
+                        if (/^\d{2}-\d{3}$/.test(node.value) === false) {
+                            throw new Error(
+                                `Something was wrong with your query. Please check your syntax and try again!`,
+                            );
+                        }
+                        // this could be worded as just !coursesData[node.value] if I made the first if statement into a isCourseCode function
+                        if (!coursesData[node.value as CourseCode]) {
+                            throw new Error(
+                                `Course with code ${node.value} not found.`,
+                            );
+                        }
                         break;
-                    }
+                    case "Operator":
+                        validateExpr(node.left);
+                        validateExpr(node.right);
+                        break;
                 }
             }
 
-            unlockCourses.sort((a, b) => a.id.localeCompare(b.id));
-
-            if (unlockCourses.length === 0) {
+            try {
+                validateExpr(expr);
+            } catch (e) {
                 return interaction.reply({
-                    content: `No courses found that are unlocked by ${courseCode}.`,
+                    content: (e as Error).message,
                     flags: MessageFlags.Ephemeral,
                 });
             }
 
-            const embed = new EmbedBuilder()
-                .setTitle(`Courses unlocked by ${courseCode}`)
-                .setDescription(
-                    unlockCourses
-                        .map((course) => `${bold(course.id)}: ${course.name}`)
-                        .join("\n"),
-                );
+            const unlockCourses = evaluateExpr(
+                expr as Expr<CourseCode>,
+                lookup,
+                equals,
+            );
 
-            return interaction.reply({ embeds: [embed] });
+            unlockCourses.sort((a, b) => a.id.localeCompare(b.id));
+
+            if (unlockCourses === undefined) {
+                return interaction.reply({
+                    content: `Something was wrong with your query. Please check your syntax and try again!`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (unlockCourses.length === 0) {
+                return interaction.reply({
+                    content: `No courses found that are unlocked by ${courseString}.`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const embeds: EmbedBuilder[] = [];
+            while (unlockCourses.length > 0) {
+                // search up to 4096 characters for Discord embed limit
+                // TODO: refactor later there's no way this is the most efficient way
+                const chunk: { id: string; name: string }[] = [];
+                let charCount = 0;
+
+                while (
+                    unlockCourses.length > 0 &&
+                    charCount +
+                        unlockCourses[0]!.id.length + // calculates length of this course entry
+                        unlockCourses[0]!.name.length +
+                        4 <
+                        4096
+                ) {
+                    const course = unlockCourses.shift()!;
+                    chunk.push(course);
+                    charCount += course.id.length + course.name.length + 7;
+                }
+
+                const chunkEmbed = new EmbedBuilder()
+                    .setTitle(`Courses unlocked by ${courseString} (cont.)`)
+                    .setDescription(
+                        chunk
+                            .map((course) => `**${course.id}**: ${course.name}`)
+                            .join("\n"),
+                    );
+
+                embeds.push(chunkEmbed);
+            }
+
+            embeds[0]!.setTitle(`Courses unlocked by ${courseString}`);
+
+            return interaction.reply({ embeds: embeds });
         }
         if (interaction.options.getSubcommand() === "course-info") {
             const courseCode = formatCourseNumber(
