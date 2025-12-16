@@ -4,7 +4,6 @@ import {
     Client,
     Events,
     InteractionType,
-    type MessageContextMenuCommandInteraction,
     MessageFlags,
     type UserContextMenuCommandInteraction,
 } from "discord.js";
