@@ -7,6 +7,71 @@ import {
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
+async function purgeMessages(
+    channel: BaseGuildTextChannel,
+    count: number,
+    filter?: (message: Message<true>) => boolean,
+): Promise<Message<true>[]> {
+    let remaining = count;
+    let deletedMessages: Message<true>[] = [];
+
+    while (remaining > 0) {
+        const numDelete = Math.min(remaining, 100);
+        const messages = await channel.messages.fetch({
+            limit: numDelete,
+        });
+
+        if (messages.size == 0) {
+            break;
+        }
+
+        const toDelete = messages.filter(
+            (m): m is Message<true> =>
+                !!m && !m.partial && (!filter || filter(m)),
+        );
+
+        if (toDelete.size === 0) {
+            break;
+        }
+
+        const deleted = await channel.bulkDelete(toDelete, true);
+
+        deletedMessages.push(
+            ...Array.from(deleted.values()).filter(
+                (m): m is Message<true> => !!m && !m.partial,
+            ),
+        );
+
+        remaining -= deleted.size;
+
+        if (deleted.size === 0) break;
+    }
+
+    while (remaining > 0) {
+        const numDelete = Math.min(remaining, 100);
+        const messages = await channel.messages.fetch({
+            limit: numDelete,
+        });
+        if (messages.size === 0) break;
+
+        const toDelete = messages.filter(
+            (m): m is Message<true> =>
+                !!m && !m.partial && (!filter || filter(m)),
+        );
+
+        if (toDelete.size === 0) break;
+
+        for (const message of toDelete.values()) {
+            await message.delete();
+            deletedMessages.push(message);
+            remaining--;
+            if (remaining <= 0) break;
+        }
+    }
+
+    return deletedMessages;
+}
+
 // Command for purging messages in a channel with bulk delete
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -61,46 +126,26 @@ const command: SlashCommand = {
 
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
+        let deletedMessages: Message<true>[] = [];
+
         // given num of messages deleted bulk delete messages before switching to one by one
         if (interaction.options.getSubcommand() === "all") {
-            let remaining = count;
-            let deletedMessages: Message[] = [];
+            deletedMessages = await purgeMessages(channel, count);
+        }
 
-            while (remaining > 0) {
-                const numDelete = Math.min(remaining, 100);
-                const messages = await channel.bulkDelete(numDelete, true);
-
-                if (messages.size == 0) {
-                    break;
-                }
-
-                deletedMessages.push(
-                    ...Array.from(messages.values()).filter(
-                        (m): m is Message => !!m && !m.partial,
-                    ),
-                );
-                remaining -= messages.size;
-            }
-
-            while (remaining > 0) {
-                const numDelete = Math.min(remaining, 100);
-                const messages = await channel.messages.fetch({
-                    limit: numDelete,
-                });
-
-                for (const message of messages.values()) await message.delete();
-
-                deletedMessages.push(...messages.values());
-                remaining -= messages.size;
-            }
-
-            return interaction.editReply(
-                `Purged ${deletedMessages.length} messages`,
+        // given user purgeMessages based on user filter
+        if (interaction.options.getSubcommand() === "user") {
+            const user = interaction.options.getUser("user", true);
+            deletedMessages = await purgeMessages(
+                channel,
+                count,
+                (m) => !!m.author && m.author.id === user.id,
             );
         }
-        if (interaction.options.getSubcommand() === "user") {
-            return interaction.editReply("User purge not implemented yet");
-        }
+
+        return interaction.editReply(
+            `Purged ${deletedMessages.length} messages`,
+        );
     },
 };
 
