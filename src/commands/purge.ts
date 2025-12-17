@@ -81,9 +81,7 @@ const command: SlashCommand = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("all")
-                .setDescription(
-                    "removes all messages newer than 2 weeks up to 100",
-                )
+                .setDescription("removes all messages up to a count")
                 .addIntegerOption((option) =>
                     option
                         .setName("count")
