@@ -5,8 +5,6 @@ import {
 	serial,
 	timestamp,
 } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
 
 /**
  * Reactions in any channel (except the redirect channel) trigger a redirect message
@@ -56,47 +54,4 @@ export const userCooldowns = pgTable("user_cooldowns", {
 		.notNull()
 		.references(() => redirectionInstances.id, { onDelete: "cascade" }),
 	lastPingedAt: timestamp("last_pinged_at").notNull(),
-});
-
-// Zod validation schemas generated from Drizzle schemas
-export const selectRedirectionInstanceSchema = createSelectSchema(
-	redirectionInstances,
-);
-export const insertRedirectionInstanceSchema = createInsertSchema(
-	redirectionInstances,
-	{
-		guildId: z.string().min(1, "Guild ID is required"),
-		redirectChannelId: z.string().min(1, "Redirect channel ID is required"),
-		cooldownSeconds: z
-			.number()
-			.int("Cooldown must be an integer")
-			.positive("Cooldown must be positive"),
-	},
-);
-
-export const selectEmojiTriggerSchema = createSelectSchema(emojiTriggers);
-export const insertEmojiTriggerSchema = createInsertSchema(emojiTriggers, {
-	emojiId: z.string().min(1, "Emoji ID is required"),
-	redirectionInstanceId: z
-		.number()
-		.int()
-		.positive("Redirection instance ID must be positive"),
-});
-
-export const selectImmuneRoleSchema = createSelectSchema(immuneRoles);
-export const insertImmuneRoleSchema = createInsertSchema(immuneRoles, {
-	roleId: z.string().min(1, "Role ID is required"),
-	redirectionInstanceId: z
-		.number()
-		.int()
-		.positive("Redirection instance ID must be positive"),
-});
-
-export const selectUserCooldownSchema = createSelectSchema(userCooldowns);
-export const insertUserCooldownSchema = createInsertSchema(userCooldowns, {
-	userId: z.string().min(1, "User ID is required"),
-	redirectionInstanceId: z
-		.number()
-		.int()
-		.positive("Redirection instance ID must be positive"),
 });
