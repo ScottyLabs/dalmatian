@@ -2,7 +2,7 @@ import { SQL } from "bun";
 import { drizzle } from "drizzle-orm/bun-sql";
 import { migrate } from "drizzle-orm/bun-sql/migrator";
 
-const runMigrations = async () => {
+export const runMigrations = async () => {
     if (!process.env.DATABASE_URL) {
         throw new Error("DATABASE_URL environment variable is not set");
     }
@@ -24,11 +24,12 @@ const runMigrations = async () => {
     }
 };
 
-runMigrations()
-    .then(() => {
-        process.exit(0);
-    })
-    .catch((err) => {
-        console.error("Migration error:", err);
-        process.exit(1);
-    });
+// Run directly if this is the main module
+if (import.meta.main) {
+    runMigrations()
+        .then(() => process.exit(0))
+        .catch((err) => {
+            console.error("Migration error:", err);
+            process.exit(1);
+        });
+}
