@@ -3,7 +3,8 @@ import { join } from "node:path";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import type { ContextCommand, SlashCommand } from "./types.d.ts";
 
-const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
+const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
+	GatewayIntentBits;
 
 declare module "discord.js" {
     interface Client {
@@ -13,7 +14,7 @@ declare module "discord.js" {
 }
 
 const client = new Client({
-    intents: [Guilds, GuildMembers, GuildMessages],
+    intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
 });
 
 client.slashCommands = new Collection();
