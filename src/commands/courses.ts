@@ -261,7 +261,7 @@ const command: SlashCommand = {
                     courseString,
                     (value) => {
                         // this is bad code because it is no longer a black box
-                        if (isNaN(Number(value))) {
+                        if (!value.match(/^\d{2}-?\d{3}$/)) {
                             throw new Error(`Unexpected token: ${value}`);
                         }
                         return value;
