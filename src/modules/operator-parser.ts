@@ -18,7 +18,7 @@ export function parseExpr<TLiteral>(
     const tokens = tokenize(input);
     let pos = 0;
 
-    const peek = () => tokens[pos];
+    const peek = () => tokens[pos]?.toUpperCase();
     const consume = (): string => {
         const t = tokens[pos++];
         if (t === undefined) {
