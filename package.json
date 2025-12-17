@@ -7,8 +7,9 @@
         "@biomejs/biome": "^2.3.9",
         "@commitlint/cli": "^20.2.0",
         "@commitlint/config-conventional": "^20.2.0",
-        "@types/bun": "latest",
         "@tsconfig/node24": "^24.0.3",
+        "@types/bun": "latest",
+        "bun2nix": "^2.0.6",
         "drizzle-kit": "beta",
         "husky": "^9.1.7",
         "lint-staged": "^16.2.7",
@@ -24,7 +25,8 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate": "bun run src/db/migrate.ts",
         "db:push": "drizzle-kit push",
-        "db:studio": "drizzle-kit studio"
+        "db:studio": "drizzle-kit studio",
+        "postinstall": "bun2nix -o bun.nix"
     },
     "commitlint": {
         "extends": [
