@@ -30,6 +30,7 @@
                     bunDeps = bun2nix'.fetchBunDeps {
                         bunNix = ./bun.nix;
                     };
+                    startScript = "bun run start";
                 };
             }
         );

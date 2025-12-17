@@ -13,6 +13,7 @@ let
         bunDeps = bun2nix'.fetchBunDeps {
             bunNix = self + "/bun.nix";
         };
+        startScript = "bun run start";
     };
 in
 {
