@@ -99,7 +99,7 @@ in
             };
 
             environment = {
-                DATABASE_URL = "postgresql://${cfg.database.user}@localhost/${cfg.database.name}?host=${cfg.database.host}";
+                DATABASE_URL = "postgresql:///${cfg.database.name}?host=${cfg.database.host}";
                 NODE_ENV = "production";
             };
         };
