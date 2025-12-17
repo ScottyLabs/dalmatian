@@ -31,6 +31,7 @@
                         bunNix = ./bun.nix;
                     };
                     startScript = "bun run start";
+                    dontUseBunBuild = true;
                 };
             }
         );

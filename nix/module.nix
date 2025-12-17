@@ -14,6 +14,7 @@ let
             bunNix = self + "/bun.nix";
         };
         startScript = "bun run start";
+        dontUseBunBuild = true;
     };
 in
 {
