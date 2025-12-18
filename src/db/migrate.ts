@@ -10,7 +10,13 @@ export const runMigrations = async () => {
     console.log("Running database migrations...");
 
     // Create Drizzle instance with Bun SQL client
-    const migrationClient = new SQL(process.env.DATABASE_URL);
+    const migrationClient = process.env.DATABASE_URL
+        ? new SQL(process.env.DATABASE_URL)
+        : new SQL({
+              database: process.env.PGDATABASE,
+              path: process.env.PGHOST,
+          });
+
     const db = drizzle({ client: migrationClient });
 
     try {
