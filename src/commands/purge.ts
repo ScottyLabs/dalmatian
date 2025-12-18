@@ -1,5 +1,5 @@
 import {
-    BaseGuildTextChannel,
+    GuildTextBasedChannel,
     Message,
     MessageFlags,
     PermissionFlagsBits,
@@ -10,7 +10,7 @@ import type { SlashCommand } from "../types.d.ts";
 type GuildMessage = Message<true>;
 
 async function purgeMessages(
-    channel: BaseGuildTextChannel,
+    channel: GuildTextBasedChannel,
     count: number,
     filter?: (message: GuildMessage) => boolean,
 ): Promise<GuildMessage[]> {
@@ -31,8 +31,7 @@ async function purgeMessages(
         }
 
         const toDelete = messages.filter(
-            (m): m is GuildMessage =>
-                !!m && !m.partial && (!filter || filter(m)),
+            (m): m is GuildMessage => !m.partial && (!filter || filter(m)),
         );
 
         if (toDelete.size === 0) {
@@ -65,8 +64,7 @@ async function purgeMessages(
         if (messages.size === 0) continue;
 
         const toDelete = messages.filter(
-            (m): m is GuildMessage =>
-                !!m && !m.partial && (!filter || filter(m)),
+            (m): m is GuildMessage => !m.partial && (!filter || filter(m)),
         );
 
         if (toDelete.size === 0) break;
@@ -124,7 +122,12 @@ const command: SlashCommand = {
     async execute(interaction) {
         const channel = interaction.channel;
 
-        if (!channel || !(channel instanceof BaseGuildTextChannel)) {
+        if (
+            !channel ||
+            !channel.isTextBased() ||
+            channel.isDMBased() ||
+            (channel.isThread() && channel.archived)
+        ) {
             return interaction.reply({
                 content: "Not a valid text channel.",
                 flags: MessageFlags.Ephemeral,
