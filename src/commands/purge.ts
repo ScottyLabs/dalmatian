@@ -26,7 +26,7 @@ async function purgeMessages(
         });
         lastMessageId = messages.last()?.id;
 
-        if (messages.size == 0) {
+        if (messages.size === 0) {
             break;
         }
 
@@ -86,12 +86,12 @@ async function purgeMessages(
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("purge")
-        .setDescription("removes messages in channel")
+        .setDescription("Removes messages in channel")
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("all")
-                .setDescription("removes all messages up to a count")
+                .setDescription("Removes all messages up to a count")
                 .addIntegerOption((option) =>
                     option
                         .setName("count")
@@ -104,7 +104,7 @@ const command: SlashCommand = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("user")
-                .setDescription("removes all messages from a user")
+                .setDescription("Removes all messages from a user")
                 .addUserOption((option) =>
                     option
                         .setName("user")
@@ -126,7 +126,7 @@ const command: SlashCommand = {
 
         if (!channel || !(channel instanceof BaseGuildTextChannel)) {
             return interaction.reply({
-                content: "Not Valid Text Channel",
+                content: "Not a valid text channel.",
                 flags: MessageFlags.Ephemeral,
             });
         }
@@ -134,7 +134,7 @@ const command: SlashCommand = {
         const count = Number(interaction.options.getInteger("count"));
         if (count < 1 || count > 500) {
             return interaction.reply({
-                content: "Invalid Count",
+                content: "Invalid message count, must be between 1 and 500.",
                 flags: MessageFlags.Ephemeral,
             });
         }
@@ -159,7 +159,7 @@ const command: SlashCommand = {
         }
 
         return interaction.editReply(
-            `Purged ${deletedMessages.length} messages`,
+            `Purged ${deletedMessages.length} messages.`,
         );
     },
 };
