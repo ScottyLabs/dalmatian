@@ -7,14 +7,16 @@ import {
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
+type GuildMessage = Message<true>;
+
 async function purgeMessages(
     channel: BaseGuildTextChannel,
     count: number,
-    filter?: (message: Message<true>) => boolean,
-): Promise<Message<true>[]> {
+    filter?: (message: GuildMessage) => boolean,
+): Promise<GuildMessage[]> {
     let lastMessageId: string | undefined;
     let remaining = count;
-    let deletedMessages: Message<true>[] = [];
+    let deletedMessages: GuildMessage[] = [];
 
     while (remaining > 0) {
         const numDelete = Math.min(remaining, 100);
@@ -29,7 +31,7 @@ async function purgeMessages(
         }
 
         const toDelete = messages.filter(
-            (m): m is Message<true> =>
+            (m): m is GuildMessage =>
                 !!m && !m.partial && (!filter || filter(m)),
         );
 
@@ -41,7 +43,7 @@ async function purgeMessages(
 
         deletedMessages.push(
             ...Array.from(deleted.values()).filter(
-                (m): m is Message<true> => !!m && !m.partial,
+                (m): m is GuildMessage => !!m && !m.partial,
             ),
         );
 
@@ -63,7 +65,7 @@ async function purgeMessages(
         if (messages.size === 0) continue;
 
         const toDelete = messages.filter(
-            (m): m is Message<true> =>
+            (m): m is GuildMessage =>
                 !!m && !m.partial && (!filter || filter(m)),
         );
 
@@ -139,7 +141,7 @@ const command: SlashCommand = {
 
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-        let deletedMessages: Message<true>[] = [];
+        let deletedMessages: GuildMessage[] = [];
 
         // given num of messages deleted bulk delete messages before switching to one by one
         if (interaction.options.getSubcommand() === "all") {
