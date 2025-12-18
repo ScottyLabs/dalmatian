@@ -12,6 +12,7 @@ async function purgeMessages(
     count: number,
     filter?: (message: Message<true>) => boolean,
 ): Promise<Message<true>[]> {
+    let lastMessageId: string | undefined;
     let remaining = count;
     let deletedMessages: Message<true>[] = [];
 
@@ -19,7 +20,9 @@ async function purgeMessages(
         const numDelete = Math.min(remaining, 100);
         const messages = await channel.messages.fetch({
             limit: numDelete,
+            before: lastMessageId,
         });
+        lastMessageId = messages.last()?.id;
 
         if (messages.size == 0) {
             break;
@@ -31,7 +34,7 @@ async function purgeMessages(
         );
 
         if (toDelete.size === 0) {
-            break;
+            continue;
         }
 
         const deleted = await channel.bulkDelete(toDelete, true);
@@ -44,15 +47,20 @@ async function purgeMessages(
 
         remaining -= deleted.size;
 
-        if (deleted.size === 0) break;
+        if (deleted.size === 0) {
+            break;
+        }
     }
 
     while (remaining > 0) {
         const numDelete = Math.min(remaining, 100);
         const messages = await channel.messages.fetch({
             limit: numDelete,
+            before: lastMessageId,
         });
-        if (messages.size === 0) break;
+        lastMessageId = messages.last()?.id;
+
+        if (messages.size === 0) continue;
 
         const toDelete = messages.filter(
             (m): m is Message<true> =>
@@ -85,7 +93,9 @@ const command: SlashCommand = {
                 .addIntegerOption((option) =>
                     option
                         .setName("count")
-                        .setDescription("Number of messages to delete")
+                        .setDescription(
+                            "Number of messages to delete (max: 500)",
+                        )
                         .setRequired(true),
                 ),
         )
@@ -102,7 +112,9 @@ const command: SlashCommand = {
                 .addIntegerOption((option) =>
                     option
                         .setName("count")
-                        .setDescription("Number of messages to delete")
+                        .setDescription(
+                            "Number of messages to delete (max: 500)",
+                        )
                         .setRequired(true),
                 ),
         ),
@@ -112,14 +124,17 @@ const command: SlashCommand = {
 
         if (!channel || !(channel instanceof BaseGuildTextChannel)) {
             return interaction.reply({
-                content: "Not valid text channel",
+                content: "Not Valid Text Channel",
                 flags: MessageFlags.Ephemeral,
             });
         }
 
         const count = Number(interaction.options.getInteger("count"));
-        if (count < 1) {
-            return interaction.editReply(`invalid count`);
+        if (count < 1 || count > 500) {
+            return interaction.reply({
+                content: "Invalid Count",
+                flags: MessageFlags.Ephemeral,
+            });
         }
 
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
