@@ -1,8 +1,10 @@
 import { SQL } from "bun";
 import { drizzle } from "drizzle-orm/bun-sql";
 
-if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL environment variable is not set");
+if (!process.env.DATABASE_URL && !process.env.PGHOST) {
+    throw new Error(
+        "DATABASE_URL or PGHOST/PGDATABASE environment variables must be set",
+    );
 }
 
 // dev uses DATABASE_URL from .env

@@ -3,8 +3,10 @@ import { drizzle } from "drizzle-orm/bun-sql";
 import { migrate } from "drizzle-orm/bun-sql/migrator";
 
 export const runMigrations = async () => {
-    if (!process.env.DATABASE_URL) {
-        throw new Error("DATABASE_URL environment variable is not set");
+    if (!process.env.DATABASE_URL && !process.env.PGHOST) {
+        throw new Error(
+            "DATABASE_URL or PGHOST/PGDATABASE environment variables must be set",
+        );
     }
 
     console.log("Running database migrations...");
