@@ -30,35 +30,33 @@ function tokenize(input: string): Token[] {
 function parseExpr(input: string): Token[] {
     const outputQueue: Token[] = [];
     const operatorStack: Token[] = [];
-    function empty(stack: Token[]): stack is [] {
+    const empty = (stack: Token[]): stack is [] => {
         return stack.length === 0;
-    }
-    function top(stack: Token[] = operatorStack): Token | undefined {
+    };
+    const peek = (stack: Token[] = operatorStack): Token | undefined => {
         return stack[stack.length - 1];
-    }
+    };
     const tokens = tokenize(input);
 
     const PRECEDENCE: Record<Operator, number> = { OR: 1, AND: 2 };
-    const isOperator = (token: Token): token is Operator =>
+    const isOperator = (token: Token | undefined): token is Operator =>
         token === "AND" || token === "OR";
 
     for (const token of tokens) {
         if (isOperator(token)) {
-            while (
-                !empty(operatorStack) &&
-                isOperator(top()) &&
-                PRECEDENCE[top() as Operator] >= PRECEDENCE[token]
-            ) {
+            while (!empty(operatorStack)) {
+                const t = peek(operatorStack);
+                if (!isOperator(t) || PRECEDENCE[t] < PRECEDENCE[token]) break;
                 outputQueue.push(operatorStack.pop()!);
             }
             operatorStack.push(token);
         } else if (token === "(") {
             operatorStack.push(token);
         } else if (token === ")") {
-            while (!empty(operatorStack) && top(operatorStack) !== "(") {
+            while (!empty(operatorStack) && peek(operatorStack) !== "(") {
                 outputQueue.push(operatorStack.pop()!);
             }
-            if (empty(operatorStack) || top(operatorStack) !== "(") {
+            if (empty(operatorStack) || peek(operatorStack) !== "(") {
                 throw new Error("Mismatched parentheses");
             }
             operatorStack.pop(); // Remove the '(' from the stack
