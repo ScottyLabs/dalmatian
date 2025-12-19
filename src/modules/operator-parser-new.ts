@@ -75,3 +75,53 @@ function parseExpr(input: string): Token[] {
 
     return outputQueue;
 }
+
+// evaluates the reverse Polish notation tokens
+function evaluateExpr<TLiteral, TResult>(
+    rpnTokens: Token[],
+    parseLiteral: (token: Token) => TLiteral,
+    lookup: (literal: TLiteral) => TResult[],
+    equal: (a: TResult, b: TResult) => boolean,
+): TResult[] {
+    const stack: TResult[][] = [];
+
+    for (const token of rpnTokens) {
+        if (token === "AND" || token === "OR") {
+            const right = stack.pop()!;
+            const left = stack.pop()!;
+
+            if (!left || !right) {
+                throw new Error("Malformed expression");
+            }
+
+            let result: TResult[];
+            if (token === "AND") {
+                result = left.filter((l) => right.some((r) => equal(l, r)));
+            } else {
+                result = [...left];
+                for (const r of right) {
+                    if (!result.some((res) => equal(res, r))) {
+                        result.push(r);
+                    }
+                }
+            }
+            stack.push(result);
+        } else {
+            const literal = parseLiteral(token);
+            const results = lookup(literal);
+            stack.push(results);
+        }
+    }
+
+    return stack.pop() || [];
+}
+
+export function parseAndEvaluate<TLiteral, TResult>(
+    input: string,
+    parseLiteral: (token: Token) => TLiteral,
+    lookup: (literal: TLiteral) => TResult[],
+    equal: (a: TResult, b: TResult) => boolean,
+): TResult[] {
+    const rpnTokens = parseExpr(input);
+    return evaluateExpr(rpnTokens, parseLiteral, lookup, equal);
+}
