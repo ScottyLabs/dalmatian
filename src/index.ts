@@ -1,9 +1,13 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { runMigrations } from "./db/migrate.ts";
 import type { ContextCommand, SlashCommand } from "./types.d.ts";
 
-const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
+await runMigrations();
+
+const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
+    GatewayIntentBits;
 
 declare module "discord.js" {
     interface Client {
@@ -13,7 +17,7 @@ declare module "discord.js" {
 }
 
 const client = new Client({
-    intents: [Guilds, GuildMembers, GuildMessages],
+    intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
 });
 
 client.slashCommands = new Collection();
