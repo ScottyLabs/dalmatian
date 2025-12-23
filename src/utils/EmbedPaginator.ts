@@ -73,12 +73,17 @@ export class EmbedPaginator {
                 return;
             }
 
-            if (btnInteraction.customId === "next") {
+            if (btnInteraction.customId == "next") {
                 this.current++;
-            } else if (btnInteraction.customId === "prev") {
+                this.current %= this.pages.length;
+            } else if (btnInteraction.customId == "prev") {
                 this.current--;
+                this.current %= this.pages.length;
+            } else if (btnInteraction.customId == "first") {
+                this.current = 0;
+            } else if (btnInteraction.customId == "last") {
+                this.current = this.pages.length - 1;
             }
-            this.current %= this.pages.length;
 
             await btnInteraction.update({
                 embeds: [this.pages[this.current]!],
