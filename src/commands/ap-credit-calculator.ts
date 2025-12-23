@@ -1,99 +1,135 @@
-import { Message, MessageFlags, SlashCommandBuilder } from "discord.js";
-import { boolean } from "drizzle-orm/gel-core";
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    MessageFlags,
+    ModalBuilder,
+    SlashCommandBuilder,
+    StringSelectMenuBuilder,
+    StringSelectMenuOptionBuilder,
+} from "discord.js";
+import apAliases from "../data/ap-aliases.json" with { type: "json" };
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
+
 import type { SlashCommand } from "../types.d.ts";
 
 type Exam = {
-    name: String;
-    score: number;
+    name: string;
+    aliases: string[];
+    scores: {
+        score: number;
+        courses: string[];
+    }[];
 };
 
-type Entry = {
-    exams: Exam[];
-    courses: string[];
+type AliasEntry = {
+    name: string;
+    aliases: string[];
 };
 
-type ExamRecord = Record<string, Record<number, string[]>>;
+function buildAliasMap(apAliases: AliasEntry[][]): Map<string, string[]> {
+    const map = new Map<string, string[]>();
 
-async function loadApCreditData(): Promise<ExamRecord> {
-    const record: ExamRecord = {};
-
-    for (const entry of apCreditData) {
-        for (const exam of entry.exams) {
-            if (!record[exam.name]) {
-                record[exam.name] = {};
-            }
-
-            record[exam.name]![exam.score] = entry.courses;
+    for (const group of apAliases) {
+        for (const entry of group) {
+            map.set(entry.name, entry.aliases);
         }
     }
 
-    return record;
+    return map;
 }
 
-("");
-async function isValidInput(aps: String): Promise<Record<String, Integer>> {
-    pass;
+async function loadApCreditData(): Promise<Exam[]> {
+    const exams: Exam[] = [];
+    const aliasMap = buildAliasMap(apAliases);
+
+    for (const entry of apCreditData) {
+        for (const exam of entry.exams) {
+            let examObj = exams.find((e) => e.name === exam.name);
+
+            if (!examObj) {
+                examObj = {
+                    name: exam.name,
+                    aliases: aliasMap.get(exam.name) ?? [],
+                    scores: [],
+                };
+                exams.push(examObj);
+            }
+
+            let scoreObj = examObj.scores.find((s) => s.score === exam.score);
+
+            if (!scoreObj) {
+                scoreObj = {
+                    score: exam.score,
+                    courses: [],
+                };
+                examObj.scores.push(scoreObj);
+            }
+
+            scoreObj.courses.push(...entry.courses);
+        }
+    }
+
+    return exams;
 }
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
-        .setName("Credit Calculator")
+        .setName("credit-calculator")
         .setDescription("Credit Calculator for CMU courses")
         .addSubcommand((subcommand) =>
             subcommand
-                .setName("AP")
+                .setName("ap")
                 .setDescription(
-                    "Calculate units, gen eds, and courses waived through your APs",
-                )
-                .addStringOption((option) =>
-                    option
-                        .setName("College")
-                        .setDescription("Your college")
-                        .setRequired(true),
-                )
-                .addStringOption((option) =>
-                    option
-                        .setName("APs")
-                        .setDescription(
-                            "APs taken with score (Exam:Score ex. Biology:5,CSA:5,APUSH:4)",
-                        )
-                        .setRequired(true),
+                    "Calculate units and courses waived through your APs",
                 ),
         ),
 
     async execute(interaction) {
-        let college = interaction.options.getString("College");
-        let aps = interaction.options.getString("APs");
-        let APrecord = loadApCreditData();
-        const collegeNames: Set<String> = new Set([
-            "DC",
-            "CIT",
-            "SCS",
-            "MCS",
-            "TEP",
-        ]);
+        let APrecord = await loadApCreditData();
 
-        if (!college || !(college in collegeNames)) {
-            return interaction.reply({
-                content:
-                    "Not a valid College (accepted: DC, CIT, SCS, MCS, TEP)",
+        if (interaction.options.getSubcommand() === "ap") {
+            const embed0 = new EmbedBuilder()
+                .setTitle("AP Credit Calculator")
+                .setDescription("Use dropdowns to ");
+
+            const selectRow =
+                new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId("ap_select")
+                        .setPlaceholder("Select AP exams")
+                        .setMinValues(1)
+                        .addOptions(
+                            { label: "Calculus AB", value: "Calculus AB" },
+                            { label: "Biology", value: "Biology" },
+                        ),
+                );
+
+            const buttonRow =
+                new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    new ButtonBuilder()
+                        .setCustomId("prevPage")
+                        .setLabel("Previous")
+                        .setStyle(ButtonStyle.Secondary),
+
+                    new ButtonBuilder()
+                        .setCustomId("nextPage")
+                        .setLabel("Next")
+                        .setStyle(ButtonStyle.Secondary),
+
+                    new ButtonBuilder()
+                        .setCustomId("submit")
+                        .setLabel("Submit")
+                        .setStyle(ButtonStyle.Success),
+                );
+
+            interaction.reply({
+                embeds: [embed0],
+                components: [selectRow, buttonRow],
                 flags: MessageFlags.Ephemeral,
             });
         }
-
-        if (!aps || isValidInput(aps)) {
-            return interaction.reply({
-                content: "Not a valid AP input (accepted: Exam:Score,...)",
-            });
-        }
-
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
-        if (interaction.options.getSubcommand() === "AP") {
-        }
-
-        return interaction.editReply(``);
     },
 };
 
