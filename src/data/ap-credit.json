@@ -1,0 +1,228 @@
+[
+    {
+        "exams": [{ "name": "2-D Art and Design", "score": 4 }],
+        "courses": ["51-011"]
+    },
+    {
+        "exams": [{ "name": "2-D Art and Design", "score": 5 }],
+        "courses": ["51-011"]
+    },
+    {
+        "exams": [{ "name": "3-D Art and Design", "score": 4 }],
+        "courses": ["51-012"]
+    },
+    {
+        "exams": [{ "name": "3-D Art and Design", "score": 5 }],
+        "courses": ["51-012"]
+    },
+    {
+        "exams": [{ "name": "African American Studies", "score": 5 }],
+        "courses": ["79-017"]
+    },
+    { "exams": [{ "name": "Art History", "score": 5 }], "courses": ["60-011"] },
+    { "exams": [{ "name": "Biology", "score": 4 }], "courses": ["03-011"] },
+    { "exams": [{ "name": "Biology", "score": 5 }], "courses": ["03-110"] },
+    { "exams": [{ "name": "Calculus AB", "score": 4 }], "courses": ["21-111"] },
+    { "exams": [{ "name": "Calculus AB", "score": 5 }], "courses": ["21-120"] },
+    {
+        "exams": [{ "name": "Calculus BC", "score": 5 }],
+        "courses": ["21-120", "21-122"]
+    },
+    {
+        "exams": [
+            { "name": "Capstone Seminar", "score": 4 },
+            { "name": "Capstone Research", "score": 5 }
+        ],
+        "courses": ["99-005"]
+    },
+    {
+        "exams": [
+            { "name": "Capstone Seminar", "score": 5 },
+            { "name": "Capstone Research", "score": 5 }
+        ],
+        "courses": ["99-004", "99-005"]
+    },
+    { "exams": [{ "name": "Chemistry", "score": 5 }], "courses": ["09-105"] },
+    {
+        "exams": [{ "name": "Chinese Language & Culture", "score": 4 }],
+        "courses": ["82-011"]
+    },
+    {
+        "exams": [{ "name": "Chinese Language & Culture", "score": 5 }],
+        "courses": ["82-012"]
+    },
+    {
+        "exams": [{ "name": "Computer Science A", "score": 4 }],
+        "courses": ["15-110"]
+    },
+    {
+        "exams": [{ "name": "Computer Science A", "score": 5 }],
+        "courses": ["15-112"]
+    },
+    {
+        "exams": [{ "name": "Computer Science Principles", "score": 4 }],
+        "courses": ["15-110"]
+    },
+    {
+        "exams": [{ "name": "Computer Science Principles", "score": 5 }],
+        "courses": ["15-110"]
+    },
+    { "exams": [{ "name": "Drawing", "score": 5 }], "courses": ["60-012"] },
+    {
+        "exams": [{ "name": "Economics-Micro", "score": 4 }],
+        "courses": ["73-011"]
+    },
+    {
+        "exams": [{ "name": "Economics-Micro", "score": 5 }],
+        "courses": ["73-011"]
+    },
+    {
+        "exams": [{ "name": "Economics-Macro", "score": 4 }],
+        "courses": ["73-012"]
+    },
+    {
+        "exams": [{ "name": "Economics-Macro", "score": 5 }],
+        "courses": ["73-012"]
+    },
+    {
+        "exams": [{ "name": "English Language and Composition", "score": 5 }],
+        "courses": ["76-011"]
+    },
+    {
+        "exams": [{ "name": "English Literature and Composition", "score": 5 }],
+        "courses": ["76-012"]
+    },
+    {
+        "exams": [{ "name": "Environmental Science", "score": 4 }],
+        "courses": ["38-012"]
+    },
+    {
+        "exams": [{ "name": "Environmental Science", "score": 5 }],
+        "courses": ["38-012"]
+    },
+    {
+        "exams": [{ "name": "European History", "score": 5 }],
+        "courses": ["79-011"]
+    },
+    {
+        "exams": [{ "name": "French Language & Culture", "score": 4 }],
+        "courses": ["82-013"]
+    },
+    {
+        "exams": [{ "name": "French Language & Culture", "score": 5 }],
+        "courses": ["82-014"]
+    },
+    {
+        "exams": [{ "name": "German Language & Culture", "score": 4 }],
+        "courses": ["82-015"]
+    },
+    {
+        "exams": [{ "name": "German Language & Culture", "score": 5 }],
+        "courses": ["82-016"]
+    },
+    {
+        "exams": [{ "name": "Government & Politics: Comparative", "score": 4 }],
+        "courses": ["84-011"]
+    },
+    {
+        "exams": [{ "name": "Government & Politics: Comparative", "score": 5 }],
+        "courses": ["84-011"]
+    },
+    {
+        "exams": [{ "name": "Government & Politics: US", "score": 4 }],
+        "courses": ["84-012"]
+    },
+    {
+        "exams": [{ "name": "Government & Politics: US", "score": 5 }],
+        "courses": ["84-012"]
+    },
+    {
+        "exams": [{ "name": "Human Geography", "score": 4 }],
+        "courses": ["66-011"]
+    },
+    {
+        "exams": [{ "name": "Human Geography", "score": 5 }],
+        "courses": ["66-011"]
+    },
+    {
+        "exams": [{ "name": "Italian Language & Culture", "score": 4 }],
+        "courses": ["82-017"]
+    },
+    {
+        "exams": [{ "name": "Italian Language & Culture", "score": 5 }],
+        "courses": ["82-018"]
+    },
+    {
+        "exams": [{ "name": "Japanese Language & Culture", "score": 4 }],
+        "courses": ["82-019"]
+    },
+    {
+        "exams": [{ "name": "Japanese Language & Culture", "score": 5 }],
+        "courses": ["82-020"]
+    },
+    { "exams": [{ "name": "Latin", "score": 4 }], "courses": ["66-019"] },
+    {
+        "exams": [{ "name": "Latin", "score": 5 }],
+        "courses": ["66-019", "66-020"]
+    },
+    {
+        "exams": [{ "name": "Music Theory", "score": 4 }],
+        "courses": ["57-012"]
+    },
+    {
+        "exams": [{ "name": "Music Theory", "score": 5 }],
+        "courses": ["57-012"]
+    },
+    {
+        "exams": [
+            { "name": "Physics C - Electricity and Magnetism", "score": 5 }
+        ],
+        "courses": ["33-142"]
+    },
+    {
+        "exams": [{ "name": "Physics C - Mechanics", "score": 5 }],
+        "courses": ["33-141"]
+    },
+    { "exams": [{ "name": "Psychology", "score": 4 }], "courses": ["85-011"] },
+    { "exams": [{ "name": "Psychology", "score": 5 }], "courses": ["85-011"] },
+    {
+        "exams": [{ "name": "Social & Cultural Anthropology", "score": 4 }],
+        "courses": ["79-016"]
+    },
+    {
+        "exams": [{ "name": "Social & Cultural Anthropology", "score": 5 }],
+        "courses": ["79-016"]
+    },
+    {
+        "exams": [{ "name": "Spanish Language", "score": 4 }],
+        "courses": ["82-021"]
+    },
+    {
+        "exams": [{ "name": "Spanish Language", "score": 5 }],
+        "courses": ["82-022"]
+    },
+    {
+        "exams": [{ "name": "Spanish Literature & Culture", "score": 4 }],
+        "courses": ["82-023"]
+    },
+    {
+        "exams": [{ "name": "Spanish Literature & Culture", "score": 5 }],
+        "courses": ["82-024"]
+    },
+    {
+        "exams": [
+            { "name": "Spanish Language", "score": 5 },
+            { "name": "Spanish Literature & Culture", "score": 5 }
+        ],
+        "courses": ["82-022", "82-341"]
+    },
+    { "exams": [{ "name": "Statistics", "score": 5 }], "courses": ["36-200"] },
+    {
+        "exams": [{ "name": "United States History", "score": 5 }],
+        "courses": ["79-012"]
+    },
+    {
+        "exams": [{ "name": "World History: Modern", "score": 5 }],
+        "courses": ["79-015"]
+    }
+]
