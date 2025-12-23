@@ -1,17 +1,17 @@
 import {
     ActionRowBuilder,
-    type APIEmbed,
     ButtonBuilder,
     ButtonStyle,
     CommandInteraction,
     ComponentType,
+    EmbedBuilder,
 } from "discord.js";
 
 export class EmbedPaginator {
-    pages: APIEmbed[];
+    pages: EmbedBuilder[];
     current = 0;
 
-    constructor(pages: APIEmbed[]) {
+    constructor(pages: EmbedBuilder[]) {
         if (pages.length == 0) {
             throw new Error("No embed pages provided");
         }
@@ -51,7 +51,7 @@ export class EmbedPaginator {
         );
     }
 
-    private async send(interaction: CommandInteraction) {
+    public async send(interaction: CommandInteraction) {
         const row = this.buildButtons();
 
         await interaction.reply({
