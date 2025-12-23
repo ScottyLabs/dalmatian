@@ -13,6 +13,7 @@ import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
+import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 
 type Session = {
     term: string;
@@ -280,39 +281,31 @@ const command: SlashCommand = {
 
             if (unlockCourses.length === 0) {
                 return interaction.reply({
-                    content: `No courses found that are unlocked by ${courseString}.`,
+                    content: `No courses found that have the prerequisite ${courseString}.`,
                     flags: MessageFlags.Ephemeral,
                 });
             }
 
-            // search up to 4096 characters for Discord embed limit
-            // TODO: refactor later there's no way this is the most efficient way
-            const chunk: { id: string; name: string }[] = [];
-            let charCount = 0;
-
-            while (
-                unlockCourses.length > 0 &&
-                charCount +
-                    unlockCourses[0]!.id.length + // calculates length of this course entry
-                    unlockCourses[0]!.name.length +
-                    4 <
-                    4000 // buffer for formatting
-            ) {
-                const course = unlockCourses.shift()!;
-                chunk.push(course);
-                charCount += course.id.length + course.name.length + 7;
+            const embeds = [];
+            let chunk = [];
+            while (unlockCourses.length > 0) {
+                chunk.push(unlockCourses.shift());
+                if (chunk.length >= 20 || unlockCourses.length == 0) {
+                    const description = chunk
+                        .map((course) => `${bold(course!.id)}: ${course!.name}`)
+                        .join("\n");
+                    const embed = new EmbedBuilder()
+                        .setTitle(
+                            `Courses with the prerequisite ${underline(courseString)}`,
+                        )
+                        .setDescription(description);
+                    embeds.push(embed);
+                    chunk = [];
+                }
             }
 
-            const embed = new EmbedBuilder()
-                .setTitle(`Courses unlocked by ${courseString}`)
-                .setDescription(
-                    chunk
-                        .map((course) => `**${course.id}**: ${course.name}`)
-                        .join("\n") +
-                        (unlockCourses.length > 0 ? "\n... more courses" : ""),
-                );
-
-            return interaction.reply({ embeds: [embed] });
+            const paginator = new EmbedPaginator(embeds);
+            paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "course-info") {
             const courseCode = formatCourseNumber(
