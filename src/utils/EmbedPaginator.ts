@@ -52,11 +52,9 @@ export class EmbedPaginator {
     }
 
     public async send(interaction: CommandInteraction) {
-        const row = this.buildButtons();
-
         await interaction.reply({
             embeds: [this.pages[this.current]!],
-            components: [row],
+            components: [this.buildButtons()],
         });
 
         const message = await interaction.fetchReply();
@@ -84,7 +82,7 @@ export class EmbedPaginator {
 
             await btnInteraction.update({
                 embeds: [this.pages[this.current]!],
-                components: [row],
+                components: [this.buildButtons()],
             });
         });
 
