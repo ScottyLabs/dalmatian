@@ -329,6 +329,7 @@ const command: SlashCommand = {
                 const embeds = [formatLocation(matchedLocations[0])];
                 const paginator = new EmbedPaginator(embeds);
                 paginator.send(interaction);
+                return;
             }
 
             const embeds = formatLocations(
