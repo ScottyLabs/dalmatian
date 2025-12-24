@@ -294,7 +294,12 @@ const command: SlashCommand = {
                 chunk.push(unlockCourses.shift());
                 if (chunk.length >= 20 || unlockCourses.length == 0) {
                     const description = chunk
-                        .map((course) => `${bold(course!.id)}: ${course!.name}`)
+                        .map((course) =>
+                            hyperlink(
+                                `${bold(course!.id)}: ${course!.name}`,
+                                `${SCOTTYLABS_URL}/course/${course!.id}`,
+                            ),
+                        )
                         .join("\n");
                     const embed = new EmbedBuilder()
                         .setTitle(
