@@ -494,12 +494,36 @@ const command: SlashCommand = {
                 const paginator = new EmbedPaginator(embeds);
                 paginator.send(interaction);
             } else {
+                function formatLine(
+                    workload: number,
+                    text: string,
+                    total = false,
+                ) {
+                    let left = `${bold(workload.toFixed(1))} hrs/wk`;
+                    let right = text;
+                    if (total) {
+                        left = underline(left);
+                        right = underline(right);
+                    }
+                    if (workload.toFixed(1).length == 3) {
+                        return left + " — " + right; // em dash
+                    }
+                    return left + " - " + right;
+                }
+
                 let description = "";
                 let totalUnits = 0;
 
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
-                    description += `${hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`)} = ${bold(`${fce.hrsPerWeek.toFixed(1)} hrs/wk`)}\n`;
+                    description +=
+                        formatLine(
+                            fce.hrsPerWeek,
+                            hyperlink(
+                                `${bold(code)} (${courseName})`,
+                                `${SCOTTYLABS_URL}/course/${code}`,
+                            ),
+                        ) + "\n";
                     totalUnits += Number(course.units);
                 }
 
@@ -520,7 +544,7 @@ const command: SlashCommand = {
                     totalHours += miniAvg;
                 }
 
-                description += `Total FCE = ${bold(`${totalHours.toFixed(1)} hrs/wk`)} (${totalUnits} units)`;
+                description += formatLine(totalHours, bold("Total FCE"), true);
                 if (fywMinis.length == 2) {
                     description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
                 }
@@ -529,7 +553,9 @@ const command: SlashCommand = {
                 }
 
                 const embed = new EmbedBuilder()
-                    .setTitle(`FCE for ${validCourses.length} Courses`)
+                    .setTitle(
+                        `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)} units)`,
+                    )
                     .setDescription(description);
 
                 return interaction.reply({ embeds: [embed] });
