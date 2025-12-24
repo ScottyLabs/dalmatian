@@ -271,14 +271,14 @@ const command: SlashCommand = {
         const locations = await getLocations();
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand == "all") {
+        if (subcommand === "all") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
             );
             return new EmbedPaginator(embeds).send(interaction);
         }
 
-        if (subcommand == "open") {
+        if (subcommand === "open") {
             const now = getCurrentTime();
             const openLocations = locations.filter((loc) => isOpen(loc, now));
             const embeds = formatLocations(
@@ -287,7 +287,7 @@ const command: SlashCommand = {
             return new EmbedPaginator(embeds).send(interaction);
         }
 
-        if (subcommand == "search") {
+        if (subcommand === "search") {
             const query =
                 interaction.options.getString("name")?.toLowerCase() ?? null;
             const building =
@@ -336,7 +336,7 @@ const command: SlashCommand = {
 
         let choices: { name: string; value: string }[] = [];
 
-        if (focusedOption.name == "name") {
+        if (focusedOption.name === "name") {
             choices = search(focusedValue, locations, {
                 // ignoreCase is true by default
                 keySelector: (loc) => loc.name,

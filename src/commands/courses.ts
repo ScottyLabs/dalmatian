@@ -458,7 +458,7 @@ const command: SlashCommand = {
                         });
                     }
                     const stats = instructorMap.get(instructor)!;
-                    if (stats.lastTaught == lastTaught) {
+                    if (stats.lastTaught === lastTaught) {
                         stats.teachingRate += record.overallTeachingRate;
                         stats.courseRate += record.overallCourseRate;
                         stats.workload += record.hrsPerWeek;
