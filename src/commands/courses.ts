@@ -110,9 +110,6 @@ function loadFCEData(): Record<string, FCEData> {
         const year = parseInt(record["Year"] ?? "0");
         if (!dept || !num) continue;
 
-        // Skip summer semesters
-        if (semester && semester.toLowerCase().includes("summer")) continue;
-
         // Only consider FCEs from the past 5 years
         if (year < cutoffYear) continue;
 
@@ -162,11 +159,13 @@ function loadFCEData(): Record<string, FCEData> {
             responseRate,
         });
 
-        fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
-        fceMap[formattedCode].overallCourseRate += overallCourseRate;
-        fceMap[formattedCode].hrsPerWeek += hrsPerWeek;
-        fceMap[formattedCode].responseRate += responseRate;
-        fceMap[formattedCode].count++;
+        if (semester && !semester.toLowerCase().includes("summer")) {
+            fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
+            fceMap[formattedCode].overallCourseRate += overallCourseRate;
+            fceMap[formattedCode].hrsPerWeek += hrsPerWeek;
+            fceMap[formattedCode].responseRate += responseRate;
+            fceMap[formattedCode].count++;
+        }
     }
 
     for (const courseCode in fceMap) {
@@ -470,7 +469,7 @@ const command: SlashCommand = {
 
                 const embeds = [];
                 let chunk = [
-                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years)"))}\n` +
+                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years, excluding summer)"))}\n` +
                         `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
                         `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
                         `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
