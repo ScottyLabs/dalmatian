@@ -347,14 +347,18 @@ const command: SlashCommand = {
 
         let choices: { name: string; value: string }[] = [];
 
-        if (focusedOption.name === "name") {
-            choices = search(focusedValue, locations, {
-                // ignoreCase is true by default
-                keySelector: (loc) => loc.name,
-            })
-                .slice(0, 25)
-                .map((loc) => ({ name: loc.name, value: loc.name }));
-        } else if (focusedOption.name === "building") {
+        if (focusedOption.name == "name") {
+            const filteredChoices =
+                focusedValue == ""
+                    ? locations
+                    : search(focusedValue, locations, {
+                          keySelector: (loc) => loc.name,
+                      });
+            choices = filteredChoices.slice(0, 25).map((loc) => ({
+                name: loc.name,
+                value: loc.name,
+            }));
+        } else if (focusedOption.name == "building") {
             const buildingMap = new Map<string, string>();
             locations.forEach((loc) => {
                 const buildingName = loc.location.split(",")[0]!.trim();
@@ -364,21 +368,24 @@ const command: SlashCommand = {
                 });
             });
 
-            const matchedKeys = search(
-                focusedValue,
-                Array.from(buildingMap.keys()),
-                {
-                    ignoreCase: true,
-                },
-            ).slice(0, 25);
+            const buildings = Array.from(buildingMap.keys());
 
-            const seen = new Set<string>();
-            choices = [];
-            for (const key of matchedKeys) {
-                const displayName = buildingMap.get(key)!;
-                if (!seen.has(displayName)) {
-                    choices.push({ name: displayName, value: displayName });
-                    seen.add(displayName);
+            if (focusedValue == "") {
+                choices = buildings.slice(0, 25).map((name) => ({
+                    name,
+                    value: name,
+                }));
+            } else {
+                const matchedKeys = search(focusedValue, buildings);
+
+                const seen = new Set<string>();
+                for (const key of matchedKeys) {
+                    const displayName = buildingMap.get(key)!;
+                    if (!seen.has(displayName)) {
+                        choices.push({ name: displayName, value: displayName });
+                        if (choices.length >= 25) break;
+                        seen.add(displayName);
+                    }
                 }
             }
         }
