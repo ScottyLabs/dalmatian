@@ -4,6 +4,7 @@ import diningLocationData from "../data/diningLocationData.json" with {
     type: "json",
 };
 import type { SlashCommand } from "../types.d.ts";
+import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 
 interface Time {
     day: number;
@@ -158,22 +159,17 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
             new EmbedBuilder()
                 .setTitle("Dining Locations")
                 .setDescription(
-                    "No dining locations matching search currently open.",
+                    "No dining locations matching the search query currently open.",
                 ),
         ];
     }
-    // embed field limit is 25, new embed for every 25
     const embeds = [];
-    let currentEmbed = new EmbedBuilder()
-        .setTitle("Dining Locations")
-        .setDescription(
-            "Here are the current dining locations matching search:",
-        );
+    let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
 
     for (const location of locations) {
-        if ((currentEmbed.data.fields?.length ?? 0) >= 25) {
+        if ((currentEmbed.data.fields?.length ?? 0) >= 5) {
             embeds.push(currentEmbed);
-            currentEmbed = new EmbedBuilder();
+            currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
         }
 
         const now: Time = {
@@ -269,11 +265,11 @@ const command: SlashCommand = {
         const locations = await getLocations();
 
         if (interaction.options.getSubcommand() === "all") {
-            return interaction.reply({
-                embeds: formatLocations(
-                    locations.sort((a, b) => a.name.localeCompare(b.name)),
-                ),
-            });
+            const embeds = formatLocations(
+                locations.sort((a, b) => a.name.localeCompare(b.name)),
+            );
+            const paginator = new EmbedPaginator(embeds);
+            paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "open") {
             const rightNow: Time = {
@@ -286,11 +282,12 @@ const command: SlashCommand = {
                 isOpen(location, rightNow),
             );
 
-            return interaction.reply({
-                embeds: formatLocations(
-                    openLocations.sort((a, b) => a.name.localeCompare(b.name)),
-                ),
-            });
+            const embeds = formatLocations(
+                openLocations.sort((a, b) => a.name.localeCompare(b.name)),
+            );
+
+            const paginator = new EmbedPaginator(embeds);
+            paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "search") {
             const rawQuery = interaction.options.getString("name");
@@ -329,18 +326,16 @@ const command: SlashCommand = {
             }
 
             if (matchedLocations.length === 1) {
-                return interaction.reply({
-                    embeds: [formatLocation(matchedLocations[0])],
-                });
+                const embeds = [formatLocation(matchedLocations[0])];
+                const paginator = new EmbedPaginator(embeds);
+                paginator.send(interaction);
             }
 
-            return interaction.reply({
-                embeds: formatLocations(
-                    matchedLocations.sort((a, b) =>
-                        a.name.localeCompare(b.name),
-                    ),
-                ),
-            });
+            const embeds = formatLocations(
+                matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
+            );
+            const paginator = new EmbedPaginator(embeds);
+            paginator.send(interaction);
         }
     },
 
