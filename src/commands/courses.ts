@@ -478,8 +478,10 @@ const command: SlashCommand = {
                 ];
                 let i = 0;
                 for (const [instructor, stats] of instructorMap) {
+                    const name = instructor.toUpperCase();
+                    const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
                     chunk.push(
-                        `${bold(underline(instructor.toUpperCase()))} ${italic(`(${stats.lastTaught})`)}\n` +
+                        `${hyperlink(bold(underline(name)), url)} ${italic(`(${stats.lastTaught})`)}\n` +
                             `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                             `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                             `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
