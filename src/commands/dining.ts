@@ -193,13 +193,13 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
         return [
             new EmbedBuilder()
                 .setTitle("Dining Locations")
-                .setDescription("No dining locations found."),
+                .setDescription("No open dining locations found."),
         ];
     }
 
     if (locations.length == 1) {
         const now = getCurrentTime();
-        return locations.map((loc) => formatLocationEmbed(loc, now));
+        return [formatLocationEmbed(locations[0]!, now)];
     }
 
     const now = getCurrentTime();
