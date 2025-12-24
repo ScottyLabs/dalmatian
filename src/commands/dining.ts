@@ -220,7 +220,7 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
     let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
 
     for (const location of locations) {
-        if ((currentEmbed.data.fields?.length ?? 0) >= 5) {
+        if ((currentEmbed.data.fields?.length ?? 0) >= 6) {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
         }
