@@ -1,4 +1,9 @@
-import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
+import {
+    APIEmbedField,
+    EmbedBuilder,
+    MessageFlags,
+    SlashCommandBuilder,
+} from "discord.js";
 import { search } from "fast-fuzzy";
 import diningLocationData from "../data/diningLocationData.json" with {
     type: "json",
@@ -121,51 +126,48 @@ function getCurrentStatus(location: Location, now: Time): string {
         : "Closed";
 }
 
-function formatLocationEmbed(
-    location: Location,
-    now: Time,
-    detailed = false,
-): EmbedBuilder {
+function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
     const todaysHours = getTodaysHours(location, now);
     const currentStatus = getCurrentStatus(location, now);
     const isCurrentlyOpen = currentStatus !== "Closed";
 
-    if (detailed) {
-        const embed = new EmbedBuilder()
-            .setTitle(location.name)
-            .setDescription(location.description)
-            .addFields(
-                { name: "Location", value: location.location, inline: true },
-                {
-                    name: "Open Status",
-                    value: isCurrentlyOpen ? "Open now" : "Closed now",
-                    inline: true,
-                },
-                { name: "Today's Hours", value: todaysHours, inline: true },
-                {
-                    name: "Accepts Online Orders",
-                    value: location.acceptsOnlineOrders ? "Yes" : "No",
-                    inline: true,
-                },
-            )
-            .setURL(location.url);
+    const embed = new EmbedBuilder()
+        .setTitle(location.name)
+        .setDescription(location.description)
+        .addFields(
+            { name: "Location", value: location.location, inline: true },
+            {
+                name: "Open Status",
+                value: isCurrentlyOpen ? "Open now" : "Closed now",
+                inline: true,
+            },
+            { name: "Today's Hours", value: todaysHours, inline: true },
+            {
+                name: "Accepts Online Orders",
+                value: location.acceptsOnlineOrders ? "Yes" : "No",
+                inline: true,
+            },
+        )
+        .setURL(location.url);
 
-        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-        embed.setImage(mapUrl);
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+    embed.setImage(mapUrl);
 
-        return embed;
-    }
-
-    return new EmbedBuilder().addFields({
-        name: location.name,
-        value: `**Location:** ${location.location}\n**Open Status:** ${isCurrentlyOpen ? "Open now" : "Closed now"}\n**Today's Hours:** ${todaysHours}`,
-    });
+    return embed;
 }
 
-function formatLocations(
-    locations: Location[],
-    detailed = false,
-): EmbedBuilder[] {
+function formatLocationField(location: Location, now: Time): APIEmbedField {
+    const todaysHours = getTodaysHours(location, now);
+    const currentStatus = getCurrentStatus(location, now);
+    const isCurrentlyOpen = currentStatus !== "Closed";
+
+    return {
+        name: location.name,
+        value: `**Location:** ${location.location}\n**Open Status:** ${isCurrentlyOpen ? "Open now" : "Closed now"}\n**Today's Hours:** ${todaysHours}`,
+    };
+}
+
+function formatLocations(locations: Location[]): EmbedBuilder[] {
     if (locations.length === 0) {
         return [
             new EmbedBuilder()
@@ -174,9 +176,9 @@ function formatLocations(
         ];
     }
 
-    if (detailed) {
+    if (locations.length == 1) {
         const now = getCurrentTime();
-        return locations.map((loc) => formatLocationEmbed(loc, now, true));
+        return locations.map((loc) => formatLocationEmbed(loc, now));
     }
 
     const now = getCurrentTime();
@@ -188,8 +190,7 @@ function formatLocations(
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
         }
-        const field = formatLocationEmbed(location, now, false).data
-            .fields![0]!;
+        const field = formatLocationField(location, now);
         currentEmbed.addFields(field);
     }
 
@@ -288,7 +289,6 @@ const command: SlashCommand = {
 
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
-                matchedLocations.length == 1,
             );
             return new EmbedPaginator(embeds).send(interaction);
         }
