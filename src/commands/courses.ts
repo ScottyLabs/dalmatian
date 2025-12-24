@@ -334,6 +334,7 @@ const command: SlashCommand = {
                     bold(underline(`${course.id}: ${course.name}`)) +
                         ` (${course.units} units)`,
                 )
+                .setURL(`${SCOTTYLABS_URL}/course/${course.id}`)
                 .setDescription(`${bold(course.department)}\n ${course.desc}`)
                 .addFields(
                     {
