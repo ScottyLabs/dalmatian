@@ -108,40 +108,65 @@ function getTodaysHours(location: Location, now: Time): string {
         (time) => time.start.day === now.day,
     );
     return todaysTimes.length > 0
-        ? todaysTimes
-              .map((time) => formatTimeRange(time.start, time.end))
-              .join(", ")
-        : "Closed";
+        ? "Today's Hours: " +
+              todaysTimes
+                  .map((time) => formatTimeRange(time.start, time.end))
+                  .join(", ")
+        : "Closed today";
+}
+
+function timeToMinutes(time: Time): number {
+    return time.day * 24 * 60 + time.hour * 60 + time.minute;
+}
+
+function getMinutesBetween(from: Time, to: Time): number {
+    return timeToMinutes(to) - timeToMinutes(from);
 }
 
 function getCurrentStatus(location: Location, now: Time): string {
-    if (!isOpen(location, now)) return "Closed";
+    const currentlyOpen = isOpen(location, now);
 
-    const openNow = location.times.filter(
-        (time) =>
-            time.start.day === now.day && isBetween(now, time.start, time.end),
+    if (currentlyOpen) {
+        const openNow = location.times.find(
+            (time) =>
+                time.start.day === now.day &&
+                isBetween(now, time.start, time.end),
+        );
+        if (openNow) {
+            const minutesUntilClose = getMinutesBetween(now, openNow.end);
+            if (minutesUntilClose <= 60 && minutesUntilClose > 0) {
+                return ":warning:"; // Closing soon
+            }
+            return ":green_circle:"; // Open now
+        }
+    }
+
+    const todaysTimes = location.times.filter(
+        (time) => time.start.day === now.day,
     );
-    return openNow.length > 0
-        ? formatTimeRange(openNow[0]!.start, openNow[0]!.end)
-        : "Closed";
+    for (const time of todaysTimes) {
+        const minutesUntilOpen = getMinutesBetween(now, time.start);
+        if (minutesUntilOpen > 0 && minutesUntilOpen <= 60) {
+            return ":bell:"; // Opening soon
+        }
+    }
+    return ":no_entry:"; // Closed
+}
+
+function formatLocationTitle(location: Location, now: Time): string {
+    const todaysHours = getTodaysHours(location, now);
+    const status = getCurrentStatus(location, now);
+    const title = `${status} ${location.name} (${todaysHours})`;
+    // prevent exceeding the 256 char limit
+    return title.slice(0, 256);
 }
 
 function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
-    const todaysHours = getTodaysHours(location, now);
-    const currentStatus = getCurrentStatus(location, now);
-    const isCurrentlyOpen = currentStatus !== "Closed";
-
     const embed = new EmbedBuilder()
-        .setTitle(location.name)
+        .setTitle(formatLocationTitle(location, now))
         .setDescription(location.description)
         .addFields(
             { name: "Location", value: location.location, inline: true },
-            {
-                name: "Open Status",
-                value: isCurrentlyOpen ? "Open now" : "Closed now",
-                inline: true,
-            },
-            { name: "Today's Hours", value: todaysHours, inline: true },
             {
                 name: "Accepts Online Orders",
                 value: location.acceptsOnlineOrders ? "Yes" : "No",
@@ -157,13 +182,9 @@ function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
 }
 
 function formatLocationField(location: Location, now: Time): APIEmbedField {
-    const todaysHours = getTodaysHours(location, now);
-    const currentStatus = getCurrentStatus(location, now);
-    const isCurrentlyOpen = currentStatus !== "Closed";
-
     return {
-        name: location.name,
-        value: `**Location:** ${location.location}\n**Open Status:** ${isCurrentlyOpen ? "Open now" : "Closed now"}\n**Today's Hours:** ${todaysHours}`,
+        name: formatLocationTitle(location, now),
+        value: location.location,
     };
 }
 
