@@ -469,7 +469,7 @@ const command: SlashCommand = {
 
                 const embeds = [];
                 let chunk = [
-                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years, excluding summer)"))}\n` +
+                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years, excluding summers)"))}\n` +
                         `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
                         `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
                         `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
