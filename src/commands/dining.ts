@@ -79,91 +79,108 @@ function isOpen(location: Location, time: Time): boolean {
     return false;
 }
 
-function format12Hour(hour: number, minute: number) {
+function getCurrentTime(): Time {
+    return {
+        day: new Date().getDay(),
+        hour: new Date().getHours(),
+        minute: new Date().getMinutes(),
+    };
+}
+
+function format12Hour(hour: number, minute: number): string {
     const period = hour >= 12 ? "PM" : "AM";
     const h = hour % 12 === 0 ? 12 : hour % 12;
     const m = minute < 10 ? `0${minute}` : minute;
     return `${h}:${m} ${period}`;
 }
 
-function formatLocation(location: Location | undefined): EmbedBuilder {
-    if (!location) {
-        return new EmbedBuilder()
-            .setTitle("Dining Location Not Found")
-            .setDescription(
-                "The specified dining location could not be found.",
-            );
-    }
-
-    const now: Time = {
-        day: new Date().getDay(),
-        hour: new Date().getHours(),
-        minute: new Date().getMinutes(),
-    };
-
-    const nowOpenTimes = location.times.filter(({ start, end }) =>
-        isBetween(now, start, end),
-    );
-
-    const currentStatus =
-        nowOpenTimes.length > 0
-            ? nowOpenTimes
-                  .filter((time) => {
-                      return time.start.day == now.day && isOpen(location, now);
-                  })
-                  .map((time) => {
-                      return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
-                  })
-                  .join(", ")
-            : "closed";
-
-    const fullSchedule =
-        location.times
-            .filter((time) => {
-                return time.start.day == now.day;
-            })
-            .map((time) => {
-                return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
-            })
-            .join(", ") || "closed";
-
-    const embed = new EmbedBuilder()
-        .setTitle(location.name)
-        .setDescription(location.description)
-        .addFields(
-            { name: "Location", value: location.location },
-            {
-                name: "Open Status",
-                value: currentStatus === "closed" ? "Closed now" : `Open now`,
-            },
-            {
-                name: "Today's Hours",
-                value: fullSchedule,
-            },
-        )
-        .addFields({
-            name: "Accepts Online Orders",
-            value: location.acceptsOnlineOrders ? "Yes" : "No",
-        })
-        .setURL(location.url);
-
-    const url = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-    embed.setImage(url);
-
-    return embed;
+function formatTimeRange(start: Time, end: Time): string {
+    return `${format12Hour(start.hour, start.minute)} - ${format12Hour(end.hour, end.minute)}`;
 }
 
-function formatLocations(locations: Location[]): EmbedBuilder[] {
+function getTodaysHours(location: Location, now: Time): string {
+    const todaysTimes = location.times.filter(
+        (time) => time.start.day === now.day,
+    );
+    return todaysTimes.length > 0
+        ? todaysTimes
+              .map((time) => formatTimeRange(time.start, time.end))
+              .join(", ")
+        : "Closed";
+}
+
+function getCurrentStatus(location: Location, now: Time): string {
+    if (!isOpen(location, now)) return "Closed";
+
+    const openNow = location.times.filter(
+        (time) =>
+            time.start.day === now.day && isBetween(now, time.start, time.end),
+    );
+    return openNow.length > 0
+        ? formatTimeRange(openNow[0]!.start, openNow[0]!.end)
+        : "Closed";
+}
+
+function formatLocationEmbed(
+    location: Location,
+    now: Time,
+    detailed = false,
+): EmbedBuilder {
+    const todaysHours = getTodaysHours(location, now);
+    const currentStatus = getCurrentStatus(location, now);
+    const isCurrentlyOpen = currentStatus !== "Closed";
+
+    if (detailed) {
+        const embed = new EmbedBuilder()
+            .setTitle(location.name)
+            .setDescription(location.description)
+            .addFields(
+                { name: "Location", value: location.location, inline: true },
+                {
+                    name: "Open Status",
+                    value: isCurrentlyOpen ? "Open now" : "Closed now",
+                    inline: true,
+                },
+                { name: "Today's Hours", value: todaysHours, inline: true },
+                {
+                    name: "Accepts Online Orders",
+                    value: location.acceptsOnlineOrders ? "Yes" : "No",
+                    inline: true,
+                },
+            )
+            .setURL(location.url);
+
+        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+        embed.setImage(mapUrl);
+
+        return embed;
+    }
+
+    return new EmbedBuilder().addFields({
+        name: location.name,
+        value: `**Location:** ${location.location}\n**Open Status:** ${isCurrentlyOpen ? "Open now" : "Closed now"}\n**Today's Hours:** ${todaysHours}`,
+    });
+}
+
+function formatLocations(
+    locations: Location[],
+    detailed = false,
+): EmbedBuilder[] {
     if (locations.length === 0) {
         return [
             new EmbedBuilder()
                 .setTitle("Dining Locations")
-                .setDescription(
-                    "No dining locations matching the search query currently open.",
-                ),
+                .setDescription("No dining locations found."),
         ];
     }
-    const embeds = [];
+
+    if (detailed) {
+        const now = getCurrentTime();
+        return locations.map((loc) => formatLocationEmbed(loc, now, true));
+    }
+
+    const now = getCurrentTime();
+    const embeds: EmbedBuilder[] = [];
     let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
 
     for (const location of locations) {
@@ -171,55 +188,9 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
         }
-
-        const now: Time = {
-            day: new Date().getDay(),
-            hour: new Date().getHours(),
-            minute: new Date().getMinutes(),
-        };
-
-        const nowOpenTimes = location.times.filter(({ start, end }) =>
-            isBetween(now, start, end),
-        );
-
-        const currentStatus =
-            nowOpenTimes.length > 0
-                ? nowOpenTimes
-                      .filter((time) => {
-                          return (
-                              time.start.day == now.day && isOpen(location, now)
-                          );
-                      })
-                      .map(
-                          (time) =>
-                              `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
-                                  time.end.hour,
-                                  time.end.minute,
-                              )}`,
-                      )
-                      .join(", ")
-                : "closed";
-
-        const fullSchedule =
-            location.times
-                .filter((time) => {
-                    return time.start.day == now.day;
-                })
-                .map(
-                    (time) =>
-                        `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
-                            time.end.hour,
-                            time.end.minute,
-                        )}`,
-                )
-                .join(", ") || "Closed";
-
-        currentEmbed.addFields({
-            name: location.name,
-            value: `**Location:** ${location.location}
-                    **Open Status:** ${currentStatus === "closed" ? "Closed now" : "Open now"}
-                    **Today's Hours:** ${fullSchedule}`,
-        });
+        const field = formatLocationEmbed(location, now, false).data
+            .fields![0]!;
+        currentEmbed.addFields(field);
     }
 
     embeds.push(currentEmbed);
@@ -263,38 +234,30 @@ const command: SlashCommand = {
         ),
     async execute(interaction) {
         const locations = await getLocations();
+        const subcommand = interaction.options.getSubcommand();
 
-        if (interaction.options.getSubcommand() === "all") {
+        if (subcommand == "all") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return new EmbedPaginator(embeds).send(interaction);
         }
-        if (interaction.options.getSubcommand() === "open") {
-            const rightNow: Time = {
-                day: new Date().getDay(),
-                hour: new Date().getHours(),
-                minute: new Date().getMinutes(),
-            };
 
-            const openLocations = locations.filter((location) =>
-                isOpen(location, rightNow),
-            );
-
+        if (subcommand == "open") {
+            const now = getCurrentTime();
+            const openLocations = locations.filter((loc) => isOpen(loc, now));
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-
-            const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return new EmbedPaginator(embeds).send(interaction);
         }
-        if (interaction.options.getSubcommand() === "search") {
-            const rawQuery = interaction.options.getString("name");
-            const query = rawQuery?.toLowerCase() ?? null;
 
-            const rawBuilding = interaction.options.getString("building");
-            const building = rawBuilding?.toLowerCase() ?? null;
+        if (subcommand == "search") {
+            const query =
+                interaction.options.getString("name")?.toLowerCase() ?? null;
+            const building =
+                interaction.options.getString("building")?.toLowerCase() ??
+                null;
 
             if (!building && !query) {
                 return interaction.reply({
@@ -307,14 +270,12 @@ const command: SlashCommand = {
                 const nameMatches = query
                     ? location.name.toLowerCase().includes(query)
                     : true;
-
                 const buildingMatches = building
                     ? search(building, [
                           location.location,
                           ...(location.locAliases ?? []),
                       ]).length > 0
                     : true;
-
                 return nameMatches && buildingMatches;
             });
 
@@ -325,17 +286,11 @@ const command: SlashCommand = {
                 });
             }
 
-            if (matchedLocations.length === 1) {
-                const embeds = [formatLocation(matchedLocations[0])];
-                const paginator = new EmbedPaginator(embeds);
-                paginator.send(interaction);
-            }
-
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
+                matchedLocations.length == 1,
             );
-            const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return new EmbedPaginator(embeds).send(interaction);
         }
     },
 
@@ -347,7 +302,7 @@ const command: SlashCommand = {
 
         let choices: { name: string; value: string }[] = [];
 
-        if (focusedOption.name === "name") {
+        if (focusedOption.name == "name") {
             choices = search(focusedValue, locations, {
                 // ignoreCase is true by default
                 keySelector: (loc) => loc.name,
