@@ -5,6 +5,7 @@ import {
     bold,
     EmbedBuilder,
     hyperlink,
+    italic,
     MessageFlags,
     SlashCommandBuilder,
     underline,
@@ -55,6 +56,7 @@ type FCERecord = {
     hrsPerWeek: number;
     overallTeachingRate: number;
     overallCourseRate: number;
+    responseRate: number;
 };
 
 function loadCoursesData(): Record<string, Course> {
@@ -157,6 +159,7 @@ function loadFCEData(): Record<string, FCEData> {
             hrsPerWeek,
             overallTeachingRate,
             overallCourseRate,
+            responseRate,
         });
 
         fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
@@ -458,6 +461,7 @@ const command: SlashCommand = {
                     stats.teachingRate += record.overallTeachingRate;
                     stats.courseRate += record.overallCourseRate;
                     stats.workload += record.hrsPerWeek;
+                    stats.responseRate += record.responseRate;
                     stats.count++;
                 }
 
@@ -472,18 +476,18 @@ const command: SlashCommand = {
                 let i = 0;
                 for (const [instructor, stats] of instructorMap) {
                     chunk.push(
-                        `${bold(underline(instructor.toUpperCase()))}\n` +
+                        `${bold(underline(instructor.toUpperCase()))} ${italic(`(Last taught in ${stats.lastTaught})`)}\n` +
                             `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                             `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                             `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
-                            `Last taught in ${stats.lastTaught}`,
+                            `Response Rate: ${bold(`${(stats.responseRate / stats.count).toFixed(1)}%`)}`,
                     );
                     i++;
                     if (chunk.length >= 5 || i == instructorMap.size) {
                         const description = chunk.join("\n\n");
                         const embed = new EmbedBuilder()
                             .setTitle(
-                                `${code}: ${course.name} (${course.units} units)`,
+                                `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
                             )
                             .setURL(`${SCOTTYLABS_URL}/course/${code}`)
                             .setDescription(description);
