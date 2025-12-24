@@ -108,10 +108,9 @@ function getTodaysHours(location: Location, now: Time): string {
         (time) => time.start.day === now.day,
     );
     return todaysTimes.length > 0
-        ? "Today's Hours: " +
-              todaysTimes
-                  .map((time) => formatTimeRange(time.start, time.end))
-                  .join(", ")
+        ? todaysTimes
+              .map((time) => formatTimeRange(time.start, time.end))
+              .join(", ")
         : "Closed today";
 }
 
@@ -123,7 +122,10 @@ function getMinutesBetween(from: Time, to: Time): number {
     return timeToMinutes(to) - timeToMinutes(from);
 }
 
-function getCurrentStatus(location: Location, now: Time): string {
+function getCurrentStatus(
+    location: Location,
+    now: Time,
+): { emoji: string; message: string } {
     const currentlyOpen = isOpen(location, now);
 
     if (currentlyOpen) {
@@ -135,9 +137,12 @@ function getCurrentStatus(location: Location, now: Time): string {
         if (openNow) {
             const minutesUntilClose = getMinutesBetween(now, openNow.end);
             if (minutesUntilClose <= 60 && minutesUntilClose > 0) {
-                return ":warning:"; // Closing soon
+                return {
+                    emoji: ":warning:",
+                    message: `Closing in ${minutesUntilClose} mins`,
+                };
             }
-            return ":green_circle:"; // Open now
+            return { emoji: ":green_circle:", message: "Open" };
         }
     }
 
@@ -147,16 +152,18 @@ function getCurrentStatus(location: Location, now: Time): string {
     for (const time of todaysTimes) {
         const minutesUntilOpen = getMinutesBetween(now, time.start);
         if (minutesUntilOpen > 0 && minutesUntilOpen <= 60) {
-            return ":bell:"; // Opening soon
+            return {
+                emoji: ":bell:",
+                message: `Opening in ${minutesUntilOpen} mins`,
+            };
         }
     }
-    return ":no_entry:"; // Closed
+    return { emoji: ":no_entry:", message: "Closed" };
 }
 
 function formatLocationTitle(location: Location, now: Time): string {
-    const todaysHours = getTodaysHours(location, now);
     const status = getCurrentStatus(location, now);
-    const title = `${status} ${location.name} (${todaysHours})`;
+    const title = `${status.emoji} ${location.name} (${status.message})`;
     // prevent exceeding the 256 char limit
     return title.slice(0, 256);
 }
@@ -167,6 +174,11 @@ function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
         .setDescription(location.description)
         .addFields(
             { name: "Location", value: location.location, inline: true },
+            {
+                name: "Today's Hours",
+                value: getTodaysHours(location, now),
+                inline: true,
+            },
             {
                 name: "Accepts Online Orders",
                 value: location.acceptsOnlineOrders ? "Yes" : "No",
@@ -182,9 +194,10 @@ function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
 }
 
 function formatLocationField(location: Location, now: Time): APIEmbedField {
+    const todaysHours = getTodaysHours(location, now);
     return {
         name: formatLocationTitle(location, now),
-        value: location.location,
+        value: `${location.location} • ${todaysHours}`,
     };
 }
 
