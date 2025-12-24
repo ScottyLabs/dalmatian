@@ -468,13 +468,21 @@ const command: SlashCommand = {
                 }
 
                 const embeds = [];
-                let chunk = [
+                let chunk = [];
+
+                if (notFound.length > 0) {
+                    chunk.push(
+                        `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
+                    );
+                }
+
+                chunk.push(
                     `:pushpin: ${bold(underline("Aggregate Data (past 5 years, excluding summers)"))}\n` +
                         `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
                         `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
                         `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
                         `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
-                ];
+                );
                 let i = 0;
                 for (const [instructor, stats] of instructorMap) {
                     const name = instructor.toUpperCase();
