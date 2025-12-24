@@ -52,6 +52,13 @@ export class EmbedPaginator {
     }
 
     public async send(interaction: CommandInteraction) {
+        if (this.pages.length == 1) {
+            await interaction.reply({
+                embeds: [this.pages[0]!],
+            });
+            return;
+        }
+
         await interaction.reply({
             embeds: [this.pages[this.current]!],
             components: [this.buildButtons()],
