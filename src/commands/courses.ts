@@ -447,6 +447,7 @@ const command: SlashCommand = {
 
                 for (const record of fce.records) {
                     const instructor = record.instructor;
+                    const lastTaught = `${record.semester} ${record.year}`;
                     if (!instructorMap.has(instructor)) {
                         instructorMap.set(instructor, {
                             teachingRate: 0,
@@ -454,15 +455,17 @@ const command: SlashCommand = {
                             workload: 0,
                             responseRate: 0,
                             count: 0,
-                            lastTaught: `${record.semester} ${record.year}`,
+                            lastTaught,
                         });
                     }
                     const stats = instructorMap.get(instructor)!;
-                    stats.teachingRate += record.overallTeachingRate;
-                    stats.courseRate += record.overallCourseRate;
-                    stats.workload += record.hrsPerWeek;
-                    stats.responseRate += record.responseRate;
-                    stats.count++;
+                    if (stats.lastTaught == lastTaught) {
+                        stats.teachingRate += record.overallTeachingRate;
+                        stats.courseRate += record.overallCourseRate;
+                        stats.workload += record.hrsPerWeek;
+                        stats.responseRate += record.responseRate;
+                        stats.count++;
+                    }
                 }
 
                 const embeds = [];
@@ -476,7 +479,7 @@ const command: SlashCommand = {
                 let i = 0;
                 for (const [instructor, stats] of instructorMap) {
                     chunk.push(
-                        `${bold(underline(instructor.toUpperCase()))} ${italic(`(Last taught in ${stats.lastTaught})`)}\n` +
+                        `${bold(underline(instructor.toUpperCase()))} ${italic(`(${stats.lastTaught})`)}\n` +
                             `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                             `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                             `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
