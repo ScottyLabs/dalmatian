@@ -364,9 +364,9 @@ const command: SlashCommand = {
                 });
             }
 
-            if (rawCodes.length > 10) {
+            if (rawCodes.length > 20) {
                 return interaction.reply({
-                    content: "Please provide no more than 10 courses at once.",
+                    content: "Please provide no more than 20 courses at once.",
                     flags: MessageFlags.Ephemeral,
                 });
             }
