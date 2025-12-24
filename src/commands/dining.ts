@@ -370,25 +370,14 @@ const command: SlashCommand = {
             });
 
             const buildings = Array.from(buildingMap.keys());
-
-            if (focusedValue == "") {
-                choices = buildings.slice(0, 25).map((name) => ({
-                    name,
-                    value: name,
-                }));
-            } else {
-                const matchedKeys = search(focusedValue, buildings);
-
-                const seen = new Set<string>();
-                for (const key of matchedKeys) {
-                    const displayName = buildingMap.get(key)!;
-                    if (!seen.has(displayName)) {
-                        choices.push({ name: displayName, value: displayName });
-                        if (choices.length >= 25) break;
-                        seen.add(displayName);
-                    }
-                }
-            }
+            const filteredChoices =
+                focusedValue == ""
+                    ? buildings
+                    : search(focusedValue, buildings);
+            choices = filteredChoices.slice(0, 25).map((name) => ({
+                name,
+                value: buildingMap.get(name)!,
+            }));
         }
 
         await interaction.respond(choices);
