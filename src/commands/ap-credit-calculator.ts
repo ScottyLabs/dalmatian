@@ -1,73 +1,96 @@
-import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    EmbedBuilder,
-    MessageFlags,
-    ModalBuilder,
-    SlashCommandBuilder,
-    StringSelectMenuBuilder,
-    StringSelectMenuOptionBuilder,
-} from "discord.js";
-import apAliases from "../data/ap-aliases.json" with { type: "json" };
+import { SlashCommandBuilder } from "discord.js";
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
-
+import CoursesData from "../data/courses.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
+import {
+    type SetupField,
+    SetupForm,
+    type SetupSchema,
+} from "../utils/creditCalculatorForm.ts";
 
-type Exam = {
-    name: string;
-    aliases: string[];
-    scores: {
-        score: number;
-        courses: string[];
-    }[];
-};
+// from courses.ts ----------------------------------------------------------
+function loadCoursesData(): Record<string, Course> {
+    return CoursesData as Record<string, Course>;
+}
 
-type AliasEntry = {
-    name: string;
-    aliases: string[];
-};
-
-function buildAliasMap(apAliases: AliasEntry[][]): Map<string, string[]> {
-    const map = new Map<string, string[]>();
-
-    for (const group of apAliases) {
-        for (const entry of group) {
-            map.set(entry.name, entry.aliases);
+function formatCourseNumber(courseNumber: string): string | null {
+    if (courseNumber.match(/^\d{2}-?\d{3}$/)) {
+        if (courseNumber.includes("-")) {
+            return courseNumber;
+        } else {
+            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}`;
         }
     }
 
-    return map;
+    return null;
+}
+// --------------------------------------------------------------------------
+
+type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
+
+type Course = {
+    id: string;
+    name: string;
+};
+
+type Exam = {
+    name: string;
+    subject: "STEM" | "Arts" | "Humanities" | "N/A";
+    school?: School[];
+    info: string;
+    scores: {
+        score: number;
+        courses: Course[];
+    }[];
+};
+
+function normalizeSchool(
+    school: string | string[] | undefined,
+): School[] | undefined {
+    if (!school) return undefined;
+
+    const schools = Array.isArray(school) ? school : [school];
+
+    return schools.filter(
+        (s): s is School =>
+            s === "DC" ||
+            s === "CIT" ||
+            s === "SCS" ||
+            s === "TEP" ||
+            s === "MCS" ||
+            s === "CFA",
+    );
 }
 
 async function loadApCreditData(): Promise<Exam[]> {
     const exams: Exam[] = [];
-    const aliasMap = buildAliasMap(apAliases);
+    const courseMap = loadCoursesData(); // map course numbers to Course objects
 
     for (const entry of apCreditData) {
         for (const exam of entry.exams) {
-            let examObj = exams.find((e) => e.name === exam.name);
+            const examObj: Exam = {
+                name: exam.name,
+                subject: entry.subject as
+                    | "STEM"
+                    | "Arts"
+                    | "Humanities"
+                    | "N/A",
+                school: normalizeSchool(entry.school),
+                info: entry.info as string,
+                scores: [
+                    {
+                        score: exam.score,
+                        courses: entry.courses
+                            .map((c) => {
+                                const id = formatCourseNumber(c);
+                                return id ? courseMap[id] : null;
+                            })
+                            .filter((c): c is Course => c !== null),
+                    },
+                ],
+            };
 
-            if (!examObj) {
-                examObj = {
-                    name: exam.name,
-                    aliases: aliasMap.get(exam.name) ?? [],
-                    scores: [],
-                };
-                exams.push(examObj);
-            }
-
-            let scoreObj = examObj.scores.find((s) => s.score === exam.score);
-
-            if (!scoreObj) {
-                scoreObj = {
-                    score: exam.score,
-                    courses: [],
-                };
-                examObj.scores.push(scoreObj);
-            }
-
-            scoreObj.courses.push(...entry.courses);
+            exams.push(examObj);
         }
     }
 
@@ -87,48 +110,137 @@ const command: SlashCommand = {
         ),
 
     async execute(interaction) {
-        let APrecord = await loadApCreditData();
-
         if (interaction.options.getSubcommand() === "ap") {
-            const embed0 = new EmbedBuilder()
-                .setTitle("AP Credit Calculator")
-                .setDescription("Use dropdowns to ");
+            const exams = await loadApCreditData();
 
-            const selectRow =
-                new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                    new StringSelectMenuBuilder()
-                        .setCustomId("ap_select")
-                        .setPlaceholder("Select AP exams")
-                        .setMinValues(1)
-                        .addOptions(
-                            { label: "Calculus AB", value: "Calculus AB" },
-                            { label: "Biology", value: "Biology" },
-                        ),
-                );
+            const stemExams = exams.filter((e) => e.subject === "STEM");
+            const artsExams = exams.filter((e) => e.subject === "Arts");
+            const humanitiesExams = exams.filter(
+                (e) => e.subject === "Humanities",
+            );
 
-            const buttonRow =
-                new ActionRowBuilder<ButtonBuilder>().addComponents(
-                    new ButtonBuilder()
-                        .setCustomId("prevPage")
-                        .setLabel("Previous")
-                        .setStyle(ButtonStyle.Secondary),
+            const stemExamsUnique = Array.from(
+                new Map(stemExams.map((e) => [e.name, e])).values(),
+            );
 
-                    new ButtonBuilder()
-                        .setCustomId("nextPage")
-                        .setLabel("Next")
-                        .setStyle(ButtonStyle.Secondary),
+            const artsExamsUnique = Array.from(
+                new Map(artsExams.map((e) => [e.name, e])).values(),
+            );
 
-                    new ButtonBuilder()
-                        .setCustomId("submit")
-                        .setLabel("Submit")
-                        .setStyle(ButtonStyle.Success),
-                );
+            const humanitiesExamsUnique = Array.from(
+                new Map(humanitiesExams.map((e) => [e.name, e])).values(),
+            );
 
-            interaction.reply({
-                embeds: [embed0],
-                components: [selectRow, buttonRow],
-                flags: MessageFlags.Ephemeral,
-            });
+            const fields: SetupField[] = [
+                {
+                    key: "stem",
+                    label: "STEM AP Exams",
+                    required: false,
+                    multiple: true,
+                    type: "string",
+                    options: stemExamsUnique.map((e) => ({
+                        label: e.name,
+                        value: e.name,
+                    })),
+                    modal: {
+                        title: "Enter AP Score",
+                        input: {
+                            key: "score",
+                            label: "Score (1–5)",
+                            min: 1,
+                            max: 5,
+                        },
+                    },
+                },
+                {
+                    key: "arts",
+                    label: "Arts AP Exams",
+                    required: false,
+                    multiple: true,
+                    type: "string",
+                    options: artsExamsUnique.map((e) => ({
+                        label: e.name,
+                        value: e.name,
+                    })),
+                    modal: {
+                        title: "Enter AP Score",
+                        input: {
+                            key: "score",
+                            label: "Score (1–5)",
+                            min: 1,
+                            max: 5,
+                        },
+                    },
+                },
+                {
+                    key: "humanities",
+                    label: "Humanities AP Exams",
+                    required: false,
+                    multiple: true,
+                    type: "string",
+                    options: humanitiesExamsUnique.map((e) => ({
+                        label: e.name,
+                        value: e.name,
+                    })),
+                    modal: {
+                        title: "Enter AP Score",
+                        input: {
+                            key: "score",
+                            label: "Score (1–5)",
+                            min: 1,
+                            max: 5,
+                        },
+                    },
+                },
+            ];
+
+            const apExamSetup: SetupSchema = {
+                name: "AP Credit Calculator",
+                fields,
+                onComplete: async (data) => {
+                    const awardedCourses: Course[] = [];
+
+                    for (const { examName, score } of data["stem"] ?? []) {
+                        const exam = exams.find((e) => e.name === examName);
+                        if (!exam) continue;
+
+                        const scoreEntry = exam.scores.find(
+                            (s) => s.score === score,
+                        );
+                        if (!scoreEntry) continue;
+
+                        awardedCourses.push(...scoreEntry.courses);
+                    }
+
+                    for (const { examName, score } of data["arts"] ?? []) {
+                        const exam = exams.find((e) => e.name === examName);
+                        if (!exam) continue;
+
+                        const scoreEntry = exam.scores.find(
+                            (s) => s.score === score,
+                        );
+                        if (!scoreEntry) continue;
+
+                        awardedCourses.push(...scoreEntry.courses);
+                    }
+
+                    for (const { examName, score } of data["humanities"] ??
+                        []) {
+                        const exam = exams.find((e) => e.name === examName);
+                        if (!exam) continue;
+
+                        const scoreEntry = exam.scores.find(
+                            (s) => s.score === score,
+                        );
+                        if (!scoreEntry) continue;
+
+                        awardedCourses.push(...scoreEntry.courses);
+                    }
+                },
+            };
+
+            const form = new SetupForm(apExamSetup, interaction);
+            await form.start();
         }
     },
 };

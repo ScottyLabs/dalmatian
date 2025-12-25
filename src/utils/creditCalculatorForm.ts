@@ -256,5 +256,9 @@ export class SetupForm {
         }
 
         await submit.deferUpdate();
+
+        await this.interaction.editReply({
+            components: this.buildFormComponents(),
+        });
     }
 }
