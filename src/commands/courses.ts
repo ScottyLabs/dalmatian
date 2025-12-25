@@ -5,6 +5,7 @@ import {
     bold,
     EmbedBuilder,
     hyperlink,
+    italic,
     MessageFlags,
     SlashCommandBuilder,
     underline,
@@ -55,6 +56,7 @@ type FCERecord = {
     hrsPerWeek: number;
     overallTeachingRate: number;
     overallCourseRate: number;
+    responseRate: number;
 };
 
 function loadCoursesData(): Record<string, Course> {
@@ -108,9 +110,6 @@ function loadFCEData(): Record<string, FCEData> {
         const year = parseInt(record["Year"] ?? "0");
         if (!dept || !num) continue;
 
-        // Skip summer semesters
-        if (semester && semester.toLowerCase().includes("summer")) continue;
-
         // Only consider FCEs from the past 5 years
         if (year < cutoffYear) continue;
 
@@ -157,13 +156,16 @@ function loadFCEData(): Record<string, FCEData> {
             hrsPerWeek,
             overallTeachingRate,
             overallCourseRate,
+            responseRate,
         });
 
-        fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
-        fceMap[formattedCode].overallCourseRate += overallCourseRate;
-        fceMap[formattedCode].hrsPerWeek += hrsPerWeek;
-        fceMap[formattedCode].responseRate += responseRate;
-        fceMap[formattedCode].count++;
+        if (semester && !semester.toLowerCase().includes("summer")) {
+            fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
+            fceMap[formattedCode].overallCourseRate += overallCourseRate;
+            fceMap[formattedCode].hrsPerWeek += hrsPerWeek;
+            fceMap[formattedCode].responseRate += responseRate;
+            fceMap[formattedCode].count++;
+        }
     }
 
     for (const courseCode in fceMap) {
@@ -292,7 +294,12 @@ const command: SlashCommand = {
                 chunk.push(unlockCourses.shift());
                 if (chunk.length >= 20 || unlockCourses.length == 0) {
                     const description = chunk
-                        .map((course) => `${bold(course!.id)}: ${course!.name}`)
+                        .map((course) =>
+                            hyperlink(
+                                `${bold(course!.id)}: ${course!.name}`,
+                                `${SCOTTYLABS_URL}/course/${course!.id}`,
+                            ),
+                        )
                         .join("\n");
                     const embed = new EmbedBuilder()
                         .setTitle(
@@ -334,6 +341,7 @@ const command: SlashCommand = {
                     bold(underline(`${course.id}: ${course.name}`)) +
                         ` (${course.units} units)`,
                 )
+                .setURL(`${SCOTTYLABS_URL}/course/${course.id}`)
                 .setDescription(`${bold(course.department)}\n ${course.desc}`)
                 .addFields(
                     {
@@ -364,9 +372,9 @@ const command: SlashCommand = {
                 });
             }
 
-            if (rawCodes.length > 10) {
+            if (rawCodes.length > 20) {
                 return interaction.reply({
-                    content: "Please provide no more than 10 courses at once.",
+                    content: "Please provide no more than 20 courses at once.",
                     flags: MessageFlags.Ephemeral,
                 });
             }
@@ -443,6 +451,7 @@ const command: SlashCommand = {
 
                 for (const record of fce.records) {
                     const instructor = record.instructor;
+                    const lastTaught = `${record.semester} ${record.year}`;
                     if (!instructorMap.has(instructor)) {
                         instructorMap.set(instructor, {
                             teachingRate: 0,
@@ -450,39 +459,52 @@ const command: SlashCommand = {
                             workload: 0,
                             responseRate: 0,
                             count: 0,
-                            lastTaught: `${record.semester} ${record.year}`,
+                            lastTaught,
                         });
                     }
                     const stats = instructorMap.get(instructor)!;
-                    stats.teachingRate += record.overallTeachingRate;
-                    stats.courseRate += record.overallCourseRate;
-                    stats.workload += record.hrsPerWeek;
-                    stats.count++;
+                    if (stats.lastTaught === lastTaught) {
+                        stats.teachingRate += record.overallTeachingRate;
+                        stats.courseRate += record.overallCourseRate;
+                        stats.workload += record.hrsPerWeek;
+                        stats.responseRate += record.responseRate;
+                        stats.count++;
+                    }
                 }
 
                 const embeds = [];
-                let chunk = [
-                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years)"))}\n` +
+                let chunk = [];
+
+                if (notFound.length > 0) {
+                    chunk.push(
+                        `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
+                    );
+                }
+
+                chunk.push(
+                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years, excluding summers)"))}\n` +
                         `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
                         `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
                         `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
                         `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
-                ];
+                );
                 let i = 0;
                 for (const [instructor, stats] of instructorMap) {
+                    const name = instructor.toUpperCase();
+                    const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
                     chunk.push(
-                        `${bold(underline(instructor.toUpperCase()))}\n` +
+                        `${hyperlink(bold(underline(name)), url)} ${italic(`(${stats.lastTaught})`)}\n` +
                             `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                             `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                             `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
-                            `Last taught in ${stats.lastTaught}`,
+                            `Response Rate: ${bold(`${(stats.responseRate / stats.count).toFixed(1)}%`)}`,
                     );
                     i++;
                     if (chunk.length >= 5 || i == instructorMap.size) {
                         const description = chunk.join("\n\n");
                         const embed = new EmbedBuilder()
                             .setTitle(
-                                `${code}: ${course.name} (${course.units} units)`,
+                                `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
                             )
                             .setURL(`${SCOTTYLABS_URL}/course/${code}`)
                             .setDescription(description);
@@ -494,12 +516,36 @@ const command: SlashCommand = {
                 const paginator = new EmbedPaginator(embeds);
                 paginator.send(interaction);
             } else {
+                function formatLine(
+                    workload: number,
+                    text: string,
+                    total = false,
+                ) {
+                    let left = `${bold(workload.toFixed(1))} hrs/wk`;
+                    let right = text;
+                    if (total) {
+                        left = underline(left);
+                        right = underline(right);
+                    }
+                    if (workload.toFixed(1).length == 3) {
+                        return left + " — " + right; // em dash
+                    }
+                    return left + " - " + right;
+                }
+
                 let description = "";
                 let totalUnits = 0;
 
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
-                    description += `${hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`)} = ${bold(`${fce.hrsPerWeek.toFixed(1)} hrs/wk`)}\n`;
+                    description +=
+                        formatLine(
+                            fce.hrsPerWeek,
+                            hyperlink(
+                                `${bold(code)} (${courseName})`,
+                                `${SCOTTYLABS_URL}/course/${code}`,
+                            ),
+                        ) + "\n";
                     totalUnits += Number(course.units);
                 }
 
@@ -520,7 +566,7 @@ const command: SlashCommand = {
                     totalHours += miniAvg;
                 }
 
-                description += `Total FCE = ${bold(`${totalHours.toFixed(1)} hrs/wk`)} (${totalUnits} units)`;
+                description += formatLine(totalHours, bold("Total FCE"), true);
                 if (fywMinis.length == 2) {
                     description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
                 }
@@ -529,7 +575,9 @@ const command: SlashCommand = {
                 }
 
                 const embed = new EmbedBuilder()
-                    .setTitle(`FCE for ${validCourses.length} Courses`)
+                    .setTitle(
+                        `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)} units)`,
+                    )
                     .setDescription(description);
 
                 return interaction.reply({ embeds: [embed] });

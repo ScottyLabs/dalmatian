@@ -1,13 +1,16 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import {
+    Client,
+    Collection,
+    EmbedBuilder,
+    GatewayIntentBits,
+} from "discord.js";
+import { DEFAULT_EMBED_COLOR } from "./constants.ts";
 import { runMigrations } from "./db/migrate.ts";
 import type { ContextCommand, SlashCommand } from "./types.d.ts";
 
 await runMigrations();
-
-const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
-    GatewayIntentBits;
 
 declare module "discord.js" {
     interface Client {
@@ -15,6 +18,9 @@ declare module "discord.js" {
         contextCommands: Collection<string, ContextCommand>;
     }
 }
+
+const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
+    GatewayIntentBits;
 
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
@@ -35,5 +41,13 @@ readdirSync(handlersDir).forEach(async (handler) => {
         console.error(`Failed to load handler ${handler}:`, err);
     }
 });
+
+const origToJSON = EmbedBuilder.prototype.toJSON;
+EmbedBuilder.prototype.toJSON = function () {
+    if (this.data.color == undefined) {
+        this.setColor(DEFAULT_EMBED_COLOR);
+    }
+    return origToJSON.apply(this);
+};
 
 await client.login(process.env.DISCORD_TOKEN);
