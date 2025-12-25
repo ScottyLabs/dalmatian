@@ -321,13 +321,6 @@ const command: SlashCommand = {
                 });
             }
 
-            if (matchedLocations.length == 1) {
-                const embeds = [formatLocation(matchedLocations[0])];
-                const paginator = new EmbedPaginator(embeds);
-                paginator.send(interaction);
-                return;
-            }
-
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
