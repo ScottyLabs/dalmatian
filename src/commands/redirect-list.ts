@@ -51,8 +51,7 @@ const command: SlashCommand = {
         // Build embed with all configurations
         const embed = new EmbedBuilder()
             .setTitle("Reaction Redirect Configurations")
-            .setDescription(`Found ${instances.length} configuration(s)`)
-            .setColor(0x5865f2);
+            .setDescription(`Found ${instances.length} configuration(s)`);
 
         for (const instance of instances) {
             // Get immune roles

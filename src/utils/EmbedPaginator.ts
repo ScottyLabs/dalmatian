@@ -25,12 +25,12 @@ export class EmbedPaginator {
         return new ActionRowBuilder<ButtonBuilder>().addComponents(
             new ButtonBuilder()
                 .setCustomId("first")
-                .setLabel("First")
+                .setLabel("<<")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atStart),
             new ButtonBuilder()
                 .setCustomId("prev")
-                .setLabel("Previous")
+                .setLabel("<")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atStart),
             new ButtonBuilder()
@@ -40,18 +40,25 @@ export class EmbedPaginator {
                 .setDisabled(true),
             new ButtonBuilder()
                 .setCustomId("next")
-                .setLabel("Next")
+                .setLabel(">")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atEnd),
             new ButtonBuilder()
                 .setCustomId("last")
-                .setLabel("Last")
+                .setLabel(">>")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atEnd),
         );
     }
 
     public async send(interaction: CommandInteraction) {
+        if (this.pages.length == 1) {
+            await interaction.reply({
+                embeds: [this.pages[0]!],
+            });
+            return;
+        }
+
         await interaction.reply({
             embeds: [this.pages[this.current]!],
             components: [this.buildButtons()],

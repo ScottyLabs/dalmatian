@@ -1,4 +1,9 @@
-import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
+import {
+    APIEmbedField,
+    EmbedBuilder,
+    MessageFlags,
+    SlashCommandBuilder,
+} from "discord.js";
 import { search } from "fast-fuzzy";
 import diningLocationData from "../data/diningLocationData.json" with {
     type: "json",
@@ -79,78 +84,121 @@ function isOpen(location: Location, time: Time): boolean {
     return false;
 }
 
-function format12Hour(hour: number, minute: number) {
+function getCurrentTime(): Time {
+    return {
+        day: new Date().getDay(),
+        hour: new Date().getHours(),
+        minute: new Date().getMinutes(),
+    };
+}
+
+function format12Hour(hour: number, minute: number): string {
     const period = hour >= 12 ? "PM" : "AM";
     const h = hour % 12 === 0 ? 12 : hour % 12;
     const m = minute < 10 ? `0${minute}` : minute;
     return `${h}:${m} ${period}`;
 }
 
-function formatLocation(location: Location | undefined): EmbedBuilder {
-    if (!location) {
-        return new EmbedBuilder()
-            .setTitle("Dining Location Not Found")
-            .setDescription(
-                "The specified dining location could not be found.",
-            );
+function formatTimeRange(start: Time, end: Time): string {
+    return `${format12Hour(start.hour, start.minute)} - ${format12Hour(end.hour, end.minute)}`;
+}
+
+function getTodaysHours(location: Location, now: Time): string {
+    const todaysTimes = location.times.filter(
+        (time) => time.start.day === now.day,
+    );
+    return todaysTimes.length > 0
+        ? todaysTimes
+              .map((time) => formatTimeRange(time.start, time.end))
+              .join(", ")
+        : "Closed today";
+}
+
+function timeToMinutes(time: Time): number {
+    return time.day * 24 * 60 + time.hour * 60 + time.minute;
+}
+
+function getMinutesBetween(from: Time, to: Time): number {
+    return timeToMinutes(to) - timeToMinutes(from);
+}
+
+function getCurrentStatus(
+    location: Location,
+    now: Time,
+): { emoji: string; message: string } {
+    const currentlyOpen = isOpen(location, now);
+
+    if (currentlyOpen) {
+        const openNow = location.times.find(
+            (time) =>
+                time.start.day === now.day &&
+                isBetween(now, time.start, time.end),
+        );
+        if (openNow) {
+            const minutesUntilClose = getMinutesBetween(now, openNow.end);
+            if (minutesUntilClose <= 60 && minutesUntilClose > 0) {
+                return {
+                    emoji: ":warning:",
+                    message: `Closing in ${minutesUntilClose} mins`,
+                };
+            }
+            return { emoji: ":green_circle:", message: "Open" };
+        }
     }
 
-    const now: Time = {
-        day: new Date().getDay(),
-        hour: new Date().getHours(),
-        minute: new Date().getMinutes(),
-    };
-
-    const nowOpenTimes = location.times.filter(({ start, end }) =>
-        isBetween(now, start, end),
+    const todaysTimes = location.times.filter(
+        (time) => time.start.day === now.day,
     );
+    for (const time of todaysTimes) {
+        const minutesUntilOpen = getMinutesBetween(now, time.start);
+        if (minutesUntilOpen > 0 && minutesUntilOpen <= 60) {
+            return {
+                emoji: ":bell:",
+                message: `Opening in ${minutesUntilOpen} mins`,
+            };
+        }
+    }
+    return { emoji: ":no_entry:", message: "Closed" };
+}
 
-    const currentStatus =
-        nowOpenTimes.length > 0
-            ? nowOpenTimes
-                  .filter((time) => {
-                      return time.start.day == now.day && isOpen(location, now);
-                  })
-                  .map((time) => {
-                      return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
-                  })
-                  .join(", ")
-            : "closed";
+function formatLocationTitle(location: Location, now: Time): string {
+    const status = getCurrentStatus(location, now);
+    const title = `${status.emoji} ${location.name} (${status.message})`;
+    // prevent exceeding the 256 char limit
+    return title.slice(0, 256);
+}
 
-    const fullSchedule =
-        location.times
-            .filter((time) => {
-                return time.start.day == now.day;
-            })
-            .map((time) => {
-                return `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(time.end.hour, time.end.minute)}`;
-            })
-            .join(", ") || "closed";
-
+function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
     const embed = new EmbedBuilder()
-        .setTitle(location.name)
+        .setTitle(formatLocationTitle(location, now))
         .setDescription(location.description)
         .addFields(
-            { name: "Location", value: location.location },
-            {
-                name: "Open Status",
-                value: currentStatus === "closed" ? "Closed now" : `Open now`,
-            },
+            { name: "Location", value: location.location, inline: true },
             {
                 name: "Today's Hours",
-                value: fullSchedule,
+                value: getTodaysHours(location, now),
+                inline: true,
+            },
+            {
+                name: "Accepts Online Orders",
+                value: location.acceptsOnlineOrders ? "Yes" : "No",
+                inline: true,
             },
         )
-        .addFields({
-            name: "Accepts Online Orders",
-            value: location.acceptsOnlineOrders ? "Yes" : "No",
-        })
         .setURL(location.url);
 
-    const url = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-    embed.setImage(url);
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+    embed.setImage(mapUrl);
 
     return embed;
+}
+
+function formatLocationField(location: Location, now: Time): APIEmbedField {
+    const todaysHours = getTodaysHours(location, now);
+    return {
+        name: formatLocationTitle(location, now),
+        value: `${location.location} • ${todaysHours}`,
+    };
 }
 
 function formatLocations(locations: Location[]): EmbedBuilder[] {
@@ -158,68 +206,26 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
         return [
             new EmbedBuilder()
                 .setTitle("Dining Locations")
-                .setDescription(
-                    "No dining locations matching the search query currently open.",
-                ),
+                .setDescription("No open dining locations found."),
         ];
     }
-    const embeds = [];
+
+    if (locations.length == 1) {
+        const now = getCurrentTime();
+        return [formatLocationEmbed(locations[0]!, now)];
+    }
+
+    const now = getCurrentTime();
+    const embeds: EmbedBuilder[] = [];
     let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
 
     for (const location of locations) {
-        if ((currentEmbed.data.fields?.length ?? 0) >= 5) {
+        if ((currentEmbed.data.fields?.length ?? 0) >= 6) {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
         }
-
-        const now: Time = {
-            day: new Date().getDay(),
-            hour: new Date().getHours(),
-            minute: new Date().getMinutes(),
-        };
-
-        const nowOpenTimes = location.times.filter(({ start, end }) =>
-            isBetween(now, start, end),
-        );
-
-        const currentStatus =
-            nowOpenTimes.length > 0
-                ? nowOpenTimes
-                      .filter((time) => {
-                          return (
-                              time.start.day == now.day && isOpen(location, now)
-                          );
-                      })
-                      .map(
-                          (time) =>
-                              `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
-                                  time.end.hour,
-                                  time.end.minute,
-                              )}`,
-                      )
-                      .join(", ")
-                : "closed";
-
-        const fullSchedule =
-            location.times
-                .filter((time) => {
-                    return time.start.day == now.day;
-                })
-                .map(
-                    (time) =>
-                        `${format12Hour(time.start.hour, time.start.minute)} - ${format12Hour(
-                            time.end.hour,
-                            time.end.minute,
-                        )}`,
-                )
-                .join(", ") || "Closed";
-
-        currentEmbed.addFields({
-            name: location.name,
-            value: `**Location:** ${location.location}
-                    **Open Status:** ${currentStatus === "closed" ? "Closed now" : "Open now"}
-                    **Today's Hours:** ${fullSchedule}`,
-        });
+        const field = formatLocationField(location, now);
+        currentEmbed.addFields(field);
     }
 
     embeds.push(currentEmbed);
@@ -263,38 +269,30 @@ const command: SlashCommand = {
         ),
     async execute(interaction) {
         const locations = await getLocations();
+        const subcommand = interaction.options.getSubcommand();
 
-        if (interaction.options.getSubcommand() === "all") {
+        if (subcommand === "all") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return new EmbedPaginator(embeds).send(interaction);
         }
-        if (interaction.options.getSubcommand() === "open") {
-            const rightNow: Time = {
-                day: new Date().getDay(),
-                hour: new Date().getHours(),
-                minute: new Date().getMinutes(),
-            };
 
-            const openLocations = locations.filter((location) =>
-                isOpen(location, rightNow),
-            );
-
+        if (subcommand === "open") {
+            const now = getCurrentTime();
+            const openLocations = locations.filter((loc) => isOpen(loc, now));
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-
-            const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return new EmbedPaginator(embeds).send(interaction);
         }
-        if (interaction.options.getSubcommand() === "search") {
-            const rawQuery = interaction.options.getString("name");
-            const query = rawQuery?.toLowerCase() ?? null;
 
-            const rawBuilding = interaction.options.getString("building");
-            const building = rawBuilding?.toLowerCase() ?? null;
+        if (subcommand === "search") {
+            const query =
+                interaction.options.getString("name")?.toLowerCase() ?? null;
+            const building =
+                interaction.options.getString("building")?.toLowerCase() ??
+                null;
 
             if (!building && !query) {
                 return interaction.reply({
@@ -307,14 +305,12 @@ const command: SlashCommand = {
                 const nameMatches = query
                     ? location.name.toLowerCase().includes(query)
                     : true;
-
                 const buildingMatches = building
                     ? search(building, [
                           location.location,
                           ...(location.locAliases ?? []),
                       ]).length > 0
                     : true;
-
                 return nameMatches && buildingMatches;
             });
 
@@ -325,7 +321,7 @@ const command: SlashCommand = {
                 });
             }
 
-            if (matchedLocations.length === 1) {
+            if (matchedLocations.length == 1) {
                 const embeds = [formatLocation(matchedLocations[0])];
                 const paginator = new EmbedPaginator(embeds);
                 paginator.send(interaction);
@@ -335,8 +331,7 @@ const command: SlashCommand = {
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return new EmbedPaginator(embeds).send(interaction);
         }
     },
 
@@ -348,7 +343,7 @@ const command: SlashCommand = {
 
         let choices: { name: string; value: string }[] = [];
 
-        if (focusedOption.name == "name") {
+        if (focusedOption.name === "name") {
             const filteredChoices =
                 focusedValue == ""
                     ? locations
@@ -359,7 +354,7 @@ const command: SlashCommand = {
                 name: loc.name,
                 value: loc.name,
             }));
-        } else if (focusedOption.name == "building") {
+        } else if (focusedOption.name === "building") {
             const buildingMap = new Map<string, string>();
             locations.forEach((loc) => {
                 const buildingName = loc.location.split(",")[0]!.trim();
