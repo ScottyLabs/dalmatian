@@ -68,7 +68,7 @@ export class EmbedPaginator {
 
         const collector = message.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 3_600_000, // 1 hour
+            time: 840_000, // 14 minutes
         });
 
         collector.on("collect", async (btnInteraction) => {
