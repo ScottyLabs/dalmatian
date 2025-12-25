@@ -25,12 +25,12 @@ export class EmbedPaginator {
         return new ActionRowBuilder<ButtonBuilder>().addComponents(
             new ButtonBuilder()
                 .setCustomId("first")
-                .setLabel("◄◄")
+                .setLabel("<<")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atStart),
             new ButtonBuilder()
                 .setCustomId("prev")
-                .setLabel("◄")
+                .setLabel("<")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atStart),
             new ButtonBuilder()
@@ -40,12 +40,12 @@ export class EmbedPaginator {
                 .setDisabled(true),
             new ButtonBuilder()
                 .setCustomId("next")
-                .setLabel("►")
+                .setLabel(">")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atEnd),
             new ButtonBuilder()
                 .setCustomId("last")
-                .setLabel("►►")
+                .setLabel(">>")
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(disableAll || atEnd),
         );
