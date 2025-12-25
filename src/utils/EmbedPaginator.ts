@@ -98,7 +98,8 @@ export class EmbedPaginator {
             });
         });
 
-        collector.on("end", async () => {
+        collector.on("end", async (_collected, reason) => {
+            if (reason.includes("Delete")) return;
             await interaction.editReply({
                 components: [this.buildButtons(true)],
             });
