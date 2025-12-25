@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "csv-parse/sync";
 import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
     bold,
     EmbedBuilder,
     hyperlink,
@@ -359,7 +362,18 @@ const command: SlashCommand = {
                     },
                 );
 
-            return interaction.reply({ embeds: [embed] });
+            const button = new ButtonBuilder()
+                .setLabel("View prerequisite graph")
+                .setURL(
+                    `https://prereqs.blejdle.christmas/?course=${course.id}`,
+                )
+                .setStyle(ButtonStyle.Link);
+
+            const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+                button,
+            );
+
+            return interaction.reply({ embeds: [embed], components: [row] });
         }
         if (interaction.options.getSubcommand() === "fce") {
             const input = interaction.options.getString("course_codes", true);
