@@ -338,7 +338,7 @@ const command: SlashCommand = {
 
         if (focusedOption.name === "name") {
             const filteredChoices =
-                focusedValue == ""
+                focusedValue === ""
                     ? locations
                     : search(focusedValue, locations, {
                           keySelector: (loc) => loc.name,
@@ -359,7 +359,7 @@ const command: SlashCommand = {
 
             const buildings = Array.from(buildingMap.keys());
             const filteredChoices =
-                focusedValue == ""
+                focusedValue === ""
                     ? buildings
                     : search(focusedValue, buildings);
             choices = filteredChoices.slice(0, 25).map((name) => ({
