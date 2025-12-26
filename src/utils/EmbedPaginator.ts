@@ -59,17 +59,17 @@ export class EmbedPaginator {
             return;
         }
 
-        await interaction.reply({
+        const response = await interaction.reply({
             embeds: [this.pages[this.current]!],
             components: [this.buildButtons()],
+            withResponse: true,
         });
 
-        const message = await interaction.fetchReply();
-
-        const collector = message.createMessageComponentCollector({
-            componentType: ComponentType.Button,
-            time: 3_600_000, // 1 hour
-        });
+        const collector =
+            response.resource!.message!.createMessageComponentCollector({
+                componentType: ComponentType.Button,
+                time: 840_000, // 14 minutes
+            });
 
         collector.on("collect", async (btnInteraction) => {
             if (btnInteraction.user.id !== interaction.user.id) {
@@ -98,8 +98,11 @@ export class EmbedPaginator {
             });
         });
 
-        collector.on("end", async () => {
-            await message.edit({ components: [this.buildButtons(true)] });
+        collector.on("end", async (_collected, reason) => {
+            if (reason.includes("Delete")) return;
+            await interaction.editReply({
+                components: [this.buildButtons(true)],
+            });
         });
     }
 }
