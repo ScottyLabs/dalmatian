@@ -11,29 +11,24 @@ import diningLocationData from "../data/diningLocationData.json" with {
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 
-interface Time {
-    day: number;
-    hour: number;
-    minute: number;
-}
-
 interface Location {
-    conceptID: number;
     name: string;
     locAliases?: string[];
     shortDescription: string;
     description: string;
     url: string;
+    menu?: string;
     location: string;
-    coordinates: {
-        lat: number;
-        lng: number;
-    };
+    coordinateLat: number;
+    coordinateLng: number;
     acceptsOnlineOrders: boolean;
     times: {
-        start: Time;
-        end: Time;
+        start: number;
+        end: number;
     }[];
+    conceptID: number;
+    todaysSoups: string[];
+    todaysSpecials: string[];
 }
 
 let locationToAliases: Record<string, string[]> = {};
@@ -43,96 +38,89 @@ for (const item of diningLocationData) {
 
 function getLocations(): Promise<Location[]> {
     const request: Request = new Request(
-        "https://dining.apis.scottylabs.org/locations",
+        "https://api.cmueats.com/v2/locations",
         {
             method: "GET",
         },
     );
 
     return fetch(request)
-        .then((res) => res.json() as Promise<{ locations: Location[] }>)
+        .then((res) => res.json() as Promise<Location[]>)
         .then((data) => {
-            let newData = data.locations;
-            for (let i = 0; i < newData.length; i++) {
-                const locName = newData[i]!.location.split(",")[0]!.trim();
+            for (let i = 0; i < data.length; i++) {
+                const locName = data[i]!.location.split(",")[0]!.trim();
                 if (locationToAliases[locName]) {
-                    newData[i]!.locAliases = locationToAliases[locName];
+                    data[i]!.locAliases = locationToAliases[locName];
                 }
             }
-            return newData as Location[];
+            return data as Location[];
         });
 }
 
-function isBetween(now: Time, start: Time, end: Time): boolean {
-    if (start.day === now.day || end.day === now.day) {
-        return (
-            (start.hour < now.hour && now.hour < end.hour) ||
-            (start.hour === now.hour && start.minute <= now.minute) ||
-            (end.hour === now.hour && now.minute <= end.minute)
-        );
-    }
-    return start.day < now.day && now.day < end.day;
-}
-
-function isOpen(location: Location, time: Time): boolean {
+function isOpen(location: Location, time: number): boolean {
     for (const openTime of location.times)
-        if (
-            isBetween(time, openTime.start, openTime.end) &&
-            openTime.start.day == time.day
-        )
-            return true;
+        if (openTime.start <= time && time <= openTime.end) return true;
     return false;
 }
 
-function getCurrentTime(): Time {
-    return {
-        day: new Date().getDay(),
-        hour: new Date().getHours(),
-        minute: new Date().getMinutes(),
-    };
+function formatTimeFromMs(ms: number): string {
+    const dtf = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "America/New_York",
+    });
+    return dtf.format(new Date(ms));
 }
 
-function format12Hour(hour: number, minute: number): string {
-    const period = hour >= 12 ? "PM" : "AM";
-    const h = hour % 12 === 0 ? 12 : hour % 12;
-    const m = minute < 10 ? `0${minute}` : minute;
-    return `${h}:${m} ${period}`;
+function formatTimeRange(start: number, end: number): string {
+    return `${formatTimeFromMs(start)} - ${formatTimeFromMs(end)}`;
 }
 
-function formatTimeRange(start: Time, end: Time): string {
-    return `${format12Hour(start.hour, start.minute)} - ${format12Hour(end.hour, end.minute)}`;
+function getDayBounds(): { start: number; end: number } {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    const start = d.getTime();
+    return { start, end: start + 24 * 60 * 60 * 1000 };
 }
 
-function getTodaysHours(location: Location, now: Time): string {
-    const todaysTimes = location.times.filter(
-        (time) => time.start.day === now.day,
-    );
-    return todaysTimes.length > 0
-        ? todaysTimes
-              .map((time) => formatTimeRange(time.start, time.end))
-              .join(", ")
-        : "Closed today";
+function getTimesForDay(location: Location): { start: number; end: number }[] {
+    const { start: dayStart, end: dayEnd } = getDayBounds();
+    return location.times
+        .filter((t) => t.end > dayStart && t.start < dayEnd)
+        .map((t) => ({
+            start: Math.max(t.start, dayStart),
+            end: Math.min(t.end, dayEnd),
+        }));
 }
 
-function timeToMinutes(time: Time): number {
-    return time.day * 24 * 60 + time.hour * 60 + time.minute;
+function getTodaysHours(location: Location): string {
+    const todaysTimes = getTimesForDay(location);
+    if (todaysTimes.length === 0) return "Closed today";
+
+    const total = todaysTimes.reduce((acc, t) => acc + (t.end - t.start), 0);
+    const dayLength = 24 * 60 * 60 * 1000;
+    if (total >= dayLength) return "Open all day";
+
+    return todaysTimes
+        .map((time) => formatTimeRange(time.start, time.end))
+        .join(", ");
 }
 
-function getMinutesBetween(from: Time, to: Time): number {
-    return timeToMinutes(to) - timeToMinutes(from);
+function getMinutesBetween(from: number, to: number): number {
+    return Math.floor((to - from) / 60000);
 }
 
-function getCurrentStatus(
-    location: Location,
-    now: Time,
-): { emoji: string; message: string } {
+function getCurrentStatus(location: Location): {
+    emoji: string;
+    message: string;
+} {
+    const now = Date.now();
     const currentlyOpen = isOpen(location, now);
 
     if (currentlyOpen) {
         const openNow = location.times.find(
-            (time) =>
-                time.start.day === now.day &&
-                isBetween(now, time.start, time.end),
+            (time) => time.start <= now && now <= time.end,
         );
         if (openNow) {
             const minutesUntilClose = getMinutesBetween(now, openNow.end);
@@ -146,9 +134,7 @@ function getCurrentStatus(
         }
     }
 
-    const todaysTimes = location.times.filter(
-        (time) => time.start.day === now.day,
-    );
+    const todaysTimes = getTimesForDay(location);
     for (const time of todaysTimes) {
         const minutesUntilOpen = getMinutesBetween(now, time.start);
         if (minutesUntilOpen > 0 && minutesUntilOpen <= 60) {
@@ -161,22 +147,22 @@ function getCurrentStatus(
     return { emoji: ":no_entry:", message: "Closed" };
 }
 
-function formatLocationTitle(location: Location, now: Time): string {
-    const status = getCurrentStatus(location, now);
+function formatLocationTitle(location: Location): string {
+    const status = getCurrentStatus(location);
     const title = `${status.emoji} ${location.name} (${status.message})`;
     // prevent exceeding the 256 char limit
     return title.slice(0, 256);
 }
 
-function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
+function formatLocationEmbed(location: Location): EmbedBuilder {
     const embed = new EmbedBuilder()
-        .setTitle(formatLocationTitle(location, now))
+        .setTitle(formatLocationTitle(location))
         .setDescription(location.description)
         .addFields(
             { name: "Location", value: location.location, inline: true },
             {
                 name: "Today's Hours",
-                value: getTodaysHours(location, now),
+                value: getTodaysHours(location),
                 inline: true,
             },
             {
@@ -187,16 +173,16 @@ function formatLocationEmbed(location: Location, now: Time): EmbedBuilder {
         )
         .setURL(location.url);
 
-    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinates.lat},${location.coordinates.lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinateLat},${location.coordinateLng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinateLat},${location.coordinateLng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     embed.setImage(mapUrl);
 
     return embed;
 }
 
-function formatLocationField(location: Location, now: Time): APIEmbedField {
-    const todaysHours = getTodaysHours(location, now);
+function formatLocationField(location: Location): APIEmbedField {
+    const todaysHours = getTodaysHours(location);
     return {
-        name: formatLocationTitle(location, now),
+        name: formatLocationTitle(location),
         value: `${location.location} • ${todaysHours}`,
     };
 }
@@ -211,11 +197,9 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
     }
 
     if (locations.length == 1) {
-        const now = getCurrentTime();
-        return [formatLocationEmbed(locations[0]!, now)];
+        return [formatLocationEmbed(locations[0]!)];
     }
 
-    const now = getCurrentTime();
     const embeds: EmbedBuilder[] = [];
     let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
 
@@ -224,7 +208,7 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
         }
-        const field = formatLocationField(location, now);
+        const field = formatLocationField(location);
         currentEmbed.addFields(field);
     }
 
@@ -279,8 +263,9 @@ const command: SlashCommand = {
         }
 
         if (subcommand === "open") {
-            const now = getCurrentTime();
-            const openLocations = locations.filter((loc) => isOpen(loc, now));
+            const openLocations = locations.filter((loc) =>
+                isOpen(loc, Date.now()),
+            );
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
