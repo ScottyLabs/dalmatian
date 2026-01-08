@@ -496,7 +496,7 @@ const command: SlashCommand = {
                 }
 
                 chunk.push(
-                    `:pushpin: ${bold(underline("Aggregate Data (past 5 years, excluding summers)"))}\n` +
+                    `:pushpin: ${bold("Aggregate Data (past 5 years, excluding summers)")}\n` +
                         `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
                         `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
                         `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
@@ -507,7 +507,7 @@ const command: SlashCommand = {
                     const name = instructor.toUpperCase();
                     const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
                     chunk.push(
-                        `${hyperlink(bold(underline(name)), url)} ${italic(`(${stats.lastTaught})`)}\n` +
+                        `${hyperlink(bold(name), url)} ${italic(`(${stats.lastTaught})`)}\n` +
                             `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                             `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                             `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
