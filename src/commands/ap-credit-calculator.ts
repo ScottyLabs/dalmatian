@@ -1,4 +1,9 @@
-import { SlashCommandBuilder } from "discord.js";
+import {
+    ContainerBuilder,
+    MessageFlags,
+    SeparatorBuilder,
+    SlashCommandBuilder,
+} from "discord.js";
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
 import CoursesData from "../data/courses.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
@@ -100,17 +105,37 @@ async function loadApCreditData(): Promise<Exam[]> {
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("credit-calculator")
-        .setDescription("Credit Calculator for CMU courses")
+        .setDescription("Credit calculator for CMU courses")
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("ap")
                 .setDescription(
                     "Calculate units and courses waived through your APs",
+                )
+                .addStringOption((option) =>
+                    option
+                        .setName("school")
+                        .setDescription(
+                            "Enter College (DC, CIT, SCS, TEP, MCS, CFA)",
+                        )
+                        .setRequired(true),
                 ),
         ),
 
     async execute(interaction) {
         if (interaction.options.getSubcommand() === "ap") {
+            const userSchool = interaction.options.getString("school");
+
+            if (
+                !userSchool ||
+                userSchool in ["DC", "CIT", "SCS", "TEP", "MCS", "CFA"]
+            ) {
+                return interaction.reply({
+                    content: "Acceptable Colleges DC, CIT, SCS, TEP, MCS, CFA",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
             const exams = await loadApCreditData();
 
             const stemExams = exams.filter((e) => e.subject === "STEM");
@@ -131,14 +156,23 @@ const command: SlashCommand = {
                 new Map(humanitiesExams.map((e) => [e.name, e])).values(),
             );
 
+            const artsSciencesUnique = Array.from(
+                new Map(
+                    [...artsExamsUnique, ...stemExamsUnique].map((e) => [
+                        e.name,
+                        e,
+                    ]),
+                ).values(),
+            );
+
             const fields: SetupField[] = [
                 {
-                    key: "stem",
-                    label: "STEM AP Exams",
+                    key: "stem-arts",
+                    label: "Arts and Sciences AP Exams",
                     required: false,
-                    multiple: true,
+                    multiple: false,
                     type: "string",
-                    options: stemExamsUnique.map((e) => ({
+                    options: artsSciencesUnique.map((e) => ({
                         label: e.name,
                         value: e.name,
                     })),
@@ -146,27 +180,7 @@ const command: SlashCommand = {
                         title: "Enter AP Score",
                         input: {
                             key: "score",
-                            label: "Score (1–5)",
-                            min: 1,
-                            max: 5,
-                        },
-                    },
-                },
-                {
-                    key: "arts",
-                    label: "Arts AP Exams",
-                    required: false,
-                    multiple: true,
-                    type: "string",
-                    options: artsExamsUnique.map((e) => ({
-                        label: e.name,
-                        value: e.name,
-                    })),
-                    modal: {
-                        title: "Enter AP Score",
-                        input: {
-                            key: "score",
-                            label: "Score (1–5)",
+                            label: "Score (1-5)",
                             min: 1,
                             max: 5,
                         },
@@ -176,21 +190,12 @@ const command: SlashCommand = {
                     key: "humanities",
                     label: "Humanities AP Exams",
                     required: false,
-                    multiple: true,
+                    multiple: false,
                     type: "string",
                     options: humanitiesExamsUnique.map((e) => ({
                         label: e.name,
                         value: e.name,
                     })),
-                    modal: {
-                        title: "Enter AP Score",
-                        input: {
-                            key: "score",
-                            label: "Score (1–5)",
-                            min: 1,
-                            max: 5,
-                        },
-                    },
                 },
             ];
 
@@ -198,44 +203,93 @@ const command: SlashCommand = {
                 name: "AP Credit Calculator",
                 fields,
                 onComplete: async (data) => {
-                    const awardedCourses: Course[] = [];
+                    const awardedMap = new Map<string, Exam>();
 
-                    for (const { examName, score } of data["stem"] ?? []) {
-                        const exam = exams.find((e) => e.name === examName);
-                        if (!exam) continue;
+                    const processCategory = (
+                        entries: { examName: string; score: number }[],
+                    ) => {
+                        for (const { examName, score } of entries) {
+                            const exam = exams.find((e) => e.name === examName);
+                            if (!exam) continue;
 
-                        const scoreEntry = exam.scores.find(
-                            (s) => s.score === score,
+                            if (
+                                exam.school &&
+                                !exam.school.includes(
+                                    userSchool as
+                                        | "DC"
+                                        | "CIT"
+                                        | "SCS"
+                                        | "TEP"
+                                        | "MCS"
+                                        | "CFA",
+                                )
+                            ) {
+                                continue;
+                            }
+
+                            const scoreEntry = exam.scores.find(
+                                (s) => s.score === score,
+                            );
+                            if (!scoreEntry || scoreEntry.courses.length === 0)
+                                continue;
+
+                            if (!awardedMap.has(exam.name)) {
+                                awardedMap.set(exam.name, {
+                                    ...exam,
+                                    scores: [
+                                        {
+                                            score,
+                                            courses: scoreEntry.courses,
+                                        },
+                                    ],
+                                });
+                            }
+                        }
+                    };
+
+                    processCategory(data["stem"] ?? []);
+                    processCategory(data["arts"] ?? []);
+                    processCategory(data["humanities"] ?? []);
+
+                    const awarded: Exam[] = [...awardedMap.values()];
+
+                    const container = new ContainerBuilder()
+                        .setAccentColor(0x3b82f6)
+                        .addTextDisplayComponents((t) =>
+                            t.setContent("Awarded CMU Credit"),
                         );
-                        if (!scoreEntry) continue;
 
-                        awardedCourses.push(...scoreEntry.courses);
+                    if (awarded.length === 0) {
+                        container.addTextDisplayComponents((t) =>
+                            t.setContent(
+                                "No credit awarded based on the selected exams.",
+                            ),
+                        );
+
+                        return container;
                     }
 
-                    for (const { examName, score } of data["arts"] ?? []) {
-                        const exam = exams.find((e) => e.name === examName);
-                        if (!exam) continue;
-
-                        const scoreEntry = exam.scores.find(
-                            (s) => s.score === score,
+                    for (const exam of awarded) {
+                        container.addSeparatorComponents(
+                            new SeparatorBuilder(),
                         );
-                        if (!scoreEntry) continue;
 
-                        awardedCourses.push(...scoreEntry.courses);
+                        container.addTextDisplayComponents((t) =>
+                            t.setContent(`### ${exam.name}\n${exam.info}`),
+                        );
+
+                        const awardedCourses = exam.scores[0]?.courses ?? [];
+
+                        for (const course of awardedCourses) {
+                            container.addTextDisplayComponents((t) =>
+                                t.setContent(
+                                    `> **${course.id}** — ${course.name}`,
+                                ),
+                            );
+                        }
                     }
 
-                    for (const { examName, score } of data["humanities"] ??
-                        []) {
-                        const exam = exams.find((e) => e.name === examName);
-                        if (!exam) continue;
-
-                        const scoreEntry = exam.scores.find(
-                            (s) => s.score === score,
-                        );
-                        if (!scoreEntry) continue;
-
-                        awardedCourses.push(...scoreEntry.courses);
-                    }
+                    return container;
                 },
             };
 

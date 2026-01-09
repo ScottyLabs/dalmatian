@@ -1,6 +1,7 @@
 import {
     ActionRowBuilder,
     ButtonBuilder,
+    ButtonInteraction,
     ButtonStyle,
     type ChatInputCommandInteraction,
     ContainerBuilder,
@@ -39,7 +40,7 @@ export interface SetupField {
 export interface SetupSchema {
     name: string;
     fields: SetupField[];
-    onComplete: (data: Record<string, any>) => Promise<void>;
+    onComplete: (data: Record<string, any>) => Promise<ContainerBuilder>;
 }
 
 interface SetupState {
@@ -160,35 +161,83 @@ export class SetupForm {
     }
 
     private async handleInteractions(): Promise<void> {
-        const collector =
-            this.interaction.channel?.createMessageComponentCollector({
-                filter: (i) => i.user.id === this.interaction.user.id,
-                time: 300000, // 5 minutes
-            });
+        const message = await this.interaction.fetchReply();
 
-        if (!collector) {
-            await this.interaction.editReply({
-                content: "Error: Could not create interaction collector.",
-                components: [],
-            });
-            return;
-        }
+        const collector = message.createMessageComponentCollector({
+            filter: (i) => i.user.id === this.interaction.user.id,
+            time: 300_000,
+        });
 
         collector.on("collect", async (i) => {
-            if (i.customId.startsWith(`setup:${this.schema.name}:string:`)) {
+            if (
+                i.isButton() &&
+                i.customId === `setup:${this.schema.name}:submit`
+            ) {
+                await i.deferUpdate(); // acknowledge button
+                collector.stop("submitted"); // triggers onComplete
+                return;
+            }
+
+            if (i.customId.startsWith(`setup:${this.schema.name}:score:`)) {
+                await this.handleScoreSelect(i as StringSelectMenuInteraction);
+            } else if (
+                i.customId.startsWith(`setup:${this.schema.name}:string:`)
+            ) {
                 await this.handleStringSelect(i as StringSelectMenuInteraction);
             }
         });
 
         collector.on("end", async (_collected, reason) => {
-            if (reason === "time") {
-                await this.interaction
-                    .editReply({
-                        content: "Setup timed out. Please try again.",
-                        components: [],
-                    })
-                    .catch(() => {});
+            if (reason === "submitted") {
+                const resultContainer = await this.schema.onComplete(
+                    this.state.collectedData,
+                );
+
+                await this.interaction.editReply({
+                    components: [resultContainer],
+                });
             }
+            if (reason === "time") {
+                await this.interaction.editReply({
+                    components: [
+                        new ContainerBuilder().addTextDisplayComponents(
+                            (text) =>
+                                text.setContent(
+                                    "Calculator timed out. Please try again.",
+                                ),
+                        ),
+                    ],
+                });
+            }
+        });
+    }
+
+    private async handleScoreSelect(
+        interaction: StringSelectMenuInteraction,
+    ): Promise<void> {
+        const [, , , fieldKey, examName] = interaction.customId.split(":");
+
+        const field = this.schema.fields.find((f) => f.key === fieldKey);
+        if (!field) return;
+
+        const score = Number(interaction.values[0]); // ALWAYS valid
+
+        if (!this.state.collectedData[field.key]) {
+            this.state.collectedData[field.key] = [];
+        }
+
+        const arr = this.state.collectedData[field.key];
+
+        const existing = arr.find((e: any) => e.examName === examName);
+
+        if (existing) {
+            existing.score = score;
+        } else {
+            arr.push({ examName, score });
+        }
+
+        await interaction.update({
+            components: this.buildFormComponents(),
         });
     }
 
@@ -206,59 +255,39 @@ export class SetupForm {
 
         for (const value of selected) {
             if (field.modal) {
-                await this.showScoreModal(interaction, field, value);
+                await this.showScoreSelect(interaction, field, value);
+                return;
             }
         }
-
-        await interaction.update({
-            components: this.buildFormComponents(),
-        });
     }
 
-    private async showScoreModal(
+    private async showScoreSelect(
         interaction: StringSelectMenuInteraction,
         field: SetupField,
         examName: string,
     ) {
-        const input = new TextInputBuilder({
-            customId: "score",
-            label: "Score (1-5)",
-            style: TextInputStyle.Short,
-            required: true,
-        });
+        const scoreSelect = new StringSelectMenuBuilder()
+            .setCustomId(
+                `setup:${this.schema.name}:score:${field.key}:${examName}`,
+            )
+            .setPlaceholder(`Select score for ${examName}`)
+            .addOptions(
+                ["1", "2", "3", "4", "5"].map((n) => ({
+                    label: n,
+                    value: n,
+                })),
+            );
 
-        const modal = new ModalBuilder({
-            customId: `setup:${this.schema.name}:modal:${field.key}:${examName}`,
-            title: `Enter score for ${examName}`,
+        const row =
+            new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+                scoreSelect,
+            );
+
+        await interaction.update({
             components: [
-                new ActionRowBuilder<TextInputBuilder>().addComponents(input),
+                ...this.buildFormComponents(),
+                new ContainerBuilder().addActionRowComponents(row),
             ],
-        });
-
-        await interaction.showModal(modal);
-
-        const submit = await interaction.awaitModalSubmit({
-            filter: (i) =>
-                i.customId ===
-                `setup:${this.schema.name}:modal:${field.key}:${examName}`,
-            time: 120_000,
-        });
-
-        const score = Number(submit.fields.getTextInputValue("score"));
-
-        const arr = this.state.collectedData[field.key];
-
-        const existing = arr.find((e: any) => e.examName === examName);
-        if (existing) {
-            existing.score = score;
-        } else {
-            arr.push({ examName, score });
-        }
-
-        await submit.deferUpdate();
-
-        await this.interaction.editReply({
-            components: this.buildFormComponents(),
         });
     }
 }
