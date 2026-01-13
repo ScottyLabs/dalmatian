@@ -13,7 +13,7 @@ const command: SlashCommand = {
                     option
                         .setName("role_string")
                         .setDescription(
-                            "The role(s) to get the member count of (e.g. role1 and (role2 or role3)",
+                            "The role(s) to get the member count of (e.g. role1 and (role2 or role3))",
                         )
                         .setRequired(true),
                 ),
@@ -26,7 +26,7 @@ const command: SlashCommand = {
                     option
                         .setName("role_string")
                         .setDescription(
-                            "The role(s) to get the members of (e.g. role1 and (role2 or role3)",
+                            "The role(s) to get the members of (e.g. role1 and (role2 or role3))",
                         )
                         .setRequired(true),
                 ),
