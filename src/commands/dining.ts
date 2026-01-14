@@ -190,9 +190,9 @@ function formatLocationField(location: Location): APIEmbedField {
 function formatLocations(locations: Location[]): EmbedBuilder[] {
     if (locations.length === 0) {
         return [
-            new EmbedBuilder()
-                .setTitle("Dining Locations")
-                .setDescription("No open dining locations found."),
+            new EmbedBuilder().setDescription(
+                "No dining locations found matching your query.",
+            ),
         ];
     }
 
@@ -201,12 +201,16 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
     }
 
     const embeds: EmbedBuilder[] = [];
-    let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
+    let currentEmbed = new EmbedBuilder().setTitle(
+        `${locations.length} Dining Locations Found`,
+    );
 
     for (const location of locations) {
         if ((currentEmbed.data.fields?.length ?? 0) >= 6) {
             embeds.push(currentEmbed);
-            currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
+            currentEmbed = new EmbedBuilder().setTitle(
+                `${locations.length} Dining Locations Found`,
+            );
         }
         const field = formatLocationField(location);
         currentEmbed.addFields(field);
@@ -227,8 +231,20 @@ const command: SlashCommand = {
         )
         .addSubcommand((subcommand) =>
             subcommand
+                .setName("all-verbose")
+                .setDescription("Show all dining locations (verbose)"),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
                 .setName("open")
                 .setDescription("Show currently open dining locations"),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("open-verbose")
+                .setDescription(
+                    "Show currently open dining locations (verbose)",
+                ),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -255,21 +271,26 @@ const command: SlashCommand = {
         const locations = await getLocations();
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand === "all") {
+        if (subcommand === "all" || subcommand == "all-verbose") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator(embeds, subcommand == "all-verbose").send(
+                interaction,
+            );
         }
 
-        if (subcommand === "open") {
+        if (subcommand === "open" || subcommand == "open-verbose") {
             const openLocations = locations.filter((loc) =>
                 isOpen(loc, Date.now()),
             );
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator(
+                embeds,
+                subcommand == "open-verbose",
+            ).send(interaction);
         }
 
         if (subcommand === "search") {
@@ -298,13 +319,6 @@ const command: SlashCommand = {
                     : true;
                 return nameMatches && buildingMatches;
             });
-
-            if (matchedLocations.length == 0) {
-                return interaction.reply({
-                    content: "No location found",
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
 
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
