@@ -190,9 +190,9 @@ function formatLocationField(location: Location): APIEmbedField {
 function formatLocations(locations: Location[]): EmbedBuilder[] {
     if (locations.length === 0) {
         return [
-            new EmbedBuilder()
-                .setTitle("Dining Locations")
-                .setDescription("No open dining locations found."),
+            new EmbedBuilder().setDescription(
+                "No dining locations found matching your query.",
+            ),
         ];
     }
 
@@ -201,12 +201,16 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
     }
 
     const embeds: EmbedBuilder[] = [];
-    let currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
+    let currentEmbed = new EmbedBuilder().setTitle(
+        `${locations.length} Dining Locations Found`,
+    );
 
     for (const location of locations) {
         if ((currentEmbed.data.fields?.length ?? 0) >= 6) {
             embeds.push(currentEmbed);
-            currentEmbed = new EmbedBuilder().setTitle("Dining Locations");
+            currentEmbed = new EmbedBuilder().setTitle(
+                `${locations.length} Dining Locations Found`,
+            );
         }
         const field = formatLocationField(location);
         currentEmbed.addFields(field);
@@ -315,13 +319,6 @@ const command: SlashCommand = {
                     : true;
                 return nameMatches && buildingMatches;
             });
-
-            if (matchedLocations.length == 0) {
-                return interaction.reply({
-                    content: "No location found",
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
 
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
