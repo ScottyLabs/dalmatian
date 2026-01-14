@@ -8,14 +8,31 @@ import {
 } from "discord.js";
 
 export class EmbedPaginator {
-    pages: EmbedBuilder[];
+    pages: EmbedBuilder[][];
     current = 0;
 
-    constructor(pages: EmbedBuilder[]) {
+    constructor(pages: EmbedBuilder[], verbose = false) {
         if (pages.length == 0) {
             throw new Error("No embed pages provided");
         }
-        this.pages = pages;
+        if (verbose) {
+            const verbosePages = [];
+            let chunk: EmbedBuilder[] = [];
+            for (const page of pages) {
+                if (chunk.length >= 10) {
+                    verbosePages.push(chunk);
+                    chunk = [];
+                }
+                if (chunk.length > 0) {
+                    page.setTitle(null);
+                }
+                chunk.push(page);
+            }
+            verbosePages.push(chunk);
+            this.pages = verbosePages;
+        } else {
+            this.pages = pages.map((page) => [page]);
+        }
     }
 
     private buildButtons(disableAll = false): ActionRowBuilder<ButtonBuilder> {
@@ -54,13 +71,13 @@ export class EmbedPaginator {
     public async send(interaction: CommandInteraction) {
         if (this.pages.length == 1) {
             await interaction.reply({
-                embeds: [this.pages[0]!],
+                embeds: this.pages[0]!,
             });
             return;
         }
 
         const response = await interaction.reply({
-            embeds: [this.pages[this.current]!],
+            embeds: this.pages[this.current]!,
             components: [this.buildButtons()],
             withResponse: true,
         });
@@ -93,7 +110,7 @@ export class EmbedPaginator {
             }
 
             await btnInteraction.update({
-                embeds: [this.pages[this.current]!],
+                embeds: this.pages[this.current]!,
                 components: [this.buildButtons()],
             });
         });
