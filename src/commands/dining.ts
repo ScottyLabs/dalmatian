@@ -227,8 +227,20 @@ const command: SlashCommand = {
         )
         .addSubcommand((subcommand) =>
             subcommand
+                .setName("all-verbose")
+                .setDescription("Show all dining locations (verbose)"),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
                 .setName("open")
                 .setDescription("Show currently open dining locations"),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("open-verbose")
+                .setDescription(
+                    "Show currently open dining locations (verbose)",
+                ),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -255,21 +267,26 @@ const command: SlashCommand = {
         const locations = await getLocations();
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand === "all") {
+        if (subcommand === "all" || subcommand == "all-verbose") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator(embeds, subcommand == "all-verbose").send(
+                interaction,
+            );
         }
 
-        if (subcommand === "open") {
+        if (subcommand === "open" || subcommand == "open-verbose") {
             const openLocations = locations.filter((loc) =>
                 isOpen(loc, Date.now()),
             );
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
             );
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator(
+                embeds,
+                subcommand == "open-verbose",
+            ).send(interaction);
         }
 
         if (subcommand === "search") {
