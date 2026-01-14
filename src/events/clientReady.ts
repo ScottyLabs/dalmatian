@@ -41,11 +41,6 @@ const event: Event<Events.ClientReady> = {
     once: true,
     execute(client) {
         cacheGuilds(client);
-        client.guilds.cache.forEach((guild) =>
-            guild.members.cache.forEach((member) =>
-                console.log(member.user.username),
-            ),
-        );
         console.log(`Logged in as ${client.user.tag}`);
     },
 };
