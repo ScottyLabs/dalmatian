@@ -46,7 +46,7 @@ const command: SlashCommand = {
             });
         }
 
-        function lookup(roleName: string): Role | undefined {
+        function lookup(roleName: string): GuildMember[] {
             const result = interaction.guild!.roles.cache.find(
                 (role) => role.name === roleName,
             );
