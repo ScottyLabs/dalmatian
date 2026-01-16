@@ -14,10 +14,6 @@ import {
 } from "../utils/creditCalculatorForm.ts";
 
 // from courses.ts ----------------------------------------------------------
-function loadCoursesData(): Record<string, Course> {
-    return CoursesData as Record<string, Course>;
-}
-
 function formatCourseNumber(courseNumber: string): string | null {
     if (courseNumber.match(/^\d{2}-?\d{3}$/)) {
         if (courseNumber.includes("-")) {
@@ -69,7 +65,8 @@ function normalizeSchool(
 
 async function loadApCreditData(): Promise<Exam[]> {
     const exams: Exam[] = [];
-    const courseMap = loadCoursesData(); // map course numbers to Course objects
+    
+    const courses = CoursesData as Record<string, Course>;
 
     for (const entry of apCreditData) {
         for (const exam of entry.exams) {
@@ -88,7 +85,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                         courses: entry.courses
                             .map((c) => {
                                 const id = formatCourseNumber(c);
-                                return id ? courseMap[id] : null;
+                                return id ? courses[id] : null;
                             })
                             .filter((c): c is Course => c !== null),
                     },
@@ -212,6 +209,8 @@ const command: SlashCommand = {
                 name: "AP Credit Calculator",
                 fields,
                 onComplete: async (data) => {
+                    const courses = CoursesData as Record<string, Course>;
+
                     const awardedMap = new Map<string, Exam>();
 
                     const processCategory = (
@@ -290,9 +289,10 @@ const command: SlashCommand = {
                         const awardedCourses = exam.scores[0]?.courses ?? [];
 
                         for (const course of awardedCourses) {
+                            if (course.id in courses) continue
                             container.addTextDisplayComponents((t) =>
                                 t.setContent(
-                                    `> **${course.id}** — ${course.name}`,
+                                    `> **${course.id}** — ${courses[course.id]!.name}`,
                                 ),
                             );
                         }
