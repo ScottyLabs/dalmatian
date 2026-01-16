@@ -1,17 +1,13 @@
 import {
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonInteraction,
     ButtonStyle,
     type ChatInputCommandInteraction,
     ContainerBuilder,
     MessageFlags,
-    ModalBuilder,
     SeparatorBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuInteraction,
-    TextInputBuilder,
-    TextInputStyle,
 } from "discord.js";
 
 export interface SetupField {
@@ -51,6 +47,7 @@ export class SetupForm {
     private schema: SetupSchema;
     private state: SetupState;
     private interaction: ChatInputCommandInteraction;
+    private rendNonce = 0;
 
     constructor(schema: SetupSchema, interaction: ChatInputCommandInteraction) {
         this.schema = schema;
@@ -59,7 +56,6 @@ export class SetupForm {
             collectedData: {},
         };
 
-        // Apply defaults
         for (const field of this.schema.fields) {
             if (field.default !== undefined) {
                 this.state.collectedData[field.key] = field.default;
@@ -74,7 +70,7 @@ export class SetupForm {
 
     private async showForm(): Promise<void> {
         await this.interaction.editReply({
-            components: this.buildFormComponents(),
+            components: [this.buildFormContainer()],
             flags: MessageFlags.IsComponentsV2,
         });
 
@@ -116,38 +112,31 @@ export class SetupForm {
             select,
         );
     }
-    private buildFormComponents(): any[] {
-        // Build Components v2 container
+
+    private buildFormContainer(): ContainerBuilder {
+        this.rendNonce++;
+
         const container = new ContainerBuilder()
             .setAccentColor(0x393a41)
             .addTextDisplayComponents((text) =>
                 text.setContent(`# ${this.schema.name}`),
             );
 
-        // Add each field with its component
         for (const field of this.schema.fields) {
             let fieldText = `**${field.label}**`;
-            if (field.description) {
-                fieldText += `\n${field.description}`;
-            }
-            if (field.required) {
-                fieldText += "\n*Required*";
-            }
+            if (field.description) fieldText += `\n${field.description}`;
+            if (field.required) fieldText += "\n*Required*";
 
             container.addTextDisplayComponents((text) =>
                 text.setContent(fieldText),
             );
 
-            // Add interactive component
             const componentRow = this.buildComponentForField(field);
-            if (componentRow) {
-                container.addActionRowComponents(componentRow);
-            }
+            if (componentRow) container.addActionRowComponents(componentRow);
 
             container.addSeparatorComponents(new SeparatorBuilder());
         }
 
-        // Add submit button
         const submitButton = new ButtonBuilder()
             .setCustomId(`setup:${this.schema.name}:submit`)
             .setLabel("Submit")
@@ -157,8 +146,9 @@ export class SetupForm {
             new ActionRowBuilder<ButtonBuilder>().addComponents(submitButton),
         );
 
-        return [container];
+        return container;
     }
+
 
     private async handleInteractions(): Promise<void> {
         const message = await this.interaction.fetchReply();
@@ -173,8 +163,8 @@ export class SetupForm {
                 i.isButton() &&
                 i.customId === `setup:${this.schema.name}:submit`
             ) {
-                await i.deferUpdate(); // acknowledge button
-                collector.stop("submitted"); // triggers onComplete
+                await i.deferUpdate(); 
+                collector.stop("submitted");
                 return;
             }
 
@@ -215,12 +205,15 @@ export class SetupForm {
     private async handleScoreSelect(
         interaction: StringSelectMenuInteraction,
     ): Promise<void> {
-        const [, , , fieldKey, examName] = interaction.customId.split(":");
+        const parts = interaction.customId.split(":");
+
+        const fieldKey = parts[3];
+        const examName = parts[4];
 
         const field = this.schema.fields.find((f) => f.key === fieldKey);
         if (!field) return;
 
-        const score = Number(interaction.values[0]); // ALWAYS valid
+        const score = Number(interaction.values[0]);
 
         if (!this.state.collectedData[field.key]) {
             this.state.collectedData[field.key] = [];
@@ -229,7 +222,6 @@ export class SetupForm {
         const arr = this.state.collectedData[field.key];
 
         const existing = arr.find((e: any) => e.examName === examName);
-
         if (existing) {
             existing.score = score;
         } else {
@@ -237,38 +229,40 @@ export class SetupForm {
         }
 
         await interaction.update({
-            components: this.buildFormComponents(),
+            components: [this.buildFormContainer()],
         });
     }
+
 
     private async handleStringSelect(
         interaction: StringSelectMenuInteraction,
     ): Promise<void> {
         const fieldKey = interaction.customId.split(":")[3];
         const field = this.schema.fields.find((f) => f.key === fieldKey);
+        if (!field || !field.modal) return;
 
-        if (!field) return;
-        const selected = interaction.values;
-        if (!this.state.collectedData[field.key]) {
-            this.state.collectedData[field.key] = [];
-        }
+        const examName = interaction.values[0];
+        if (!examName) return;
 
-        for (const value of selected) {
-            if (field.modal) {
-                await this.showScoreSelect(interaction, field, value);
-                return;
-            }
-        }
-    }
+        const container = this.buildFormContainer();
 
-    private async showScoreSelect(
-        interaction: StringSelectMenuInteraction,
+        container.addActionRowComponents(
+            this.buildScoreSelect(field, examName),
+        );
+
+        await interaction.update({
+            components: [container],
+        });
+}
+
+
+    private buildScoreSelect(
         field: SetupField,
         examName: string,
-    ) {
+    ): ActionRowBuilder<StringSelectMenuBuilder> {
         const scoreSelect = new StringSelectMenuBuilder()
             .setCustomId(
-                `setup:${this.schema.name}:score:${field.key}:${examName}`,
+                `setup:${this.schema.name}:score:${field.key}:${examName}:${this.rendNonce}`,
             )
             .setPlaceholder(`Select score for ${examName}`)
             .addOptions(
@@ -278,16 +272,9 @@ export class SetupForm {
                 })),
             );
 
-        const row =
-            new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                scoreSelect,
-            );
-
-        await interaction.update({
-            components: [
-                ...this.buildFormComponents(),
-                new ContainerBuilder().addActionRowComponents(row),
-            ],
-        });
+        return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            scoreSelect,
+        );
     }
+
 }

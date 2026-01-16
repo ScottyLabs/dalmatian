@@ -196,6 +196,15 @@ const command: SlashCommand = {
                         label: e.name,
                         value: e.name,
                     })),
+                    modal: {
+                        title: "Enter AP Score",
+                        input: {
+                            key: "score",
+                            label: "Score (1-5)",
+                            min: 1,
+                            max: 5,
+                        },
+                    },
                 },
             ];
 
