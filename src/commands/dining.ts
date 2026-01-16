@@ -237,7 +237,9 @@ const command: SlashCommand = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("all-verbose")
-                .setDescription("Show all dining locations (verbose)"),
+                .setDescription(
+                    "Show all dining locations (all pages at once)",
+                ),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -248,7 +250,7 @@ const command: SlashCommand = {
             subcommand
                 .setName("open-verbose")
                 .setDescription(
-                    "Show currently open dining locations (verbose)",
+                    "Show currently open dining locations (all pages at once)",
                 ),
         )
         .addSubcommand((subcommand) =>
