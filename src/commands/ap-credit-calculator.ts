@@ -5,7 +5,7 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
-import CoursesData from "../data/courses.json" with { type: "json" };
+import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import {
     type SetupField,
@@ -13,25 +13,27 @@ import {
     type SetupSchema,
 } from "../utils/creditCalculatorForm.ts";
 
-// from courses.ts ----------------------------------------------------------
-function formatCourseNumber(courseNumber: string): string | null {
-    if (courseNumber.match(/^\d{2}-?\d{3}$/)) {
-        if (courseNumber.includes("-")) {
-            return courseNumber;
-        } else {
-            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}`;
-        }
-    }
-
-    return null;
-}
-// --------------------------------------------------------------------------
-
 type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
+
+// put this in utils once it works
+type Session = {
+    term: string;
+    section: string;
+    instructors: string[];
+    url: string;
+};
 
 type Course = {
     id: string;
     name: string;
+    syllabi: Session[];
+    desc: string;
+    prereqs: string[];
+    prereqString: string;
+    coreqs: string[];
+    crosslisted: string[];
+    units: string;
+    department: string;
 };
 
 type Exam = {
@@ -65,29 +67,32 @@ function normalizeSchool(
 
 async function loadApCreditData(): Promise<Exam[]> {
     const exams: Exam[] = [];
-    
-    const courses = CoursesData as Record<string, Course>;
 
+    const courses = CoursesData as Record<string, Course>;
+    
     for (const entry of apCreditData) {
         for (const exam of entry.exams) {
+
+            const scoreCourses: Course[] = entry.courses
+                .map((id) => {
+                    const course = courses[id];
+                    if (!course) {
+                        console.warn(`Course ID not found: ${id}`);
+                        return null;
+                    }
+                    return course;
+                })
+                .filter((c): c is Course => c !== null); 
+
             const examObj: Exam = {
                 name: exam.name,
-                subject: entry.subject as
-                    | "STEM"
-                    | "Arts"
-                    | "Humanities"
-                    | "N/A",
-                school: normalizeSchool(entry.school),
-                info: entry.info as string,
+                subject: entry.subject as "STEM" | "Arts" | "Humanities" | "N/A",
+                school: normalizeSchool(entry.school) ?? undefined,
+                info: entry.info ?? "",
                 scores: [
                     {
                         score: exam.score,
-                        courses: entry.courses
-                            .map((c) => {
-                                const id = formatCourseNumber(c);
-                                return id ? courses[id] : null;
-                            })
-                            .filter((c): c is Course => c !== null),
+                        courses: scoreCourses,
                     },
                 ],
             };
@@ -210,47 +215,32 @@ const command: SlashCommand = {
                 fields,
                 onComplete: async (data) => {
                     const courses = CoursesData as Record<string, Course>;
+                    const awarded: { exam: Exam; courses: Course[] }[] = [];
 
-                    const awardedMap = new Map<string, Exam>();
-
-                    const processCategory = (
-                        entries: { examName: string; score: number }[],
-                    ) => {
+                    const processCategory = (entries: { examName: string; score: number }[]) => {
                         for (const { examName, score } of entries) {
-                            const exam = exams.find((e) => e.name === examName);
-                            if (!exam) continue;
-
-                            if (
-                                exam.school &&
-                                !exam.school.includes(
-                                    userSchool as
-                                        | "DC"
-                                        | "CIT"
-                                        | "SCS"
-                                        | "TEP"
-                                        | "MCS"
-                                        | "CFA",
-                                )
-                            ) {
-                                continue;
-                            }
-
-                            const scoreEntry = exam.scores.find(
-                                (s) => s.score === score,
+                            const matchingExams = exams.filter(
+                                (e) =>
+                                    e.name === examName &&
+                                    (!e.school || e.school.includes(userSchool as School))
                             );
-                            if (!scoreEntry || scoreEntry.courses.length === 0)
-                                continue;
+                            console.log("matching exams:", matchingExams);
 
-                            if (!awardedMap.has(exam.name)) {
-                                awardedMap.set(exam.name, {
-                                    ...exam,
-                                    scores: [
-                                        {
-                                            score,
-                                            courses: scoreEntry.courses,
-                                        },
-                                    ],
-                                });
+                            for (const exam of matchingExams) {
+                                const matchingCourses: Course[] = [];
+                                for (const s of exam.scores) {
+                                    console.log("score entry", s);
+                                    if (s.score === score) {
+                                        matchingCourses.push(...s.courses);
+                                    }
+                                }
+                                console.log("collected courses:", matchingCourses);
+                                if (matchingCourses.length > 0) {
+                                    awarded.push({
+                                        exam,
+                                        courses: matchingCourses,
+                                    });
+                                }
                             }
                         }
                     };
@@ -259,41 +249,30 @@ const command: SlashCommand = {
                     processCategory(data["arts"] ?? []);
                     processCategory(data["humanities"] ?? []);
 
-                    const awarded: Exam[] = [...awardedMap.values()];
-
                     const container = new ContainerBuilder()
                         .setAccentColor(0x3b82f6)
-                        .addTextDisplayComponents((t) =>
-                            t.setContent("Awarded CMU Credit"),
-                        );
+                        .addTextDisplayComponents((t) => t.setContent("Awarded CMU Credit"));
 
                     if (awarded.length === 0) {
                         container.addTextDisplayComponents((t) =>
-                            t.setContent(
-                                "No credit awarded based on the selected exams.",
-                            ),
+                            t.setContent("No credit awarded based on the selected exams.")
                         );
-
                         return container;
                     }
 
-                    for (const exam of awarded) {
-                        container.addSeparatorComponents(
-                            new SeparatorBuilder(),
-                        );
+                    for (const { exam, courses: awardedCourses } of awarded) {
+                        container.addSeparatorComponents(new SeparatorBuilder());
 
                         container.addTextDisplayComponents((t) =>
-                            t.setContent(`### ${exam.name}\n${exam.info}`),
+                            t.setContent(`### ${exam.name}\n${exam.info}`)
                         );
 
-                        const awardedCourses = exam.scores[0]?.courses ?? [];
-
                         for (const course of awardedCourses) {
-                            if (course.id in courses) continue
+                            if (!course?.id) continue;
+                            if (!(course.id in courses)) continue;
+
                             container.addTextDisplayComponents((t) =>
-                                t.setContent(
-                                    `> **${course.id}** — ${courses[course.id]!.name}`,
-                                ),
+                                t.setContent(`> **${course.id}** — ${courses[course.id]!.name}`)
                             );
                         }
                     }
