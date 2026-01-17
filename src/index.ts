@@ -5,6 +5,8 @@ import {
     Collection,
     EmbedBuilder,
     GatewayIntentBits,
+    Options,
+    Partials,
 } from "discord.js";
 import { DEFAULT_EMBED_COLOR } from "./constants.ts";
 import { runMigrations } from "./db/migrate.ts";
@@ -24,6 +26,11 @@ const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
 
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
+    partials: [
+        Partials.User,
+        Partials.GuildMember,
+    ],
+    makeCache: Options.cacheEverything(),
 });
 
 client.slashCommands = new Collection();
