@@ -187,7 +187,10 @@ function formatLocationField(location: Location): APIEmbedField {
     };
 }
 
-function formatLocations(locations: Location[]): EmbedBuilder[] {
+function formatLocations(
+    locations: Location[],
+    verbose: boolean,
+): EmbedBuilder[] {
     if (locations.length === 0) {
         return [
             new EmbedBuilder().setDescription(
@@ -205,15 +208,24 @@ function formatLocations(locations: Location[]): EmbedBuilder[] {
         `${locations.length} Dining Locations Found`,
     );
 
+    const maxPerPage = verbose ? 25 : 10;
+    let charCount = currentEmbed.data.title!.length;
+
     for (const location of locations) {
-        if ((currentEmbed.data.fields?.length ?? 0) >= 6) {
+        if ((currentEmbed.data.fields?.length ?? 0) >= maxPerPage) {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle(
                 `${locations.length} Dining Locations Found`,
             );
+            charCount += currentEmbed.data.title!.length;
         }
         const field = formatLocationField(location);
+        charCount += field.name.length + field.value.length;
         currentEmbed.addFields(field);
+    }
+
+    if (charCount > 6000) {
+        return [new EmbedBuilder().setTitle("Error: Character count exceeded")];
     }
 
     embeds.push(currentEmbed);
@@ -232,7 +244,9 @@ const command: SlashCommand = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("all-verbose")
-                .setDescription("Show all dining locations (verbose)"),
+                .setDescription(
+                    "Show all dining locations (all pages at once)",
+                ),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -243,7 +257,7 @@ const command: SlashCommand = {
             subcommand
                 .setName("open-verbose")
                 .setDescription(
-                    "Show currently open dining locations (verbose)",
+                    "Show currently open dining locations (all pages at once)",
                 ),
         )
         .addSubcommand((subcommand) =>
@@ -274,6 +288,7 @@ const command: SlashCommand = {
         if (subcommand === "all" || subcommand == "all-verbose") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
+                subcommand == "all-verbose",
             );
             return new EmbedPaginator(embeds, subcommand == "all-verbose").send(
                 interaction,
@@ -286,6 +301,7 @@ const command: SlashCommand = {
             );
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
+                subcommand == "open-verbose",
             );
             return new EmbedPaginator(
                 embeds,
@@ -322,6 +338,7 @@ const command: SlashCommand = {
 
             const embeds = formatLocations(
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
+                false,
             );
             return new EmbedPaginator(embeds).send(interaction);
         }
