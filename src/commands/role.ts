@@ -1,7 +1,7 @@
 import {
+    bold,
     EmbedBuilder,
     GuildMember,
-    Role,
     MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
@@ -47,19 +47,22 @@ const command: SlashCommand = {
         }
 
         function lookup(roleName: string): GuildMember[] {
-            const result = interaction.guild!.roles.cache.find(
-                (role) => role.name === roleName,
+            const role = interaction.guild!.roles.cache.find(
+                (r) => r.name === roleName,
             );
 
-            if (!result) {
+            if (!role) {
                 throw new Error(`Role not found: ${roleName}`);
             }
 
-            return result.members.map(
+            return role.members.map(
                 (member) =>
                     ({
                         id: member.id,
                         displayName: member.displayName,
+                        user: {
+                            username: member.user.username,
+                        },
                     }) as GuildMember,
             );
         }
@@ -96,11 +99,11 @@ const command: SlashCommand = {
                 chunk.push(members.shift());
                 if (chunk.length >= 20 || members.length === 0) {
                     const description = chunk
-                        .map((member) => `${member.displayName}`)
+                        .map((member) => `${bold(member!.displayName)} (${member!.user.username})`)
                         .join("\n");
 
                     const embed = new EmbedBuilder()
-                        .setTitle(`Members with the roles ${roleString}`)
+                        .setTitle(`"${roleString}"`)
                         .setDescription(description);
                     embeds.push(embed);
                     chunk = [];
@@ -108,7 +111,14 @@ const command: SlashCommand = {
             }
 
             const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            return paginator.send(interaction);
+        }
+        if (interaction.options.getSubcommand() === "count") {
+            const embed = new EmbedBuilder()
+                .setTitle(`"${roleString}"`)
+                .setDescription(`${members.length} members`);
+
+            return interaction.reply({ embeds: [embed] });
         }
     },
 };
