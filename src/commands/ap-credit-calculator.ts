@@ -12,29 +12,9 @@ import {
     SetupForm,
     type SetupSchema,
 } from "../utils/creditCalculatorForm.ts";
+import { Course, Session } from "../utils/index.ts";
 
 type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
-
-// put this in utils once it works
-type Session = {
-    term: string;
-    section: string;
-    instructors: string[];
-    url: string;
-};
-
-type Course = {
-    id: string;
-    name: string;
-    syllabi: Session[];
-    desc: string;
-    prereqs: string[];
-    prereqString: string;
-    coreqs: string[];
-    crosslisted: string[];
-    units: string;
-    department: string;
-};
 
 type Exam = {
     name: string;
@@ -69,24 +49,30 @@ async function loadApCreditData(): Promise<Exam[]> {
     const exams: Exam[] = [];
 
     const courses = CoursesData as Record<string, Course>;
-    
+
     for (const entry of apCreditData) {
         for (const exam of entry.exams) {
-
             const scoreCourses: Course[] = entry.courses
                 .map((id) => {
                     const course = courses[id];
                     if (!course) {
                         console.warn(`Course ID not found: ${id}`);
-                        return null;
+                        return {
+                            id,
+                            name: exam.name,
+                        } as Course;
                     }
                     return course;
                 })
-                .filter((c): c is Course => c !== null); 
+                .filter((c): c is Course => c !== null);
 
             const examObj: Exam = {
                 name: exam.name,
-                subject: entry.subject as "STEM" | "Arts" | "Humanities" | "N/A",
+                subject: entry.subject as
+                    | "STEM"
+                    | "Arts"
+                    | "Humanities"
+                    | "N/A",
                 school: normalizeSchool(entry.school) ?? undefined,
                 info: entry.info ?? "",
                 scores: [
@@ -100,7 +86,6 @@ async function loadApCreditData(): Promise<Exam[]> {
             exams.push(examObj);
         }
     }
-
     return exams;
 }
 
@@ -214,15 +199,22 @@ const command: SlashCommand = {
                 name: "AP Credit Calculator",
                 fields,
                 onComplete: async (data) => {
+                    console.log("completing... data:", data);
                     const courses = CoursesData as Record<string, Course>;
                     const awarded: { exam: Exam; courses: Course[] }[] = [];
 
-                    const processCategory = (entries: { examName: string; score: number }[]) => {
+                    const processCategory = (
+                        entries: { examName: string; score: number }[],
+                    ) => {
+                        console.log("Entries:", entries);
                         for (const { examName, score } of entries) {
                             const matchingExams = exams.filter(
                                 (e) =>
                                     e.name === examName &&
-                                    (!e.school || e.school.includes(userSchool as School))
+                                    (!e.school ||
+                                        e.school.includes(
+                                            userSchool as School,
+                                        )),
                             );
                             console.log("matching exams:", matchingExams);
 
@@ -234,7 +226,10 @@ const command: SlashCommand = {
                                         matchingCourses.push(...s.courses);
                                     }
                                 }
-                                console.log("collected courses:", matchingCourses);
+                                console.log(
+                                    "collected courses:",
+                                    matchingCourses,
+                                );
                                 if (matchingCourses.length > 0) {
                                     awarded.push({
                                         exam,
@@ -245,34 +240,54 @@ const command: SlashCommand = {
                         }
                     };
 
-                    processCategory(data["stem"] ?? []);
-                    processCategory(data["arts"] ?? []);
+                    processCategory(data["stem-arts"] ?? []);
                     processCategory(data["humanities"] ?? []);
 
                     const container = new ContainerBuilder()
                         .setAccentColor(0x3b82f6)
-                        .addTextDisplayComponents((t) => t.setContent("Awarded CMU Credit"));
+                        .addTextDisplayComponents((t) =>
+                            t.setContent("Awarded CMU Credit"),
+                        );
 
                     if (awarded.length === 0) {
                         container.addTextDisplayComponents((t) =>
-                            t.setContent("No credit awarded based on the selected exams.")
+                            t.setContent(
+                                "No credit awarded based on the selected exams.",
+                            ),
                         );
                         return container;
                     }
 
                     for (const { exam, courses: awardedCourses } of awarded) {
-                        container.addSeparatorComponents(new SeparatorBuilder());
-
-                        container.addTextDisplayComponents((t) =>
-                            t.setContent(`### ${exam.name}\n${exam.info}`)
+                        container.addSeparatorComponents(
+                            new SeparatorBuilder(),
                         );
 
+                        container.addTextDisplayComponents((t) =>
+                            t.setContent(`### ${exam.name}`),
+                        );
+
+                        console.log("awarded courses:", awardedCourses);
                         for (const course of awardedCourses) {
-                            if (!course?.id) continue;
-                            if (!(course.id in courses)) continue;
+                            if (!(course.id in courses) || !course?.id) {
+                                container.addTextDisplayComponents((t) =>
+                                    t.setContent(
+                                        `> **${course.id}** — AP ${course.name}`,
+                                    ),
+                                );
+                                continue;
+                            }
 
                             container.addTextDisplayComponents((t) =>
-                                t.setContent(`> **${course.id}** — ${courses[course.id]!.name}`)
+                                t.setContent(
+                                    `> **${course.id}** — ${courses[course.id]!.name}`,
+                                ),
+                            );
+                        }
+
+                        if (exam.info != undefined) {
+                            container.addTextDisplayComponents((t) =>
+                                t.setContent(`note: ${exam.info}`),
                             );
                         }
                     }
