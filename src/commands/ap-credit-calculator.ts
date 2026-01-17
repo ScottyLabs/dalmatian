@@ -12,7 +12,7 @@ import {
     SetupForm,
     type SetupSchema,
 } from "../utils/creditCalculatorForm.ts";
-import { Course, Session } from "../utils/index.ts";
+import { Course } from "../utils/index.ts";
 
 type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 
@@ -56,7 +56,6 @@ async function loadApCreditData(): Promise<Exam[]> {
                 .map((id) => {
                     const course = courses[id];
                     if (!course) {
-                        console.warn(`Course ID not found: ${id}`);
                         return {
                             id,
                             name: exam.name,
@@ -199,14 +198,12 @@ const command: SlashCommand = {
                 name: "AP Credit Calculator",
                 fields,
                 onComplete: async (data) => {
-                    console.log("completing... data:", data);
                     const courses = CoursesData as Record<string, Course>;
                     const awarded: { exam: Exam; courses: Course[] }[] = [];
 
                     const processCategory = (
                         entries: { examName: string; score: number }[],
                     ) => {
-                        console.log("Entries:", entries);
                         for (const { examName, score } of entries) {
                             const matchingExams = exams.filter(
                                 (e) =>
@@ -216,20 +213,14 @@ const command: SlashCommand = {
                                             userSchool as School,
                                         )),
                             );
-                            console.log("matching exams:", matchingExams);
 
                             for (const exam of matchingExams) {
                                 const matchingCourses: Course[] = [];
                                 for (const s of exam.scores) {
-                                    console.log("score entry", s);
                                     if (s.score === score) {
                                         matchingCourses.push(...s.courses);
                                     }
                                 }
-                                console.log(
-                                    "collected courses:",
-                                    matchingCourses,
-                                );
                                 if (matchingCourses.length > 0) {
                                     awarded.push({
                                         exam,
@@ -267,7 +258,6 @@ const command: SlashCommand = {
                             t.setContent(`### ${exam.name}`),
                         );
 
-                        console.log("awarded courses:", awardedCourses);
                         for (const course of awardedCourses) {
                             if (!(course.id in courses) || !course?.id) {
                                 container.addTextDisplayComponents((t) =>
