@@ -209,16 +209,23 @@ function formatLocations(
     );
 
     const maxPerPage = verbose ? 25 : 10;
+    let charCount = currentEmbed.data.title!.length;
 
     for (const location of locations) {
-        if ((currentEmbed.data.fields?.length ?? 0) >= maxPerPage) {
+        if (currentEmbed.data.fields?.length ?? 0 >= maxPerPage) {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle(
                 `${locations.length} Dining Locations Found`,
             );
+            charCount += currentEmbed.data.title!.length;
         }
         const field = formatLocationField(location);
+        charCount += field.name.length + field.value.length;
         currentEmbed.addFields(field);
+    }
+
+    if (charCount > 6000) {
+        return [new EmbedBuilder().setTitle("Error: Character count exceeded")];
     }
 
     embeds.push(currentEmbed);
