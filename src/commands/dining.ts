@@ -212,7 +212,7 @@ function formatLocations(
     let charCount = currentEmbed.data.title!.length;
 
     for (const location of locations) {
-        if (currentEmbed.data.fields?.length ?? 0 >= maxPerPage) {
+        if ((currentEmbed.data.fields?.length ?? 0) >= maxPerPage) {
             embeds.push(currentEmbed);
             currentEmbed = new EmbedBuilder().setTitle(
                 `${locations.length} Dining Locations Found`,
