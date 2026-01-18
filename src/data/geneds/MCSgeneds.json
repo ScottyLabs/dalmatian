@@ -1,0 +1,2200 @@
+[{
+  "_id": {
+    "$oid": "670604685db91fcc211092c3"
+  },
+  "courseID": "02-250",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092c4"
+  },
+  "courseID": "02-261",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092c5"
+  },
+  "courseID": "03-117",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092c6"
+  },
+  "courseID": "03-121",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092c7"
+  },
+  "courseID": "03-151",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092c8"
+  },
+  "courseID": "03-124",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092c9"
+  },
+  "courseID": "03-125",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ca"
+  },
+  "courseID": "03-132",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092cb"
+  },
+  "courseID": "03-133",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092cc"
+  },
+  "courseID": "03-135",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092cd"
+  },
+  "courseID": "03-161",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ce"
+  },
+  "courseID": "03-231",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092cf"
+  },
+  "courseID": "03-232",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d0"
+  },
+  "courseID": "42-101",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d1"
+  },
+  "courseID": "42-202",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d2"
+  },
+  "courseID": "85-219",
+  "school": "MCS",
+  "tags": [
+    "Life Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d3"
+  },
+  "courseID": "09-105",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d4"
+  },
+  "courseID": "09-106",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d5"
+  },
+  "courseID": "09-107",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d6"
+  },
+  "courseID": "09-111",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d7"
+  },
+  "courseID": "09-214",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d8"
+  },
+  "courseID": "09-217",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092d9"
+  },
+  "courseID": "09-219",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092da"
+  },
+  "courseID": "09-221",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092db"
+  },
+  "courseID": "09-225",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092dc"
+  },
+  "courseID": "09-348",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092dd"
+  },
+  "courseID": "33-121",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092de"
+  },
+  "courseID": "33-122",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092df"
+  },
+  "courseID": "33-141",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e0"
+  },
+  "courseID": "33-142",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e1"
+  },
+  "courseID": "33-151",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e2"
+  },
+  "courseID": "33-152",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e3"
+  },
+  "courseID": "33-211",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e4"
+  },
+  "courseID": "33-224",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e5"
+  },
+  "courseID": "33-225",
+  "school": "MCS",
+  "tags": [
+    "Physical Sciences"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e6"
+  },
+  "courseID": "21-120",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e7"
+  },
+  "courseID": "21-122",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e8"
+  },
+  "courseID": "21-124",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092e9"
+  },
+  "courseID": "21-127",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ea"
+  },
+  "courseID": "21-128",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092eb"
+  },
+  "courseID": "21-228",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ec"
+  },
+  "courseID": "21-241",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ed"
+  },
+  "courseID": "21-240",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ee"
+  },
+  "courseID": "21-242",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ef"
+  },
+  "courseID": "21-259",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f0"
+  },
+  "courseID": "21-268",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f1"
+  },
+  "courseID": "21-269",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f2"
+  },
+  "courseID": "21-260",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f3"
+  },
+  "courseID": "21-261",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f4"
+  },
+  "courseID": "36-200",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f5"
+  },
+  "courseID": "36-202",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f6"
+  },
+  "courseID": "36-220",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f7"
+  },
+  "courseID": "36-225",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f8"
+  },
+  "courseID": "36-309",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092f9"
+  },
+  "courseID": "15-110",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092fa"
+  },
+  "courseID": "15-112",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092fb"
+  },
+  "courseID": "15-122",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092fc"
+  },
+  "courseID": "15-150",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092fd"
+  },
+  "courseID": "15-251",
+  "school": "MCS",
+  "tags": [
+    "Math/Stats/CS"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092fe"
+  },
+  "courseID": "38-101",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc211092ff"
+  },
+  "courseID": "38-100",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109300"
+  },
+  "courseID": "76-101",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109301"
+  },
+  "courseID": "76-102",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109302"
+  },
+  "courseID": "76-106",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109303"
+  },
+  "courseID": "76-107",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109304"
+  },
+  "courseID": "76-108",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109305"
+  },
+  "courseID": "99-101",
+  "school": "MCS",
+  "tags": [
+    "First Year"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109306"
+  },
+  "courseID": "38-304",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109307"
+  },
+  "courseID": "38-301",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109308"
+  },
+  "courseID": "09-225",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109309"
+  },
+  "courseID": "09-291",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110930a"
+  },
+  "courseID": "09-303",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110930b"
+  },
+  "courseID": "09-403",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110930c"
+  },
+  "courseID": "09-510",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110930d"
+  },
+  "courseID": "12-100",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110930e"
+  },
+  "courseID": "17-200",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110930f"
+  },
+  "courseID": "17-537",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109310"
+  },
+  "courseID": "19-101",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109311"
+  },
+  "courseID": "19-411",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109312"
+  },
+  "courseID": "19-421",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109313"
+  },
+  "courseID": "19-424",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109314"
+  },
+  "courseID": "19-425",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109315"
+  },
+  "courseID": "19-429",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109316"
+  },
+  "courseID": "19-437",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109317"
+  },
+  "courseID": "19-478",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109318"
+  },
+  "courseID": "33-115",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109319"
+  },
+  "courseID": "33-226",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110931a"
+  },
+  "courseID": "79-234",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110931b"
+  },
+  "courseID": "79-275",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110931c"
+  },
+  "courseID": "79-299",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110931d"
+  },
+  "courseID": "50-195",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110931e"
+  },
+  "courseID": "79-330",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110931f"
+  },
+  "courseID": "79-342",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109320"
+  },
+  "courseID": "80-245",
+  "school": "MCS",
+  "tags": [
+    "Science and Society"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109321"
+  },
+  "courseID": "38-110",
+  "school": "MCS",
+  "tags": [
+    "Engage"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109322"
+  },
+  "courseID": "38-220",
+  "school": "MCS",
+  "tags": [
+    "Engage"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109323"
+  },
+  "courseID": "38-230",
+  "school": "MCS",
+  "tags": [
+    "Engage"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109324"
+  },
+  "courseID": "38-330",
+  "school": "MCS",
+  "tags": [
+    "Engage"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109325"
+  },
+  "courseID": "38-430",
+  "school": "MCS",
+  "tags": [
+    "Engage"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109326"
+  },
+  "courseID": "57-173",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109327"
+  },
+  "courseID": "57-306",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109328"
+  },
+  "courseID": "70-100",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109329"
+  },
+  "courseID": "70-342",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110932a"
+  },
+  "courseID": "76-217",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110932b"
+  },
+  "courseID": "76-221",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110932c"
+  },
+  "courseID": "76-232",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110932d"
+  },
+  "courseID": "76-239",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110932e"
+  },
+  "courseID": "76-241",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110932f"
+  },
+  "courseID": "76-287",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109330"
+  },
+  "courseID": "76-386",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109331"
+  },
+  "courseID": "79-112",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109332"
+  },
+  "courseID": "79-145",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109333"
+  },
+  "courseID": "79-160",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109334"
+  },
+  "courseID": "79-170",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109335"
+  },
+  "courseID": "79-175",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109336"
+  },
+  "courseID": "79-189",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109337"
+  },
+  "courseID": "79-201",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109338"
+  },
+  "courseID": "79-202",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109339"
+  },
+  "courseID": "00-175",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110933a"
+  },
+  "courseID": "79-203",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110933b"
+  },
+  "courseID": "40-199",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110933c"
+  },
+  "courseID": "79-205",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110933d"
+  },
+  "courseID": "79-208",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110933e"
+  },
+  "courseID": "79-211",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110933f"
+  },
+  "courseID": "79-223",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109340"
+  },
+  "courseID": "79-227",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109341"
+  },
+  "courseID": "79-229",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109342"
+  },
+  "courseID": "80-194",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109343"
+  },
+  "courseID": "79-230",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109344"
+  },
+  "courseID": "79-232",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109345"
+  },
+  "courseID": "79-234",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109346"
+  },
+  "courseID": "79-237",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109347"
+  },
+  "courseID": "79-240",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109348"
+  },
+  "courseID": "79-242",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109349"
+  },
+  "courseID": "79-244",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110934a"
+  },
+  "courseID": "79-245",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110934b"
+  },
+  "courseID": "79-257",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110934c"
+  },
+  "courseID": "79-261",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110934d"
+  },
+  "courseID": "00-190",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110934e"
+  },
+  "courseID": "79-262",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110934f"
+  },
+  "courseID": "79-263",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109350"
+  },
+  "courseID": "79-264",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109351"
+  },
+  "courseID": "79-265",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109352"
+  },
+  "courseID": "79-266",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109353"
+  },
+  "courseID": "79-267",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109354"
+  },
+  "courseID": "79-268",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109355"
+  },
+  "courseID": "79-275",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109356"
+  },
+  "courseID": "79-278",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109357"
+  },
+  "courseID": "79-280",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109358"
+  },
+  "courseID": "79-281",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109359"
+  },
+  "courseID": "79-283",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110935a"
+  },
+  "courseID": "79-343",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110935b"
+  },
+  "courseID": "79-345",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110935c"
+  },
+  "courseID": "79-346",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110935d"
+  },
+  "courseID": "79-350",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110935e"
+  },
+  "courseID": "79-377",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110935f"
+  },
+  "courseID": "80-100",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109360"
+  },
+  "courseID": "80-101",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109361"
+  },
+  "courseID": "80-130",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109362"
+  },
+  "courseID": "80-180",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109363"
+  },
+  "courseID": "80-246",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109364"
+  },
+  "courseID": "80-250",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109365"
+  },
+  "courseID": "80-251",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109366"
+  },
+  "courseID": "80-252",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109367"
+  },
+  "courseID": "80-253",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109368"
+  },
+  "courseID": "80-254",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109369"
+  },
+  "courseID": "80-255",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110936a"
+  },
+  "courseID": "80-271",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110936b"
+  },
+  "courseID": "80-276",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110936c"
+  },
+  "courseID": "84-226",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110936d"
+  },
+  "courseID": "84-275",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110936e"
+  },
+  "courseID": "84-306",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110936f"
+  },
+  "courseID": "84-319",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109370"
+  },
+  "courseID": "84-322",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109371"
+  },
+  "courseID": "84-323",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109372"
+  },
+  "courseID": "84-324",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109373"
+  },
+  "courseID": "84-325",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109374"
+  },
+  "courseID": "84-328",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109375"
+  },
+  "courseID": "84-362",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109376"
+  },
+  "courseID": "84-365",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109377"
+  },
+  "courseID": "84-370",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109378"
+  },
+  "courseID": "84-372",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109379"
+  },
+  "courseID": "84-373",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110937a"
+  },
+  "courseID": "84-380",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110937b"
+  },
+  "courseID": "84-387",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110937c"
+  },
+  "courseID": "84-389",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110937d"
+  },
+  "courseID": "84-390",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110937e"
+  },
+  "courseID": "84-405",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110937f"
+  },
+  "courseID": "85-350",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109380"
+  },
+  "courseID": "85-352",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109381"
+  },
+  "courseID": "88-221",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109382"
+  },
+  "courseID": "88-234",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109383"
+  },
+  "courseID": "57-209",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109384"
+  },
+  "courseID": "79-216",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109385"
+  },
+  "courseID": "79-220",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109386"
+  },
+  "courseID": "79-222",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109387"
+  },
+  "courseID": "79-238",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109388"
+  },
+  "courseID": "79-319",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc21109389"
+  },
+  "courseID": "79-355",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+},
+{
+  "_id": {
+    "$oid": "670604685db91fcc2110938a"
+  },
+  "courseID": "79-375",
+  "school": "MCS",
+  "tags": [
+    "Cultural/Global Understanding"
+  ],
+  "lastUpdated": "Oct 2024"
+}]
