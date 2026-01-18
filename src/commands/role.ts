@@ -113,6 +113,13 @@ const command: SlashCommand = {
                 }
             }
 
+            if (embeds.length === 0) {
+                const embed = new EmbedBuilder()
+                    .setTitle(`"${roleString}"`)
+                    .setDescription(`No members found.`);
+                embeds.push(embed);
+            }
+
             const paginator = new EmbedPaginator(embeds);
             return paginator.send(interaction);
         }
