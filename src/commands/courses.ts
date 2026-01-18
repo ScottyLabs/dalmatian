@@ -315,7 +315,7 @@ const command: SlashCommand = {
             }
 
             const paginator = new EmbedPaginator(embeds);
-            paginator.send(interaction);
+            await paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "course-info") {
             const courseCode = formatCourseNumber(
@@ -528,7 +528,7 @@ const command: SlashCommand = {
                 }
 
                 const paginator = new EmbedPaginator(embeds);
-                paginator.send(interaction);
+                await paginator.send(interaction);
             } else {
                 function formatLine(
                     workload: number,

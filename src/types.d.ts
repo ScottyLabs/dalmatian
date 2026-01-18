@@ -10,17 +10,19 @@ import type {
 // TODO: add text commands to this interface
 export interface SlashCommand {
     data: Pick<SlashCommandBuilder, "name" | "toJSON">;
-    execute: (interaction: ChatInputCommandInteraction) => void;
+    execute: (
+        interaction: ChatInputCommandInteraction,
+    ) => void | Promise<unknown>;
     autocomplete?: (
         client: Client,
         interaction: AutocompleteInteraction,
-    ) => void;
+    ) => void | Promise<void>;
 }
 
 export interface Event<K extends keyof ClientEvents> {
     name: K;
     once: boolean;
-    execute: (...args: ClientEvents[K]) => void;
+    execute: (...args: ClientEvents[K]) => void | Promise<void>;
 }
 
 export interface UserContextCommand {
