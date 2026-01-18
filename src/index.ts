@@ -42,15 +42,14 @@ readdirSync(handlersDir).forEach(async (handler) => {
     }
 });
 
-const origToJSON = function (this: EmbedBuilder) {
-    return EmbedBuilder.prototype.toJSON.call(this);
-};
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const origToJSON = EmbedBuilder.prototype.toJSON;
 
-EmbedBuilder.prototype.toJSON = function () {
+EmbedBuilder.prototype.toJSON = function (this: EmbedBuilder) {
     if (this.data.color == undefined) {
         this.setColor(DEFAULT_EMBED_COLOR);
     }
-    return origToJSON.apply(this);
+    return origToJSON.call(this);
 };
 
 await client.login(process.env.DISCORD_TOKEN);
