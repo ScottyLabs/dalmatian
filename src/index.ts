@@ -42,7 +42,10 @@ readdirSync(handlersDir).forEach(async (handler) => {
     }
 });
 
-const origToJSON = EmbedBuilder.prototype.toJSON;
+const origToJSON = function (this: EmbedBuilder) {
+    return EmbedBuilder.prototype.toJSON.call(this);
+};
+
 EmbedBuilder.prototype.toJSON = function () {
     if (this.data.color == undefined) {
         this.setColor(DEFAULT_EMBED_COLOR);

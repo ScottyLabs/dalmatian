@@ -45,7 +45,7 @@ const event: Event<Events.InteractionCreate> = {
                 command.autocomplete
             ) {
                 try {
-                    command.autocomplete(
+                    await command.autocomplete(
                         client,
                         interaction as AutocompleteInteraction,
                     );
