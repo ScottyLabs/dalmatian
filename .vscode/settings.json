@@ -23,7 +23,7 @@
     "files.readonlyInclude": {
         "**/bun.lock": true,
         "**/bun.nix": true,
-        "drizzle/**": true,
+        "drizzle/**": true
     },
     "biome.lsp.bin": "./node_modules/.bin/biome",
     "typescript.experimental.useTsgo": false,
