@@ -99,7 +99,10 @@ const command: SlashCommand = {
                 chunk.push(members.shift());
                 if (chunk.length >= 20 || members.length === 0) {
                     const description = chunk
-                        .map((member) => `${bold(member!.displayName)} (${member!.user.username})`)
+                        .map(
+                            (member) =>
+                                `${bold(member!.displayName)} (${member!.user.username})`,
+                        )
                         .join("\n");
 
                     const embed = new EmbedBuilder()
