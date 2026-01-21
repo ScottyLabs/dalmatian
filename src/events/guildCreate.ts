@@ -7,7 +7,9 @@ const event: Event<Events.GuildCreate> = {
     async execute(guild) {
         try {
             await guild.members.fetch();
-            console.log(`Cached ${guild.members.cache.size} members for guild ${guild.name}`);
+            console.log(
+                `Cached ${guild.members.cache.size} members for guild ${guild.name}`,
+            );
         } catch (error) {
             console.error(
                 `Failed to cache members for guild ${guild.id}:`,
