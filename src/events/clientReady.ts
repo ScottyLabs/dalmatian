@@ -11,7 +11,9 @@ const event: Event<Events.ClientReady> = {
         for (const guild of client.guilds.cache.values()) {
             try {
                 await guild.members.fetch();
-                console.log(`Cached members for guild ${guild.name}`);
+                console.log(
+                    `Cached ${guild.members.cache.size} members for guild ${guild.name}`,
+                );
             } catch (error) {
                 console.error(
                     `Failed to cache members for guild ${guild.id}:`,
