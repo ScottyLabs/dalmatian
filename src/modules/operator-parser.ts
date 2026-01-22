@@ -4,11 +4,11 @@ type Operator = "AND" | "OR";
 function tokenize(input: string): Token[] {
     // For future reference:
     // \s*([()]) matches any whitespace then a parenthesis
-    // \s*(AND|OR) matches any whitespace then AND or OR (case insensitive because of the end i)
+    // \s*\b(AND|OR)\b matches any whitespace then AND or OR as whole words (case insensitive because of the end i)
     // \s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*) matches any whitespace then a sequence of non-parenthesis, non-whitespace characters, grouping multiple sequences together as long as they aren't AND/OR
     // the end g makes the regex search globally through the string
     const regex =
-        /\s*([()])|\s*(AND|OR)|\s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*)/gi;
+        /\s*([()])|\s*\b(AND|OR)\b|\s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*)/gi;
     const tokens: Token[] = [];
     let match: RegExpExecArray | null;
 
