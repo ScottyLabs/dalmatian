@@ -17,3 +17,15 @@ export type Course = {
     units: string;
     department: string;
 };
+
+export type GenEd = {
+    _id: {
+        $oid: string;
+    };
+    tags: string[];
+    courseID: string;
+    school: string;
+    lastUpdated: string;
+    startsCounting: string;
+    stopsCounting: string;
+};

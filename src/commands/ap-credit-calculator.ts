@@ -4,15 +4,20 @@ import {
     SeparatorBuilder,
     SlashCommandBuilder,
 } from "discord.js";
+import apCoursesData from "../data/ap-courses.json" with { type: "json" };
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+import CITGenedData from "../data/geneds/CITgeneds.json" with { type: "json" };
+import DCGenedData from "../data/geneds/DCgeneds.json" with { type: "json" };
+import MCSGenedData from "../data/geneds/MCSgeneds.json" with { type: "json" };
+import SCSGenedData from "../data/geneds/SCSgeneds.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import {
     type SetupField,
     SetupForm,
     type SetupSchema,
 } from "../utils/creditCalculatorForm.ts";
-import { Course } from "../utils/index.ts";
+import { Course, GenEd } from "../utils/index.ts";
 
 type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 
@@ -25,6 +30,12 @@ type Exam = {
         score: number;
         courses: Course[];
     }[];
+};
+
+type ApCourse = {
+    id: string;
+    name: string;
+    units: string;
 };
 
 function normalizeSchool(
@@ -49,23 +60,52 @@ async function loadApCreditData(): Promise<Exam[]> {
     const exams: Exam[] = [];
 
     const courses = CoursesData as Record<string, Course>;
+    const apCoursesIndex: Record<string, Course> = Object.fromEntries(
+        (apCoursesData as ApCourse[]).map((course) => [
+            course.id,
+            {
+                id: course.id,
+                name: course.name,
+                units: course.units,
+                syllabi: [],
+                desc: "",
+                prereqs: [],
+                prereqString: "",
+                coreqs: [],
+                crosslisted: [],
+                department: "",
+            },
+        ]),
+    );
 
     for (const entry of apCreditData) {
         for (const exam of entry.exams) {
-            const scoreCourses: Course[] = entry.courses
-                .map((id) => {
-                    const course = courses[id];
-                    if (!course) {
-                        return {
-                            id,
-                            name: exam.name,
-                        } as Course;
-                    }
-                    return course;
-                })
-                .filter((c): c is Course => c !== null);
+            const scoreCourses: Course[] = entry.courses.map((id) => {
+                let course = courses[id];
 
-            const examObj: Exam = {
+                if (!course) {
+                    course = apCoursesIndex[id];
+                }
+
+                if (!course) {
+                    return {
+                        id,
+                        name: exam.name,
+                        syllabi: [],
+                        desc: "",
+                        prereqs: [],
+                        prereqString: "",
+                        coreqs: [],
+                        crosslisted: [],
+                        units: "",
+                        department: "",
+                    };
+                }
+
+                return course;
+            });
+
+            exams.push({
                 name: exam.name,
                 subject: entry.subject as
                     | "STEM"
@@ -80,9 +120,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                         courses: scoreCourses,
                     },
                 ],
-            };
-
-            exams.push(examObj);
+            });
         }
     }
     return exams;
@@ -258,7 +296,27 @@ const command: SlashCommand = {
                             t.setContent(`### ${exam.name}`),
                         );
 
+                        if (userSchool == "DC") {
+                            const geneds = DCGenedData as GenEd[];
+                        } else if (userSchool == "CIT") {
+                            const geneds = CITGenedData as GenEd[];
+                        } else if (userSchool == "MCS") {
+                            const geneds = MCSGenedData as GenEd[];
+                        } else if (userSchool == "SCS") {
+                            const geneds = SCSGenedData as GenEd[];
+                        } else if (userSchool == "CFA") {
+                            container.addTextDisplayComponents((t) =>
+                                t.setContent(
+                                    `Gened data not available for ${userSchool}`,
+                                ),
+                            );
+                        }
+
+                        let genedCreditTotal: number = 0;
+
                         for (const course of awardedCourses) {
+                            genedCreditTotal += Number(course.units);
+
                             if (!(course.id in courses) || !course?.id) {
                                 container.addTextDisplayComponents((t) =>
                                     t.setContent(
@@ -277,7 +335,9 @@ const command: SlashCommand = {
 
                         if (exam.info != undefined) {
                             container.addTextDisplayComponents((t) =>
-                                t.setContent(`note: ${exam.info}`),
+                                t.setContent(
+                                    `note: ${exam.info}\nGenEd Unit Total: ${genedCreditTotal}`,
+                                ),
                             );
                         }
                     }

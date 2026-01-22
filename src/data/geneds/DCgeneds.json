@@ -1,4147 +1,3511 @@
-[{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4902d"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "05-360",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4902e"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "16-223",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4902f"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "17-313",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49030"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "18-090",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49031"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "19-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49032"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "36-315",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49033"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "48-095",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49034"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "49-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49035"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "53-322",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49036"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "60-223",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49037"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "62-150",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49038"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "70-100",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49039"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "70-122",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4903a"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "70-246",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4903b"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "70-415",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4903c"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "76-270",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4903d"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "82-250",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4903e"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "85-107",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4903f"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "88-150",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49040"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "88-223",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49041"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "88-235",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49042"
-  },
-  "tags": [
-    "Additional Disciplines"
-  ],
-  "courseID": "99-361",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49043"
-  },
-  "tags": [
-    "Communication"
-  ],
-  "courseID": "76-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49044"
-  },
-  "tags": [
-    "Communication"
-  ],
-  "courseID": "76-102",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49045"
-  },
-  "tags": [
-    "Communication"
-  ],
-  "courseID": "76-106",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49046"
-  },
-  "tags": [
-    "Communication"
-  ],
-  "courseID": "76-107",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49047"
-  },
-  "tags": [
-    "Communication"
-  ],
-  "courseID": "76-108",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49048"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "15-104",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49049"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "15-110",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4904a"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "15-112",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4904b"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "17-200",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4904c"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "17-450",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4904d"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "19-211",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4904e"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "36-202",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4904f"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "67-220",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49050"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "67-240",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49051"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "70-455",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49052"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "73-265",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49053"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "76-314",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49054"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "76-388",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49055"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "80-325",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49056"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "82-387",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49057"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "84-267",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49058"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "88-300",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49059"
-  },
-  "tags": [
-    "Computational Thinking"
-  ],
-  "courseID": "88-312",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4905a"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "70-334",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4905b"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "76-245",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4905c"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "76-247",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4905d"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "76-252",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4905e"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "76-259",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4905f"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-000",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49060"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-149",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49061"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-153",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49062"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-204",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49063"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-211",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49064"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-212",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49065"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-220",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49066"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-225",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49067"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-248",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49068"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-260",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49069"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-261",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2024"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4906a"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-262",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4906b"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-265",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4906c"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-297",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4906d"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-300",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4906e"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-314",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4906f"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-349",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2024"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49070"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "80-330",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49071"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-180",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49072"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-186",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49073"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-215",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2024"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49074"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-234",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49075"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-253",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49076"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-270",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49077"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-273",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49078"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-281",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Spring 2023"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49079"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-281",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4907a"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-281",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4907b"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-281",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2023"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4907c"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-294",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4907d"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-295",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4907e"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-297",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4907f"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "82-xxx",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49080"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-319",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49081"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-324",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49082"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-325",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49083"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-328",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49084"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-336",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49085"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-355",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49086"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-365",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49087"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-380",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49088"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-387",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49089"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-389",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4908a"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-393",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4908b"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "85-130",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4908c"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "85-150",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4908d"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "85-221",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4908e"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "85-241",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4908f"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "88-234",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49090"
-  },
-  "tags": [
-    "Data Analysis"
-  ],
-  "courseID": "36-200",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49091"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-122",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49092"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-123",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49093"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-125",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49094"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-126",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49095"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-127",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49096"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-128",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49097"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-129",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49098"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-131",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49099"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-132",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4909a"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-133",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4909b"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-134",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4909c"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-135",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4909d"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-136",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4909e"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-137",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4909f"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-138",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a0"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-139",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a1"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-140",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a2"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-141",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a3"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-142",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a4"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-143",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a5"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-144",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a6"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-145",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a7"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-146",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a8"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-147",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490a9"
-  },
-  "tags": [
-    "Grand Challenge Seminar"
-  ],
-  "courseID": "66-151",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490aa"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "76-210",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ab"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "76-233",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ac"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ad"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-112",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ae"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-160",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490af"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-189",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b0"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-203",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b1"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-223",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b2"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-226",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b3"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-234",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b4"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-245",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b5"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-255",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b6"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-261",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b7"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "79-266",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b8"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "80-100",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490b9"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "80-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ba"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "80-130",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490bb"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "80-180",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490bc"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "82-282",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490bd"
-  },
-  "tags": [
-    "Humanities"
-  ],
-  "courseID": "84-120",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490be"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-120",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490bf"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-145",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c0"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-227",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c1"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-229",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c2"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-230",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c3"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-269",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c4"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-272",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c5"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-273",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c6"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-275",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c7"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-288",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c8"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-292",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490c9"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "79-xxx",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ca"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-179",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490cb"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-202",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490cc"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-212",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490cd"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-222",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ce"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-225",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490cf"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-232",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d0"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-235",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d1"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-239",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d2"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-242",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d3"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-252",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d4"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-262",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d5"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-272",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d6"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-275",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d7"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-280",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d8"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-283",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490d9"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-286",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Spring 2022"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490da"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-286",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Spring 2022"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490db"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-286",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2022"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490dc"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-286",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490dd"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-292",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490de"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-303",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490df"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-304",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e0"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-311",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e1"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-312",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e2"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-320",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e3"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-323",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e4"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-331",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e5"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-332",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e6"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-342",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e7"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-343",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e8"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-344",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490e9"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-345",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ea"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-371",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490eb"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-372",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ec"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "84-306",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ed"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "84-323",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ee"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "84-362",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ef"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "15-155",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f0"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "21-102",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f1"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "21-127",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f2"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "73-155",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f3"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "73-347",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f4"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "79-175",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f5"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "80-150",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f6"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "80-210",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f7"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "80-211",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f8"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "80-305",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2023"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490f9"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "80-306",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490fa"
-  },
-  "tags": [
-    "Logic/Mathematical Reasoning"
-  ],
-  "courseID": "80-312",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490fb"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "36-301",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490fc"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "66-236",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490fd"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "76-211",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490fe"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "76-219",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d490ff"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "76-327",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49100"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "76-442",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49101"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-145",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49102"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-210",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49103"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-215",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49104"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-270",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49105"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-276",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49106"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-313",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49107"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-321",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49108"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-349",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49109"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-360",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4910a"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "79-380",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4910b"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "80-234",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4910c"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "80-245",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4910d"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "80-324",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4910e"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "80-335",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4910f"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "80-348",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49110"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "82-184",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49111"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "82-215",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49112"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "82-224",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49113"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "82-260",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49114"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "82-299",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49115"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "82-299",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49116"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "84-309",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49117"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "84-322",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49118"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "84-352",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49119"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "84-367",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4911a"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "85-350",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4911b"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "85-450",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4911c"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "88-221",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4911d"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "88-261",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4911e"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "88-285",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4911f"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "03-120",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49120"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "03-124",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49121"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "03-125",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49122"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "03-132",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49123"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "03-133",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49124"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "03-135",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49125"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "09-108",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49126"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "09-125",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49127"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "09-303",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49128"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "24-291",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49129"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "33-100",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4912a"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "33-104",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4912b"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "33-114",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4912c"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "33-115",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4912d"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "33-120",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4912e"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "79-304",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4912f"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "80-221",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49130"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "80-226",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49131"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-105",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49132"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-106",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49133"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-170",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49134"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-219",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49135"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-359",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49136"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-360",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49137"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-411",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49138"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "85-418",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49139"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "88-130",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4913a"
-  },
-  "tags": [
-    "Scientific Inquiry"
-  ],
-  "courseID": "88-275",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4913b"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "73-102",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4913c"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "73-103",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4913d"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "73-104",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4913e"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "79-201",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4913f"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "84-104",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49140"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "84-226",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49141"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "84-275",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49142"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "85-100",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49143"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "85-102",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49144"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "85-104",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49145"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "85-110",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49146"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "85-190",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49147"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "85-211",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Spring 2025"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49148"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "88-120",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49149"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "88-230",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4914a"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "88-255",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4914b"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "10-335",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4914c"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "51-237",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4914d"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "51-368",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4914e"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "57-411",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4914f"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "60-105",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49150"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "60-106",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49151"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "62-142",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49152"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "70-350",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49153"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "76-239",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49154"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "76-260",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49155"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "76-261",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49156"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "76-265",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49157"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "79-317",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49158"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "79-345",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49159"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-110",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4915a"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-119",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4915b"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-130",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4915c"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-137",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4915d"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-209",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4915e"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-237",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4915f"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-255",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49160"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-268",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49161"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-278",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49162"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-279",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2021",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49163"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-285",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Fall 2022",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49164"
-  },
-  "tags": [
-    "The Arts"
-  ],
-  "courseID": "82-380",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49165"
-  },
-  "tags": [
-    "Communication"
-  ],
-  "courseID": "70-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49166"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-239",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2024",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49167"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "79-387",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49168"
-  },
-  "tags": [
-    "Contextual Thinking"
-  ],
-  "courseID": "84-375",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d49169"
-  },
-  "tags": [
-    "Intercultural and Global Inquiry"
-  ],
-  "courseID": "82-185",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4916a"
-  },
-  "tags": [
-    "Perspectives on Justice and Injustice"
-  ],
-  "courseID": "85-343",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2023",
-  "stopsCounting": "Fall 2099"
-},
-{
-  "_id": {
-    "$oid": "68197ea659ca9badd8d4916b"
-  },
-  "tags": [
-    "Social Sciences"
-  ],
-  "courseID": "84-101",
-  "school": "Dietrich",
-  "lastUpdated": "May-25",
-  "startsCounting": "Spring 2025",
-  "stopsCounting": "Fall 2099"
-}]
+[
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4902d"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "05-360",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4902e"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "16-223",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4902f"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "17-313",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49030"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "18-090",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49031"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "19-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49032"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "36-315",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49033"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "48-095",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49034"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "49-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49035"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "53-322",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49036"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "60-223",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49037"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "62-150",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49038"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "70-100",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49039"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "70-122",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4903a"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "70-246",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4903b"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "70-415",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4903c"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "76-270",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4903d"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "82-250",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4903e"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "85-107",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4903f"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "88-150",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49040"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "88-223",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49041"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "88-235",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49042"
+        },
+        "tags": ["Additional Disciplines"],
+        "courseID": "99-361",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49043"
+        },
+        "tags": ["Communication"],
+        "courseID": "76-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49044"
+        },
+        "tags": ["Communication"],
+        "courseID": "76-102",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49045"
+        },
+        "tags": ["Communication"],
+        "courseID": "76-106",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49046"
+        },
+        "tags": ["Communication"],
+        "courseID": "76-107",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49047"
+        },
+        "tags": ["Communication"],
+        "courseID": "76-108",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49048"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "15-104",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49049"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "15-110",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4904a"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "15-112",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4904b"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "17-200",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4904c"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "17-450",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4904d"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "19-211",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4904e"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "36-202",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4904f"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "67-220",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49050"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "67-240",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49051"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "70-455",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49052"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "73-265",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49053"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "76-314",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49054"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "76-388",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49055"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "80-325",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49056"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "82-387",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49057"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "84-267",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49058"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "88-300",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49059"
+        },
+        "tags": ["Computational Thinking"],
+        "courseID": "88-312",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4905a"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "70-334",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4905b"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "76-245",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4905c"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "76-247",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4905d"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "76-252",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4905e"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "76-259",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4905f"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-000",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49060"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-149",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49061"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-153",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49062"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-204",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49063"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-211",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49064"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-212",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49065"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-220",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49066"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-225",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49067"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-248",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49068"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-260",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49069"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-261",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2024"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4906a"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-262",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4906b"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-265",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4906c"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-297",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4906d"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-300",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4906e"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-314",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4906f"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-349",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2024"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49070"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "80-330",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49071"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-180",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49072"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-186",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49073"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-215",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2024"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49074"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-234",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49075"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-253",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49076"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-270",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49077"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-273",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49078"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-281",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Spring 2023"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49079"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-281",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4907a"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-281",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4907b"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-281",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2023"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4907c"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-294",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4907d"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-295",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4907e"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-297",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4907f"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "82-xxx",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49080"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-319",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49081"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-324",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49082"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-325",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49083"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-328",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49084"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-336",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49085"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-355",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49086"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-365",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49087"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-380",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49088"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-387",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49089"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-389",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4908a"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-393",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4908b"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "85-130",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4908c"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "85-150",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4908d"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "85-221",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4908e"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "85-241",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4908f"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "88-234",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49090"
+        },
+        "tags": ["Data Analysis"],
+        "courseID": "36-200",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49091"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-122",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49092"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-123",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49093"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-125",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49094"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-126",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49095"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-127",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49096"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-128",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49097"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-129",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49098"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-131",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49099"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-132",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4909a"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-133",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4909b"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-134",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4909c"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-135",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4909d"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-136",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4909e"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-137",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4909f"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-138",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a0"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-139",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a1"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-140",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a2"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-141",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a3"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-142",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a4"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-143",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a5"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-144",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a6"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-145",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a7"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-146",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a8"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-147",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490a9"
+        },
+        "tags": ["Grand Challenge Seminar"],
+        "courseID": "66-151",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490aa"
+        },
+        "tags": ["Humanities"],
+        "courseID": "76-210",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ab"
+        },
+        "tags": ["Humanities"],
+        "courseID": "76-233",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ac"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ad"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-112",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ae"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-160",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490af"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-189",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b0"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-203",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b1"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-223",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b2"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-226",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b3"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-234",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b4"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-245",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b5"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-255",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b6"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-261",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b7"
+        },
+        "tags": ["Humanities"],
+        "courseID": "79-266",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b8"
+        },
+        "tags": ["Humanities"],
+        "courseID": "80-100",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490b9"
+        },
+        "tags": ["Humanities"],
+        "courseID": "80-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ba"
+        },
+        "tags": ["Humanities"],
+        "courseID": "80-130",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490bb"
+        },
+        "tags": ["Humanities"],
+        "courseID": "80-180",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490bc"
+        },
+        "tags": ["Humanities"],
+        "courseID": "82-282",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490bd"
+        },
+        "tags": ["Humanities"],
+        "courseID": "84-120",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490be"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-120",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490bf"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-145",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c0"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-227",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c1"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-229",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c2"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-230",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c3"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-269",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c4"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-272",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c5"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-273",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c6"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-275",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c7"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-288",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c8"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-292",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490c9"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "79-xxx",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ca"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-179",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490cb"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-202",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490cc"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-212",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490cd"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-222",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ce"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-225",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490cf"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-232",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d0"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-235",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d1"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-239",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d2"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-242",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d3"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-252",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d4"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-262",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d5"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-272",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d6"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-275",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d7"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-280",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d8"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-283",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490d9"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-286",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Spring 2022"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490da"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-286",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Spring 2022"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490db"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-286",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2022"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490dc"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-286",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490dd"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-292",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490de"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-303",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490df"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-304",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e0"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-311",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e1"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-312",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e2"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-320",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e3"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-323",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e4"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-331",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e5"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-332",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e6"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-342",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e7"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-343",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e8"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-344",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490e9"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-345",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ea"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-371",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490eb"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-372",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ec"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "84-306",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ed"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "84-323",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ee"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "84-362",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ef"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "15-155",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f0"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "21-102",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f1"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "21-127",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f2"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "73-155",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f3"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "73-347",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f4"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "79-175",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f5"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "80-150",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f6"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "80-210",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f7"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "80-211",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f8"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "80-305",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2023"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490f9"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "80-306",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490fa"
+        },
+        "tags": ["Logic/Mathematical Reasoning"],
+        "courseID": "80-312",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490fb"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "36-301",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490fc"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "66-236",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490fd"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "76-211",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490fe"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "76-219",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d490ff"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "76-327",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49100"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "76-442",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49101"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-145",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49102"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-210",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49103"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-215",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49104"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-270",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49105"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-276",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49106"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-313",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49107"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-321",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49108"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-349",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49109"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-360",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4910a"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "79-380",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4910b"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "80-234",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4910c"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "80-245",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4910d"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "80-324",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4910e"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "80-335",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4910f"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "80-348",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49110"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "82-184",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49111"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "82-215",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49112"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "82-224",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49113"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "82-260",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49114"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "82-299",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49115"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "82-299",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49116"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "84-309",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49117"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "84-322",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49118"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "84-352",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49119"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "84-367",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4911a"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "85-350",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4911b"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "85-450",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4911c"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "88-221",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4911d"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "88-261",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4911e"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "88-285",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4911f"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "03-120",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49120"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "03-124",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49121"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "03-125",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49122"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "03-132",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49123"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "03-133",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49124"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "03-135",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49125"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "09-108",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49126"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "09-125",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49127"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "09-303",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49128"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "24-291",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49129"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "33-100",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4912a"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "33-104",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4912b"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "33-114",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4912c"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "33-115",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4912d"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "33-120",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4912e"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "79-304",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4912f"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "80-221",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49130"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "80-226",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49131"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-105",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49132"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-106",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49133"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-170",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49134"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-219",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49135"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-359",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49136"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-360",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49137"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-411",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49138"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "85-418",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49139"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "88-130",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4913a"
+        },
+        "tags": ["Scientific Inquiry"],
+        "courseID": "88-275",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4913b"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "73-102",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4913c"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "73-103",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4913d"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "73-104",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4913e"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "79-201",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4913f"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "84-104",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49140"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "84-226",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49141"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "84-275",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49142"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "85-100",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49143"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "85-102",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49144"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "85-104",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49145"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "85-110",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49146"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "85-190",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49147"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "85-211",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Spring 2025"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49148"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "88-120",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49149"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "88-230",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4914a"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "88-255",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4914b"
+        },
+        "tags": ["The Arts"],
+        "courseID": "10-335",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4914c"
+        },
+        "tags": ["The Arts"],
+        "courseID": "51-237",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4914d"
+        },
+        "tags": ["The Arts"],
+        "courseID": "51-368",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4914e"
+        },
+        "tags": ["The Arts"],
+        "courseID": "57-411",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4914f"
+        },
+        "tags": ["The Arts"],
+        "courseID": "60-105",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49150"
+        },
+        "tags": ["The Arts"],
+        "courseID": "60-106",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49151"
+        },
+        "tags": ["The Arts"],
+        "courseID": "62-142",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49152"
+        },
+        "tags": ["The Arts"],
+        "courseID": "70-350",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49153"
+        },
+        "tags": ["The Arts"],
+        "courseID": "76-239",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49154"
+        },
+        "tags": ["The Arts"],
+        "courseID": "76-260",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49155"
+        },
+        "tags": ["The Arts"],
+        "courseID": "76-261",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49156"
+        },
+        "tags": ["The Arts"],
+        "courseID": "76-265",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49157"
+        },
+        "tags": ["The Arts"],
+        "courseID": "79-317",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49158"
+        },
+        "tags": ["The Arts"],
+        "courseID": "79-345",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49159"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-110",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4915a"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-119",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4915b"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-130",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4915c"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-137",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4915d"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-209",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4915e"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-237",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4915f"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-255",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49160"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-268",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49161"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-278",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49162"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-279",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2021",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49163"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-285",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Fall 2022",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49164"
+        },
+        "tags": ["The Arts"],
+        "courseID": "82-380",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49165"
+        },
+        "tags": ["Communication"],
+        "courseID": "70-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49166"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-239",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2024",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49167"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "79-387",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49168"
+        },
+        "tags": ["Contextual Thinking"],
+        "courseID": "84-375",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d49169"
+        },
+        "tags": ["Intercultural and Global Inquiry"],
+        "courseID": "82-185",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4916a"
+        },
+        "tags": ["Perspectives on Justice and Injustice"],
+        "courseID": "85-343",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2023",
+        "stopsCounting": "Fall 2099"
+    },
+    {
+        "_id": {
+            "$oid": "68197ea659ca9badd8d4916b"
+        },
+        "tags": ["Social Sciences"],
+        "courseID": "84-101",
+        "school": "Dietrich",
+        "lastUpdated": "May-25",
+        "startsCounting": "Spring 2025",
+        "stopsCounting": "Fall 2099"
+    }
+]
