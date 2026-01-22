@@ -67,9 +67,11 @@ function loadCoursesData(): Record<string, Course> {
 }
 
 function formatCourseNumber(courseNumber: string): string | null {
-    if (courseNumber.match(/^\d{2}-?\d{3}$/)) {
+    if (courseNumber.match(/^\d{2}(-| )?\d{3}$/)) {
         if (courseNumber.includes("-")) {
             return courseNumber;
+        } else if (courseNumber.includes(" ")) {
+            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(3)}`;
         } else {
             return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}`;
         }
@@ -267,7 +269,7 @@ const command: SlashCommand = {
                     courseString,
                     (value) => {
                         // this is bad code because it is no longer a black box
-                        if (!value.match(/^\d{2}-?\d{3}$/)) {
+                        if (!value.match(/^\d{2}(-| )?\d{3}$/)) {
                             throw new Error(`Unexpected token: ${value}`);
                         }
                         return value;
