@@ -7,7 +7,8 @@ function tokenize(input: string): Token[] {
     // \s*(AND|OR) matches any whitespace then AND or OR (case insensitive because of the end i)
     // \s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*) matches any whitespace then a sequence of non-parenthesis, non-whitespace characters, grouping multiple sequences together as long as they aren't AND/OR
     // the end g makes the regex search globally through the string
-    const regex = /\s*([()])|\s*(AND|OR)|\s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*)/gi;
+    const regex =
+        /\s*([()])|\s*(AND|OR)|\s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*)/gi;
     const tokens: Token[] = [];
     let match: RegExpExecArray | null;
 
