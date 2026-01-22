@@ -5,9 +5,9 @@ function tokenize(input: string): Token[] {
     // For future reference:
     // \s*([()]) matches any whitespace then a parenthesis
     // \s*(AND|OR) matches any whitespace then AND or OR (case insensitive because of the end i)
-    // \s*(\w+(?:\s+(?!AND|OR)\w+)*) matches any whitespace then a sequence of words, grouping multiple words together as long as they aren't AND/OR
+    // \s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*) matches any whitespace then a sequence of non-parenthesis, non-whitespace characters, grouping multiple sequences together as long as they aren't AND/OR
     // the end g makes the regex search globally through the string
-    const regex = /\s*([()])|\s*(AND|OR)|\s*(\w+(?:\s+(?!AND|OR)\w+)*)/gi;
+    const regex = /\s*([()])|\s*(AND|OR)|\s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*)/gi;
     const tokens: Token[] = [];
     let match: RegExpExecArray | null;
 
