@@ -113,7 +113,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                     | "Humanities"
                     | "N/A",
                 school: normalizeSchool(entry.school) ?? undefined,
-                info: entry.info ?? "",
+                info: entry.info?.trim() || "N/A",
                 scores: [
                     {
                         score: exam.score,
@@ -124,6 +124,10 @@ async function loadApCreditData(): Promise<Exam[]> {
         }
     }
     return exams;
+}
+
+function getGenedsForCourse(courseId: string, geneds: GenEd[]): string[] {
+    return geneds.filter((g) => g.courseID === courseId).flatMap((g) => g.tags);
 }
 
 const command: SlashCommand = {
@@ -287,6 +291,8 @@ const command: SlashCommand = {
                         return container;
                     }
 
+                    let genedCreditTotal = 0;
+
                     for (const { exam, courses: awardedCourses } of awarded) {
                         container.addSeparatorComponents(
                             new SeparatorBuilder(),
@@ -296,14 +302,16 @@ const command: SlashCommand = {
                             t.setContent(`### ${exam.name}`),
                         );
 
+                        let geneds: GenEd[] | null = null;
+
                         if (userSchool == "DC") {
-                            const geneds = DCGenedData as GenEd[];
+                            geneds = DCGenedData as GenEd[];
                         } else if (userSchool == "CIT") {
-                            const geneds = CITGenedData as GenEd[];
+                            geneds = CITGenedData as GenEd[];
                         } else if (userSchool == "MCS") {
-                            const geneds = MCSGenedData as GenEd[];
+                            geneds = MCSGenedData as GenEd[];
                         } else if (userSchool == "SCS") {
-                            const geneds = SCSGenedData as GenEd[];
+                            geneds = SCSGenedData as GenEd[];
                         } else if (userSchool == "CFA") {
                             container.addTextDisplayComponents((t) =>
                                 t.setContent(
@@ -312,36 +320,43 @@ const command: SlashCommand = {
                             );
                         }
 
-                        let genedCreditTotal: number = 0;
-
                         for (const course of awardedCourses) {
-                            genedCreditTotal += Number(course.units);
+                            const units = Number(course.units) || 0;
+                            genedCreditTotal += units;
 
-                            if (!(course.id in courses) || !course?.id) {
-                                container.addTextDisplayComponents((t) =>
-                                    t.setContent(
-                                        `> **${course.id}** — AP ${course.name}`,
-                                    ),
-                                );
-                                continue;
-                            }
+                            const courseName =
+                                courses[course.id]?.name ?? course.name;
+
+                            const genedList =
+                                geneds && course.id
+                                    ? getGenedsForCourse(course.id, geneds)
+                                    : [];
+
+                            const genedTags = genedList.length
+                                ? genedList.map((g) => `[${g}]`).join(" ")
+                                : "_None_";
 
                             container.addTextDisplayComponents((t) =>
                                 t.setContent(
-                                    `> **${course.id}** — ${courses[course.id]!.name}`,
+                                    [
+                                        `> **${course.id}** — ${courseName}`,
+                                        `> **${units} units** · GenEds: ${genedTags}`,
+                                    ].join("\n"),
                                 ),
                             );
                         }
-
-                        if (exam.info != undefined) {
+                        if (exam.info !== undefined) {
                             container.addTextDisplayComponents((t) =>
-                                t.setContent(
-                                    `note: ${exam.info}\nGenEd Unit Total: ${genedCreditTotal}`,
-                                ),
+                                t.setContent(`note: ${exam.info}`),
                             );
                         }
                     }
 
+                    container.addTextDisplayComponents((t) =>
+                        t.setContent(
+                            `**GenEd Unit Total:** ${genedCreditTotal}`,
+                        ),
+                    );
                     return container;
                 },
             };

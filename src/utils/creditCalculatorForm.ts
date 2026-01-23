@@ -149,7 +149,6 @@ export class SetupForm {
         return container;
     }
 
-
     private async handleInteractions(): Promise<void> {
         const message = await this.interaction.fetchReply();
 
@@ -163,7 +162,7 @@ export class SetupForm {
                 i.isButton() &&
                 i.customId === `setup:${this.schema.name}:submit`
             ) {
-                await i.deferUpdate(); 
+                await i.deferUpdate();
                 collector.stop("submitted");
                 return;
             }
@@ -233,7 +232,6 @@ export class SetupForm {
         });
     }
 
-
     private async handleStringSelect(
         interaction: StringSelectMenuInteraction,
     ): Promise<void> {
@@ -253,8 +251,7 @@ export class SetupForm {
         await interaction.update({
             components: [container],
         });
-}
-
+    }
 
     private buildScoreSelect(
         field: SetupField,
@@ -276,5 +273,4 @@ export class SetupForm {
             scoreSelect,
         );
     }
-
 }

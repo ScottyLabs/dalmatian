@@ -1,2744 +1,2243 @@
-[{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110938b"
-  },
-  "courseID": "03-121",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110938c"
-  },
-  "courseID": "03-151",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110938d"
-  },
-  "courseID": "03-125",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110938e"
-  },
-  "courseID": "03-132",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110938f"
-  },
-  "courseID": "03-133",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109390"
-  },
-  "courseID": "03-135",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109391"
-  },
-  "courseID": "03-140",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109392"
-  },
-  "courseID": "03-161",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109393"
-  },
-  "courseID": "06-100",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109394"
-  },
-  "courseID": "06-223",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109395"
-  },
-  "courseID": "06-261",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109396"
-  },
-  "courseID": "09-105",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109397"
-  },
-  "courseID": "09-106",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109398"
-  },
-  "courseID": "09-217",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109399"
-  },
-  "courseID": "09-218",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110939a"
-  },
-  "courseID": "09-225",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110939b"
-  },
-  "courseID": "09-348",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110939c"
-  },
-  "courseID": "12-100",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110939d"
-  },
-  "courseID": "12-201",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110939e"
-  },
-  "courseID": "12-212",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110939f"
-  },
-  "courseID": "12-231",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a0"
-  },
-  "courseID": "12-351",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a1"
-  },
-  "courseID": "18-095",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a2"
-  },
-  "courseID": "18-100",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a3"
-  },
-  "courseID": "18-220",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a4"
-  },
-  "courseID": "18-240",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a5"
-  },
-  "courseID": "24-101",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a6"
-  },
-  "courseID": "24-221",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a7"
-  },
-  "courseID": "24-231",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a8"
-  },
-  "courseID": "24-292",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093a9"
-  },
-  "courseID": "24-358",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093aa"
-  },
-  "courseID": "24-381",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ab"
-  },
-  "courseID": "27-215",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ac"
-  },
-  "courseID": "33-114",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ad"
-  },
-  "courseID": "33-120",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ae"
-  },
-  "courseID": "33-121",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093af"
-  },
-  "courseID": "33-141",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b0"
-  },
-  "courseID": "33-151",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b1"
-  },
-  "courseID": "33-142",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b2"
-  },
-  "courseID": "33-152",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b3"
-  },
-  "courseID": "33-211",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b4"
-  },
-  "courseID": "33-224",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b5"
-  },
-  "courseID": "33-225",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b6"
-  },
-  "courseID": "33-226",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b7"
-  },
-  "courseID": "42-101",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b8"
-  },
-  "courseID": "42-202",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093b9"
-  },
-  "courseID": "85-219",
-  "school": "SCS",
-  "tags": [
-    "Science"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ba"
-  },
-  "courseID": "02-261",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093bb"
-  },
-  "courseID": "02-262",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093bc"
-  },
-  "courseID": "03-124",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093bd"
-  },
-  "courseID": "09-101",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093be"
-  },
-  "courseID": "09-105",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093bf"
-  },
-  "courseID": "09-221",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c0"
-  },
-  "courseID": "27-100",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c1"
-  },
-  "courseID": "33-104",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c2"
-  },
-  "courseID": "33-228",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c3"
-  },
-  "courseID": "42-203",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c4"
-  },
-  "courseID": "85-310",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c5"
-  },
-  "courseID": "85-314",
-  "school": "SCS",
-  "tags": [
-    "Lab"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c6"
-  },
-  "courseID": "76-101",
-  "school": "SCS",
-  "tags": [
-    "FYW"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c7"
-  },
-  "courseID": "76-102",
-  "school": "SCS",
-  "tags": [
-    "FYW"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c8"
-  },
-  "courseID": "76-106",
-  "school": "SCS",
-  "tags": [
-    "FYW"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093c9"
-  },
-  "courseID": "76-107",
-  "school": "SCS",
-  "tags": [
-    "FYW"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ca"
-  },
-  "courseID": "76-108",
-  "school": "SCS",
-  "tags": [
-    "FYW"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093cb"
-  },
-  "courseID": "70-311",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093cc"
-  },
-  "courseID": "70-318",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093cd"
-  },
-  "courseID": "70-385",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ce"
-  },
-  "courseID": "80-101",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093cf"
-  },
-  "courseID": "80-130",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d0"
-  },
-  "courseID": "80-150",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d1"
-  },
-  "courseID": "80-180",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d2"
-  },
-  "courseID": "80-221",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d3"
-  },
-  "courseID": "80-252",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d4"
-  },
-  "courseID": "80-270",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d5"
-  },
-  "courseID": "80-271",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d6"
-  },
-  "courseID": "80-275",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d7"
-  },
-  "courseID": "80-330",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d8"
-  },
-  "courseID": "85-102",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093d9"
-  },
-  "courseID": "85-104",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093da"
-  },
-  "courseID": "85-211",
-  "school": "SCS",
-  "tags": [
-    "Cat 1",
-    "Cat 1a"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093db"
-  },
-  "courseID": "85-213",
-  "school": "SCS",
-  "tags": [
-    "Cat 1",
-    "Cat 1a"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093dc"
-  },
-  "courseID": "85-221",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093dd"
-  },
-  "courseID": "85-241",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093de"
-  },
-  "courseID": "85-251",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093df"
-  },
-  "courseID": "85-261",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e0"
-  },
-  "courseID": "85-370",
-  "school": "SCS",
-  "tags": [
-    "Cat 1",
-    "Cat 1a"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e1"
-  },
-  "courseID": "85-408",
-  "school": "SCS",
-  "tags": [
-    "Cat 1",
-    "Cat 1a"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e2"
-  },
-  "courseID": "85-414",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e3"
-  },
-  "courseID": "85-421",
-  "school": "SCS",
-  "tags": [
-    "Cat 1",
-    "Cat 1a"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e4"
-  },
-  "courseID": "88-120",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e5"
-  },
-  "courseID": "88-230",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e6"
-  },
-  "courseID": "88-231",
-  "school": "SCS",
-  "tags": [
-    "Cat 1"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e7"
-  },
-  "courseID": "19-101",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e8"
-  },
-  "courseID": "36-303",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093e9"
-  },
-  "courseID": "66-221",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ea"
-  },
-  "courseID": "70-332",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093eb"
-  },
-  "courseID": "73-102",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ec"
-  },
-  "courseID": "73-103",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ed"
-  },
-  "courseID": "73-104",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ee"
-  },
-  "courseID": "76-425",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ef"
-  },
-  "courseID": "79-101",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f0"
-  },
-  "courseID": "79-189",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f1"
-  },
-  "courseID": "79-237",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f2"
-  },
-  "courseID": "79-244",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f3"
-  },
-  "courseID": "79-253",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f4"
-  },
-  "courseID": "79-300",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f5"
-  },
-  "courseID": "79-320",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f6"
-  },
-  "courseID": "79-321",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f7"
-  },
-  "courseID": "79-331",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f8"
-  },
-  "courseID": "79-370",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093f9"
-  },
-  "courseID": "79-383",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093fa"
-  },
-  "courseID": "79-391",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093fb"
-  },
-  "courseID": "79-392",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093fc"
-  },
-  "courseID": "80-135",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093fd"
-  },
-  "courseID": "80-136",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093fe"
-  },
-  "courseID": "80-244",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc211093ff"
-  },
-  "courseID": "80-245",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109400"
-  },
-  "courseID": "80-324",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109401"
-  },
-  "courseID": "80-335",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109402"
-  },
-  "courseID": "80-334",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109403"
-  },
-  "courseID": "80-348",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109404"
-  },
-  "courseID": "84-104",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109405"
-  },
-  "courseID": "84-110",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109406"
-  },
-  "courseID": "84-275",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109407"
-  },
-  "courseID": "84-322",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109408"
-  },
-  "courseID": "84-324",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109409"
-  },
-  "courseID": "84-352",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110940a"
-  },
-  "courseID": "84-362",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110940b"
-  },
-  "courseID": "84-365",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110940c"
-  },
-  "courseID": "84-380",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110940d"
-  },
-  "courseID": "84-386",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110940e"
-  },
-  "courseID": "84-387",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110940f"
-  },
-  "courseID": "84-389",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109410"
-  },
-  "courseID": "84-390",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109411"
-  },
-  "courseID": "84-393",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109412"
-  },
-  "courseID": "84-402",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109413"
-  },
-  "courseID": "84-405",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109414"
-  },
-  "courseID": "88-281",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109415"
-  },
-  "courseID": "88-284",
-  "school": "SCS",
-  "tags": [
-    "Cat 2"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109416"
-  },
-  "courseID": "48-240",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109417"
-  },
-  "courseID": "48-241",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109418"
-  },
-  "courseID": "57-173",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109419"
-  },
-  "courseID": "60-105",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110941a"
-  },
-  "courseID": "60-106",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110941b"
-  },
-  "courseID": "62-371",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110941c"
-  },
-  "courseID": "39-193",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110941d"
-  },
-  "courseID": "70-342",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110941e"
-  },
-  "courseID": "70-348",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110941f"
-  },
-  "courseID": "76-221",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109420"
-  },
-  "courseID": "76-230",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109421"
-  },
-  "courseID": "76-232",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109422"
-  },
-  "courseID": "76-239",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109423"
-  },
-  "courseID": "76-241",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109424"
-  },
-  "courseID": "76-339",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109425"
-  },
-  "courseID": "76-386",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109426"
-  },
-  "courseID": "79-104",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109427"
-  },
-  "courseID": "79-145",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109428"
-  },
-  "courseID": "79-201",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109429"
-  },
-  "courseID": "79-202",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110942a"
-  },
-  "courseID": "00-175",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110942b"
-  },
-  "courseID": "79-211",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110942c"
-  },
-  "courseID": "79-223",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110942d"
-  },
-  "courseID": "79-226",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110942e"
-  },
-  "courseID": "79-229",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110942f"
-  },
-  "courseID": "80-194",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109430"
-  },
-  "courseID": "79-230",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109431"
-  },
-  "courseID": "79-234",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109432"
-  },
-  "courseID": "79-240",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109433"
-  },
-  "courseID": "79-242",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109434"
-  },
-  "courseID": "79-245",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109435"
-  },
-  "courseID": "79-248",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109436"
-  },
-  "courseID": "79-261",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109437"
-  },
-  "courseID": "00-190",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109438"
-  },
-  "courseID": "79-262",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109439"
-  },
-  "courseID": "79-265",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110943a"
-  },
-  "courseID": "79-281",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110943b"
-  },
-  "courseID": "79-282",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110943c"
-  },
-  "courseID": "79-288",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110943d"
-  },
-  "courseID": "79-293",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110943e"
-  },
-  "courseID": "79-316",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110943f"
-  },
-  "courseID": "39-193",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109440"
-  },
-  "courseID": "79-329",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109441"
-  },
-  "courseID": "79-345",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109442"
-  },
-  "courseID": "79-350",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109443"
-  },
-  "courseID": "79-378",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109444"
-  },
-  "courseID": "79-393",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109445"
-  },
-  "courseID": "79-395",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109446"
-  },
-  "courseID": "79-396",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109447"
-  },
-  "courseID": "79-465",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109448"
-  },
-  "courseID": "80-100",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109449"
-  },
-  "courseID": "80-250",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110944a"
-  },
-  "courseID": "80-251",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110944b"
-  },
-  "courseID": "80-253",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110944c"
-  },
-  "courseID": "80-254",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110944d"
-  },
-  "courseID": "80-255",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110944e"
-  },
-  "courseID": "80-261",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110944f"
-  },
-  "courseID": "80-276",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109450"
-  },
-  "courseID": "82-119",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109451"
-  },
-  "courseID": "82-267",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109452"
-  },
-  "courseID": "82-273",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109453"
-  },
-  "courseID": "82-279",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109454"
-  },
-  "courseID": "82-280",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109455"
-  },
-  "courseID": "82-282",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109456"
-  },
-  "courseID": "82-283",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109457"
-  },
-  "courseID": "82-286",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109458"
-  },
-  "courseID": "82-293",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109459"
-  },
-  "courseID": "82-294",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110945a"
-  },
-  "courseID": "82-303",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110945b"
-  },
-  "courseID": "82-304",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110945c"
-  },
-  "courseID": "82-313",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110945d"
-  },
-  "courseID": "82-314",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110945e"
-  },
-  "courseID": "82-327",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110945f"
-  },
-  "courseID": "82-333",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109460"
-  },
-  "courseID": "82-342",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109461"
-  },
-  "courseID": "82-343",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109462"
-  },
-  "courseID": "82-344",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109463"
-  },
-  "courseID": "82-345",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109464"
-  },
-  "courseID": "82-436",
-  "school": "SCS",
-  "tags": [
-    "Cat 3"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109465"
-  },
-  "courseID": "07-135",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109466"
-  },
-  "courseID": "11-423",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109467"
-  },
-  "courseID": "16-161",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109468"
-  },
-  "courseID": "16-397",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109469"
-  },
-  "courseID": "17-333",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110946a"
-  },
-  "courseID": "17-562",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110946b"
-  },
-  "courseID": "19-101",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110946c"
-  },
-  "courseID": "19-351",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110946d"
-  },
-  "courseID": "19-402",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110946e"
-  },
-  "courseID": "19-403",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110946f"
-  },
-  "courseID": "19-411",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109470"
-  },
-  "courseID": "21-150",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109471"
-  },
-  "courseID": "32-201",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109472"
-  },
-  "courseID": "32-402",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109473"
-  },
-  "courseID": "70-100",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109474"
-  },
-  "courseID": "70-311",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109475"
-  },
-  "courseID": "70-318",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109476"
-  },
-  "courseID": "70-321",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109477"
-  },
-  "courseID": "70-332",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109478"
-  },
-  "courseID": "70-340",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109479"
-  },
-  "courseID": "70-341",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110947a"
-  },
-  "courseID": "70-342",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110947b"
-  },
-  "courseID": "70-345",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110947c"
-  },
-  "courseID": "70-348",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110947d"
-  },
-  "courseID": "70-350",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110947e"
-  },
-  "courseID": "70-352",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc2110947f"
-  },
-  "courseID": "70-364",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109480"
-  },
-  "courseID": "70-365",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109481"
-  },
-  "courseID": "70-381",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109482"
-  },
-  "courseID": "70-430",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "6706046c5db91fcc21109483"
-  },
-  "courseID": "70-443",
-  "school": "SCS",
-  "tags": [
-    "Unconstrained"
-  ],
-  "lastUpdated": "Oct 2024"
-}]
+[
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110938b"
+        },
+        "courseID": "03-121",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110938c"
+        },
+        "courseID": "03-151",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110938d"
+        },
+        "courseID": "03-125",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110938e"
+        },
+        "courseID": "03-132",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110938f"
+        },
+        "courseID": "03-133",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109390"
+        },
+        "courseID": "03-135",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109391"
+        },
+        "courseID": "03-140",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109392"
+        },
+        "courseID": "03-161",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109393"
+        },
+        "courseID": "06-100",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109394"
+        },
+        "courseID": "06-223",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109395"
+        },
+        "courseID": "06-261",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109396"
+        },
+        "courseID": "09-105",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109397"
+        },
+        "courseID": "09-106",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109398"
+        },
+        "courseID": "09-217",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109399"
+        },
+        "courseID": "09-218",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110939a"
+        },
+        "courseID": "09-225",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110939b"
+        },
+        "courseID": "09-348",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110939c"
+        },
+        "courseID": "12-100",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110939d"
+        },
+        "courseID": "12-201",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110939e"
+        },
+        "courseID": "12-212",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110939f"
+        },
+        "courseID": "12-231",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a0"
+        },
+        "courseID": "12-351",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a1"
+        },
+        "courseID": "18-095",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a2"
+        },
+        "courseID": "18-100",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a3"
+        },
+        "courseID": "18-220",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a4"
+        },
+        "courseID": "18-240",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a5"
+        },
+        "courseID": "24-101",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a6"
+        },
+        "courseID": "24-221",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a7"
+        },
+        "courseID": "24-231",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a8"
+        },
+        "courseID": "24-292",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093a9"
+        },
+        "courseID": "24-358",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093aa"
+        },
+        "courseID": "24-381",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ab"
+        },
+        "courseID": "27-215",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ac"
+        },
+        "courseID": "33-114",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ad"
+        },
+        "courseID": "33-120",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ae"
+        },
+        "courseID": "33-121",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093af"
+        },
+        "courseID": "33-141",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b0"
+        },
+        "courseID": "33-151",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b1"
+        },
+        "courseID": "33-142",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b2"
+        },
+        "courseID": "33-152",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b3"
+        },
+        "courseID": "33-211",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b4"
+        },
+        "courseID": "33-224",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b5"
+        },
+        "courseID": "33-225",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b6"
+        },
+        "courseID": "33-226",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b7"
+        },
+        "courseID": "42-101",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b8"
+        },
+        "courseID": "42-202",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093b9"
+        },
+        "courseID": "85-219",
+        "school": "SCS",
+        "tags": ["Science"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ba"
+        },
+        "courseID": "02-261",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093bb"
+        },
+        "courseID": "02-262",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093bc"
+        },
+        "courseID": "03-124",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093bd"
+        },
+        "courseID": "09-101",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093be"
+        },
+        "courseID": "09-105",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093bf"
+        },
+        "courseID": "09-221",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c0"
+        },
+        "courseID": "27-100",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c1"
+        },
+        "courseID": "33-104",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c2"
+        },
+        "courseID": "33-228",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c3"
+        },
+        "courseID": "42-203",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c4"
+        },
+        "courseID": "85-310",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c5"
+        },
+        "courseID": "85-314",
+        "school": "SCS",
+        "tags": ["Lab"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c6"
+        },
+        "courseID": "76-101",
+        "school": "SCS",
+        "tags": ["FYW"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c7"
+        },
+        "courseID": "76-102",
+        "school": "SCS",
+        "tags": ["FYW"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c8"
+        },
+        "courseID": "76-106",
+        "school": "SCS",
+        "tags": ["FYW"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093c9"
+        },
+        "courseID": "76-107",
+        "school": "SCS",
+        "tags": ["FYW"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ca"
+        },
+        "courseID": "76-108",
+        "school": "SCS",
+        "tags": ["FYW"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093cb"
+        },
+        "courseID": "70-311",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093cc"
+        },
+        "courseID": "70-318",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093cd"
+        },
+        "courseID": "70-385",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ce"
+        },
+        "courseID": "80-101",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093cf"
+        },
+        "courseID": "80-130",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d0"
+        },
+        "courseID": "80-150",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d1"
+        },
+        "courseID": "80-180",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d2"
+        },
+        "courseID": "80-221",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d3"
+        },
+        "courseID": "80-252",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d4"
+        },
+        "courseID": "80-270",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d5"
+        },
+        "courseID": "80-271",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d6"
+        },
+        "courseID": "80-275",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d7"
+        },
+        "courseID": "80-330",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d8"
+        },
+        "courseID": "85-102",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093d9"
+        },
+        "courseID": "85-104",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093da"
+        },
+        "courseID": "85-211",
+        "school": "SCS",
+        "tags": ["Cat 1", "Cat 1a"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093db"
+        },
+        "courseID": "85-213",
+        "school": "SCS",
+        "tags": ["Cat 1", "Cat 1a"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093dc"
+        },
+        "courseID": "85-221",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093dd"
+        },
+        "courseID": "85-241",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093de"
+        },
+        "courseID": "85-251",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093df"
+        },
+        "courseID": "85-261",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e0"
+        },
+        "courseID": "85-370",
+        "school": "SCS",
+        "tags": ["Cat 1", "Cat 1a"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e1"
+        },
+        "courseID": "85-408",
+        "school": "SCS",
+        "tags": ["Cat 1", "Cat 1a"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e2"
+        },
+        "courseID": "85-414",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e3"
+        },
+        "courseID": "85-421",
+        "school": "SCS",
+        "tags": ["Cat 1", "Cat 1a"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e4"
+        },
+        "courseID": "88-120",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e5"
+        },
+        "courseID": "88-230",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e6"
+        },
+        "courseID": "88-231",
+        "school": "SCS",
+        "tags": ["Cat 1"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e7"
+        },
+        "courseID": "19-101",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e8"
+        },
+        "courseID": "36-303",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093e9"
+        },
+        "courseID": "66-221",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ea"
+        },
+        "courseID": "70-332",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093eb"
+        },
+        "courseID": "73-102",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ec"
+        },
+        "courseID": "73-103",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ed"
+        },
+        "courseID": "73-104",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ee"
+        },
+        "courseID": "76-425",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ef"
+        },
+        "courseID": "79-101",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f0"
+        },
+        "courseID": "79-189",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f1"
+        },
+        "courseID": "79-237",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f2"
+        },
+        "courseID": "79-244",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f3"
+        },
+        "courseID": "79-253",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f4"
+        },
+        "courseID": "79-300",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f5"
+        },
+        "courseID": "79-320",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f6"
+        },
+        "courseID": "79-321",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f7"
+        },
+        "courseID": "79-331",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f8"
+        },
+        "courseID": "79-370",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093f9"
+        },
+        "courseID": "79-383",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093fa"
+        },
+        "courseID": "79-391",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093fb"
+        },
+        "courseID": "79-392",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093fc"
+        },
+        "courseID": "80-135",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093fd"
+        },
+        "courseID": "80-136",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093fe"
+        },
+        "courseID": "80-244",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc211093ff"
+        },
+        "courseID": "80-245",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109400"
+        },
+        "courseID": "80-324",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109401"
+        },
+        "courseID": "80-335",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109402"
+        },
+        "courseID": "80-334",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109403"
+        },
+        "courseID": "80-348",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109404"
+        },
+        "courseID": "84-104",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109405"
+        },
+        "courseID": "84-110",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109406"
+        },
+        "courseID": "84-275",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109407"
+        },
+        "courseID": "84-322",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109408"
+        },
+        "courseID": "84-324",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109409"
+        },
+        "courseID": "84-352",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110940a"
+        },
+        "courseID": "84-362",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110940b"
+        },
+        "courseID": "84-365",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110940c"
+        },
+        "courseID": "84-380",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110940d"
+        },
+        "courseID": "84-386",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110940e"
+        },
+        "courseID": "84-387",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110940f"
+        },
+        "courseID": "84-389",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109410"
+        },
+        "courseID": "84-390",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109411"
+        },
+        "courseID": "84-393",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109412"
+        },
+        "courseID": "84-402",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109413"
+        },
+        "courseID": "84-405",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109414"
+        },
+        "courseID": "88-281",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109415"
+        },
+        "courseID": "88-284",
+        "school": "SCS",
+        "tags": ["Cat 2"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109416"
+        },
+        "courseID": "48-240",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109417"
+        },
+        "courseID": "48-241",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109418"
+        },
+        "courseID": "57-173",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109419"
+        },
+        "courseID": "60-105",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110941a"
+        },
+        "courseID": "60-106",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110941b"
+        },
+        "courseID": "62-371",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110941c"
+        },
+        "courseID": "39-193",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110941d"
+        },
+        "courseID": "70-342",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110941e"
+        },
+        "courseID": "70-348",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110941f"
+        },
+        "courseID": "76-221",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109420"
+        },
+        "courseID": "76-230",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109421"
+        },
+        "courseID": "76-232",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109422"
+        },
+        "courseID": "76-239",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109423"
+        },
+        "courseID": "76-241",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109424"
+        },
+        "courseID": "76-339",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109425"
+        },
+        "courseID": "76-386",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109426"
+        },
+        "courseID": "79-104",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109427"
+        },
+        "courseID": "79-145",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109428"
+        },
+        "courseID": "79-201",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109429"
+        },
+        "courseID": "79-202",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110942a"
+        },
+        "courseID": "00-175",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110942b"
+        },
+        "courseID": "79-211",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110942c"
+        },
+        "courseID": "79-223",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110942d"
+        },
+        "courseID": "79-226",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110942e"
+        },
+        "courseID": "79-229",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110942f"
+        },
+        "courseID": "80-194",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109430"
+        },
+        "courseID": "79-230",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109431"
+        },
+        "courseID": "79-234",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109432"
+        },
+        "courseID": "79-240",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109433"
+        },
+        "courseID": "79-242",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109434"
+        },
+        "courseID": "79-245",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109435"
+        },
+        "courseID": "79-248",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109436"
+        },
+        "courseID": "79-261",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109437"
+        },
+        "courseID": "00-190",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109438"
+        },
+        "courseID": "79-262",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109439"
+        },
+        "courseID": "79-265",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110943a"
+        },
+        "courseID": "79-281",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110943b"
+        },
+        "courseID": "79-282",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110943c"
+        },
+        "courseID": "79-288",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110943d"
+        },
+        "courseID": "79-293",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110943e"
+        },
+        "courseID": "79-316",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110943f"
+        },
+        "courseID": "39-193",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109440"
+        },
+        "courseID": "79-329",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109441"
+        },
+        "courseID": "79-345",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109442"
+        },
+        "courseID": "79-350",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109443"
+        },
+        "courseID": "79-378",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109444"
+        },
+        "courseID": "79-393",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109445"
+        },
+        "courseID": "79-395",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109446"
+        },
+        "courseID": "79-396",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109447"
+        },
+        "courseID": "79-465",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109448"
+        },
+        "courseID": "80-100",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109449"
+        },
+        "courseID": "80-250",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110944a"
+        },
+        "courseID": "80-251",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110944b"
+        },
+        "courseID": "80-253",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110944c"
+        },
+        "courseID": "80-254",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110944d"
+        },
+        "courseID": "80-255",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110944e"
+        },
+        "courseID": "80-261",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110944f"
+        },
+        "courseID": "80-276",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109450"
+        },
+        "courseID": "82-119",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109451"
+        },
+        "courseID": "82-267",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109452"
+        },
+        "courseID": "82-273",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109453"
+        },
+        "courseID": "82-279",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109454"
+        },
+        "courseID": "82-280",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109455"
+        },
+        "courseID": "82-282",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109456"
+        },
+        "courseID": "82-283",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109457"
+        },
+        "courseID": "82-286",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109458"
+        },
+        "courseID": "82-293",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109459"
+        },
+        "courseID": "82-294",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110945a"
+        },
+        "courseID": "82-303",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110945b"
+        },
+        "courseID": "82-304",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110945c"
+        },
+        "courseID": "82-313",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110945d"
+        },
+        "courseID": "82-314",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110945e"
+        },
+        "courseID": "82-327",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110945f"
+        },
+        "courseID": "82-333",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109460"
+        },
+        "courseID": "82-342",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109461"
+        },
+        "courseID": "82-343",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109462"
+        },
+        "courseID": "82-344",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109463"
+        },
+        "courseID": "82-345",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109464"
+        },
+        "courseID": "82-436",
+        "school": "SCS",
+        "tags": ["Cat 3"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109465"
+        },
+        "courseID": "07-135",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109466"
+        },
+        "courseID": "11-423",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109467"
+        },
+        "courseID": "16-161",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109468"
+        },
+        "courseID": "16-397",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109469"
+        },
+        "courseID": "17-333",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110946a"
+        },
+        "courseID": "17-562",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110946b"
+        },
+        "courseID": "19-101",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110946c"
+        },
+        "courseID": "19-351",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110946d"
+        },
+        "courseID": "19-402",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110946e"
+        },
+        "courseID": "19-403",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110946f"
+        },
+        "courseID": "19-411",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109470"
+        },
+        "courseID": "21-150",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109471"
+        },
+        "courseID": "32-201",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109472"
+        },
+        "courseID": "32-402",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109473"
+        },
+        "courseID": "70-100",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109474"
+        },
+        "courseID": "70-311",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109475"
+        },
+        "courseID": "70-318",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109476"
+        },
+        "courseID": "70-321",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109477"
+        },
+        "courseID": "70-332",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109478"
+        },
+        "courseID": "70-340",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109479"
+        },
+        "courseID": "70-341",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110947a"
+        },
+        "courseID": "70-342",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110947b"
+        },
+        "courseID": "70-345",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110947c"
+        },
+        "courseID": "70-348",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110947d"
+        },
+        "courseID": "70-350",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110947e"
+        },
+        "courseID": "70-352",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc2110947f"
+        },
+        "courseID": "70-364",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109480"
+        },
+        "courseID": "70-365",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109481"
+        },
+        "courseID": "70-381",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109482"
+        },
+        "courseID": "70-430",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "6706046c5db91fcc21109483"
+        },
+        "courseID": "70-443",
+        "school": "SCS",
+        "tags": ["Unconstrained"],
+        "lastUpdated": "Oct 2024"
+    }
+]

@@ -1,3399 +1,2783 @@
-[{
-  "_id": {
-    "$oid": "670604635db91fcc2110918e"
-  },
-  "courseID": "48-215",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110918f"
-  },
-  "courseID": "48-310",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109190"
-  },
-  "courseID": "48-310",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109191"
-  },
-  "courseID": "48-315",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109192"
-  },
-  "courseID": "51-341",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109193"
-  },
-  "courseID": "54-157",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109194"
-  },
-  "courseID": "57-337",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109195"
-  },
-  "courseID": "70-391",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109196"
-  },
-  "courseID": "73-265",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109197"
-  },
-  "courseID": "76-388",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109198"
-  },
-  "courseID": "80-210",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109199"
-  },
-  "courseID": "80-211",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110919a"
-  },
-  "courseID": "80-315",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110919b"
-  },
-  "courseID": "80-413",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110919c"
-  },
-  "courseID": "85-213",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110919d"
-  },
-  "courseID": "85-310",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110919e"
-  },
-  "courseID": "88-251",
-  "school": "CIT",
-  "tags": [
-    "Free Elective Only"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110919f"
-  },
-  "courseID": "32-201",
-  "school": "CIT",
-  "tags": [
-    "General Education Elective"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a0"
-  },
-  "courseID": "32-402",
-  "school": "CIT",
-  "tags": [
-    "General Education Elective"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a1"
-  },
-  "courseID": "70-371",
-  "school": "CIT",
-  "tags": [
-    "General Education Elective"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a2"
-  },
-  "courseID": "90-717",
-  "school": "CIT",
-  "tags": [
-    "General Education Elective"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a3"
-  },
-  "courseID": "90-836",
-  "school": "CIT",
-  "tags": [
-    "General Education Elective"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a4"
-  },
-  "courseID": "16-867",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a5"
-  },
-  "courseID": "17-200",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a6"
-  },
-  "courseID": "19-684",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a7"
-  },
-  "courseID": "24-687",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a8"
-  },
-  "courseID": "27-406",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091a9"
-  },
-  "courseID": "33-120",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091aa"
-  },
-  "courseID": "33-124",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ab"
-  },
-  "courseID": "39-402",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ac"
-  },
-  "courseID": "48-734",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ad"
-  },
-  "courseID": "66-215",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ae"
-  },
-  "courseID": "66-221",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091af"
-  },
-  "courseID": "70-395",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b0"
-  },
-  "courseID": "70-401",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b1"
-  },
-  "courseID": "70-415",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b2"
-  },
-  "courseID": "73-421",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b3"
-  },
-  "courseID": "76-314",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b4"
-  },
-  "courseID": "79-234",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b5"
-  },
-  "courseID": "79-302",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b6"
-  },
-  "courseID": "79-315",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b7"
-  },
-  "courseID": "80-249",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b8"
-  },
-  "courseID": "84-226",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091b9"
-  },
-  "courseID": "84-362",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ba"
-  },
-  "courseID": "84-369",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091bb"
-  },
-  "courseID": "84-405",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091bc"
-  },
-  "courseID": "99-381",
-  "school": "CIT",
-  "tags": [
-    "Innovation & Internationalization"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091bd"
-  },
-  "courseID": "48-371",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091be"
-  },
-  "courseID": "51-173",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091bf"
-  },
-  "courseID": "51-175",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c0"
-  },
-  "courseID": "54-245",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c1"
-  },
-  "courseID": "57-173",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c2"
-  },
-  "courseID": "57-209",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c3"
-  },
-  "courseID": "57-284",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c4"
-  },
-  "courseID": "57-306",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c5"
-  },
-  "courseID": "57-480",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c6"
-  },
-  "courseID": "60-105",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c7"
-  },
-  "courseID": "60-205",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c8"
-  },
-  "courseID": "60-355",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091c9"
-  },
-  "courseID": "62-371",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ca"
-  },
-  "courseID": "66-221",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091cb"
-  },
-  "courseID": "70-342",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091cc"
-  },
-  "courseID": "76-210",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091cd"
-  },
-  "courseID": "76-221",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ce"
-  },
-  "courseID": "76-239",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091cf"
-  },
-  "courseID": "76-241",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d0"
-  },
-  "courseID": "76-245",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d1"
-  },
-  "courseID": "76-312",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d2"
-  },
-  "courseID": "79-106",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d3"
-  },
-  "courseID": "79-112",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d4"
-  },
-  "courseID": "79-189",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d5"
-  },
-  "courseID": "79-201",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d6"
-  },
-  "courseID": "79-207",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d7"
-  },
-  "courseID": "79-208",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d8"
-  },
-  "courseID": "79-215",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091d9"
-  },
-  "courseID": "79-227",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091da"
-  },
-  "courseID": "79-234",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091db"
-  },
-  "courseID": "79-248",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091dc"
-  },
-  "courseID": "79-255",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091dd"
-  },
-  "courseID": "79-261",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091de"
-  },
-  "courseID": "79-265",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091df"
-  },
-  "courseID": "79-296",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e0"
-  },
-  "courseID": "79-300",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e1"
-  },
-  "courseID": "79-302",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e2"
-  },
-  "courseID": "79-314",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e3"
-  },
-  "courseID": "79-315",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e4"
-  },
-  "courseID": "79-316",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e5"
-  },
-  "courseID": "79-329",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e6"
-  },
-  "courseID": "79-331",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e7"
-  },
-  "courseID": "79-355",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e8"
-  },
-  "courseID": "79-377",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091e9"
-  },
-  "courseID": "80-249",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ea"
-  },
-  "courseID": "80-261",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091eb"
-  },
-  "courseID": "80-276",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ec"
-  },
-  "courseID": "82-101",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ed"
-  },
-  "courseID": "82-102",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ee"
-  },
-  "courseID": "82-103",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ef"
-  },
-  "courseID": "82-111",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f0"
-  },
-  "courseID": "82-112",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f1"
-  },
-  "courseID": "82-119",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f2"
-  },
-  "courseID": "82-121",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f3"
-  },
-  "courseID": "82-122",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f4"
-  },
-  "courseID": "82-131",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f5"
-  },
-  "courseID": "82-132",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f6"
-  },
-  "courseID": "82-133",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f7"
-  },
-  "courseID": "82-134",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f8"
-  },
-  "courseID": "82-135",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091f9"
-  },
-  "courseID": "82-137",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091fa"
-  },
-  "courseID": "82-139",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091fb"
-  },
-  "courseID": "82-141",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091fc"
-  },
-  "courseID": "82-142",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091fd"
-  },
-  "courseID": "82-161",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091fe"
-  },
-  "courseID": "82-162",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211091ff"
-  },
-  "courseID": "82-171",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109200"
-  },
-  "courseID": "82-172",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109201"
-  },
-  "courseID": "82-191",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109202"
-  },
-  "courseID": "82-201",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109203"
-  },
-  "courseID": "82-202",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109204"
-  },
-  "courseID": "82-203",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109205"
-  },
-  "courseID": "82-204",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109206"
-  },
-  "courseID": "82-215",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109207"
-  },
-  "courseID": "82-221",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109208"
-  },
-  "courseID": "82-222",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109209"
-  },
-  "courseID": "82-231",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110920a"
-  },
-  "courseID": "82-235",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110920b"
-  },
-  "courseID": "82-238",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110920c"
-  },
-  "courseID": "82-241",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110920d"
-  },
-  "courseID": "82-242",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110920e"
-  },
-  "courseID": "82-261",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110920f"
-  },
-  "courseID": "82-271",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109210"
-  },
-  "courseID": "82-273",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109211"
-  },
-  "courseID": "82-278",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109212"
-  },
-  "courseID": "82-279",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109213"
-  },
-  "courseID": "82-282",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109214"
-  },
-  "courseID": "82-283",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109215"
-  },
-  "courseID": "82-285",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109216"
-  },
-  "courseID": "82-291",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109217"
-  },
-  "courseID": "82-293",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109218"
-  },
-  "courseID": "82-294",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109219"
-  },
-  "courseID": "82-303",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110921a"
-  },
-  "courseID": "82-304",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110921b"
-  },
-  "courseID": "82-311",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110921c"
-  },
-  "courseID": "82-320",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110921d"
-  },
-  "courseID": "82-331",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110921e"
-  },
-  "courseID": "82-333",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110921f"
-  },
-  "courseID": "82-339",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109220"
-  },
-  "courseID": "82-344",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109221"
-  },
-  "courseID": "82-344",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109222"
-  },
-  "courseID": "82-345",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109223"
-  },
-  "courseID": "82-394",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109224"
-  },
-  "courseID": "82-415",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109225"
-  },
-  "courseID": "82-425",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109226"
-  },
-  "courseID": "82-434",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109227"
-  },
-  "courseID": "82-450",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109228"
-  },
-  "courseID": "82-451",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109229"
-  },
-  "courseID": "82-473",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110922a"
-  },
-  "courseID": "82-501",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110922b"
-  },
-  "courseID": "84-380",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110922c"
-  },
-  "courseID": "84-388",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110922d"
-  },
-  "courseID": "85-221",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110922e"
-  },
-  "courseID": "85-241",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110922f"
-  },
-  "courseID": "85-444",
-  "school": "CIT",
-  "tags": [
-    "People, Places, & Cultures"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109230"
-  },
-  "courseID": "16-867",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109231"
-  },
-  "courseID": "17-200",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109232"
-  },
-  "courseID": "17-562",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109233"
-  },
-  "courseID": "18-384",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109234"
-  },
-  "courseID": "19-301",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109235"
-  },
-  "courseID": "19-469",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109236"
-  },
-  "courseID": "38-402",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109237"
-  },
-  "courseID": "39-402",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109238"
-  },
-  "courseID": "66-215",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109239"
-  },
-  "courseID": "66-221",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110923a"
-  },
-  "courseID": "70-100",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110923b"
-  },
-  "courseID": "70-246",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110923c"
-  },
-  "courseID": "70-311",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110923d"
-  },
-  "courseID": "70-321",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110923e"
-  },
-  "courseID": "70-332",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110923f"
-  },
-  "courseID": "70-381",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109240"
-  },
-  "courseID": "73-102",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109241"
-  },
-  "courseID": "73-103",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109242"
-  },
-  "courseID": "73-230",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109243"
-  },
-  "courseID": "73-240",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109244"
-  },
-  "courseID": "73-328",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109245"
-  },
-  "courseID": "73-347",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109246"
-  },
-  "courseID": "73-352",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109247"
-  },
-  "courseID": "73-421",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109248"
-  },
-  "courseID": "76-241",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109249"
-  },
-  "courseID": "76-372",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110924a"
-  },
-  "courseID": "79-189",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110924b"
-  },
-  "courseID": "79-201",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110924c"
-  },
-  "courseID": "79-300",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110924d"
-  },
-  "courseID": "79-302",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110924e"
-  },
-  "courseID": "79-314",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110924f"
-  },
-  "courseID": "79-315",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109250"
-  },
-  "courseID": "79-355",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109251"
-  },
-  "courseID": "79-377",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109252"
-  },
-  "courseID": "80-100",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109253"
-  },
-  "courseID": "80-130",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109254"
-  },
-  "courseID": "80-180",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109255"
-  },
-  "courseID": "80-201",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109256"
-  },
-  "courseID": "80-249",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109257"
-  },
-  "courseID": "80-253",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109258"
-  },
-  "courseID": "80-261",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109259"
-  },
-  "courseID": "80-276",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110925a"
-  },
-  "courseID": "80-305",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110925b"
-  },
-  "courseID": "80-310",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110925c"
-  },
-  "courseID": "80-325",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110925d"
-  },
-  "courseID": "80-335",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110925e"
-  },
-  "courseID": "82-283",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110925f"
-  },
-  "courseID": "82-411",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109260"
-  },
-  "courseID": "84-104",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109261"
-  },
-  "courseID": "84-362",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109262"
-  },
-  "courseID": "84-370",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109263"
-  },
-  "courseID": "84-380",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109264"
-  },
-  "courseID": "85-102",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109265"
-  },
-  "courseID": "85-104",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109266"
-  },
-  "courseID": "85-211",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109267"
-  },
-  "courseID": "85-219",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109268"
-  },
-  "courseID": "85-221",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109269"
-  },
-  "courseID": "85-241",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110926a"
-  },
-  "courseID": "85-340",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110926b"
-  },
-  "courseID": "85-350",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110926c"
-  },
-  "courseID": "85-370",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110926d"
-  },
-  "courseID": "85-409",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110926e"
-  },
-  "courseID": "88-120",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110926f"
-  },
-  "courseID": "88-230",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109270"
-  },
-  "courseID": "88-231",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109271"
-  },
-  "courseID": "88-251",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109272"
-  },
-  "courseID": "88-252",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109273"
-  },
-  "courseID": "88-281",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109274"
-  },
-  "courseID": "88-302",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109275"
-  },
-  "courseID": "88-360",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109276"
-  },
-  "courseID": "88-411",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109277"
-  },
-  "courseID": "90-710",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109278"
-  },
-  "courseID": "90-736",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109279"
-  },
-  "courseID": "95-744",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110927a"
-  },
-  "courseID": "99-381",
-  "school": "CIT",
-  "tags": [
-    "Social Analysis & Decision Making"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110927b"
-  },
-  "courseID": "12-215",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110927c"
-  },
-  "courseID": "45-790",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110927d"
-  },
-  "courseID": "45-895",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110927e"
-  },
-  "courseID": "51-261",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110927f"
-  },
-  "courseID": "51-349",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109280"
-  },
-  "courseID": "53-371",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109281"
-  },
-  "courseID": "54-177",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109282"
-  },
-  "courseID": "54-187",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109283"
-  },
-  "courseID": "54-187",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109284"
-  },
-  "courseID": "54-191",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109285"
-  },
-  "courseID": "54-192",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109286"
-  },
-  "courseID": "54-196",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109287"
-  },
-  "courseID": "54-196",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109288"
-  },
-  "courseID": "54-281",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109289"
-  },
-  "courseID": "70-340",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110928a"
-  },
-  "courseID": "70-341",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110928b"
-  },
-  "courseID": "70-345",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110928c"
-  },
-  "courseID": "70-350",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110928d"
-  },
-  "courseID": "70-483",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110928e"
-  },
-  "courseID": "70-509",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110928f"
-  },
-  "courseID": "73-270",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109290"
-  },
-  "courseID": "76-207",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109291"
-  },
-  "courseID": "76-210",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109292"
-  },
-  "courseID": "76-221",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109293"
-  },
-  "courseID": "76-239",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109294"
-  },
-  "courseID": "76-241",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109295"
-  },
-  "courseID": "76-245",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109296"
-  },
-  "courseID": "76-260",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109297"
-  },
-  "courseID": "76-261",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109298"
-  },
-  "courseID": "76-265",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc21109299"
-  },
-  "courseID": "76-269",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110929a"
-  },
-  "courseID": "76-270",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110929b"
-  },
-  "courseID": "76-286",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110929c"
-  },
-  "courseID": "76-295",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110929d"
-  },
-  "courseID": "76-299",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110929e"
-  },
-  "courseID": "76-302",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc2110929f"
-  },
-  "courseID": "76-314",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a0"
-  },
-  "courseID": "76-363",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a1"
-  },
-  "courseID": "76-364",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a2"
-  },
-  "courseID": "76-368",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a3"
-  },
-  "courseID": "76-370",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a4"
-  },
-  "courseID": "76-372",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a5"
-  },
-  "courseID": "76-373",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a6"
-  },
-  "courseID": "76-389",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a7"
-  },
-  "courseID": "76-390",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a8"
-  },
-  "courseID": "76-391",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092a9"
-  },
-  "courseID": "76-464",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092aa"
-  },
-  "courseID": "76-469",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092ab"
-  },
-  "courseID": "76-481",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092ac"
-  },
-  "courseID": "76-494",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092ad"
-  },
-  "courseID": "76-794",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092ae"
-  },
-  "courseID": "80-180",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092af"
-  },
-  "courseID": "80-270",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b0"
-  },
-  "courseID": "80-282",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b1"
-  },
-  "courseID": "80-288",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b2"
-  },
-  "courseID": "80-383",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b3"
-  },
-  "courseID": "82-215",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b4"
-  },
-  "courseID": "82-235",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b5"
-  },
-  "courseID": "82-294",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b6"
-  },
-  "courseID": "82-303",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b7"
-  },
-  "courseID": "82-320",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b8"
-  },
-  "courseID": "82-333",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092b9"
-  },
-  "courseID": "82-339",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092ba"
-  },
-  "courseID": "82-344",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092bb"
-  },
-  "courseID": "82-344",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092bc"
-  },
-  "courseID": "82-345",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092bd"
-  },
-  "courseID": "82-373",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092be"
-  },
-  "courseID": "82-383",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092bf"
-  },
-  "courseID": "88-341",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092c0"
-  },
-  "courseID": "90-718",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092c1"
-  },
-  "courseID": "90-782",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-},
-{
-  "_id": {
-    "$oid": "670604635db91fcc211092c2"
-  },
-  "courseID": "94-801",
-  "school": "CIT",
-  "tags": [
-    "Writing & Expression"
-  ],
-  "lastUpdated": "Oct 2024"
-}]
+[
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110918e"
+        },
+        "courseID": "48-215",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110918f"
+        },
+        "courseID": "48-310",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109190"
+        },
+        "courseID": "48-310",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109191"
+        },
+        "courseID": "48-315",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109192"
+        },
+        "courseID": "51-341",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109193"
+        },
+        "courseID": "54-157",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109194"
+        },
+        "courseID": "57-337",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109195"
+        },
+        "courseID": "70-391",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109196"
+        },
+        "courseID": "73-265",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109197"
+        },
+        "courseID": "76-388",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109198"
+        },
+        "courseID": "80-210",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109199"
+        },
+        "courseID": "80-211",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110919a"
+        },
+        "courseID": "80-315",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110919b"
+        },
+        "courseID": "80-413",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110919c"
+        },
+        "courseID": "85-213",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110919d"
+        },
+        "courseID": "85-310",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110919e"
+        },
+        "courseID": "88-251",
+        "school": "CIT",
+        "tags": ["Free Elective Only"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110919f"
+        },
+        "courseID": "32-201",
+        "school": "CIT",
+        "tags": ["General Education Elective"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a0"
+        },
+        "courseID": "32-402",
+        "school": "CIT",
+        "tags": ["General Education Elective"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a1"
+        },
+        "courseID": "70-371",
+        "school": "CIT",
+        "tags": ["General Education Elective"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a2"
+        },
+        "courseID": "90-717",
+        "school": "CIT",
+        "tags": ["General Education Elective"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a3"
+        },
+        "courseID": "90-836",
+        "school": "CIT",
+        "tags": ["General Education Elective"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a4"
+        },
+        "courseID": "16-867",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a5"
+        },
+        "courseID": "17-200",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a6"
+        },
+        "courseID": "19-684",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a7"
+        },
+        "courseID": "24-687",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a8"
+        },
+        "courseID": "27-406",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091a9"
+        },
+        "courseID": "33-120",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091aa"
+        },
+        "courseID": "33-124",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ab"
+        },
+        "courseID": "39-402",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ac"
+        },
+        "courseID": "48-734",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ad"
+        },
+        "courseID": "66-215",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ae"
+        },
+        "courseID": "66-221",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091af"
+        },
+        "courseID": "70-395",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b0"
+        },
+        "courseID": "70-401",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b1"
+        },
+        "courseID": "70-415",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b2"
+        },
+        "courseID": "73-421",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b3"
+        },
+        "courseID": "76-314",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b4"
+        },
+        "courseID": "79-234",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b5"
+        },
+        "courseID": "79-302",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b6"
+        },
+        "courseID": "79-315",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b7"
+        },
+        "courseID": "80-249",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b8"
+        },
+        "courseID": "84-226",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091b9"
+        },
+        "courseID": "84-362",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ba"
+        },
+        "courseID": "84-369",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091bb"
+        },
+        "courseID": "84-405",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091bc"
+        },
+        "courseID": "99-381",
+        "school": "CIT",
+        "tags": ["Innovation & Internationalization"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091bd"
+        },
+        "courseID": "48-371",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091be"
+        },
+        "courseID": "51-173",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091bf"
+        },
+        "courseID": "51-175",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c0"
+        },
+        "courseID": "54-245",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c1"
+        },
+        "courseID": "57-173",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c2"
+        },
+        "courseID": "57-209",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c3"
+        },
+        "courseID": "57-284",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c4"
+        },
+        "courseID": "57-306",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c5"
+        },
+        "courseID": "57-480",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c6"
+        },
+        "courseID": "60-105",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c7"
+        },
+        "courseID": "60-205",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c8"
+        },
+        "courseID": "60-355",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091c9"
+        },
+        "courseID": "62-371",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ca"
+        },
+        "courseID": "66-221",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091cb"
+        },
+        "courseID": "70-342",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091cc"
+        },
+        "courseID": "76-210",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091cd"
+        },
+        "courseID": "76-221",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ce"
+        },
+        "courseID": "76-239",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091cf"
+        },
+        "courseID": "76-241",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d0"
+        },
+        "courseID": "76-245",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d1"
+        },
+        "courseID": "76-312",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d2"
+        },
+        "courseID": "79-106",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d3"
+        },
+        "courseID": "79-112",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d4"
+        },
+        "courseID": "79-189",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d5"
+        },
+        "courseID": "79-201",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d6"
+        },
+        "courseID": "79-207",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d7"
+        },
+        "courseID": "79-208",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d8"
+        },
+        "courseID": "79-215",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091d9"
+        },
+        "courseID": "79-227",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091da"
+        },
+        "courseID": "79-234",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091db"
+        },
+        "courseID": "79-248",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091dc"
+        },
+        "courseID": "79-255",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091dd"
+        },
+        "courseID": "79-261",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091de"
+        },
+        "courseID": "79-265",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091df"
+        },
+        "courseID": "79-296",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e0"
+        },
+        "courseID": "79-300",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e1"
+        },
+        "courseID": "79-302",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e2"
+        },
+        "courseID": "79-314",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e3"
+        },
+        "courseID": "79-315",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e4"
+        },
+        "courseID": "79-316",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e5"
+        },
+        "courseID": "79-329",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e6"
+        },
+        "courseID": "79-331",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e7"
+        },
+        "courseID": "79-355",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e8"
+        },
+        "courseID": "79-377",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091e9"
+        },
+        "courseID": "80-249",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ea"
+        },
+        "courseID": "80-261",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091eb"
+        },
+        "courseID": "80-276",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ec"
+        },
+        "courseID": "82-101",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ed"
+        },
+        "courseID": "82-102",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ee"
+        },
+        "courseID": "82-103",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ef"
+        },
+        "courseID": "82-111",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f0"
+        },
+        "courseID": "82-112",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f1"
+        },
+        "courseID": "82-119",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f2"
+        },
+        "courseID": "82-121",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f3"
+        },
+        "courseID": "82-122",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f4"
+        },
+        "courseID": "82-131",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f5"
+        },
+        "courseID": "82-132",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f6"
+        },
+        "courseID": "82-133",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f7"
+        },
+        "courseID": "82-134",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f8"
+        },
+        "courseID": "82-135",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091f9"
+        },
+        "courseID": "82-137",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091fa"
+        },
+        "courseID": "82-139",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091fb"
+        },
+        "courseID": "82-141",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091fc"
+        },
+        "courseID": "82-142",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091fd"
+        },
+        "courseID": "82-161",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091fe"
+        },
+        "courseID": "82-162",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211091ff"
+        },
+        "courseID": "82-171",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109200"
+        },
+        "courseID": "82-172",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109201"
+        },
+        "courseID": "82-191",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109202"
+        },
+        "courseID": "82-201",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109203"
+        },
+        "courseID": "82-202",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109204"
+        },
+        "courseID": "82-203",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109205"
+        },
+        "courseID": "82-204",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109206"
+        },
+        "courseID": "82-215",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109207"
+        },
+        "courseID": "82-221",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109208"
+        },
+        "courseID": "82-222",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109209"
+        },
+        "courseID": "82-231",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110920a"
+        },
+        "courseID": "82-235",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110920b"
+        },
+        "courseID": "82-238",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110920c"
+        },
+        "courseID": "82-241",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110920d"
+        },
+        "courseID": "82-242",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110920e"
+        },
+        "courseID": "82-261",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110920f"
+        },
+        "courseID": "82-271",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109210"
+        },
+        "courseID": "82-273",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109211"
+        },
+        "courseID": "82-278",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109212"
+        },
+        "courseID": "82-279",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109213"
+        },
+        "courseID": "82-282",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109214"
+        },
+        "courseID": "82-283",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109215"
+        },
+        "courseID": "82-285",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109216"
+        },
+        "courseID": "82-291",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109217"
+        },
+        "courseID": "82-293",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109218"
+        },
+        "courseID": "82-294",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109219"
+        },
+        "courseID": "82-303",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110921a"
+        },
+        "courseID": "82-304",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110921b"
+        },
+        "courseID": "82-311",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110921c"
+        },
+        "courseID": "82-320",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110921d"
+        },
+        "courseID": "82-331",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110921e"
+        },
+        "courseID": "82-333",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110921f"
+        },
+        "courseID": "82-339",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109220"
+        },
+        "courseID": "82-344",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109221"
+        },
+        "courseID": "82-344",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109222"
+        },
+        "courseID": "82-345",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109223"
+        },
+        "courseID": "82-394",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109224"
+        },
+        "courseID": "82-415",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109225"
+        },
+        "courseID": "82-425",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109226"
+        },
+        "courseID": "82-434",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109227"
+        },
+        "courseID": "82-450",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109228"
+        },
+        "courseID": "82-451",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109229"
+        },
+        "courseID": "82-473",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110922a"
+        },
+        "courseID": "82-501",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110922b"
+        },
+        "courseID": "84-380",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110922c"
+        },
+        "courseID": "84-388",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110922d"
+        },
+        "courseID": "85-221",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110922e"
+        },
+        "courseID": "85-241",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110922f"
+        },
+        "courseID": "85-444",
+        "school": "CIT",
+        "tags": ["People, Places, & Cultures"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109230"
+        },
+        "courseID": "16-867",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109231"
+        },
+        "courseID": "17-200",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109232"
+        },
+        "courseID": "17-562",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109233"
+        },
+        "courseID": "18-384",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109234"
+        },
+        "courseID": "19-301",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109235"
+        },
+        "courseID": "19-469",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109236"
+        },
+        "courseID": "38-402",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109237"
+        },
+        "courseID": "39-402",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109238"
+        },
+        "courseID": "66-215",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109239"
+        },
+        "courseID": "66-221",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110923a"
+        },
+        "courseID": "70-100",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110923b"
+        },
+        "courseID": "70-246",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110923c"
+        },
+        "courseID": "70-311",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110923d"
+        },
+        "courseID": "70-321",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110923e"
+        },
+        "courseID": "70-332",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110923f"
+        },
+        "courseID": "70-381",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109240"
+        },
+        "courseID": "73-102",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109241"
+        },
+        "courseID": "73-103",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109242"
+        },
+        "courseID": "73-230",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109243"
+        },
+        "courseID": "73-240",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109244"
+        },
+        "courseID": "73-328",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109245"
+        },
+        "courseID": "73-347",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109246"
+        },
+        "courseID": "73-352",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109247"
+        },
+        "courseID": "73-421",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109248"
+        },
+        "courseID": "76-241",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109249"
+        },
+        "courseID": "76-372",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110924a"
+        },
+        "courseID": "79-189",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110924b"
+        },
+        "courseID": "79-201",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110924c"
+        },
+        "courseID": "79-300",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110924d"
+        },
+        "courseID": "79-302",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110924e"
+        },
+        "courseID": "79-314",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110924f"
+        },
+        "courseID": "79-315",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109250"
+        },
+        "courseID": "79-355",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109251"
+        },
+        "courseID": "79-377",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109252"
+        },
+        "courseID": "80-100",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109253"
+        },
+        "courseID": "80-130",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109254"
+        },
+        "courseID": "80-180",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109255"
+        },
+        "courseID": "80-201",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109256"
+        },
+        "courseID": "80-249",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109257"
+        },
+        "courseID": "80-253",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109258"
+        },
+        "courseID": "80-261",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109259"
+        },
+        "courseID": "80-276",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110925a"
+        },
+        "courseID": "80-305",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110925b"
+        },
+        "courseID": "80-310",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110925c"
+        },
+        "courseID": "80-325",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110925d"
+        },
+        "courseID": "80-335",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110925e"
+        },
+        "courseID": "82-283",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110925f"
+        },
+        "courseID": "82-411",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109260"
+        },
+        "courseID": "84-104",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109261"
+        },
+        "courseID": "84-362",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109262"
+        },
+        "courseID": "84-370",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109263"
+        },
+        "courseID": "84-380",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109264"
+        },
+        "courseID": "85-102",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109265"
+        },
+        "courseID": "85-104",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109266"
+        },
+        "courseID": "85-211",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109267"
+        },
+        "courseID": "85-219",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109268"
+        },
+        "courseID": "85-221",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109269"
+        },
+        "courseID": "85-241",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110926a"
+        },
+        "courseID": "85-340",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110926b"
+        },
+        "courseID": "85-350",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110926c"
+        },
+        "courseID": "85-370",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110926d"
+        },
+        "courseID": "85-409",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110926e"
+        },
+        "courseID": "88-120",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110926f"
+        },
+        "courseID": "88-230",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109270"
+        },
+        "courseID": "88-231",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109271"
+        },
+        "courseID": "88-251",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109272"
+        },
+        "courseID": "88-252",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109273"
+        },
+        "courseID": "88-281",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109274"
+        },
+        "courseID": "88-302",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109275"
+        },
+        "courseID": "88-360",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109276"
+        },
+        "courseID": "88-411",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109277"
+        },
+        "courseID": "90-710",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109278"
+        },
+        "courseID": "90-736",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109279"
+        },
+        "courseID": "95-744",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110927a"
+        },
+        "courseID": "99-381",
+        "school": "CIT",
+        "tags": ["Social Analysis & Decision Making"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110927b"
+        },
+        "courseID": "12-215",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110927c"
+        },
+        "courseID": "45-790",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110927d"
+        },
+        "courseID": "45-895",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110927e"
+        },
+        "courseID": "51-261",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110927f"
+        },
+        "courseID": "51-349",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109280"
+        },
+        "courseID": "53-371",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109281"
+        },
+        "courseID": "54-177",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109282"
+        },
+        "courseID": "54-187",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109283"
+        },
+        "courseID": "54-187",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109284"
+        },
+        "courseID": "54-191",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109285"
+        },
+        "courseID": "54-192",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109286"
+        },
+        "courseID": "54-196",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109287"
+        },
+        "courseID": "54-196",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109288"
+        },
+        "courseID": "54-281",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109289"
+        },
+        "courseID": "70-340",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110928a"
+        },
+        "courseID": "70-341",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110928b"
+        },
+        "courseID": "70-345",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110928c"
+        },
+        "courseID": "70-350",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110928d"
+        },
+        "courseID": "70-483",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110928e"
+        },
+        "courseID": "70-509",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110928f"
+        },
+        "courseID": "73-270",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109290"
+        },
+        "courseID": "76-207",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109291"
+        },
+        "courseID": "76-210",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109292"
+        },
+        "courseID": "76-221",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109293"
+        },
+        "courseID": "76-239",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109294"
+        },
+        "courseID": "76-241",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109295"
+        },
+        "courseID": "76-245",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109296"
+        },
+        "courseID": "76-260",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109297"
+        },
+        "courseID": "76-261",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109298"
+        },
+        "courseID": "76-265",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc21109299"
+        },
+        "courseID": "76-269",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110929a"
+        },
+        "courseID": "76-270",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110929b"
+        },
+        "courseID": "76-286",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110929c"
+        },
+        "courseID": "76-295",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110929d"
+        },
+        "courseID": "76-299",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110929e"
+        },
+        "courseID": "76-302",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc2110929f"
+        },
+        "courseID": "76-314",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a0"
+        },
+        "courseID": "76-363",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a1"
+        },
+        "courseID": "76-364",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a2"
+        },
+        "courseID": "76-368",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a3"
+        },
+        "courseID": "76-370",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a4"
+        },
+        "courseID": "76-372",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a5"
+        },
+        "courseID": "76-373",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a6"
+        },
+        "courseID": "76-389",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a7"
+        },
+        "courseID": "76-390",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a8"
+        },
+        "courseID": "76-391",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092a9"
+        },
+        "courseID": "76-464",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092aa"
+        },
+        "courseID": "76-469",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092ab"
+        },
+        "courseID": "76-481",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092ac"
+        },
+        "courseID": "76-494",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092ad"
+        },
+        "courseID": "76-794",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092ae"
+        },
+        "courseID": "80-180",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092af"
+        },
+        "courseID": "80-270",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b0"
+        },
+        "courseID": "80-282",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b1"
+        },
+        "courseID": "80-288",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b2"
+        },
+        "courseID": "80-383",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b3"
+        },
+        "courseID": "82-215",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b4"
+        },
+        "courseID": "82-235",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b5"
+        },
+        "courseID": "82-294",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b6"
+        },
+        "courseID": "82-303",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b7"
+        },
+        "courseID": "82-320",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b8"
+        },
+        "courseID": "82-333",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092b9"
+        },
+        "courseID": "82-339",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092ba"
+        },
+        "courseID": "82-344",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092bb"
+        },
+        "courseID": "82-344",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092bc"
+        },
+        "courseID": "82-345",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092bd"
+        },
+        "courseID": "82-373",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092be"
+        },
+        "courseID": "82-383",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092bf"
+        },
+        "courseID": "88-341",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092c0"
+        },
+        "courseID": "90-718",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092c1"
+        },
+        "courseID": "90-782",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    },
+    {
+        "_id": {
+            "$oid": "670604635db91fcc211092c2"
+        },
+        "courseID": "94-801",
+        "school": "CIT",
+        "tags": ["Writing & Expression"],
+        "lastUpdated": "Oct 2024"
+    }
+]
