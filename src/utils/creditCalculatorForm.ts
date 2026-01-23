@@ -93,7 +93,7 @@ export class SetupForm {
         field: SetupField,
     ): ActionRowBuilder<StringSelectMenuBuilder> {
         const select = new StringSelectMenuBuilder()
-            .setCustomId(`setup:${this.schema.name}:string:${field.key}`)
+            .setCustomId(`setup;${this.schema.name};string;${field.key}`)
             .setPlaceholder(field.label);
 
         if (field.options) {
@@ -138,7 +138,7 @@ export class SetupForm {
         }
 
         const submitButton = new ButtonBuilder()
-            .setCustomId(`setup:${this.schema.name}:submit`)
+            .setCustomId(`setup;${this.schema.name};submit`)
             .setLabel("Submit")
             .setStyle(ButtonStyle.Success);
 
@@ -160,17 +160,17 @@ export class SetupForm {
         collector.on("collect", async (i) => {
             if (
                 i.isButton() &&
-                i.customId === `setup:${this.schema.name}:submit`
+                i.customId === `setup;${this.schema.name};submit`
             ) {
                 await i.deferUpdate();
                 collector.stop("submitted");
                 return;
             }
 
-            if (i.customId.startsWith(`setup:${this.schema.name}:score:`)) {
+            if (i.customId.startsWith(`setup;${this.schema.name};score;`)) {
                 await this.handleScoreSelect(i as StringSelectMenuInteraction);
             } else if (
-                i.customId.startsWith(`setup:${this.schema.name}:string:`)
+                i.customId.startsWith(`setup;${this.schema.name};string;`)
             ) {
                 await this.handleStringSelect(i as StringSelectMenuInteraction);
             }
@@ -204,7 +204,7 @@ export class SetupForm {
     private async handleScoreSelect(
         interaction: StringSelectMenuInteraction,
     ): Promise<void> {
-        const parts = interaction.customId.split(":");
+        const parts = interaction.customId.split(";");
 
         const fieldKey = parts[3];
         const examName = parts[4];
@@ -235,7 +235,7 @@ export class SetupForm {
     private async handleStringSelect(
         interaction: StringSelectMenuInteraction,
     ): Promise<void> {
-        const fieldKey = interaction.customId.split(":")[3];
+        const fieldKey = interaction.customId.split(";")[3];
         const field = this.schema.fields.find((f) => f.key === fieldKey);
         if (!field || !field.modal) return;
 
@@ -259,7 +259,7 @@ export class SetupForm {
     ): ActionRowBuilder<StringSelectMenuBuilder> {
         const scoreSelect = new StringSelectMenuBuilder()
             .setCustomId(
-                `setup:${this.schema.name}:score:${field.key}:${examName}:${this.rendNonce}`,
+                `setup;${this.schema.name};score;${field.key};${examName};${this.rendNonce}`,
             )
             .setPlaceholder(`Select score for ${examName}`)
             .addOptions(

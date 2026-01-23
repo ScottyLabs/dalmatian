@@ -4,6 +4,7 @@ import {
     SeparatorBuilder,
     SlashCommandBuilder,
 } from "discord.js";
+import { SCHOOLS } from "../constants.js";
 import apCoursesData from "../data/ap-courses.json" with { type: "json" };
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
@@ -154,15 +155,14 @@ const command: SlashCommand = {
         if (interaction.options.getSubcommand() === "ap") {
             const userSchool = interaction.options.getString("school");
 
-            if (
-                !userSchool ||
-                userSchool in ["DC", "CIT", "SCS", "TEP", "MCS", "CFA"]
-            ) {
+            if (!userSchool || !SCHOOLS.includes(userSchool)) {
+                console.log(userSchool, SCHOOLS);
                 return interaction.reply({
                     content: "Acceptable Colleges DC, CIT, SCS, TEP, MCS, CFA",
                     flags: MessageFlags.Ephemeral,
                 });
             }
+            console.log(userSchool, SCHOOLS);
 
             const exams = await loadApCreditData();
 
