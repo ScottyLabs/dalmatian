@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": ["!src/data/*.json"]
+        "includes": ["**", "!src/data/*.json"]
     },
     "formatter": {
         "enabled": true,
