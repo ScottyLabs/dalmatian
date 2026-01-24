@@ -36,7 +36,7 @@ cp .env.example .env
 # remember to edit the fields in .env with your Discord bot credentials (without the hard brackets! [])
 
 # start PostgreSQL database
-docker-compose up -d postgres
+docker compose up -d postgres
 
 # run database migrations
 bun run db:migrate
