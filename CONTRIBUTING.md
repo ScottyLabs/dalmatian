@@ -1,6 +1,33 @@
 # Contributing to Dalmatian
 
+Thank you for your interest in contributing to Dalmatian! This guide will help you get started.
+
+## How to Contribute
+
+1. **Fork the repository** or create a new branch if you have write access
+2. **Create a new branch** from `main` with a descriptive name:
+   ```bash
+   git checkout -b your-feature-name
+   # or
+   git checkout -b bug-description
+   ```
+3. **Make your changes** following the code style and conventions
+4. **Test your changes** locally by running the bot
+5. **Commit using conventional commits** (see below)
+6. **Push to your fork** or branch
+7. **Open a Pull Request** with a clear description of your changes
+
+## Conventional Commits
+
 This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+**Examples:**
+- `feat: add course search by instructor`
+- `fix: resolve dining hall location formatting issue`
+- `docs: update README installation steps`
+- `refactor: simplify embed pagination logic`
+- `chore: update dependencies to latest versions`
+- `style: format code with biome`
 
 ## Code Editor Setup
 
@@ -62,12 +89,27 @@ docker-compose up -d postgres
 bun run db:migrate
 ```
 
-## Forking and Branching
+## Before Submitting
 
-You are not able to commit to main. You may either branch off main in the repository or fork the repository for your own usage.
+Before you commit and open a pull request, make sure to:
 
-## Committing Your Changes
+- Run `bun lint` and fix any errors/warnings
+- Run `bun format` to format your code
+- Test the bot locally with your changes
+- Ensure your commits follow conventional commit format
+- Update documentation if you added/changed features
 
-Please run `bun lint` (and check the warnings/errors!) and `bun format` before commiting your changes.
+## Pull Request Guidelines
 
-Remember to follow conventional committing guidelines while committing.
+- **Keep PRs focused** - One feature or fix per pull request
+- **Write clear descriptions** - Explain what changed and why
+- **Reference related issues** - Use "Fixes #123" or "Closes #456" if applicable
+- **Be responsive** - Address review feedback promptly
+
+## Need Help?
+
+If you have questions or need help:
+- Open an issue on GitHub
+- Check existing issues and pull requests for similar questions
+
+Remember to follow conventional committing guidelines while contributing!
