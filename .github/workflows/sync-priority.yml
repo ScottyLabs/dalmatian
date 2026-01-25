@@ -1,14 +1,11 @@
-name: Sync priority labels to project field
+name: Sync Issue Priority
 
 on:
   issues:
     types: [opened, labeled, unlabeled]
-  pull_request:
-    types: [opened, labeled, unlabeled]
   workflow_dispatch:
 
 permissions:
-  issues: write
   repository-projects: write
 
 jobs:
@@ -18,34 +15,26 @@ jobs:
       - uses: actions/github-script@v7
         with:
           script: |
-            const priorityMap = {
+            const PRIORITY_MAP = {
               "high priority": "P0",
               "medium priority": "P1",
               "low priority": "P2",
             };
 
-            const item =
-              context.payload.issue ?? context.payload.pull_request;
+            const item = context.payload.issue;
+            if (!item) return;
 
-            const labels = item.labels.map(l => l.name);
-            const priorityLabel = labels.find(l => priorityMap[l]);
+            const priorityLabel = item.labels
+              .map(l => l.name)
+              .find(l => l in PRIORITY_MAP);
 
-            if (!priorityLabel) {
-              console.log('No priority label found');
-              return;
-            }
+            if (!priorityLabel) return;
 
-            const priorityValue = priorityMap[priorityLabel];
-            console.log(`Found priority label: ${priorityLabel} → ${priorityValue}`);
+            const priorityValue = PRIORITY_MAP[priorityLabel];
+            console.log(`Found: ${priorityLabel} -> ${priorityValue}`);
 
-            // Get organization and repository info
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const itemId = item.node_id;
-
-            // Find the project item
-            const projectQuery = `
-              query($owner: String!, $repo: String!, $itemId: ID!) {
+            const query = `
+              query($owner: String!, $repo: String!) {
                 repository(owner: $owner, name: $repo) {
                   issue(number: ${item.number}) {
                     projectItems(first: 10) {
@@ -57,10 +46,7 @@ jobs:
                           field(name: "Priority") {
                             ... on ProjectV2SingleSelectField {
                               id
-                              options {
-                                id
-                                name
-                              }
+                              options { id name }
                             }
                           }
                         }
@@ -71,65 +57,52 @@ jobs:
               }
             `;
 
-            let projectData;
+            let projects;
             try {
-              projectData = await github.graphql(projectQuery, {
-                owner,
-                repo,
-                itemId
-              });
-            } catch (error) {
-              console.error('Error fetching project data:', error);
+              const result = await github.graphql(query, context.repo);
+              projects = result.repository.issue.projectItems.nodes;
+            } catch (e) {
+              console.error('GraphQL error:', e.message);
               return;
             }
 
-            const projectItems = projectData.repository.issue.projectItems.nodes;
-            if (!projectItems || projectItems.length === 0) {
-              console.log('Issue not linked to any project');
+            if (!projects?.length) {
+              console.log('Issue not in any project');
               return;
             }
 
-            // Update each project the issue is linked to
-            for (const projectItem of projectItems) {
-              const priorityField = projectItem.project.field;
-              if (!priorityField) {
-                console.log(`Project "${projectItem.project.title}" has no Priority field`);
+            for (const { id: itemId, project } of projects) {
+              const field = project.field;
+              if (!field) {
+                console.log(`No Priority field in "${project.title}"`);
                 continue;
               }
 
-              const option = priorityField.options.find(opt => opt.name === priorityValue);
+              const option = field.options.find(o => o.name === priorityValue);
               if (!option) {
-                console.log(`Priority value "${priorityValue}" not found in project "${projectItem.project.title}"`);
+                console.log(`Option "${priorityValue}" not in "${project.title}"`);
                 continue;
               }
 
-              const updateMutation = `
-                mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
-                  updateProjectV2ItemFieldValue(
-                    input: {
+              try {
+                await github.graphql(`
+                  mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                    updateProjectV2ItemFieldValue(input: {
                       projectId: $projectId
                       itemId: $itemId
                       fieldId: $fieldId
                       value: { singleSelectOptionId: $optionId }
-                    }
-                  ) {
-                    projectV2Item {
-                      id
-                    }
+                    }) { projectV2Item { id } }
                   }
-                }
-              `;
-
-              try {
-                await github.graphql(updateMutation, {
-                  projectId: projectItem.project.id,
-                  itemId: projectItem.id,
-                  fieldId: priorityField.id,
+                `, {
+                  projectId: project.id,
+                  itemId,
+                  fieldId: field.id,
                   optionId: option.id
                 });
-                console.log(`Updated Priority to "${priorityValue}" in project "${projectItem.project.title}"`);
-              } catch (error) {
-                console.error(`Error updating project "${projectItem.project.title}":`, error);
+                console.log(`Updated to "${priorityValue}" in "${project.title}"`);
+              } catch (e) {
+                console.error(`Failed in "${project.title}":`, e.message);
               }
             }
 
