@@ -23,21 +23,20 @@ For detailed setup instructions including creating a Discord bot, obtaining API 
 3. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`
 
 ### Running the Bot
+
 ```bash
-# install dependencies
+# 1. Install dependencies
 bun install
 
-# prepare environmental variables
+# 2. Set up environment variables (see CONTRIBUTING.md for details)
 cp .env.example .env
-# remember to edit the fields in .env with your Discord bot credentials (without the hard brackets! [])
+# Edit .env with your Discord bot credentials
 
-# start PostgreSQL database
+# 3. Set up database
 docker compose up -d postgres
-
-# run database migrations
 bun run db:migrate
 
-# start the bot
+# 4. Start the bot
 bun start
 ```
 
