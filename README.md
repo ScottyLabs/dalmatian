@@ -9,6 +9,9 @@ Dalmatian is a Discord bot designed for CMU students, providing easy access to c
 
 ## Getting Started
 
+### Installing Bun
+Follow [these steps](https://bun.com/docs/installation) to install bun.
+
 ### Installing Docker
 You can install Docker by following the instructions at:
 - Windows: https://docs.docker.com/desktop/setup/install/windows-install/
