@@ -33,8 +33,7 @@ The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` key
 2. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
 3. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
 
-## Development
-
+### Running the Bot
 ```bash
 # install dependencies
 bun install
