@@ -5,6 +5,7 @@ on:
     types: [opened, labeled, unlabeled]
   pull_request:
     types: [opened, labeled, unlabeled]
+  workflow_dispatch:
 
 permissions:
   issues: write
