@@ -5,33 +5,22 @@ Dalmatian is a Discord bot designed for CMU students, providing easy access to c
 <!--TODO: ## Features-->
 <!--TODO: ## Requirements-->
 <!--TODO: ## Project Overview-->
-<!--TODO: ## Quick Start-->
 
 ## Getting Started
 
-### Installing Bun
-Follow [these steps](https://bun.com/docs/installation) to install bun.
+### Prerequisites
 
-### Installing Docker
-You can install Docker by following the instructions at:
-- Windows: https://docs.docker.com/desktop/setup/install/windows-install/
-- Linux: https://docs.docker.com/engine/install/
-- Mac: https://docs.docker.com/desktop/setup/install/mac-install/
+- [Bun](https://bun.com/docs/installation) - JavaScript runtime and package manager
+- [Docker](https://docs.docker.com/get-docker/) - For running PostgreSQL database
 
-### Creating a Personal Discord Bot
-Go to https://discord.com/developers/applications, and click the `New Application` button.
+### Setup
 
-Create [a new Discord bot](https://discord.com/developers/applications) or use one of your current ones.
+For detailed setup instructions including creating a Discord bot, obtaining API credentials, and configuring your development environment, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-In your application, under the Bot tab, reset your token and copy the token for `DISCORD_TOKEN`.
-
-Under the OAuth2 tab, grab the client ID for `DISCORD_CLIENT_ID`
-
-The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` keys. Optionally, you can set up `GOOGLE_MAPS_API_KEY` to debug `formatLocation` in `dining.ts`.
-
-1. Head to [Google Cloud Console](https://console.cloud.google.com/) and create a new project.
-2. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
-3. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
+**Quick setup:**
+1. Install Bun and Docker (see links above)
+2. Create a Discord bot at https://discord.com/developers/applications
+3. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`
 
 ### Running the Bot
 ```bash
