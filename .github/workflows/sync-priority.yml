@@ -3,7 +3,6 @@ name: Sync Issue Priority
 on:
   issues:
     types: [opened, labeled, unlabeled]
-  workflow_dispatch:
 
 permissions:
   repository-projects: write
