@@ -1,0 +1,107 @@
+name: Sync Issue/PR Size
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled]
+
+permissions:
+  repository-projects: write
+
+jobs:
+  sync-size:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const SIZE_MAP = {
+              "light workload": "S",
+              "medium workload": "M",
+              "heavy workload": "L",
+            };
+
+            const item = context.payload.issue;
+            if (!item) return;
+
+            const sizeLabel = item.labels
+              .map(l => l.name)
+              .find(l => l in SIZE_MAP);
+
+            if (!sizeLabel) return;
+
+            const sizeValue = SIZE_MAP[sizeLabel];
+            console.log(`Found: ${sizeLabel} -> ${sizeValue}`);
+
+            const query = `
+              query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: ${item.number}) {
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project {
+                          id
+                          title
+                          field(name: "Size") {
+                            ... on ProjectV2SingleSelectField {
+                              id
+                              options { id name }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            let projects;
+            try {
+              const result = await github.graphql(query, context.repo);
+              projects = result.repository.issue.projectItems.nodes;
+            } catch (e) {
+              console.error('GraphQL error:', e.message);
+              return;
+            }
+
+            if (!projects?.length) {
+              console.log('Issue not in any project');
+              return;
+            }
+
+            for (const { id: itemId, project } of projects) {
+              const field = project.field;
+              if (!field) {
+                console.log(`No Size field in "${project.title}"`);
+                continue;
+              }
+
+              const option = field.options.find(o => o.name === sizeValue);
+              if (!option) {
+                console.log(`Option "${sizeValue}" not in "${project.title}"`);
+                continue;
+              }
+
+              try {
+                await github.graphql(`
+                  mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: $projectId
+                      itemId: $itemId
+                      fieldId: $fieldId
+                      value: { singleSelectOptionId: $optionId }
+                    }) { projectV2Item { id } }
+                  }
+                `, {
+                  projectId: project.id,
+                  itemId,
+                  fieldId: field.id,
+                  optionId: option.id
+                });
+                console.log(`Updated to "${sizeValue}" in "${project.title}"`);
+              } catch (e) {
+                console.error(`Failed in "${project.title}":`, e.message);
+              }
+            }
+
