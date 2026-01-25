@@ -53,7 +53,7 @@ In your application, under the Bot tab, reset your token and copy the token for 
 
 Under the OAuth2 tab, grab the client ID for `DISCORD_CLIENT_ID`
 
-The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` keys. Additionally, you can set up `GOOGLE_MAPS_API_KEY` to debug `formatLocation` in `dining.ts`.
+The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` keys. Optionally, you can set up `GOOGLE_MAPS_API_KEY` to debug `formatLocation` in `dining.ts`.
 
 1. Head to [Google Cloud Console](https://console.cloud.google.com/) and create a new project.
 2. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
