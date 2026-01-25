@@ -106,6 +106,12 @@ Before you commit and open a pull request, make sure to:
 - **Reference related issues** - Use "Fixes #123" or "Closes #456" if applicable
 - **Be responsive** - Address review feedback promptly
 
+## Project Priorities & Planning
+
+To understand current priorities, roadmap, and ongoing work:
+- Visit the [Dalmatian Development project](https://github.com/orgs/ScottyLabs/projects/20)
+- If you cannot access the board, ask a maintainer to add you to the ScottyLabs organization.
+
 ## Need Help?
 
 If you have questions or need help:
