@@ -3,7 +3,6 @@
 Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMU Courses and CMU Eats right at your fingertips!
 
 <!--TODO: ## Features-->
-<!--TODO: ## Requirements-->
 <!--TODO: ## Project Overview-->
 
 ## Getting Started
