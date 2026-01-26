@@ -11,6 +11,7 @@ import diningLocationData from "../data/diningLocationData.json" with {
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 
+/** Represents a dining location returned from the CMUEats API */
 interface Location {
     name: string;
     locAliases?: string[];
@@ -31,11 +32,17 @@ interface Location {
     todaysSpecials: string[];
 }
 
+// Build a lookup map from location name -> list of aliases (e.g. "UC" for "University Center")
+// Used to augment API data with local alias data for fuzzy building search
 let locationToAliases: Record<string, string[]> = {};
 for (const item of diningLocationData) {
     locationToAliases[item.name] = item.aliases;
 }
 
+/**
+ * Fetches all dining locations from the CMUEats API and enriches them
+ * with local alias data for building name matching.
+ */
 function getLocations(): Promise<Location[]> {
     const request: Request = new Request(
         "https://api.cmueats.com/v2/locations",
@@ -57,12 +64,14 @@ function getLocations(): Promise<Location[]> {
         });
 }
 
+/** Returns true if the location is open at the given unix timestamp (ms). */
 function isOpen(location: Location, time: number): boolean {
     for (const openTime of location.times)
         if (openTime.start <= time && time <= openTime.end) return true;
     return false;
 }
 
+/** Formats a unix timestamp (ms) into a human-readable time string (e.g. "2:30 PM") in Eastern time. */
 function formatTimeFromMs(ms: number): string {
     const dtf = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
@@ -73,10 +82,12 @@ function formatTimeFromMs(ms: number): string {
     return dtf.format(new Date(ms));
 }
 
+/** Formats a start/end pair into a time range string (e.g. "11:00 AM - 2:00 PM"). */
 function formatTimeRange(start: number, end: number): string {
     return `${formatTimeFromMs(start)} - ${formatTimeFromMs(end)}`;
 }
 
+/** Returns the unix timestamp bounds (ms) for the start and end of the current day (local time). */
 function getDayBounds(): { start: number; end: number } {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -84,6 +95,7 @@ function getDayBounds(): { start: number; end: number } {
     return { start, end: start + 24 * 60 * 60 * 1000 };
 }
 
+/** Filters a location's open times to only those overlapping with today, clamped to day boundaries. */
 function getTimesForDay(location: Location): { start: number; end: number }[] {
     const { start: dayStart, end: dayEnd } = getDayBounds();
     return location.times
@@ -94,6 +106,10 @@ function getTimesForDay(location: Location): { start: number; end: number }[] {
         }));
 }
 
+/**
+ * Returns a human-readable string of today's hours for a location.
+ * Handles edge cases: "Closed today", "Open all day", or comma-separated time ranges.
+ */
 function getTodaysHours(location: Location): string {
     const todaysTimes = getTimesForDay(location);
     if (todaysTimes.length === 0) return "Closed today";
@@ -107,10 +123,15 @@ function getTodaysHours(location: Location): string {
         .join(", ");
 }
 
+/** Calculates the number of whole minutes between two unix timestamps (ms). */
 function getMinutesBetween(from: number, to: number): number {
     return Math.floor((to - from) / 60000);
 }
 
+/**
+ * Determines the current status of a location and returns an emoji + message.
+ * Statuses: Open, Closing in X mins (<=60 min warning), Opening in X mins (<=60 min), or Closed.
+ */
 function getCurrentStatus(location: Location): {
     emoji: string;
     message: string;
@@ -147,6 +168,7 @@ function getCurrentStatus(location: Location): {
     return { emoji: ":no_entry:", message: "Closed" };
 }
 
+/** Formats a location's title with its status emoji and message, truncated to 256 chars (Discord embed limit). */
 function formatLocationTitle(location: Location): string {
     const status = getCurrentStatus(location);
     const title = `${status.emoji} ${location.name} (${status.message})`;
@@ -154,6 +176,10 @@ function formatLocationTitle(location: Location): string {
     return title.slice(0, 256);
 }
 
+/**
+ * Creates a detailed Discord embed for a single location, including description,
+ * hours, online order availability, and a Google Maps static image.
+ */
 function formatLocationEmbed(location: Location): EmbedBuilder {
     const embed = new EmbedBuilder()
         .setTitle(formatLocationTitle(location))
@@ -179,6 +205,7 @@ function formatLocationEmbed(location: Location): EmbedBuilder {
     return embed;
 }
 
+/** Creates a compact embed field for a location (used in multi-location list views). */
 function formatLocationField(location: Location): APIEmbedField {
     const todaysHours = getTodaysHours(location);
     return {
@@ -187,6 +214,12 @@ function formatLocationField(location: Location): APIEmbedField {
     };
 }
 
+/**
+ * Formats a list of locations into paginated embeds. If a single location is provided,
+ * returns a detailed embed. Otherwise, returns pages of compact field entries.
+ * Verbose mode allows up to 25 locations per page; normal mode allows 10.
+ * Enforces Discord's 6000-char embed limit.
+ */
 function formatLocations(
     locations: Location[],
     verbose: boolean,
@@ -232,6 +265,14 @@ function formatLocations(
     return embeds;
 }
 
+/**
+ * /dining slash command with subcommands:
+ *   - all: Lists all dining locations alphabetically (paginated)
+ *   - all-verbose: Same as "all" but shows all pages at once with 25 items/page
+ *   - open: Lists only currently open locations (paginated)
+ *   - open-verbose: Same as "open" but shows all pages at once
+ *   - search: Fuzzy search by name and/or building (with autocomplete support)
+ */
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("dining")
@@ -328,10 +369,11 @@ const command: SlashCommand = {
                     ? location.name.toLowerCase().includes(query)
                     : true;
                 const buildingMatches = building
-                    ? search(building, [
-                          location.location,
-                          ...(location.locAliases ?? []),
-                      ]).length > 0
+                    ? search(
+                          building,
+                          [location.location, ...(location.locAliases ?? [])],
+                          { threshold: 0.8 },
+                      ).length > 0
                     : true;
                 return nameMatches && buildingMatches;
             });
@@ -344,6 +386,7 @@ const command: SlashCommand = {
         }
     },
 
+    /** Handles autocomplete for the "search" subcommand's name and building options using fuzzy matching. */
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
         const focusedValue = focusedOption.value.toLowerCase();
