@@ -653,7 +653,6 @@ const command: SlashCommand = {
                 ) ?? "error";
 
             const course = coursesData[courseid];
-            const courseFCE = fceData[courseid];
 
             if (!syllabi[courseid]) {
                 return interaction.reply({
