@@ -701,9 +701,13 @@ const command: SlashCommand = {
                 let fceRec = fceData[courseid]?.records ?? [];
                 let fceEntry = undefined;
                 for (const rec of fceRec) {
+                    let d = 2000;
+                    if (rec.year >= 100) {
+                        d = 0;
+                    }
                     if (
                         rec.semester == convertSem[syllabus.season] &&
-                        rec.year == syllabus.year + 2000 &&
+                        rec.year == syllabus.year + d &&
                         rec.section == syllabus.section
                     ) {
                         fceEntry = rec;
