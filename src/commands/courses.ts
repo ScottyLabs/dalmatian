@@ -201,9 +201,28 @@ async function loadSyllabiData(): Promise<Record<string, Syllabus[]>> {
     const syllabiData = SyllabiData as Syllabus[];
     const syllabi: Record<string, Syllabus[]> = {};
 
+    const seasonOrder: Record<string, number> = {
+        F: 0,
+        S: 1,
+        M: 2,
+        N: 3,
+    };
+
     for (const entry of syllabiData) {
         const courseid = formatCourseNumber(entry.number) ?? "";
         (syllabi[courseid] ??= []).push(entry);
+    }
+
+    for (const courseid in syllabi) {
+        syllabi[courseid]!.sort((a, b) => {
+            if (a.year !== b.year) {
+                return b.year - a.year;
+            }
+
+            return (
+                (seasonOrder[a.season] ?? 99) - (seasonOrder[b.season] ?? 99)
+            );
+        });
     }
 
     return syllabi;
