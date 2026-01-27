@@ -84,7 +84,12 @@
         "subject": "N/A",
         "info": ""
     },
-    { "exams": [{ "name": "Chemistry", "score": 5 }], "courses": ["09-105"] },
+    {
+        "exams": [{ "name": "Chemistry", "score": 5 }],
+        "courses": ["09-105"],
+        "subject": "STEM",
+        "info": ""
+    },
     {
         "exams": [{ "name": "Chinese Language & Culture", "score": 4 }],
         "courses": ["82-011"],
