@@ -1,13 +1,18 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import {
+    Client,
+    Collection,
+    EmbedBuilder,
+    GatewayIntentBits,
+    Options,
+    Partials,
+} from "discord.js";
+import { DEFAULT_EMBED_COLOR } from "./constants.ts";
 import { runMigrations } from "./db/migrate.ts";
 import type { ContextCommand, SlashCommand } from "./types.d.ts";
 
 await runMigrations();
-
-const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
-    GatewayIntentBits;
 
 declare module "discord.js" {
     interface Client {
@@ -16,8 +21,13 @@ declare module "discord.js" {
     }
 }
 
+const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
+    GatewayIntentBits;
+
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
+    partials: [Partials.User, Partials.GuildMember],
+    makeCache: Options.cacheEverything(),
 });
 
 client.slashCommands = new Collection();
@@ -35,5 +45,15 @@ readdirSync(handlersDir).forEach(async (handler) => {
         console.error(`Failed to load handler ${handler}:`, err);
     }
 });
+
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const origToJSON = EmbedBuilder.prototype.toJSON;
+
+EmbedBuilder.prototype.toJSON = function (this: EmbedBuilder) {
+    if (this.data.color == undefined) {
+        this.setColor(DEFAULT_EMBED_COLOR);
+    }
+    return origToJSON.call(this);
+};
 
 await client.login(process.env.DISCORD_TOKEN);
