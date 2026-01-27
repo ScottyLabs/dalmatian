@@ -312,7 +312,7 @@ const command: SlashCommand = {
                             geneds = MCSGenedData as GenEd[];
                         } else if (userSchool == "SCS") {
                             geneds = SCSGenedData as GenEd[];
-                        } else if (userSchool == "CFA") {
+                        } else if (userSchool == "CFA" || userSchool == "TEP") {
                             container.addTextDisplayComponents((t) =>
                                 t.setContent(
                                     `Gened data not available for ${userSchool}`,
