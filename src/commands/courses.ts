@@ -691,6 +691,13 @@ const command: SlashCommand = {
             let links = 0;
 
             for (const syllabus of uniqueSyllabi) {
+                /*
+                Currently this uses fce data to find instructor data
+                However, syllabi data should be updated to include instructor,
+                and courses data should be changed to correctly include
+                syllabi and session as intended
+                */
+
                 let fceRec = fceData[courseid]?.records ?? [];
                 let fceEntry = undefined;
                 for (const rec of fceRec) {
@@ -702,7 +709,12 @@ const command: SlashCommand = {
                         fceEntry = rec;
                     }
                 }
-                const line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section} (${fceEntry?.instructor ?? "Instructor not Found"})](${syllabus.url}) \n`;
+                let line: string = "";
+                if (fceEntry?.instructor) {
+                    line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section} (${fceEntry?.instructor})](${syllabus.url}) \n`;
+                } else {
+                    line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section}](${syllabus.url}) \n`;
+                }
                 if (links >= 20) {
                     embeds.push(
                         new EmbedBuilder()
