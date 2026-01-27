@@ -197,7 +197,7 @@ function loadFCEData(): Record<string, FCEData> {
     return fceMap;
 }
 
-async function loadSyllabiData(): Promise<Record<string, Syllabus[]>> {
+function loadSyllabiData(): Record<string, Syllabus[]> {
     const syllabiData = SyllabiData as Syllabus[];
     const syllabi: Record<string, Syllabus[]> = {};
 
@@ -663,7 +663,7 @@ const command: SlashCommand = {
                 N: "Summer",
             };
 
-            const syllabi = await loadSyllabiData();
+            const syllabi = loadSyllabiData();
             const fceData = loadFCEData();
 
             const courseid =
