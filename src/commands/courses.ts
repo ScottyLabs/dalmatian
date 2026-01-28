@@ -14,6 +14,7 @@ import {
     underline,
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
+import SyllabiData from "../data/course-api.syllabi.json" with { type: "json" };
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
@@ -60,6 +61,17 @@ type FCERecord = {
     overallTeachingRate: number;
     overallCourseRate: number;
     responseRate: number;
+};
+
+type Syllabus = {
+    _id: {
+        $oid: string;
+    };
+    season: string;
+    year: number;
+    number: string;
+    section: string;
+    url: string;
 };
 
 function loadCoursesData(): Record<string, Course> {
@@ -185,6 +197,37 @@ function loadFCEData(): Record<string, FCEData> {
     return fceMap;
 }
 
+function loadSyllabiData(): Record<string, Syllabus[]> {
+    const syllabiData = SyllabiData as Syllabus[];
+    const syllabi: Record<string, Syllabus[]> = {};
+
+    const seasonOrder: Record<string, number> = {
+        F: 0,
+        S: 1,
+        M: 2,
+        N: 3,
+    };
+
+    for (const entry of syllabiData) {
+        const courseid = formatCourseNumber(entry.number) ?? "";
+        (syllabi[courseid] ??= []).push(entry);
+    }
+
+    for (const courseid in syllabi) {
+        syllabi[courseid]!.sort((a, b) => {
+            if (a.year !== b.year) {
+                return b.year - a.year;
+            }
+
+            return (
+                (seasonOrder[a.season] ?? 99) - (seasonOrder[b.season] ?? 99)
+            );
+        });
+    }
+
+    return syllabi;
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("courses")
@@ -224,6 +267,19 @@ const command: SlashCommand = {
                         .setName("course_codes")
                         .setDescription(
                             "Course codes separated by spaces (e.g., 15-112 21-127 15-122)",
+                        )
+                        .setRequired(true),
+                ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("syllabus")
+                .setDescription("Get pdfs of syllabi for a course")
+                .addStringOption((option) =>
+                    option
+                        .setName("course_id")
+                        .setDescription(
+                            "Course code in XX-XXX or XXXXX format (e.g., 15-112 21127 15-122)",
                         )
                         .setRequired(true),
                 ),
@@ -598,6 +654,100 @@ const command: SlashCommand = {
 
                 return interaction.reply({ embeds: [embed] });
             }
+        }
+        if (interaction.options.getSubcommand() === "syllabus") {
+            const convertSem: Record<string, string> = {
+                F: "Fall",
+                S: "Spring",
+                M: "Summer",
+                N: "Summer",
+            };
+
+            const syllabi = loadSyllabiData();
+            const fceData = loadFCEData();
+
+            const courseid =
+                formatCourseNumber(
+                    interaction.options.getString("course_id", true),
+                ) ?? "error";
+
+            const course = coursesData[courseid];
+
+            if (!syllabi[courseid]) {
+                return interaction.reply({
+                    content: `Course (${courseid}) not found.`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+            let foundSyllabi = syllabi[courseid];
+
+            const uniqueSyllabi = [
+                ...new Map(foundSyllabi.map((s) => [s.url, s])).values(),
+            ];
+
+            const embeds: EmbedBuilder[] = [];
+            let currentDesc = "";
+
+            let links = 0;
+
+            for (const syllabus of uniqueSyllabi) {
+                /*
+                Currently this uses fce data to find instructor data
+                However, syllabi data should be updated to include instructor,
+                and courses data should be changed to correctly include
+                syllabi and session as intended
+                */
+
+                let fceRec = fceData[courseid]?.records ?? [];
+                let fceEntry = undefined;
+                for (const rec of fceRec) {
+                    let d = 2000;
+                    if (rec.year >= 100) {
+                        d = 0;
+                    }
+                    if (
+                        rec.semester == convertSem[syllabus.season] &&
+                        rec.year == syllabus.year + d &&
+                        rec.section == syllabus.section
+                    ) {
+                        fceEntry = rec;
+                    }
+                }
+                let line: string = "";
+                if (fceEntry?.instructor) {
+                    line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section} (${fceEntry?.instructor})](${syllabus.url}) \n`;
+                } else {
+                    line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section}](${syllabus.url}) \n`;
+                }
+                if (links >= 20) {
+                    embeds.push(
+                        new EmbedBuilder()
+                            .setTitle(
+                                `Syllabi for ${courseid}: ${course?.name ?? "Couldn't find Course"}`,
+                            )
+                            .setURL(`${SCOTTYLABS_URL}/course/${courseid}`)
+                            .setDescription(currentDesc),
+                    );
+                    currentDesc = line;
+                    links = 1;
+                } else {
+                    currentDesc += line;
+                    links++;
+                }
+            }
+
+            if (currentDesc) {
+                embeds.push(
+                    new EmbedBuilder()
+                        .setTitle(
+                            `Syllabi for ${courseid}: ${course?.name ?? "Couldn't find Course"}`,
+                        )
+                        .setURL(`${SCOTTYLABS_URL}/course/${courseid}`)
+                        .setDescription(currentDesc),
+                );
+            }
+
+            return new EmbedPaginator(embeds).send(interaction);
         }
     },
 };
