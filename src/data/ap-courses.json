@@ -1,0 +1,118 @@
+[
+    { "id": "51-011", "name": "AP 2-D Art and Design", "units": "9" },
+    { "id": "51-012", "name": "AP 3-D Art and Design", "units": "9" },
+    { "id": "79-017", "name": "AP African American Studies", "units": "9" },
+    { "id": "60-011", "name": "AP Art History", "units": "9" },
+    { "id": "03-011", "name": "AP 4 Biology", "units": "9" },
+    { "id": "03-110", "name": "AP 5 Biology", "units": "9" },
+
+    { "id": "21-111", "name": "Calculus (AP Calculus AB)", "units": "10" },
+    {
+        "id": "21-120",
+        "name": "Differential and Integral Calculus",
+        "units": "10"
+    },
+    {
+        "id": "21-122",
+        "name": "Integrations, Differential Equations and Approximation",
+        "units": "10"
+    },
+
+    {
+        "id": "99-005",
+        "name": "AP Capstone Senior Research Project",
+        "units": "9"
+    },
+    { "id": "99-004", "name": "AP Capstone Junior Seminar", "units": "9" },
+
+    {
+        "id": "09-105",
+        "name": "Introduction to Modern Chemistry I",
+        "units": "10"
+    },
+
+    { "id": "82-011", "name": "AP 4 Chinese", "units": "12" },
+    { "id": "82-012", "name": "AP 5 Chinese", "units": "12" },
+
+    { "id": "15-110", "name": "Principles of Computing", "units": "10" },
+    { "id": "15-112", "name": "Fundamentals of Programming", "units": "12" },
+
+    { "id": "60-012", "name": "AP Drawing", "units": "9" },
+    { "id": "73-011", "name": "AP Economics (Micro)", "units": "9" },
+    { "id": "73-012", "name": "AP Economics-Macro", "units": "9" },
+
+    { "id": "76-011", "name": "AP English Language", "units": "9" },
+    {
+        "id": "76-012",
+        "name": "AP English Literature & Composition",
+        "units": "9"
+    },
+
+    { "id": "38-012", "name": "AP Environmental Science", "units": "9" },
+    { "id": "79-011", "name": "AP European History", "units": "9" },
+
+    { "id": "82-013", "name": "AP 4 French", "units": "9" },
+    { "id": "82-014", "name": "AP 5 French", "units": "9" },
+
+    { "id": "82-015", "name": "AP 4 German", "units": "9" },
+    { "id": "82-016", "name": "AP 5 German", "units": "9" },
+
+    {
+        "id": "84-011",
+        "name": "AP Government & Politics: Comparative",
+        "units": "9"
+    },
+    { "id": "84-012", "name": "AP Government & Politics: US", "units": "9" },
+
+    { "id": "66-011", "name": "AP Human Geography", "units": "9" },
+
+    { "id": "82-017", "name": "AP 4 Italian", "units": "9" },
+    { "id": "82-018", "name": "AP 5 Italian", "units": "9" },
+
+    { "id": "82-019", "name": "AP 4 Japanese", "units": "12" },
+    { "id": "82-020", "name": "AP 5 Japanese", "units": "12" },
+
+    { "id": "66-019", "name": "AP 4 Latin", "units": "9" },
+    { "id": "66-020", "name": "AP 5 Latin", "units": "9" },
+
+    { "id": "57-012", "name": "AP Music Theory", "units": "9" },
+
+    {
+        "id": "33-142",
+        "name": "Physics II for Engineering Students",
+        "units": "12"
+    },
+    {
+        "id": "33-141",
+        "name": "Physics I for Engineering Students",
+        "units": "12"
+    },
+
+    { "id": "85-011", "name": "AP Psychology", "units": "9" },
+    { "id": "79-016", "name": "AP Anthropology", "units": "9" },
+
+    { "id": "82-021", "name": "AP 4 Spanish", "units": "9" },
+    { "id": "82-022", "name": "AP 5 Spanish", "units": "9" },
+
+    {
+        "id": "82-023",
+        "name": "AP 4 Spanish Literature & Culture",
+        "units": "9"
+    },
+    {
+        "id": "82-024",
+        "name": "AP 5 Spanish Literature & Culture",
+        "units": "9"
+    },
+
+    {
+        "id": "82-341",
+        "name": "AP 5 Spanish Literature & Culture (Advanced)",
+        "units": "9"
+    },
+
+    { "id": "36-200", "name": "Reasoning with Data", "units": "9" },
+
+    { "id": "79-012", "name": "AP United States History", "units": "9" },
+    { "id": "79-015", "name": "AP World History: Modern", "units": "9" }
+]
