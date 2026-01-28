@@ -20,7 +20,7 @@
     "license": "(MIT OR Apache-2.0)",
     "scripts": {
         "start": "bun run src/index.ts",
-        "lint": "oxlint --type-aware",
+        "lint": "oxlint --type-aware --deny-warnings",
         "format": "biome format --write",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "bun run src/db/migrate.ts",
