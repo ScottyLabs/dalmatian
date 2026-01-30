@@ -434,7 +434,7 @@
         "exams": [{ "name": "Statistics", "score": 5 }],
         "courses": ["70-207"],
         "subject": "STEM",
-        "school": "TEP",
+        "school": ["TEP"],
         "info": ""
     },
     {
