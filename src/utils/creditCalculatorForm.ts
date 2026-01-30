@@ -64,7 +64,7 @@ export class SetupForm {
     }
 
     async start(): Promise<void> {
-        await this.interaction.deferReply({ flags: MessageFlags.Ephemeral });
+        await this.interaction.deferReply();
         await this.showForm();
     }
 
