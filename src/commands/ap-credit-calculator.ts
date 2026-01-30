@@ -25,7 +25,7 @@ type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 type Exam = {
     name: string;
     subject: "STEM" | "Arts" | "Humanities" | "N/A";
-    school?: School[];
+    school: School[];
     info: string;
     scores: {
         score: number;
@@ -38,24 +38,6 @@ type ApCourse = {
     name: string;
     units: string;
 };
-
-function normalizeSchool(
-    school: string | string[] | undefined,
-): School[] | undefined {
-    if (!school) return undefined;
-
-    const schools = Array.isArray(school) ? school : [school];
-
-    return schools.filter(
-        (s): s is School =>
-            s === "DC" ||
-            s === "CIT" ||
-            s === "SCS" ||
-            s === "TEP" ||
-            s === "MCS" ||
-            s === "CFA",
-    );
-}
 
 async function loadApCreditData(): Promise<Exam[]> {
     const exams: Exam[] = [];
@@ -82,11 +64,7 @@ async function loadApCreditData(): Promise<Exam[]> {
     for (const entry of apCreditData) {
         for (const exam of entry.exams) {
             const scoreCourses: Course[] = entry.courses.map((id) => {
-                let course = courses[id];
-
-                if (!course) {
-                    course = apCoursesIndex[id];
-                }
+                const course = courses[id] ?? apCoursesIndex[id];
 
                 if (!course) {
                     return {
@@ -113,7 +91,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                     | "Arts"
                     | "Humanities"
                     | "N/A",
-                school: normalizeSchool(entry.school) ?? undefined,
+                school: entry.school as School[],
                 info: entry.info?.trim() || "N/A",
                 scores: [
                     {
@@ -162,8 +140,6 @@ const command: SlashCommand = {
                     flags: MessageFlags.Ephemeral,
                 });
             }
-            console.log(userSchool, SCHOOLS);
-
             const exams = await loadApCreditData();
 
             const stemExams = exams.filter((e) => e.subject === "STEM");
@@ -246,31 +222,25 @@ const command: SlashCommand = {
                     const processCategory = (
                         entries: { examName: string; score: number }[],
                     ) => {
-                        for (const { examName, score } of entries) {
-                            const matchingExams = exams.filter(
-                                (e) =>
-                                    e.name === examName &&
-                                    (!e.school ||
-                                        e.school.includes(
-                                            userSchool as School,
-                                        )),
-                            );
-
-                            for (const exam of matchingExams) {
-                                const matchingCourses: Course[] = [];
-                                for (const s of exam.scores) {
-                                    if (s.score === score) {
-                                        matchingCourses.push(...s.courses);
-                                    }
-                                }
-                                if (matchingCourses.length > 0) {
-                                    awarded.push({
-                                        exam,
-                                        courses: matchingCourses,
-                                    });
-                                }
-                            }
-                        }
+                        entries.forEach(({ examName, score }) => {
+                            const results = exams
+                                .filter(
+                                    (e) =>
+                                        e.name === examName &&
+                                        (!e.school ||
+                                            e.school.includes(
+                                                userSchool as School,
+                                            )),
+                                )
+                                .map((exam) => ({
+                                    exam,
+                                    courses: exam.scores
+                                        .filter((s) => s.score === score)
+                                        .flatMap((s) => s.courses),
+                                }))
+                                .filter((r) => r.courses.length > 0);
+                            awarded.push(...results);
+                        });
                     };
 
                     processCategory(data["stem-arts"] ?? []);
@@ -302,7 +272,7 @@ const command: SlashCommand = {
                             t.setContent(`### ${exam.name}`),
                         );
 
-                        let geneds: GenEd[] | null = null;
+                        let geneds: GenEd[] = [];
 
                         if (userSchool == "DC") {
                             geneds = DCGenedData as GenEd[];
@@ -361,8 +331,7 @@ const command: SlashCommand = {
                 },
             };
 
-            const form = new SetupForm(apExamSetup, interaction);
-            await form.start();
+            await new SetupForm(apExamSetup, interaction).start();
         }
     },
 };
