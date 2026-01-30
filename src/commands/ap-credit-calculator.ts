@@ -219,30 +219,39 @@ const command: SlashCommand = {
                     const courses = CoursesData as Record<string, Course>;
                     const awarded: { exam: Exam; courses: Course[] }[] = [];
 
-                    const schoolMatches = (schools?: School[]) =>
-                        !schools ||
-                        schools.length === 0 ||
-                        schools.includes(userSchool as School);
-
                     const processCategory = (
                         entries: { examName: string; score: number }[],
                     ) => {
                         entries.forEach(({ examName, score }) => {
-                            const results = exams
-                                .filter(
-                                    (e) =>
-                                        e.name === examName &&
-                                        schoolMatches(e.school),
-                                )
-                                .flatMap((exam) => {
-                                    const courses = exam.scores
-                                        .filter((s) => s.score === score)
-                                        .flatMap((s) => s.courses);
+                            const sameName = exams.filter(
+                                (e) => e.name === examName,
+                            );
 
-                                    return courses.length > 0
-                                        ? [{ exam, courses }]
-                                        : [];
-                                });
+                            const chosenExams = (() => {
+                                const specific: typeof sameName = [];
+                                const general: typeof sameName = [];
+
+                                for (const e of sameName) {
+                                    if (
+                                        e.school?.includes(userSchool as School)
+                                    )
+                                        specific.push(e);
+                                    else if (!e.school || e.school.length === 0)
+                                        general.push(e);
+                                }
+
+                                return specific.length > 0 ? specific : general;
+                            })();
+
+                            const results = chosenExams.flatMap((exam) => {
+                                const courses = exam.scores
+                                    .filter((s) => s.score === score)
+                                    .flatMap((s) => s.courses);
+
+                                return courses.length
+                                    ? [{ exam, courses }]
+                                    : [];
+                            });
 
                             awarded.push(...results);
                         });
