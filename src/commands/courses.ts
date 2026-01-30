@@ -17,8 +17,8 @@ import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
-import { Course, Session } from "../utils/index.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
+import { Course } from "../utils/index.ts";
 
 //TODO: many of these fields could be made into CourseCodes
 
