@@ -4,7 +4,7 @@ import {
     SeparatorBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { SCHOOLS } from "../constants.js";
+import { DEFAULT_EMBED_COLOR, SCHOOLS } from "../constants.js";
 import apCoursesData from "../data/ap-courses.json" with { type: "json" };
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
@@ -219,6 +219,11 @@ const command: SlashCommand = {
                     const courses = CoursesData as Record<string, Course>;
                     const awarded: { exam: Exam; courses: Course[] }[] = [];
 
+                    const schoolMatches = (schools?: School[]) =>
+                        !schools ||
+                        schools.length === 0 ||
+                        schools.includes(userSchool as School);
+
                     const processCategory = (
                         entries: { examName: string; score: number }[],
                     ) => {
@@ -227,18 +232,18 @@ const command: SlashCommand = {
                                 .filter(
                                     (e) =>
                                         e.name === examName &&
-                                        (!e.school ||
-                                            e.school.includes(
-                                                userSchool as School,
-                                            )),
+                                        schoolMatches(e.school),
                                 )
-                                .map((exam) => ({
-                                    exam,
-                                    courses: exam.scores
+                                .flatMap((exam) => {
+                                    const courses = exam.scores
                                         .filter((s) => s.score === score)
-                                        .flatMap((s) => s.courses),
-                                }))
-                                .filter((r) => r.courses.length > 0);
+                                        .flatMap((s) => s.courses);
+
+                                    return courses.length > 0
+                                        ? [{ exam, courses }]
+                                        : [];
+                                });
+
                             awarded.push(...results);
                         });
                     };
@@ -247,7 +252,7 @@ const command: SlashCommand = {
                     processCategory(data["humanities"] ?? []);
 
                     const container = new ContainerBuilder()
-                        .setAccentColor(0x3b82f6)
+                        .setAccentColor(DEFAULT_EMBED_COLOR)
                         .addTextDisplayComponents((t) =>
                             t.setContent("Awarded CMU Credit"),
                         );
