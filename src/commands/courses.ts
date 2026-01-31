@@ -1,4 +1,3 @@
-import { Console } from "node:console";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "csv-parse/sync";
@@ -577,7 +576,6 @@ const command: SlashCommand = {
                 const fywMinis = validCourses.filter(({ code }) =>
                     FYW_MINIS.includes(code),
                 );
-
                 if (fywMinis.length == 2) {
                     const miniWorkload =
                         fywMinis[0]!.fce.hrsPerWeek +
