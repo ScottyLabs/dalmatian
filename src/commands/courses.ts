@@ -282,7 +282,7 @@ const command: SlashCommand = {
                     option
                         .setName("course_id")
                         .setDescription(
-                            "Course code in XX-XXX or XXXXX format (e.g., 15-112 21127 15-122)",
+                            "Course code in XX-XXX or XXXXX format (e.g., 15-112)",
                         )
                         .setRequired(true),
                 ),
@@ -669,16 +669,23 @@ const command: SlashCommand = {
             const syllabi = loadSyllabiData();
             const fceData = loadFCEData();
 
-            const courseid =
-                formatCourseNumber(
-                    interaction.options.getString("course_id", true),
-                ) ?? "error";
+            const courseid = formatCourseNumber(
+                interaction.options.getString("course_id", true),
+            );
+
+            if (!courseid) {
+                return interaction.reply({
+                    content:
+                        "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
 
             const course = coursesData[courseid];
 
             if (!syllabi[courseid] || !course) {
                 return interaction.reply({
-                    content: `Course (${courseid}) not found.`,
+                    content: `Course ${courseid} not found.`,
                     flags: MessageFlags.Ephemeral,
                 });
             }
