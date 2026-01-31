@@ -210,7 +210,10 @@ function loadSyllabiData(): Record<string, Syllabus[]> {
 
     for (const entry of syllabiData) {
         const courseid = formatCourseNumber(entry.number) ?? "";
-        (syllabi[courseid] ??= []).push(entry);
+        if (!syllabi[courseid]) {
+            syllabi[courseid] = [];
+        }
+        syllabi[courseid].push(entry);
     }
 
     for (const courseid in syllabi) {
@@ -673,7 +676,7 @@ const command: SlashCommand = {
 
             const course = coursesData[courseid];
 
-            if (!syllabi[courseid]) {
+            if (!syllabi[courseid] || !course) {
                 return interaction.reply({
                     content: `Course (${courseid}) not found.`,
                     flags: MessageFlags.Ephemeral,
@@ -700,31 +703,25 @@ const command: SlashCommand = {
 
                 let fceRec = fceData[courseid]?.records ?? [];
                 let fceEntry = undefined;
+
                 for (const rec of fceRec) {
-                    let d = 2000;
-                    if (rec.year >= 100) {
-                        d = 0;
-                    }
+                    // Rec.year and Syllabus.year will both be 2 digits
                     if (
                         rec.semester == convertSem[syllabus.season] &&
-                        rec.year == syllabus.year + d &&
+                        rec.year == syllabus.year + 2000 &&
                         rec.section == syllabus.section
                     ) {
                         fceEntry = rec;
                     }
                 }
-                let line: string = "";
-                if (fceEntry?.instructor) {
-                    line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section} (${fceEntry?.instructor})](${syllabus.url}) \n`;
-                } else {
-                    line = `[${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section}](${syllabus.url}) \n`;
-                }
+                const line: string = hyperlink(
+                    `${syllabus.season}${syllabus.year}: ${syllabus.number}-${syllabus.section} ${fceEntry?.instructor ? `(${fceEntry?.instructor})` : ""} \n`,
+                    `${syllabus.url}`,
+                );
                 if (links >= 20) {
                     embeds.push(
                         new EmbedBuilder()
-                            .setTitle(
-                                `Syllabi for ${courseid}: ${course?.name ?? "Couldn't find Course"}`,
-                            )
+                            .setTitle(`Syllabi for ${courseid}: ${course.name}`)
                             .setURL(`${SCOTTYLABS_URL}/course/${courseid}`)
                             .setDescription(currentDesc),
                     );
@@ -739,9 +736,7 @@ const command: SlashCommand = {
             if (currentDesc) {
                 embeds.push(
                     new EmbedBuilder()
-                        .setTitle(
-                            `Syllabi for ${courseid}: ${course?.name ?? "Couldn't find Course"}`,
-                        )
+                        .setTitle(`Syllabi for ${courseid}: ${course.name}`)
                         .setURL(`${SCOTTYLABS_URL}/course/${courseid}`)
                         .setDescription(currentDesc),
                 );
