@@ -92,7 +92,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                     | "Humanities"
                     | "N/A",
                 school: entry.school as School[],
-                info: entry.info?.trim() || "N/A",
+                info: entry.info?.trim() || "",
                 scores: [
                     {
                         score: exam.score,
@@ -329,9 +329,9 @@ const command: SlashCommand = {
                                 ),
                             );
                         }
-                        if (exam.info !== undefined) {
+                        if (exam.info !== "") {
                             container.addTextDisplayComponents((t) =>
-                                t.setContent(`note: ${exam.info}`),
+                                t.setContent(`${exam.info}`),
                             );
                         }
                     }
