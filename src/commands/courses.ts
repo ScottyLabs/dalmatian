@@ -592,7 +592,7 @@ const command: SlashCommand = {
 
                 let description = "";
                 let totalUnits = 0;
-
+                let unitIssuePostFixer = "";
                 for (const { code, course, fce } of validCourses) {
                     const courseName = fce.courseName.toUpperCase();
                     description +=
@@ -603,7 +603,11 @@ const command: SlashCommand = {
                                 `${SCOTTYLABS_URL}/course/${code}`,
                             ),
                         ) + "\n";
-                    totalUnits += Number(course.units);
+                    if (!Number.isNaN(Number(course.units))) {
+                        totalUnits += Number(course.units);
+                    } else {
+                        unitIssuePostFixer = "+";
+                    }
                 }
 
                 let totalHours = validCourses.reduce(
@@ -613,7 +617,6 @@ const command: SlashCommand = {
                 const fywMinis = validCourses.filter(({ code }) =>
                     FYW_MINIS.includes(code),
                 );
-
                 if (fywMinis.length == 2) {
                     const miniWorkload =
                         fywMinis[0]!.fce.hrsPerWeek +
@@ -633,7 +636,7 @@ const command: SlashCommand = {
 
                 const embed = new EmbedBuilder()
                     .setTitle(
-                        `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)} units)`,
+                        `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)}${unitIssuePostFixer} units)`,
                     )
                     .setDescription(description);
 
