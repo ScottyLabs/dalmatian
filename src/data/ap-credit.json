@@ -1,0 +1,454 @@
+[
+    {
+        "exams": [{ "name": "2-D Art and Design", "score": 4 }],
+        "courses": ["51-011"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "2-D Art and Design", "score": 5 }],
+        "courses": ["51-011"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "3-D Art and Design", "score": 4 }],
+        "courses": ["51-012"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "3-D Art and Design", "score": 5 }],
+        "courses": ["51-012"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "African American Studies", "score": 5 }],
+        "courses": ["79-017"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Art History", "score": 5 }],
+        "courses": ["60-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Biology", "score": 4 }],
+        "courses": ["03-011"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Biology", "score": 5 }],
+        "courses": ["03-110"],
+        "subject": "STEM",
+        "school": [],
+        "info": "Students can elect to take an attainment exam. Students who pass this exam by September 30 will receive credit for 03-121 instead of 03-110."
+    },
+    {
+        "exams": [{ "name": "Calculus AB", "score": 4 }],
+        "courses": ["21-111"],
+        "subject": "STEM",
+        "school": ["DC", "CFA"],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Calculus AB", "score": 5 }],
+        "courses": ["21-120"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Calculus BC", "score": 5 }],
+        "courses": ["21-120", "21-122"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Capstone Seminar", "score": 4 },
+            { "name": "Capstone Research", "score": 5 }
+        ],
+        "courses": ["99-005"],
+        "subject": "N/A",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Capstone Seminar", "score": 5 },
+            { "name": "Capstone Research", "score": 5 }
+        ],
+        "courses": ["99-004", "99-005"],
+        "subject": "N/A",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Chemistry", "score": 5 }],
+        "courses": ["09-105"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Chinese Language & Culture", "score": 4 }],
+        "courses": ["82-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Chinese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Chinese Language & Culture", "score": 5 }],
+        "courses": ["82-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Chinese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Computer Science A", "score": 4 }],
+        "courses": ["15-110"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Computer Science A", "score": 5 }],
+        "courses": ["15-112"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Computer Science Principles", "score": 4 }],
+        "courses": ["15-110"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Computer Science Principles", "score": 5 }],
+        "courses": ["15-110"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Drawing", "score": 5 }],
+        "courses": ["60-012"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Economics-Micro", "score": 4 }],
+        "courses": ["73-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students should enroll in 73-104)"
+    },
+    {
+        "exams": [{ "name": "Economics-Micro", "score": 5 }],
+        "courses": ["73-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students should enroll in 73-104)"
+    },
+    {
+        "exams": [{ "name": "Economics-Macro", "score": 4 }],
+        "courses": ["73-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Economics-Macro", "score": 5 }],
+        "courses": ["73-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "English Language and Composition", "score": 5 }],
+        "courses": ["76-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(must take 76-101 or two of the following half-semester mini courses at CMU: 76106, 76107, 76108)"
+    },
+    {
+        "exams": [{ "name": "English Literature and Composition", "score": 5 }],
+        "courses": ["76-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": " (must take 76-101 or two of the following half-semester mini courses at CMU: 76106, 76107, 76108)"
+    },
+    {
+        "exams": [{ "name": "Environmental Science", "score": 4 }],
+        "courses": ["38-012"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Environmental Science", "score": 5 }],
+        "courses": ["38-012"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "European History", "score": 5 }],
+        "courses": ["79-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "French Language & Culture", "score": 4 }],
+        "courses": ["82-013"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of French must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "French Language & Culture", "score": 5 }],
+        "courses": ["82-014"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of French must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "German Language & Culture", "score": 4 }],
+        "courses": ["82-015"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of German must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "German Language & Culture", "score": 5 }],
+        "courses": ["82-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of German must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Government & Politics: Comparative", "score": 4 }],
+        "courses": ["84-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Government & Politics: Comparative", "score": 5 }],
+        "courses": ["84-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Government & Politics: US", "score": 4 }],
+        "courses": ["84-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Government & Politics: US", "score": 5 }],
+        "courses": ["84-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Human Geography", "score": 4 }],
+        "courses": ["66-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Human Geography", "score": 5 }],
+        "courses": ["66-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Italian Language & Culture", "score": 4 }],
+        "courses": ["82-017"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Italian must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Italian Language & Culture", "score": 5 }],
+        "courses": ["82-018"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Italian must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Japanese Language & Culture", "score": 4 }],
+        "courses": ["82-019"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Japanese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Japanese Language & Culture", "score": 5 }],
+        "courses": ["82-020"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Japanese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Latin", "score": 4 }],
+        "courses": ["66-019"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Latin", "score": 5 }],
+        "courses": ["66-019", "66-020"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Music Theory", "score": 4 }],
+        "courses": ["57-012"],
+        "subject": "Arts",
+        "school": [],
+        "info": "(cannot count as any School of Music theory course)"
+    },
+    {
+        "exams": [{ "name": "Music Theory", "score": 5 }],
+        "courses": ["57-012"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Physics C - Electricity and Magnetism", "score": 5 }
+        ],
+        "courses": ["33-142"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Physics C - Mechanics", "score": 5 }],
+        "courses": ["33-141"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Psychology", "score": 4 }],
+        "courses": ["85-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Psychology", "score": 5 }],
+        "courses": ["85-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Social & Cultural Anthropology", "score": 4 }],
+        "courses": ["79-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Social & Cultural Anthropology", "score": 5 }],
+        "courses": ["79-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Spanish Language", "score": 4 }],
+        "courses": ["82-021"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Spanish Language", "score": 5 }],
+        "courses": ["82-022"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Spanish Literature & Culture", "score": 4 }],
+        "courses": ["82-023"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Spanish Literature & Culture", "score": 5 }],
+        "courses": ["82-024"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [
+            { "name": "Spanish Language", "score": 5 },
+            { "name": "Spanish Literature & Culture", "score": 5 }
+        ],
+        "courses": ["82-022", "82-341"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Statistics", "score": 5 }],
+        "courses": ["36-200"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Statistics", "score": 5 }],
+        "courses": ["70-207"],
+        "subject": "STEM",
+        "school": ["TEP"],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "United States History", "score": 5 }],
+        "courses": ["79-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "World History: Modern", "score": 5 }],
+        "courses": ["79-015"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    }
+]

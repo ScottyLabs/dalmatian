@@ -18,27 +18,9 @@ import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
-
-type Session = {
-    term: string;
-    section: string;
-    instructors: string[];
-    url: string;
-};
+import { Course } from "../utils/index.ts";
 
 //TODO: many of these fields could be made into CourseCodes
-type Course = {
-    id: string;
-    name: string;
-    syllabi: Session[];
-    desc: string;
-    prereqs: string[];
-    prereqString: string;
-    coreqs: string[];
-    crosslisted: string[];
-    units: string;
-    department: string;
-};
 
 type FCEData = {
     courseNum: string;
