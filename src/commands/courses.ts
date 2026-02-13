@@ -12,7 +12,6 @@ import {
     MessageFlags,
     SlashCommandBuilder,
     underline,
-    Client,
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
