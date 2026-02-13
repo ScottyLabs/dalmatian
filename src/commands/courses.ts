@@ -12,6 +12,7 @@ import {
     MessageFlags,
     SlashCommandBuilder,
     underline,
+    Client,
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
@@ -22,7 +23,7 @@ import { Course } from "../utils/index.ts";
 
 //TODO: many of these fields could be made into CourseCodes
 
-type FCEData = {
+export type FCEData = {
     courseNum: string;
     courseName: string;
     overallTeachingRate: number;
@@ -33,7 +34,7 @@ type FCEData = {
     records: FCERecord[];
 };
 
-type FCERecord = {
+export type FCERecord = {
     year: number;
     semester: string;
     section: string;
@@ -48,8 +49,13 @@ function loadCoursesData(): Record<string, Course> {
     return CoursesData as Record<string, Course>;
 }
 
-function formatCourseNumber(courseNumber: string): string | null {
-    if (courseNumber.match(/^\d{2}(-| )?\d{3}$/)) {
+//helper function to check if FCE data is already loaded
+export function isFCEDataLoaded(): boolean {
+    return fceCache !== null;
+}
+
+export function formatCourseNumber(courseNumber: string): string | null {
+    if (courseNumber.match(/^\d{2}[- ]?\d{3}$/)) {
         if (courseNumber.includes("-")) {
             return courseNumber;
         } else if (courseNumber.includes(" ")) {
@@ -77,7 +83,13 @@ function fetchCourseUnlocks(
     return unlocks;
 }
 
-function loadFCEData(): Record<string, FCEData> {
+let fceCache: Record<string, FCEData> | null = null;
+
+export function loadFCEData(): Record<string, FCEData> {
+    if (fceCache) {
+        return fceCache;
+    }
+
     const fceMap: Record<string, FCEData> = {};
     const csvPath = join(__dirname, "../data/fce_data.csv");
     const csvContent = readFileSync(csvPath, "utf-8");
@@ -163,6 +175,8 @@ function loadFCEData(): Record<string, FCEData> {
         data.hrsPerWeek = data.hrsPerWeek / data.count;
         data.responseRate = data.responseRate / data.count;
     }
+
+    fceCache = fceMap;
 
     return fceMap;
 }
@@ -360,8 +374,15 @@ const command: SlashCommand = {
             return interaction.reply({ embeds: [embed], components: [row] });
         }
         if (interaction.options.getSubcommand() === "fce") {
-            const input = interaction.options.getString("course_codes", true);
-            const rawCodes = input.split(/\s+/).filter((code) => code.trim());
+
+            //Sanity check to make sure if FCE data is already loaded
+            if(isFCEDataLoaded()){
+                console.log("FCE data already loaded");
+            }
+
+
+             const input = interaction.options.getString("course_codes", true);
+             const rawCodes = input.split(/\s+/).filter((code) => code.trim());
 
             if (rawCodes.length === 0) {
                 return interaction.reply({
