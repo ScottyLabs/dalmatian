@@ -3,25 +3,32 @@ import { join } from "node:path";
 
 import {
     type Client,
-    type ContextMenuCommandBuilder,
     REST,
     Routes,
-    type SlashCommandBuilder,
 } from "discord.js";
-import type { Command, CommandData } from "../types.d.ts";
+import type { Command, CommandDataGeneric } from "../types.d.ts";
 
 export default (client: Client) => {
-    const commands: CommandData[] = [];
+    const commands: CommandDataGeneric[] = [];
 
     const commandsDir = join(__dirname, "../commands");
-    readdirSync(commandsDir).forEach((file) => {
-        if (!file.endsWith(".ts")) return;
-        const command: Command = require(
-            join(commandsDir, file),
-        ).default;
-        commands.push(command.data);
-        client.commands.set(command.data.name, command);
-    });
+    const loadCommandsFromDir = (dirPath: string) => {
+        readdirSync(dirPath, { withFileTypes: true }).forEach((entry) => {
+            if (entry.isDirectory()) {
+                loadCommandsFromDir(join(dirPath, entry.name));
+                return;
+            }
+
+            if (!entry.name.endsWith(".ts")) return;
+            const command: Command = require(
+                join(dirPath, entry.name),
+            ).default;
+            commands.push(command.data);
+            client.commands.set(command.data.name, command);
+        });
+    };
+
+    loadCommandsFromDir(commandsDir);
 
     const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
