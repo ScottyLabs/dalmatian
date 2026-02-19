@@ -7,7 +7,8 @@ import type {
     SlashCommandBuilder,
 } from "discord.js";
 
-export type CommandData<T extends SlashCommandBuilder | ContextMenuCommandBuilder> = Pick<T, "name" | "toJSON">;
+export type CommandData<T> = Pick<T, "name" | "toJSON">;
+export type CommandDataGeneric = CommandData<SlashCommandBuilder | ContextMenuCommandBuilder>;
 
 export interface SlashCommand {
     data: CommandData<SlashCommandBuilder>;
