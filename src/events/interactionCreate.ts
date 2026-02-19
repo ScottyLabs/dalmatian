@@ -16,7 +16,7 @@ const event: Event<Events.InteractionCreate> = {
         const client = interaction.client as Client;
 
         if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
-            const command = client.slashCommands.get(interaction.commandName);
+            const command = client.commands.get(interaction.commandName);
             if (!command) {
                 console.error(
                     `No command matching "${interaction.commandName}" found`,
@@ -54,7 +54,7 @@ const event: Event<Events.InteractionCreate> = {
                 }
             }
         } else if (interaction.isUserContextMenuCommand()) {
-            const command = client.contextCommands.get(interaction.commandName);
+            const command = client.commands.get(interaction.commandName);
             if (!command) {
                 console.error(
                     `No context command matching "${interaction.commandName}" found`,

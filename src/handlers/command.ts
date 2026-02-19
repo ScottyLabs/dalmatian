@@ -8,34 +8,19 @@ import {
     Routes,
     type SlashCommandBuilder,
 } from "discord.js";
-import type { ContextCommand, SlashCommand } from "../types.d.ts";
+import type { Command, CommandData } from "../types.d.ts";
 
 export default (client: Client) => {
-    const slashCommands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];
+    const commands: CommandData[] = [];
 
-    const slashCommandsDir = join(__dirname, "../commands");
-    readdirSync(slashCommandsDir).forEach((file) => {
+    const commandsDir = join(__dirname, "../commands");
+    readdirSync(commandsDir).forEach((file) => {
         if (!file.endsWith(".ts")) return;
-        const command: SlashCommand = require(
-            join(slashCommandsDir, file),
+        const command: Command = require(
+            join(commandsDir, file),
         ).default;
-        slashCommands.push(command.data);
-        client.slashCommands.set(command.data.name, command);
-    });
-
-    const contextCommands: Pick<
-        ContextMenuCommandBuilder,
-        "name" | "toJSON"
-    >[] = [];
-
-    const contextCommandsDir = join(__dirname, "../contextCommands");
-    readdirSync(contextCommandsDir).forEach((file) => {
-        if (!file.endsWith(".ts")) return;
-        const command: ContextCommand = require(
-            join(contextCommandsDir, file),
-        ).default;
-        contextCommands.push(command.data);
-        client.contextCommands.set(command.data.name, command);
+        commands.push(command.data);
+        client.commands.set(command.data.name, command);
     });
 
     const rest = new REST().setToken(process.env.DISCORD_TOKEN);
@@ -44,16 +29,11 @@ export default (client: Client) => {
         try {
             console.log("Started refreshing application commands.");
 
-            const allCommands = [
-                ...slashCommands.map((command) => command.toJSON()),
-                ...contextCommands.map((command) => command.toJSON()),
-            ];
-
             await rest
                 .put(
                     Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
                     {
-                        body: allCommands,
+                        body: commands.map((command) => command.toJSON()),
                     },
                 )
                 .then((data: unknown) => {
@@ -61,7 +41,7 @@ export default (client: Client) => {
                         ? data.length
                         : "unknown";
                     console.log(
-                        `Successfully reloaded ${commandCount} application commands (${slashCommands.length} slash, ${contextCommands.length} context menu).`,
+                        `Successfully reloaded ${commands.length} application commands.`,
                     );
                 });
         } catch (error: unknown) {
