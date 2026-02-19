@@ -14,7 +14,7 @@ export interface SlashCommand {
     data: CommandData<SlashCommandBuilder>;
     execute: (
         interaction: ChatInputCommandInteraction,
-    ) => void | Promise<void>;
+    ) => unknown | Promise<unknown>;
     autocomplete?: (
         client: Client,
         interaction: AutocompleteInteraction,
@@ -24,8 +24,8 @@ export interface SlashCommand {
 export interface UserContextCommand {
     data: CommandData<ContextMenuCommandBuilder>;
     execute: (
-        interaction: ContextMenuCommandInteraction,
-    ) => void | Promise<void>;
+        interaction: UserContextMenuCommandInteraction,
+    ) => unknown | Promise<unknown>;
 }
 
 export type Command = SlashCommand | UserContextCommand;
