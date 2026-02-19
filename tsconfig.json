@@ -6,6 +6,10 @@
         "module": "nodenext",
         "moduleDetection": "force",
         "allowJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
         "outDir": "build",
         "resolveJsonModule": true,
         "allowImportingTsExtensions": true,
