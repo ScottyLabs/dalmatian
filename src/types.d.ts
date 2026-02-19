@@ -7,17 +7,27 @@ import type {
     SlashCommandBuilder,
 } from "discord.js";
 
-// TODO: add text commands to this interface
+export type CommandData<T extends SlashCommandBuilder | ContextMenuCommandBuilder> = Pick<T, "name" | "toJSON">;
+
 export interface SlashCommand {
-    data: Pick<SlashCommandBuilder, "name" | "toJSON">;
+    data: CommandData<SlashCommandBuilder>;
     execute: (
         interaction: ChatInputCommandInteraction,
-    ) => void | Promise<unknown>;
+    ) => void | Promise<void>;
     autocomplete?: (
         client: Client,
         interaction: AutocompleteInteraction,
     ) => void | Promise<void>;
 }
+
+export interface UserContextCommand {
+    data: CommandData<ContextMenuCommandBuilder>;
+    execute: (
+        interaction: ContextMenuCommandInteraction,
+    ) => void | Promise<void>;
+}
+
+export type Command = SlashCommand | UserContextCommand;
 
 export interface Event<K extends keyof ClientEvents> {
     name: K;
@@ -25,17 +35,3 @@ export interface Event<K extends keyof ClientEvents> {
     execute: (...args: ClientEvents[K]) => void | Promise<void>;
 }
 
-export interface UserContextCommand {
-    data: Pick<ContextMenuCommandBuilder, "name" | "toJSON">;
-    execute: (
-        interaction: UserContextMenuCommandInteraction,
-    ) => void | Promise<void>;
-}
-export interface MessageContextCommand {
-    data: Pick<ContextMenuCommandBuilder, "name" | "toJSON">;
-    execute: (
-        interaction: MessageContextMenuCommandInteraction,
-    ) => void | Promise<void>;
-}
-
-export type ContextCommand = UserContextCommand | MessageContextCommand;
