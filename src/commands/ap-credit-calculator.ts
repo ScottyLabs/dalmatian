@@ -66,10 +66,10 @@ async function loadApCreditData(): Promise<Exam[]> {
             const scoreCourses: Course[] = entry.courses.map((id) => {
                 const course = courses[id] ?? apCoursesIndex[id];
 
-                if (!course) {
+                if (!course || course.name.startsWith("AP")) {
                     return {
                         id,
-                        name: exam.name,
+                        name: exam.name + " (*Not Offered Course*)",
                         syllabi: [],
                         desc: "",
                         prereqs: [],
@@ -111,7 +111,7 @@ function getGenedsForCourse(courseId: string, geneds: GenEd[]): string[] {
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
-        .setName("credit-calculator")
+        .setName("credits")
         .setDescription("Credit calculator for CMU courses")
         .addSubcommand((subcommand) =>
             subcommand
@@ -263,7 +263,9 @@ const command: SlashCommand = {
                     const container = new ContainerBuilder()
                         .setAccentColor(DEFAULT_EMBED_COLOR)
                         .addTextDisplayComponents((t) =>
-                            t.setContent("Awarded CMU Credit"),
+                            t.setContent(
+                                "## Awarded CMU Credit\n*Gened data is incomplete and partly outdated*",
+                            ),
                         );
 
                     if (awarded.length === 0) {
@@ -280,10 +282,6 @@ const command: SlashCommand = {
                     for (const { exam, courses: awardedCourses } of awarded) {
                         container.addSeparatorComponents(
                             new SeparatorBuilder(),
-                        );
-
-                        container.addTextDisplayComponents((t) =>
-                            t.setContent(`### ${exam.name}`),
                         );
 
                         let geneds: GenEd[] = [];
@@ -318,28 +316,28 @@ const command: SlashCommand = {
 
                             const genedTags = genedList.length
                                 ? genedList.map((g) => `[${g}]`).join(" ")
-                                : "_None_";
+                                : "n/a";
 
                             container.addTextDisplayComponents((t) =>
                                 t.setContent(
                                     [
-                                        `> **${course.id}** — ${courseName}`,
-                                        `> **${units} units** · GenEds: ${genedTags}`,
+                                        courseName.endsWith(
+                                            "(*Not Offered Course*)",
+                                        )
+                                            ? `**${course.id}** — AP ${courseName} (${units} units)`
+                                            : `**${course.id}** — ${courseName} (${units} units)`,
+                                        genedTags != "n/a"
+                                            ? `AP ${exam.name}· Fulfills ${genedTags} Gened Requirement.`
+                                            : `AP ${exam.name}`,
+                                        `${exam.info}`,
                                     ].join("\n"),
                                 ),
-                            );
-                        }
-                        if (exam.info !== "") {
-                            container.addTextDisplayComponents((t) =>
-                                t.setContent(`${exam.info}`),
                             );
                         }
                     }
 
                     container.addTextDisplayComponents((t) =>
-                        t.setContent(
-                            `**GenEd Unit Total:** ${genedCreditTotal}`,
-                        ),
+                        t.setContent(`**Unit Total:** ${genedCreditTotal}`),
                     );
                     return container;
                 },

@@ -94,7 +94,7 @@ export class SetupForm {
     ): ActionRowBuilder<StringSelectMenuBuilder> {
         const select = new StringSelectMenuBuilder()
             .setCustomId(`setup;${this.schema.name};string;${field.key}`)
-            .setPlaceholder(field.label);
+            .setPlaceholder("Select an exam");
 
         if (field.options) {
             select.addOptions(field.options);
@@ -137,13 +137,42 @@ export class SetupForm {
             container.addSeparatorComponents(new SeparatorBuilder());
         }
 
+        if (Object.keys(this.state.collectedData).length > 0) {
+            container.addTextDisplayComponents((text) =>
+                text.setContent("**Selected Exams**\n"),
+            );
+        }
+        for (const key of Object.keys(this.state.collectedData)) {
+            const items = this.state.collectedData[key];
+            if (!Array.isArray(items)) continue;
+
+            for (const item of items) {
+                const display = item.score
+                    ? `- ${item.examName} - Score: ${item.score}`
+                    : `- ${item.examName} - Pending score…`;
+                container.addTextDisplayComponents((text) =>
+                    text.setContent(display),
+                );
+            }
+        }
+
+        container.addSeparatorComponents(new SeparatorBuilder());
+
         const submitButton = new ButtonBuilder()
             .setCustomId(`setup;${this.schema.name};submit`)
             .setLabel("Submit")
             .setStyle(ButtonStyle.Success);
 
+        const clearButton = new ButtonBuilder()
+            .setCustomId(`setup;${this.schema.name};clear`)
+            .setLabel("Clear Selected")
+            .setStyle(ButtonStyle.Danger);
+
         container.addActionRowComponents(
-            new ActionRowBuilder<ButtonBuilder>().addComponents(submitButton),
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                clearButton,
+                submitButton,
+            ),
         );
 
         return container;
@@ -165,6 +194,21 @@ export class SetupForm {
                 await i.deferUpdate();
                 collector.stop("submitted");
                 return;
+            }
+
+            if (
+                i.isButton() &&
+                i.customId === `setup;${this.schema.name};clear`
+            ) {
+                for (const key of Object.keys(this.state.collectedData)) {
+                    if (Array.isArray(this.state.collectedData[key])) {
+                        this.state.collectedData[key] = [];
+                    }
+                }
+
+                await i.update({
+                    components: [this.buildFormContainer()],
+                });
             }
 
             if (i.customId.startsWith(`setup;${this.schema.name};score;`)) {
