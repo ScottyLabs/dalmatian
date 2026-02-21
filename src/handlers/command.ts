@@ -23,6 +23,7 @@ export default (client: Client) => {
             const command: Command = require(
                 join(dirPath, entry.name),
             ).default;
+            if (!command) return;
             commands.push(command.data);
             client.commands.set(command.data.name, command);
         });
