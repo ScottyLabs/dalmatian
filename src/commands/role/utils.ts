@@ -1,6 +1,9 @@
 import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 
-export function lookup(interaction: ChatInputCommandInteraction, roleName: string): GuildMember[] {
+export function lookup(
+    interaction: ChatInputCommandInteraction,
+    roleName: string,
+): GuildMember[] {
     const role = interaction.guild!.roles.cache.find(
         (r) => r.name === roleName,
     );

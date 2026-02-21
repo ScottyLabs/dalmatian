@@ -10,7 +10,9 @@ import {
 import type { Event, SlashCommand, UserContextCommand } from "../types.d.ts";
 
 const isSlashCommand = (command: unknown): command is SlashCommand =>
-    typeof command === "object" && command !== null && "autocomplete" in command;
+    typeof command === "object" &&
+    command !== null &&
+    "autocomplete" in command;
 
 const isUserContextCommand = (
     command: unknown,

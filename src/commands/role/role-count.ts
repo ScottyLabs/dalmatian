@@ -51,7 +51,7 @@ const command: SlashCommand = {
             .setDescription(`${members.length} members`);
 
         return interaction.reply({ embeds: [embed] });
-    }
+    },
 };
 
 export default command;

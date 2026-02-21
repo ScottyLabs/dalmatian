@@ -8,7 +8,9 @@ import type {
 } from "discord.js";
 
 export type CommandData<T> = Pick<T, "name" | "toJSON">;
-export type CommandDataGeneric = CommandData<SlashCommandBuilder | ContextMenuCommandBuilder>;
+export type CommandDataGeneric = CommandData<
+    SlashCommandBuilder | ContextMenuCommandBuilder
+>;
 
 export interface SlashCommand {
     data: CommandData<SlashCommandBuilder>;
@@ -33,4 +35,3 @@ export interface Event<K extends keyof ClientEvents> {
     once: boolean;
     execute: (...args: ClientEvents[K]) => void | Promise<void>;
 }
-

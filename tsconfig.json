@@ -6,7 +6,6 @@
         "module": "nodenext",
         "moduleDetection": "force",
         "allowJs": true,
-        "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
         },

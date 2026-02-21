@@ -57,12 +57,14 @@ const command: SlashCommand = {
         while (members.length > 0) {
             chunk.push(members.shift());
             if (chunk.length >= 20 || members.length === 0) {
-                const description = `${membersCount} members\n` + chunk
-                    .map(
-                        (member) =>
-                            `${bold(member!.displayName)} (${member!.user.username})`,
-                    )
-                    .join("\n");
+                const description =
+                    `${membersCount} members\n` +
+                    chunk
+                        .map(
+                            (member) =>
+                                `${bold(member!.displayName)} (${member!.user.username})`,
+                        )
+                        .join("\n");
 
                 const embed = new EmbedBuilder()
                     .setTitle(`"${roleString}"`)

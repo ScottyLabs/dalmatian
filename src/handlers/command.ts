@@ -1,11 +1,7 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 
-import {
-    type Client,
-    REST,
-    Routes,
-} from "discord.js";
+import { type Client, REST, Routes } from "discord.js";
 import type { Command, CommandDataGeneric } from "../types.d.ts";
 
 export default (client: Client) => {
@@ -20,9 +16,7 @@ export default (client: Client) => {
             }
 
             if (!entry.name.endsWith(".ts")) return;
-            const command: Command = require(
-                join(dirPath, entry.name),
-            ).default;
+            const command: Command = require(join(dirPath, entry.name)).default;
             if (!command) return;
             commands.push(command.data);
             client.commands.set(command.data.name, command);
@@ -44,10 +38,7 @@ export default (client: Client) => {
                         body: commands.map((command) => command.toJSON()),
                     },
                 )
-                .then((data: unknown) => {
-                    const commandCount = Array.isArray(data)
-                        ? data.length
-                        : "unknown";
+                .then(() => {
                     console.log(
                         `Successfully reloaded ${commands.length} application commands.`,
                     );
