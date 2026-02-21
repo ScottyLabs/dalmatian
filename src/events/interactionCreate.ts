@@ -7,7 +7,14 @@ import {
     MessageFlags,
     type UserContextMenuCommandInteraction,
 } from "discord.js";
-import type { Event } from "../types.d.ts";
+import type { Event, SlashCommand, UserContextCommand } from "../types.d.ts";
+
+const isSlashCommand = (command: unknown): command is SlashCommand =>
+    typeof command === "object" && command !== null && "autocomplete" in command;
+
+const isUserContextCommand = (
+    command: unknown,
+): command is UserContextCommand => !isSlashCommand(command);
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
@@ -20,6 +27,13 @@ const event: Event<Events.InteractionCreate> = {
             if (!command) {
                 console.error(
                     `No command matching "${interaction.commandName}" found`,
+                );
+                return;
+            }
+
+            if (!isSlashCommand(command)) {
+                console.error(
+                    `Command "${interaction.commandName}" is not a slash command`,
                 );
                 return;
             }
@@ -58,6 +72,13 @@ const event: Event<Events.InteractionCreate> = {
             if (!command) {
                 console.error(
                     `No context command matching "${interaction.commandName}" found`,
+                );
+                return;
+            }
+
+            if (!isUserContextCommand(command)) {
+                console.error(
+                    `Command "${interaction.commandName}" is not a user context command`,
                 );
                 return;
             }
