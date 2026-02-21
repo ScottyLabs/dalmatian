@@ -12,9 +12,7 @@ export type CommandDataGeneric = CommandData<SlashCommandBuilder | ContextMenuCo
 
 export interface SlashCommand {
     data: CommandData<SlashCommandBuilder>;
-    execute: (
-        interaction: ChatInputCommandInteraction,
-    ) => unknown | Promise<unknown>;
+    execute: (interaction: ChatInputCommandInteraction) => void | Promise<void>;
     autocomplete?: (
         client: Client,
         interaction: AutocompleteInteraction,
@@ -25,7 +23,7 @@ export interface UserContextCommand {
     data: CommandData<ContextMenuCommandBuilder>;
     execute: (
         interaction: UserContextMenuCommandInteraction,
-    ) => unknown | Promise<unknown>;
+    ) => void | Promise<void>;
 }
 
 export type Command = SlashCommand | UserContextCommand;
