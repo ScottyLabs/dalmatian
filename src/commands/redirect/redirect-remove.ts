@@ -5,8 +5,8 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 import { and, eq } from "drizzle-orm";
-import { db, redirectionInstances } from "../db/index.ts";
-import type { SlashCommand } from "../types.d.ts";
+import { db, redirectionInstances } from "@/db/index.ts";
+import type { SlashCommand } from "@/types.js";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()

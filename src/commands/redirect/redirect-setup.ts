@@ -9,9 +9,9 @@ import {
     emojiTriggers,
     immuneRoles,
     redirectionInstances,
-} from "../db/index.ts";
-import type { SlashCommand } from "../types.d.ts";
-import { SetupForm, type SetupSchema } from "../utils/setupForm.ts";
+} from "@/db/index.ts";
+import type { SlashCommand } from "@/types.js";
+import { SetupForm, type SetupSchema } from "@/utils/setupForm.ts";
 
 // Zod schema for the complete setup
 const redirectSetupSchema = z.object({

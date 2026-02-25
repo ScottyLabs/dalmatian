@@ -1,42 +1,29 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 
-import {
-    type Client,
-    type ContextMenuCommandBuilder,
-    REST,
-    Routes,
-    type SlashCommandBuilder,
-} from "discord.js";
-import type { ContextCommand, SlashCommand } from "../types.d.ts";
+import { type Client, REST, Routes } from "discord.js";
+import type { Command, CommandDataGeneric } from "../types.d.ts";
 
 export default (client: Client) => {
-    const slashCommands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];
+    const commands: CommandDataGeneric[] = [];
 
-    const slashCommandsDir = join(__dirname, "../commands");
-    readdirSync(slashCommandsDir).forEach((file) => {
-        if (!file.endsWith(".ts")) return;
-        const command: SlashCommand = require(
-            join(slashCommandsDir, file),
-        ).default;
-        slashCommands.push(command.data);
-        client.slashCommands.set(command.data.name, command);
-    });
+    const commandsDir = join(__dirname, "../commands");
+    const loadCommandsFromDir = (dirPath: string) => {
+        readdirSync(dirPath, { withFileTypes: true }).forEach((entry) => {
+            if (entry.isDirectory()) {
+                loadCommandsFromDir(join(dirPath, entry.name));
+                return;
+            }
 
-    const contextCommands: Pick<
-        ContextMenuCommandBuilder,
-        "name" | "toJSON"
-    >[] = [];
+            if (!entry.name.endsWith(".ts")) return;
+            const command: Command = require(join(dirPath, entry.name)).default;
+            if (!command) return;
+            commands.push(command.data);
+            client.commands.set(command.data.name, command);
+        });
+    };
 
-    const contextCommandsDir = join(__dirname, "../contextCommands");
-    readdirSync(contextCommandsDir).forEach((file) => {
-        if (!file.endsWith(".ts")) return;
-        const command: ContextCommand = require(
-            join(contextCommandsDir, file),
-        ).default;
-        contextCommands.push(command.data);
-        client.contextCommands.set(command.data.name, command);
-    });
+    loadCommandsFromDir(commandsDir);
 
     const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
@@ -44,24 +31,16 @@ export default (client: Client) => {
         try {
             console.log("Started refreshing application commands.");
 
-            const allCommands = [
-                ...slashCommands.map((command) => command.toJSON()),
-                ...contextCommands.map((command) => command.toJSON()),
-            ];
-
             await rest
                 .put(
                     Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
                     {
-                        body: allCommands,
+                        body: commands.map((command) => command.toJSON()),
                     },
                 )
-                .then((data: unknown) => {
-                    const commandCount = Array.isArray(data)
-                        ? data.length
-                        : "unknown";
+                .then(() => {
                     console.log(
-                        `Successfully reloaded ${commandCount} application commands (${slashCommands.length} slash, ${contextCommands.length} context menu).`,
+                        `Successfully reloaded ${commands.length} application commands.`,
                     );
                 });
         } catch (error: unknown) {
