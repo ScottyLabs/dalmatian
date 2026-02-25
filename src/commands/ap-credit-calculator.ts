@@ -1,10 +1,11 @@
 import {
     ContainerBuilder,
+    hyperlink,
     MessageFlags,
     SeparatorBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { DEFAULT_EMBED_COLOR, SCHOOLS } from "../constants.js";
+import { DEFAULT_EMBED_COLOR, SCHOOLS, SCOTTYLABS_URL } from "../constants.js";
 import apCoursesData from "../data/ap-courses.json" with { type: "json" };
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
@@ -66,7 +67,20 @@ async function loadApCreditData(): Promise<Exam[]> {
             const scoreCourses: Course[] = entry.courses.map((id) => {
                 const course = courses[id] ?? apCoursesIndex[id];
 
-                if (!course || course.name.startsWith("AP")) {
+                if (!course) {
+                    return {
+                        id,
+                        name: "Equivalent Course not Found",
+                        syllabi: [],
+                        desc: "",
+                        prereqs: [],
+                        prereqString: "",
+                        coreqs: [],
+                        crosslisted: [],
+                        units: "",
+                        department: "",
+                    };
+                } else if (course.name.startsWith("AP")) {
                     return {
                         id,
                         name: exam.name + " (*Not Offered Course*)",
@@ -76,7 +90,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                         prereqString: "",
                         coreqs: [],
                         crosslisted: [],
-                        units: "",
+                        units: course.units,
                         department: "",
                     };
                 }
@@ -280,10 +294,6 @@ const command: SlashCommand = {
                     let genedCreditTotal = 0;
 
                     for (const { exam, courses: awardedCourses } of awarded) {
-                        container.addSeparatorComponents(
-                            new SeparatorBuilder(),
-                        );
-
                         let geneds: GenEd[] = [];
 
                         if (userSchool == "DC") {
@@ -303,6 +313,10 @@ const command: SlashCommand = {
                         }
 
                         for (const course of awardedCourses) {
+                            container.addSeparatorComponents(
+                                new SeparatorBuilder(),
+                            );
+
                             const units = Number(course.units) || 0;
                             genedCreditTotal += units;
 
@@ -315,7 +329,7 @@ const command: SlashCommand = {
                                     : [];
 
                             const genedTags = genedList.length
-                                ? genedList.map((g) => `[${g}]`).join(" ")
+                                ? genedList.map((g) => `${g}`).join(" ")
                                 : "n/a";
 
                             container.addTextDisplayComponents((t) =>
@@ -324,10 +338,13 @@ const command: SlashCommand = {
                                         courseName.endsWith(
                                             "(*Not Offered Course*)",
                                         )
-                                            ? `**${course.id}** — AP ${courseName} (${units} units)`
-                                            : `**${course.id}** — ${courseName} (${units} units)`,
+                                            ? `**${course.id}** — AP ${courseName} (${units} units) `
+                                            : hyperlink(
+                                                  `**${course.id}** — ${courseName} (${units} units)`,
+                                                  `${SCOTTYLABS_URL}/course/${course.id}`,
+                                              ),
                                         genedTags != "n/a"
-                                            ? `AP ${exam.name}· Fulfills ${genedTags} Gened Requirement.`
+                                            ? `AP ${exam.name} • Fulfills ${genedTags} Gened Requirement`
                                             : `AP ${exam.name}`,
                                         `${exam.info}`,
                                     ].join("\n"),

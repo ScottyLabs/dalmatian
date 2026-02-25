@@ -10,6 +10,7 @@ import {
     StringSelectMenuInteraction,
 } from "discord.js";
 
+import { DEFAULT_EMBED_COLOR } from "../constants.js";
 export interface SetupField {
     key: string;
     label: string;
@@ -117,7 +118,7 @@ export class SetupForm {
         this.rendNonce++;
 
         const container = new ContainerBuilder()
-            .setAccentColor(0x393a41)
+            .setAccentColor(DEFAULT_EMBED_COLOR)
             .addTextDisplayComponents((text) =>
                 text.setContent(`# ${this.schema.name}`),
             );
@@ -137,7 +138,11 @@ export class SetupForm {
             container.addSeparatorComponents(new SeparatorBuilder());
         }
 
-        if (Object.keys(this.state.collectedData).length > 0) {
+        const hasCollectedData = Object.values(this.state.collectedData).some(
+            (v) => Array.isArray(v) && v.length > 0,
+        );
+
+        if (hasCollectedData) {
             container.addTextDisplayComponents((text) =>
                 text.setContent("**Selected Exams**\n"),
             );
@@ -149,7 +154,7 @@ export class SetupForm {
             for (const item of items) {
                 const display = item.score
                     ? `- ${item.examName} - Score: ${item.score}`
-                    : `- ${item.examName} - Pending score…`;
+                    : `- ${item.examName} - Pending score`;
                 container.addTextDisplayComponents((text) =>
                     text.setContent(display),
                 );
@@ -168,12 +173,20 @@ export class SetupForm {
             .setLabel("Clear Selected")
             .setStyle(ButtonStyle.Danger);
 
-        container.addActionRowComponents(
-            new ActionRowBuilder<ButtonBuilder>().addComponents(
-                clearButton,
-                submitButton,
-            ),
-        );
+        if (hasCollectedData) {
+            container.addActionRowComponents(
+                new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    submitButton,
+                    clearButton,
+                ),
+            );
+        } else {
+            container.addActionRowComponents(
+                new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    submitButton,
+                ),
+            );
+        }
 
         return container;
     }
