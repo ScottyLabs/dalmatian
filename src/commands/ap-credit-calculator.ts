@@ -1,10 +1,11 @@
 import {
     ContainerBuilder,
+    hyperlink,
     MessageFlags,
     SeparatorBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { DEFAULT_EMBED_COLOR, SCHOOLS } from "../constants.js";
+import { DEFAULT_EMBED_COLOR, SCHOOLS, SCOTTYLABS_URL } from "../constants.js";
 import apCoursesData from "../data/ap-courses.json" with { type: "json" };
 import apCreditData from "../data/ap-credit.json" with { type: "json" };
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
@@ -69,7 +70,7 @@ async function loadApCreditData(): Promise<Exam[]> {
                 if (!course) {
                     return {
                         id,
-                        name: exam.name,
+                        name: "Equivalent Course not Found",
                         syllabi: [],
                         desc: "",
                         prereqs: [],
@@ -77,6 +78,19 @@ async function loadApCreditData(): Promise<Exam[]> {
                         coreqs: [],
                         crosslisted: [],
                         units: "",
+                        department: "",
+                    };
+                } else if (course.name.startsWith("AP")) {
+                    return {
+                        id,
+                        name: exam.name + " (*Not Offered Course*)",
+                        syllabi: [],
+                        desc: "",
+                        prereqs: [],
+                        prereqString: "",
+                        coreqs: [],
+                        crosslisted: [],
+                        units: course.units,
                         department: "",
                     };
                 }
@@ -111,7 +125,7 @@ function getGenedsForCourse(courseId: string, geneds: GenEd[]): string[] {
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
-        .setName("credit-calculator")
+        .setName("credits")
         .setDescription("Credit calculator for CMU courses")
         .addSubcommand((subcommand) =>
             subcommand
@@ -263,7 +277,9 @@ const command: SlashCommand = {
                     const container = new ContainerBuilder()
                         .setAccentColor(DEFAULT_EMBED_COLOR)
                         .addTextDisplayComponents((t) =>
-                            t.setContent("Awarded CMU Credit"),
+                            t.setContent(
+                                "## Awarded CMU Credit\n*Gened data is incomplete and partly outdated*",
+                            ),
                         );
 
                     if (awarded.length === 0) {
@@ -278,14 +294,6 @@ const command: SlashCommand = {
                     let genedCreditTotal = 0;
 
                     for (const { exam, courses: awardedCourses } of awarded) {
-                        container.addSeparatorComponents(
-                            new SeparatorBuilder(),
-                        );
-
-                        container.addTextDisplayComponents((t) =>
-                            t.setContent(`### ${exam.name}`),
-                        );
-
                         let geneds: GenEd[] = [];
 
                         if (userSchool == "DC") {
@@ -305,6 +313,10 @@ const command: SlashCommand = {
                         }
 
                         for (const course of awardedCourses) {
+                            container.addSeparatorComponents(
+                                new SeparatorBuilder(),
+                            );
+
                             const units = Number(course.units) || 0;
                             genedCreditTotal += units;
 
@@ -317,29 +329,32 @@ const command: SlashCommand = {
                                     : [];
 
                             const genedTags = genedList.length
-                                ? genedList.map((g) => `[${g}]`).join(" ")
-                                : "_None_";
+                                ? genedList.map((g) => `${g}`).join(" ")
+                                : "n/a";
 
                             container.addTextDisplayComponents((t) =>
                                 t.setContent(
                                     [
-                                        `> **${course.id}** — ${courseName}`,
-                                        `> **${units} units** · GenEds: ${genedTags}`,
+                                        courseName.endsWith(
+                                            "(*Not Offered Course*)",
+                                        )
+                                            ? `**${course.id}** — AP ${courseName} (${units} units) `
+                                            : hyperlink(
+                                                  `**${course.id}** — ${courseName} (${units} units)`,
+                                                  `${SCOTTYLABS_URL}/course/${course.id}`,
+                                              ),
+                                        genedTags != "n/a"
+                                            ? `AP ${exam.name} • Fulfills ${genedTags} Gened Requirement`
+                                            : `AP ${exam.name}`,
+                                        `${exam.info}`,
                                     ].join("\n"),
                                 ),
-                            );
-                        }
-                        if (exam.info !== "") {
-                            container.addTextDisplayComponents((t) =>
-                                t.setContent(`${exam.info}`),
                             );
                         }
                     }
 
                     container.addTextDisplayComponents((t) =>
-                        t.setContent(
-                            `**GenEd Unit Total:** ${genedCreditTotal}`,
-                        ),
+                        t.setContent(`**Unit Total:** ${genedCreditTotal}`),
                     );
                     return container;
                 },

@@ -10,6 +10,7 @@ import {
     StringSelectMenuInteraction,
 } from "discord.js";
 
+import { DEFAULT_EMBED_COLOR } from "../constants.js";
 export interface SetupField {
     key: string;
     label: string;
@@ -94,7 +95,7 @@ export class SetupForm {
     ): ActionRowBuilder<StringSelectMenuBuilder> {
         const select = new StringSelectMenuBuilder()
             .setCustomId(`setup;${this.schema.name};string;${field.key}`)
-            .setPlaceholder(field.label);
+            .setPlaceholder("Select an exam");
 
         if (field.options) {
             select.addOptions(field.options);
@@ -117,7 +118,7 @@ export class SetupForm {
         this.rendNonce++;
 
         const container = new ContainerBuilder()
-            .setAccentColor(0x393a41)
+            .setAccentColor(DEFAULT_EMBED_COLOR)
             .addTextDisplayComponents((text) =>
                 text.setContent(`# ${this.schema.name}`),
             );
@@ -137,14 +138,55 @@ export class SetupForm {
             container.addSeparatorComponents(new SeparatorBuilder());
         }
 
+        const hasCollectedData = Object.values(this.state.collectedData).some(
+            (v) => Array.isArray(v) && v.length > 0,
+        );
+
+        if (hasCollectedData) {
+            container.addTextDisplayComponents((text) =>
+                text.setContent("**Selected Exams**\n"),
+            );
+        }
+        for (const key of Object.keys(this.state.collectedData)) {
+            const items = this.state.collectedData[key];
+            if (!Array.isArray(items)) continue;
+
+            for (const item of items) {
+                const display = item.score
+                    ? `- ${item.examName} - Score: ${item.score}`
+                    : `- ${item.examName} - Pending score`;
+                container.addTextDisplayComponents((text) =>
+                    text.setContent(display),
+                );
+            }
+        }
+
+        container.addSeparatorComponents(new SeparatorBuilder());
+
         const submitButton = new ButtonBuilder()
             .setCustomId(`setup;${this.schema.name};submit`)
             .setLabel("Submit")
             .setStyle(ButtonStyle.Success);
 
-        container.addActionRowComponents(
-            new ActionRowBuilder<ButtonBuilder>().addComponents(submitButton),
-        );
+        const clearButton = new ButtonBuilder()
+            .setCustomId(`setup;${this.schema.name};clear`)
+            .setLabel("Clear Selected")
+            .setStyle(ButtonStyle.Danger);
+
+        if (hasCollectedData) {
+            container.addActionRowComponents(
+                new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    submitButton,
+                    clearButton,
+                ),
+            );
+        } else {
+            container.addActionRowComponents(
+                new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    submitButton,
+                ),
+            );
+        }
 
         return container;
     }
@@ -165,6 +207,21 @@ export class SetupForm {
                 await i.deferUpdate();
                 collector.stop("submitted");
                 return;
+            }
+
+            if (
+                i.isButton() &&
+                i.customId === `setup;${this.schema.name};clear`
+            ) {
+                for (const key of Object.keys(this.state.collectedData)) {
+                    if (Array.isArray(this.state.collectedData[key])) {
+                        this.state.collectedData[key] = [];
+                    }
+                }
+
+                await i.update({
+                    components: [this.buildFormContainer()],
+                });
             }
 
             if (i.customId.startsWith(`setup;${this.schema.name};score;`)) {

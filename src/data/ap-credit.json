@@ -53,7 +53,7 @@
         "courses": ["03-110"],
         "subject": "STEM",
         "school": [],
-        "info": "Students can elect to take an attainment exam. Students who pass this exam by September 30 will receive credit for 03-121 instead of 03-110."
+        "info": "(Students can elect to take an attainment exam. Students who pass this exam by September 30 will receive credit for 03-121 instead of 03-110.)"
     },
     {
         "exams": [{ "name": "Calculus AB", "score": 4 }],
