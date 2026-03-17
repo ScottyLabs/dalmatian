@@ -10,14 +10,13 @@ import {
 } from "discord.js";
 import { DEFAULT_EMBED_COLOR } from "./constants.ts";
 import { runMigrations } from "./db/migrate.ts";
-import type { ContextCommand, SlashCommand } from "./types.d.ts";
+import type { Command } from "./types.d.ts";
 
 await runMigrations();
 
 declare module "discord.js" {
     interface Client {
-        slashCommands: Collection<string, SlashCommand>;
-        contextCommands: Collection<string, ContextCommand>;
+        commands: Collection<string, Command>;
     }
 }
 
@@ -30,8 +29,7 @@ const client = new Client({
     makeCache: Options.cacheEverything(),
 });
 
-client.slashCommands = new Collection();
-client.contextCommands = new Collection();
+client.commands = new Collection();
 
 const handlersDir = join(__dirname, "./handlers");
 readdirSync(handlersDir).forEach(async (handler) => {

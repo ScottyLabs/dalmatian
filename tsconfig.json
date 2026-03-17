@@ -6,6 +6,9 @@
         "module": "nodenext",
         "moduleDetection": "force",
         "allowJs": true,
+        "paths": {
+            "@/*": ["./src/*"]
+        },
         "outDir": "build",
         "resolveJsonModule": true,
         "allowImportingTsExtensions": true,

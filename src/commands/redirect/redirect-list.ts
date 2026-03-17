@@ -11,9 +11,9 @@ import {
     emojiTriggers,
     immuneRoles,
     redirectionInstances,
-} from "../db/index.ts";
-import type { SlashCommand } from "../types.d.ts";
-import { displayEmoji } from "../utils/setupForm.ts";
+} from "@/db/index.ts";
+import type { SlashCommand } from "@/types.js";
+import { displayEmoji } from "@/utils/setupForm.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
