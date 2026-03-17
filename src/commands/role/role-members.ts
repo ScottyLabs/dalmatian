@@ -8,7 +8,7 @@ import {
 import type { SlashCommand } from "@/types.d.ts";
 import { parseAndEvaluate } from "@/modules/operator-parser.ts";
 import { EmbedPaginator } from "@/utils/EmbedPaginator.ts";
-import { lookup, equals } from "./utils.ts";
+import { lookup, equals, getRolesFuzzyMatching } from "./utils.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -20,7 +20,8 @@ const command: SlashCommand = {
                 .setDescription(
                     "The role(s) to get the members of (e.g. role1 and (role2 or role3))",
                 )
-                .setRequired(true),
+                .setRequired(true)
+                .setAutocomplete(true),
         ),
     async execute(interaction) {
         if (!interaction.guild) {
@@ -83,6 +84,23 @@ const command: SlashCommand = {
 
         const paginator = new EmbedPaginator(embeds);
         return paginator.send(interaction);
+    },
+
+    async autocomplete(_client, interaction) {
+        if (!interaction.guild) {
+            return;
+        }
+
+        const focusedOption = interaction.options.getFocused(true);
+        if (focusedOption.name !== "role_string") {
+            return;
+        }
+
+        await interaction.respond(
+            getRolesFuzzyMatching(interaction.guild, focusedOption.value).map(
+                (name) => ({ name, value: name }),
+            ),
+        );
     },
 };
 

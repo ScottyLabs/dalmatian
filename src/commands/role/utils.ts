@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, Guild, GuildMember } from "discord.js";
 
 export function lookup(
     interaction: ChatInputCommandInteraction,
@@ -26,4 +26,18 @@ export function lookup(
 
 export function equals(a: GuildMember, b: GuildMember): boolean {
     return a.id === b.id;
+}
+
+// TODO: fuzzy matching
+export function getRolesFuzzyMatching(
+    guild: Guild,
+    roleName: string,
+): string[] {
+    const roleNames = guild.roles.cache.map((role) => role.name);
+
+    const filtered = roleNames.filter((name) =>
+        name.toLowerCase().includes(roleName.toLowerCase()),
+    );
+
+    return filtered.slice(0, 25);
 }

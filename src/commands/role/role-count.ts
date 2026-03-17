@@ -5,7 +5,7 @@ import {
     MessageFlags,
 } from "discord.js";
 import { parseAndEvaluate } from "@/modules/operator-parser.ts";
-import { lookup, equals } from "./utils.ts";
+import { lookup, equals, getRolesFuzzyMatching } from "./utils.ts";
 import type { SlashCommand } from "@/types.d.ts";
 
 const command: SlashCommand = {
@@ -18,7 +18,8 @@ const command: SlashCommand = {
                 .setDescription(
                     "The role(s) to get the member count of (e.g. role1 and (role2 or role3))",
                 )
-                .setRequired(true),
+                .setRequired(true)
+                .setAutocomplete(true),
         ),
     async execute(interaction) {
         if (!interaction.guild) {
@@ -51,6 +52,23 @@ const command: SlashCommand = {
             .setDescription(`${members.length} members`);
 
         return interaction.reply({ embeds: [embed] });
+    },
+
+    async autocomplete(_client, interaction) {
+        if (!interaction.guild) {
+            return;
+        }
+
+        const focusedOption = interaction.options.getFocused(true);
+        if (focusedOption.name !== "role_string") {
+            return;
+        }
+
+        await interaction.respond(
+            getRolesFuzzyMatching(interaction.guild, focusedOption.value).map(
+                (name) => ({ name, value: name }),
+            ),
+        );
     },
 };
 
