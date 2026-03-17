@@ -37,7 +37,7 @@ const command: SlashCommand = {
                 (value) => {
                     return value;
                 },
-                (roleName) => lookup(interaction, roleName),
+                (roleName) => lookup(interaction.guild!, roleName),
                 equals,
             );
         } catch (error) {
