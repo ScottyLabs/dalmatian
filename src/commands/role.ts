@@ -23,7 +23,8 @@ const command: SlashCommand = {
                         .setDescription(
                             "The role(s) to get the member count of (e.g. role1 and (role2 or role3))",
                         )
-                        .setRequired(true),
+                        .setRequired(true)
+                        .setAutocomplete(true),
                 ),
         )
         .addSubcommand((subcommand) =>
@@ -36,7 +37,8 @@ const command: SlashCommand = {
                         .setDescription(
                             "The role(s) to get the members of (e.g. role1 and (role2 or role3))",
                         )
-                        .setRequired(true),
+                        .setRequired(true)
+                        .setAutocomplete(true),
                 ),
         ),
     async execute(interaction) {
@@ -130,6 +132,32 @@ const command: SlashCommand = {
 
             return interaction.reply({ embeds: [embed] });
         }
+    },
+
+    async autocomplete(_client, interaction) {
+        if (!interaction.guild) {
+            return;
+        }
+
+        const focusedOption = interaction.options.getFocused(true);
+        if (focusedOption.name !== "role_string") {
+            return;
+        }
+
+        const input = focusedOption.value;
+
+        const roleNames = interaction.guild.roles.cache.map((role) => role.name);
+
+        const filtered = roleNames.filter((name) =>
+            name.toLowerCase().includes(input.toLowerCase()),
+        );
+
+        await interaction.respond(
+            filtered.slice(0, 25).map((name) => ({
+                name,
+                value: name,
+            })),
+        );
     },
 };
 
