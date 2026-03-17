@@ -1,12 +1,7 @@
 import { Guild, GuildMember } from "discord.js";
 
-export function lookup(
-    guild: Guild,
-    roleName: string,
-): GuildMember[] {
-    const role = guild.roles.cache.find(
-        (r) => r.name === roleName,
-    );
+export function lookup(guild: Guild, roleName: string): GuildMember[] {
+    const role = guild.roles.cache.find((r) => r.name === roleName);
 
     if (!role) {
         throw new Error(`Role not found: ${roleName}`);
