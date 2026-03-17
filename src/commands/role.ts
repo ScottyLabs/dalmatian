@@ -146,7 +146,9 @@ const command: SlashCommand = {
 
         const input = focusedOption.value;
 
-        const roleNames = interaction.guild.roles.cache.map((role) => role.name);
+        const roleNames = interaction.guild.roles.cache.map(
+            (role) => role.name
+        );
 
         const filtered = roleNames.filter((name) =>
             name.toLowerCase().includes(input.toLowerCase()),
