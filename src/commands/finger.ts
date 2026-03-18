@@ -89,7 +89,6 @@ const command: SlashCommand = {
 
             const embed = new EmbedBuilder()
                 .setTitle(`${user}@${host}`)
-                .setColor(0xa7192e)
                 .setDescription(codeBlock(truncated));
 
             return interaction.editReply({ embeds: [embed] });
