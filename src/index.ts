@@ -26,7 +26,12 @@ const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
 
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
-    partials: [Partials.User, Partials.GuildMember],
+    partials: [
+        Partials.Message,
+        Partials.Reaction,
+        Partials.User,
+        Partials.GuildMember,
+    ],
     makeCache: Options.cacheEverything(),
 });
 
