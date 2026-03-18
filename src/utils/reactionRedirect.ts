@@ -10,6 +10,7 @@ import {
 
 interface RedirectCheckResult {
     shouldRedirect: boolean;
+    removeReaction?: boolean;
     reason?: string;
     redirectionInstance?: typeof redirectionInstances.$inferSelect;
 }
@@ -86,6 +87,7 @@ export async function checkReactionRedirect(
         if (hasImmuneRole) {
             return {
                 shouldRedirect: false,
+                removeReaction: true,
                 reason: "Message author has immune role",
             };
         }

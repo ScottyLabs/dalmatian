@@ -29,6 +29,10 @@ const event: Event<Events.MessageReactionAdd> = {
 
             const result = await checkReactionRedirect(reaction);
 
+            if (result.removeReaction) {
+                await reaction.users.remove(user.id);
+            }
+
             if (!result.shouldRedirect || !result.redirectionInstance) {
                 return;
             }
