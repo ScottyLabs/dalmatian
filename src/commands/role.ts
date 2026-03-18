@@ -5,8 +5,8 @@ import {
     MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
-import type { SlashCommand } from "../types.d.ts";
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
+import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 
 const command: SlashCommand = {

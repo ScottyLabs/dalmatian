@@ -74,7 +74,7 @@ const command: SlashCommand = {
 
         try {
             const result = await finger(user, host);
-            const trimmed = result.trim();
+            const trimmed = result.trimEnd();
 
             if (!trimmed) {
                 return interaction.editReply({
