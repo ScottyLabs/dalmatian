@@ -79,8 +79,14 @@ export async function checkReactionRedirect(
         .where(eq(immuneRoles.redirectionInstanceId, instance.id));
 
     // Check if message author has immune role
-    if (message.member) {
-        const hasImmuneRole = message.member.roles.cache.some((role) =>
+    const member =
+        message.member ??
+        (await message.guild?.members
+            .fetch(message.author.id)
+            .catch(() => null));
+
+    if (member) {
+        const hasImmuneRole = member.roles.cache.some((role) =>
             immune.some((ir) => ir.roleId === role.id),
         );
 
