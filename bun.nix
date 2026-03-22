@@ -361,81 +361,37 @@
     url = "https://registry.npmjs.org/@oxlint-tsgolint/win32-x64/-/win32-x64-0.9.2.tgz";
     hash = "sha512-OGx2CIyWjpOhFOL7tvVjLrKlkjJSOVZBe5S/jmBnxY+vRjFrXQr0zNUXy+S+ggIv6rsMlz3B+ixSriyUIKwDeQ==";
   };
-  "@oxlint/binding-android-arm-eabi@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-android-arm-eabi/-/binding-android-arm-eabi-1.56.0.tgz";
-    hash = "sha512-IyfYPthZyiSKwAv/dLjeO18SaK8MxLI9Yss2JrRDyweQAkuL3LhEy7pwIwI7uA3KQc1Vdn20kdmj3q0oUIQL6A==";
+  "@oxlint/darwin-arm64@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/darwin-arm64/-/darwin-arm64-1.33.0.tgz";
+    hash = "sha512-PmEQDLHAxiAdyttQ1ZWXd+5VpHLbHf3FTMJL9bg5TZamDnhNiW/v0Pamv3MTAdymnoDI3H8IVLAN/SAseV/adw==";
   };
-  "@oxlint/binding-android-arm64@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-android-arm64/-/binding-android-arm64-1.56.0.tgz";
-    hash = "sha512-Ga5zYrzH6vc/VFxhn6MmyUnYEfy9vRpwTIks99mY3j6Nz30yYpIkWryI0QKPCgvGUtDSXVLEaMum5nA+WrNOSg==";
+  "@oxlint/darwin-x64@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/darwin-x64/-/darwin-x64-1.33.0.tgz";
+    hash = "sha512-2R9aH3kR0X2M30z5agGikv3tfNTi8/uLhU5/tYktu33VGUXpbf0OLZSlD25UEuwOKAlf3RVtzV5oDyjoq93JuQ==";
   };
-  "@oxlint/binding-darwin-arm64@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-darwin-arm64/-/binding-darwin-arm64-1.56.0.tgz";
-    hash = "sha512-ogmbdJysnw/D4bDcpf1sPLpFThZ48lYp4aKYm10Z/6Nh1SON6NtnNhTNOlhEY296tDFItsZUz+2tgcSYqh8Eyw==";
+  "@oxlint/linux-arm64-gnu@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/linux-arm64-gnu/-/linux-arm64-gnu-1.33.0.tgz";
+    hash = "sha512-yb/k8GaMDgnX2LyO6km33kKItZ/n573SlbiHBBFU2HmeU7tzEHL5jHkHQXXcysUkapmqHd7UsDhOZDqPmXaQRg==";
   };
-  "@oxlint/binding-darwin-x64@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-darwin-x64/-/binding-darwin-x64-1.56.0.tgz";
-    hash = "sha512-x8QE1h+RAtQ2g+3KPsP6Fk/tdz6zJQUv5c7fTrJxXV3GHOo+Ry5p/PsogU4U+iUZg0rj6hS+E4xi+mnwwlDCWQ==";
+  "@oxlint/linux-arm64-musl@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/linux-arm64-musl/-/linux-arm64-musl-1.33.0.tgz";
+    hash = "sha512-03pt9IO1C4ZfVOW6SQiOK26mzklAhLM3Kc79OXpX1kgZRlxk+rvFoMhlgCOzn7tEdrEgbePkBoxNnwDnJDFqJQ==";
   };
-  "@oxlint/binding-freebsd-x64@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-freebsd-x64/-/binding-freebsd-x64-1.56.0.tgz";
-    hash = "sha512-6G+WMZvwJpMvY7my+/SHEjb7BTk/PFbePqLpmVmUJRIsJMy/UlyYqjpuh0RCgYYkPLcnXm1rUM04kbTk8yS1Yg==";
+  "@oxlint/linux-x64-gnu@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/linux-x64-gnu/-/linux-x64-gnu-1.33.0.tgz";
+    hash = "sha512-Z7ImLWM50FoVXzYvyxUQ+QwBkBfRyK4YdLEGonyAGMp7iT3DksonDaTK9ODnJ1qHyAyAZCvuqXD7AEDsDvzDbA==";
   };
-  "@oxlint/binding-linux-arm-gnueabihf@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-arm-gnueabihf/-/binding-linux-arm-gnueabihf-1.56.0.tgz";
-    hash = "sha512-YYHBsk/sl7fYwQOok+6W5lBPeUEvisznV/HZD2IfZmF3Bns6cPC3Z0vCtSEOaAWTjYWN3jVsdu55jMxKlsdlhg==";
+  "@oxlint/linux-x64-musl@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/linux-x64-musl/-/linux-x64-musl-1.33.0.tgz";
+    hash = "sha512-idb55Uzu5kkqqpMiVUfI9nP7zOqPZinQKsIRQAIU40wILcf/ijvhNZKIu3ucDMmye0n6IWOaSnxIRL5W2fNoUQ==";
   };
-  "@oxlint/binding-linux-arm-musleabihf@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-arm-musleabihf/-/binding-linux-arm-musleabihf-1.56.0.tgz";
-    hash = "sha512-+AZK8rOUr78y8WT6XkDb04IbMRqauNV+vgT6f8ZLOH8wnpQ9i7Nol0XLxAu+Cq7Sb+J9wC0j6Km5hG8rj47/yQ==";
+  "@oxlint/win32-arm64@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/win32-arm64/-/win32-arm64-1.33.0.tgz";
+    hash = "sha512-wKKFt7cubfrLelNzdmDsNSmtBrlSUe1fWus587+uSxDZdpFbQ7liU0gsUlCbcHvym0H1Tc2O3K3cnLrgQORLPQ==";
   };
-  "@oxlint/binding-linux-arm64-gnu@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.56.0.tgz";
-    hash = "sha512-urse2SnugwJRojUkGSSeH2LPMaje5Q50yQtvtL9HFckiyeqXzoFwOAZqD5TR29R2lq7UHidfFDM9EGcchcbb8A==";
-  };
-  "@oxlint/binding-linux-arm64-musl@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.56.0.tgz";
-    hash = "sha512-rkTZkBfJ4TYLjansjSzL6mgZOdN5IvUnSq3oNJSLwBcNvy3dlgQtpHPrRxrCEbbcp7oQ6If0tkNaqfOsphYZ9g==";
-  };
-  "@oxlint/binding-linux-ppc64-gnu@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-ppc64-gnu/-/binding-linux-ppc64-gnu-1.56.0.tgz";
-    hash = "sha512-uqL1kMH3u69/e1CH2EJhP3CP28jw2ExLsku4o8RVAZ7fySo9zOyI2fy9pVlTAp4voBLVgzndXi3SgtdyCTa2aA==";
-  };
-  "@oxlint/binding-linux-riscv64-gnu@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-riscv64-gnu/-/binding-linux-riscv64-gnu-1.56.0.tgz";
-    hash = "sha512-j0CcMBOgV6KsRaBdsebIeiy7hCjEvq2KdEsiULf2LZqAq0v1M1lWjelhCV57LxsqaIGChXFuFJ0RiFrSRHPhSg==";
-  };
-  "@oxlint/binding-linux-riscv64-musl@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-riscv64-musl/-/binding-linux-riscv64-musl-1.56.0.tgz";
-    hash = "sha512-7VDOiL8cDG3DQ/CY3yKjbV1c4YPvc4vH8qW09Vv+5ukq3l/Kcyr6XGCd5NvxUmxqDb2vjMpM+eW/4JrEEsUetA==";
-  };
-  "@oxlint/binding-linux-s390x-gnu@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-s390x-gnu/-/binding-linux-s390x-gnu-1.56.0.tgz";
-    hash = "sha512-JGRpX0M+ikD3WpwJ7vKcHKV6Kg0dT52BW2Eu2BupXotYeqGXBrbY+QPkAyKO6MNgKozyTNaRh3r7g+VWgyAQYQ==";
-  };
-  "@oxlint/binding-linux-x64-gnu@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.56.0.tgz";
-    hash = "sha512-dNaICPvtmuxFP/VbqdofrLqdS3bM/AKJN3LMJD52si44ea7Be1cBk6NpfIahaysG9Uo+L98QKddU9CD5L8UHnQ==";
-  };
-  "@oxlint/binding-linux-x64-musl@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-linux-x64-musl/-/binding-linux-x64-musl-1.56.0.tgz";
-    hash = "sha512-pF1vOtM+GuXmbklM1hV8WMsn6tCNPvkUzklj/Ej98JhlanbmA2RB1BILgOpwSuCTRTIYx2MXssmEyQQ90QF5aA==";
-  };
-  "@oxlint/binding-openharmony-arm64@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-openharmony-arm64/-/binding-openharmony-arm64-1.56.0.tgz";
-    hash = "sha512-bp8NQ4RE6fDIFLa4bdBiOA+TAvkNkg+rslR+AvvjlLTYXLy9/uKAYLQudaQouWihLD/hgkrXIKKzXi5IXOewwg==";
-  };
-  "@oxlint/binding-win32-arm64-msvc@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.56.0.tgz";
-    hash = "sha512-PxT4OJDfMOQBzo3OlzFb9gkoSD+n8qSBxyVq2wQSZIHFQYGEqIRTo9M0ZStvZm5fdhMqaVYpOnJvH2hUMEDk/g==";
-  };
-  "@oxlint/binding-win32-ia32-msvc@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-win32-ia32-msvc/-/binding-win32-ia32-msvc-1.56.0.tgz";
-    hash = "sha512-PTRy6sIEPqy2x8PTP1baBNReN/BNEFmde0L+mYeHmjXE1Vlcc9+I5nsqENsB2yAm5wLkzPoTNCMY/7AnabT4/A==";
-  };
-  "@oxlint/binding-win32-x64-msvc@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/@oxlint/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.56.0.tgz";
-    hash = "sha512-ZHa0clocjLmIDr+1LwoWtxRcoYniAvERotvwKUYKhH41NVfl0Y4LNbyQkwMZzwDvKklKGvGZ5+DAG58/Ik47tQ==";
+  "@oxlint/win32-x64@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/@oxlint/win32-x64/-/win32-x64-1.33.0.tgz";
+    hash = "sha512-ReyR8rNHjKNnO7dxGny9RCPELRAdhm3y780FNBcA07E1wvxSCkB+Mn5db0Pa5bRmxrsU/MTZ/aaBFa+ERXDdXw==";
   };
   "@sapphire/async-queue@1.5.5" = fetchurl {
     url = "https://registry.npmjs.org/@sapphire/async-queue/-/async-queue-1.5.5.tgz";
@@ -1037,9 +993,9 @@
     url = "https://registry.npmjs.org/oxlint-tsgolint/-/oxlint-tsgolint-0.9.2.tgz";
     hash = "sha512-UKLudgnuEPyAzpLk5FeZyCdjRaHQE6cSqmlTBwmEp2lGJ1wN59qGc4gfjAXVSCrKrd30jXDGf5/zQ3CTa6BNNQ==";
   };
-  "oxlint@1.56.0" = fetchurl {
-    url = "https://registry.npmjs.org/oxlint/-/oxlint-1.56.0.tgz";
-    hash = "sha512-Q+5Mj5PVaH/R6/fhMMFzw4dT+KPB+kQW4kaL8FOIq7tfhlnEVp6+3lcWqFruuTNlUo9srZUW3qH7Id4pskeR6g==";
+  "oxlint@1.33.0" = fetchurl {
+    url = "https://registry.npmjs.org/oxlint/-/oxlint-1.33.0.tgz";
+    hash = "sha512-4WCL0K8jiOshwJ8WrVk35VAuVaZHC0iX6asjKsrENOrynkAAGcTLLx0Urf0eXZ1Tq7r+qAe3Z9EyHMFPzVyUkg==";
   };
   "p-limit@4.0.0" = fetchurl {
     url = "https://registry.npmjs.org/p-limit/-/p-limit-4.0.0.tgz";
