@@ -639,8 +639,24 @@ const command: SlashCommand = {
                         `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)}${unitIssuePostFixer} units)`,
                     )
                     .setDescription(description);
-
-                return interaction.reply({ embeds: [embed] });
+                //Converts list of courses into a string, and then embeds that as a link button in the bottom row.
+                const courseList = validCourses
+                    .map(({ code }) => code)
+                    .join(",");
+                const url =
+                    `http://courses.scottylabs.org/schedules/shared?courses=` +
+                    courseList;
+                const button = new ButtonBuilder()
+                    .setLabel("View schedule")
+                    .setURL(url)
+                    .setStyle(ButtonStyle.Link);
+                const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    button,
+                );
+                return interaction.reply({
+                    embeds: [embed],
+                    components: [row],
+                });
             }
         }
         if (interaction.options.getSubcommand() === "syllabus") {
