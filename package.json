@@ -13,7 +13,7 @@
         "drizzle-kit": "beta",
         "husky": "^9.1.7",
         "lint-staged": "^16.2.7",
-        "oxlint": "^1.33.0",
+        "oxlint": "^1.56.0",
         "oxlint-tsgolint": "^0.9.0",
         "typescript": "^5.9.3"
     },
