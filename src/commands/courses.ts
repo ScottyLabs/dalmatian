@@ -420,7 +420,7 @@ const command: SlashCommand = {
         }
         if (interaction.options.getSubcommand() === "fce") {
             const input = interaction.options.getString("course_codes", true);
-            const rawCodes = input.split(/\s+/).filter((code) => code.trim());
+            const rawCodes = input.split(/[\s,]+/).filter((code) => code.trim());
 
             if (rawCodes.length === 0) {
                 return interaction.reply({
