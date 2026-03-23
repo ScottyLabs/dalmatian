@@ -5,6 +5,7 @@ import {
     CommandInteraction,
     ComponentType,
     EmbedBuilder,
+    MessageFlags,
 } from "discord.js";
 
 export class EmbedPaginator {
@@ -92,7 +93,7 @@ export class EmbedPaginator {
             if (btnInteraction.user.id !== interaction.user.id) {
                 await btnInteraction.reply({
                     content: "These buttons are not for you!",
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
                 return;
             }
