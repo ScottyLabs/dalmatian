@@ -251,7 +251,7 @@ const command: SlashCommand = {
                     option
                         .setName("course_codes")
                         .setDescription(
-                            "Course codes separated by spaces (e.g., 15-112 21-127 15-122)",
+                            "Course codes separated by spaces or commas (e.g., 15-112 21-127,15-122)",
                         )
                         .setRequired(true),
                 ),
