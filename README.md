@@ -31,7 +31,7 @@ bun install
 cp .env.example .env
 # Edit .env with your Discord bot credentials
 
-# 3. Set up database
+# 3. Set up the database
 docker compose up -d postgres
 bun run db:migrate
 
