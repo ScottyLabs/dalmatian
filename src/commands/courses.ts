@@ -251,7 +251,7 @@ const command: SlashCommand = {
                     option
                         .setName("course_codes")
                         .setDescription(
-                            "Course codes separated by spaces (e.g., 15-112 21-127 15-122)",
+                            "Course codes separated by spaces or commas (e.g., 15-112 21-127,15-122)",
                         )
                         .setRequired(true),
                 ),
@@ -420,7 +420,9 @@ const command: SlashCommand = {
         }
         if (interaction.options.getSubcommand() === "fce") {
             const input = interaction.options.getString("course_codes", true);
-            const rawCodes = input.split(/\s+/).filter((code) => code.trim());
+            const rawCodes = input
+                .split(/[\s,]+/)
+                .filter((code) => code.trim());
 
             if (rawCodes.length === 0) {
                 return interaction.reply({
