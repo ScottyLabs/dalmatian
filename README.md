@@ -43,4 +43,4 @@ bun start
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you contribute to this project!
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you contribute to this project.
