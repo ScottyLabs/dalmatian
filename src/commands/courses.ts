@@ -317,6 +317,14 @@ const command: SlashCommand = {
                     },
                     lookup,
                     equals,
+                    () =>
+                        Object.values(coursesData).map(
+                            (course) =>
+                                ({
+                                    id: course.id,
+                                    name: course.name,
+                                }) as Course,
+                        ),
                 );
             } catch (error) {
                 return interaction.reply({
