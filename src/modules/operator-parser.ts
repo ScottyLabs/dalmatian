@@ -53,12 +53,19 @@ function parseExpr(input: string): Token[] {
     const PRECEDENCE: Record<Operator, number> = { OR: 1, AND: 2, NOT: 3 };
     const isOperator = (token: Token | undefined): token is Operator =>
         token === "AND" || token === "OR" || token === "NOT";
+    const isRightAssociative = (token: Token): boolean => token === "NOT";
 
     for (const token of tokens) {
         if (isOperator(token)) {
             while (!empty(operatorStack)) {
                 const t = peek(operatorStack);
-                if (!isOperator(t) || PRECEDENCE[t] < PRECEDENCE[token]) break;
+                if (!isOperator(t)) break;
+
+                const shouldPop = isRightAssociative(token)
+                    ? PRECEDENCE[t] > PRECEDENCE[token]
+                    : PRECEDENCE[t] >= PRECEDENCE[token];
+
+                if (!shouldPop) break;
                 outputQueue.push(operatorStack.pop()!);
             }
             operatorStack.push(token);
