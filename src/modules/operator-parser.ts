@@ -1,16 +1,16 @@
 type Token = string;
-type Operator = "AND" | "OR";
+type Operator = "AND" | "OR" | "NOT";
 
 function tokenize(input: string): Token[] {
     // For future reference:
     // \s*"([^"]*)" matches quoted strings (literal role names with spaces and operators)
     // \s*'([^']*)' matches single-quoted strings
     // \s*([()]) matches any whitespace then a parenthesis
-    // \s*\b(AND|OR)\b matches any whitespace then AND or OR as whole words (case insensitive because of the end i)
-    // \s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*) matches any whitespace then a sequence of non-parenthesis, non-whitespace characters, grouping multiple sequences together as long as they aren't AND/OR
+    // \s*\b(AND|OR|NOT)\b matches any whitespace then AND or OR or NOT as whole words (case insensitive because of the end i)
+    // \s*([^()\s]+(?:\s+(?!AND|OR|NOT)[^()\s]+)*) matches any whitespace then a sequence of non-parenthesis, non-whitespace characters, grouping multiple sequences together as long as they aren't AND/OR/NOT
     // the end g makes the regex search globally through the string
     const regex =
-        /\s*"([^"]*)"|\s*'([^']*)'|\s*([()])|\s*\b(AND|OR)\b|\s*([^()\s]+(?:\s+(?!AND|OR)[^()\s]+)*)/gi;
+        /\s*"([^"]*)"|\s*'([^']*)'|\s*([()])|\s*\b(AND|OR|NOT)\b|\s*([^()\s]+(?:\s+(?!AND|OR|NOT)[^()\s]+)*)/gi;
     const tokens: Token[] = [];
     let match: RegExpExecArray | null;
 
@@ -25,7 +25,7 @@ function tokenize(input: string): Token[] {
             // Parenthesis
             tokens.push(match[3]);
         } else if (match[4]) {
-            // AND/OR operator
+            // AND/OR/NOT operator
             tokens.push(match[4].toUpperCase());
         } else if (match[5]) {
             // Unquoted token
@@ -50,9 +50,9 @@ function parseExpr(input: string): Token[] {
     };
     const tokens = tokenize(input);
 
-    const PRECEDENCE: Record<Operator, number> = { OR: 1, AND: 2 };
+    const PRECEDENCE: Record<Operator, number> = { OR: 1, AND: 2, NOT: 3 };
     const isOperator = (token: Token | undefined): token is Operator =>
-        token === "AND" || token === "OR";
+        token === "AND" || token === "OR" || token === "NOT";
 
     for (const token of tokens) {
         if (isOperator(token)) {
@@ -94,11 +94,19 @@ function evaluateExpr<TLiteral, TResult>(
     parseLiteral: (token: Token) => TLiteral,
     lookup: (literal: TLiteral) => TResult[],
     equal: (a: TResult, b: TResult) => boolean,
+    universe: () => TResult[],
 ): TResult[] {
     const stack: TResult[][] = [];
 
     for (const token of rpnTokens) {
-        if (token === "AND" || token === "OR") {
+        if (token === "NOT") {
+            const operand = stack.pop();
+            if (!operand) throw new Error("Malformed expression");
+            const uni = universe();
+            const result = uni.filter((u) => !operand.some((o) => equal(u, o)));
+
+            stack.push(result);
+        } else if (token === "AND" || token === "OR") {
             const right = stack.pop()!;
             const left = stack.pop()!;
 
@@ -133,7 +141,8 @@ export function parseAndEvaluate<TLiteral, TResult>(
     parseLiteral: (token: Token) => TLiteral,
     lookup: (literal: TLiteral) => TResult[],
     equal: (a: TResult, b: TResult) => boolean,
+    universe: () => TResult[],
 ): TResult[] {
     const rpnTokens = parseExpr(input);
-    return evaluateExpr(rpnTokens, parseLiteral, lookup, equal);
+    return evaluateExpr(rpnTokens, parseLiteral, lookup, equal, universe);
 }
