@@ -69,6 +69,19 @@ const command: SlashCommand = {
             );
         }
 
+        function universe(): GuildMember[] {
+            return interaction.guild!.members.cache.map(
+                (member) =>
+                    ({
+                        id: member.id,
+                        displayName: member.displayName,
+                        user: {
+                            username: member.user.username,
+                        },
+                    }) as GuildMember,
+            );
+        }
+
         function equals(a: GuildMember, b: GuildMember): boolean {
             return a.id === b.id;
         }
@@ -84,6 +97,7 @@ const command: SlashCommand = {
                 },
                 lookup,
                 equals,
+                universe,
             );
         } catch (error) {
             return interaction.reply({
