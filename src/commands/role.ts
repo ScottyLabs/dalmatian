@@ -4,6 +4,7 @@ import {
     GuildMember,
     MessageFlags,
     SlashCommandBuilder,
+    userMention,
 } from "discord.js";
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
@@ -107,7 +108,7 @@ const command: SlashCommand = {
                         chunk
                             .map(
                                 (member) =>
-                                    `${bold(member!.displayName)} (${member!.user.username})`,
+                                    `${userMention(member!.id)} (${member!.user.username})`,
                             )
                             .join("\n");
 
