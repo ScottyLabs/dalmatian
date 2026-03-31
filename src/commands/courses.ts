@@ -299,6 +299,16 @@ const command: SlashCommand = {
                 return a.id === b.id;
             }
 
+            function universe(): Course[] {
+                return Object.values(coursesData).map(
+                    (course) =>
+                        ({
+                            id: course.id,
+                            name: course.name,
+                        }) as Course,
+                );
+            }
+
             const courseString = interaction.options.getString(
                 "courses_string",
                 true,
@@ -317,14 +327,7 @@ const command: SlashCommand = {
                     },
                     lookup,
                     equals,
-                    () =>
-                        Object.values(coursesData).map(
-                            (course) =>
-                                ({
-                                    id: course.id,
-                                    name: course.name,
-                                }) as Course,
-                        ),
+                    universe,
                 );
             } catch (error) {
                 return interaction.reply({
