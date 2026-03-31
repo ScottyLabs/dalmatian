@@ -4,6 +4,7 @@ import {
     GuildMember,
     MessageFlags,
     SlashCommandBuilder,
+    userMention,
 } from "discord.js";
 import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
@@ -108,18 +109,22 @@ const command: SlashCommand = {
 
         if (interaction.options.getSubcommand() === "members") {
             members.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            const membersCount = members.length;
 
             const embeds = [];
             let chunk = [];
             while (members.length > 0) {
                 chunk.push(members.shift());
                 if (chunk.length >= 20 || members.length === 0) {
-                    const description = chunk
-                        .map(
-                            (member) =>
-                                `${bold(member!.displayName)} (${member!.user.username})`,
-                        )
-                        .join("\n");
+                    const description =
+                        bold(`${membersCount} members`) +
+                        "\n" +
+                        chunk
+                            .map(
+                                (member) =>
+                                    `${userMention(member!.id)} (${member!.user.username})`,
+                            )
+                            .join("\n");
 
                     const embed = new EmbedBuilder()
                         .setTitle(`"${roleString}"`)
