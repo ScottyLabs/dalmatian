@@ -89,6 +89,12 @@ const command: SlashCommand = {
 
         const roleString = interaction.options.getString("role_string", true);
 
+        const singleRole = interaction.guild.roles.cache.find(
+            (r) => r.name === roleString,
+        );
+
+        const roleColor = singleRole?.colors.primaryColor;
+
         let members: GuildMember[];
         try {
             members = parseAndEvaluate<string, GuildMember>(
@@ -129,6 +135,8 @@ const command: SlashCommand = {
                     const embed = new EmbedBuilder()
                         .setTitle(`"${roleString}"`)
                         .setDescription(description);
+
+                    if (roleColor) embed.setColor(roleColor);
                     embeds.push(embed);
                     chunk = [];
                 }
@@ -138,6 +146,8 @@ const command: SlashCommand = {
                 const embed = new EmbedBuilder()
                     .setTitle(`"${roleString}"`)
                     .setDescription(`No members found.`);
+
+                if (roleColor) embed.setColor(roleColor);
                 embeds.push(embed);
             }
 
@@ -149,6 +159,7 @@ const command: SlashCommand = {
                 .setTitle(`"${roleString}"`)
                 .setDescription(`${members.length} members`);
 
+            if (roleColor) embed.setColor(roleColor);
             return interaction.reply({ embeds: [embed] });
         }
     },
