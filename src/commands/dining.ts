@@ -123,9 +123,9 @@ function getTodaysHours(location: Location): string {
         .join(", ");
 }
 
-/** Calculates the number of whole minutes between two unix timestamps (ms). */
-function getMinutesBetween(from: number, to: number): number {
-    return Math.floor((to - from) / 60000);
+/** Converts milliseconds into whole minutes. */
+function msToMinutes(ms: number): number {
+    return Math.floor(ms / 60000);
 }
 
 /**
@@ -144,8 +144,9 @@ function getCurrentStatus(location: Location): {
             (time) => time.start <= now && now <= time.end,
         );
         if (openNow) {
-            const minutesUntilClose = getMinutesBetween(now, openNow.end);
-            if (minutesUntilClose <= 60 && minutesUntilClose > 0) {
+            const msUntilClose = openNow.end - now;
+            if (msUntilClose >= 0 && msUntilClose <= 60 * 60 * 1000) {
+                const minutesUntilClose = msToMinutes(msUntilClose);
                 return {
                     emoji: ":warning:",
                     message: `Closing in ${minutesUntilClose} mins`,
@@ -157,8 +158,9 @@ function getCurrentStatus(location: Location): {
 
     const todaysTimes = getTimesForDay(location);
     for (const time of todaysTimes) {
-        const minutesUntilOpen = getMinutesBetween(now, time.start);
-        if (minutesUntilOpen > 0 && minutesUntilOpen <= 60) {
+        const msUntilOpen = time.start - now;
+        if (msUntilOpen >= 0 && msUntilOpen <= 60 * 60 * 1000) {
+            const minutesUntilOpen = msToMinutes(msUntilOpen);
             return {
                 emoji: ":bell:",
                 message: `Opening in ${minutesUntilOpen} mins`,
