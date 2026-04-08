@@ -19,9 +19,6 @@ export type Course = {
 };
 
 export type GenEd = {
-    _id: {
-        $oid: string;
-    };
     tags: string[];
     courseID: string;
     school: string;
