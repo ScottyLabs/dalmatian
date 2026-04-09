@@ -104,10 +104,15 @@ export class SetupForm {
             .setPlaceholder("Select an exam");
 
         if (field.options) {
-            let options = field.options
+            let options = field.options;
             const noDuplicateDataKey = field.noDuplicateDataKey;
             if (noDuplicateDataKey && this.state.collectedData[field.key]) {
-                options = options.filter((o) => !this.state.collectedData[field.key].some((d: any) => d[noDuplicateDataKey] === o.label));
+                options = options.filter(
+                    (o) =>
+                        !this.state.collectedData[field.key].some(
+                            (d: any) => d[noDuplicateDataKey] === o.label,
+                        ),
+                );
             }
 
             select.addOptions(options);
