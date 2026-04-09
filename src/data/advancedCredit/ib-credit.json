@@ -1,0 +1,348 @@
+[
+    {
+        "exams": [{ "name": "Biology (HL)", "score": 6 }],
+        "courses": ["03-011"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Biology (HL)", "score": 7 }],
+        "courses": ["03-110"],
+        "subject": "STEM",
+        "school": [],
+        "info": "(Students can elect to take an attainment exam. Students who pass this exam by September 30 will receive credit for 03-121 instead of 03-110.)"
+    },
+    {
+        "exams": [{ "name": "Chemistry (HL)", "score": 7 }],
+        "courses": ["09-105"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Chinese A or B (HL)", "score": 6 }],
+        "courses": ["82-025"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Chinese must take the placement exam and contact The Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Chinese A or B (HL)", "score": 7 }],
+        "courses": ["82-026"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Chinese must take the placement exam and contact The Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [
+            { "name": "Classical Languages: Ancient Greek (HL)", "score": 6 }
+        ],
+        "courses": ["66-021"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Classical Languages: Ancient Greek (HL)", "score": 7 }
+        ],
+        "courses": ["66-021", "66-022"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Classical Languages: Ancient Latin (HL)", "score": 6 }
+        ],
+        "courses": ["66-023"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Classical Languages: Ancient Latin (HL)", "score": 7 }
+        ],
+        "courses": ["66-023", "66-024"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Computer Science (HL)", "score": 6 }],
+        "courses": ["15-112"],
+        "subject": "STEM",
+        "school": []
+    },
+    {
+        "exams": [{ "name": "Computer Science (HL)", "score": 7 }],
+        "courses": ["15-112"],
+        "subject": "STEM",
+        "school": []
+    },
+    {
+        "exams": [{ "name": "Design Technology (HL)", "score": 6 }],
+        "courses": ["51-013"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Design Technology (HL)", "score": 7 }],
+        "courses": ["51-013"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Economics (HL)", "score": 6 }],
+        "courses": ["73-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students should enroll in 73-104)"
+    },
+    {
+        "exams": [{ "name": "Economics (HL)", "score": 7 }],
+        "courses": ["73-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students should enroll in 73-104)"
+    },
+    {
+        "exams": [
+            { "name": "English A: Language and Literature (HL)", "score": 7 }
+        ],
+        "courses": ["76-013"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(must take 76-101 or two of the following half-semester mini courses at CMU: 76106, 76107, 76108)"
+    },
+    {
+        "exams": [{ "name": "English A: Literature (HL)", "score": 7 }],
+        "courses": ["76-014"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(must take 76-101 or two of the following half-semester mini courses at CMU: 76106, 76107, 76108)"
+    },
+    {
+        "exams": [{ "name": "Film (HL)", "score": 7 }],
+        "courses": ["76-017"],
+        "subject": "Arts",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "French A or B (HL)", "score": 6 }],
+        "courses": ["82-027"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of French must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "French A or B (HL)", "score": 7 }],
+        "courses": ["82-028"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of French must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Geography (HL)", "score": 6 }],
+        "courses": ["66-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Geography (HL)", "score": 7 }],
+        "courses": ["66-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "German (HL)", "score": 6 }],
+        "courses": ["82-029"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of German must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "German (HL)", "score": 7 }],
+        "courses": ["82-030"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of German must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Global Politics (HL)", "score": 7 }],
+        "courses": ["84-013"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "History (HL)", "score": 7 }],
+        "courses": ["79-014"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            {
+                "name": "Information Technology in a Global Society (ITGS) (HL)",
+                "score": 7
+            }
+        ],
+        "courses": ["67-011"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Islamic History (HL)", "score": 7 }],
+        "courses": ["79-013"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Italian A or B (HL)", "score": 6 }],
+        "courses": ["82-031"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Italian must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Italian A or B (HL)", "score": 7 }],
+        "courses": ["82-032"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Italian must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Japanese (HL)", "score": 6 }],
+        "courses": ["82-033"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Japanese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Japanese (HL)", "score": 7 }],
+        "courses": ["82-034"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Japanese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Mathematics (HL)", "score": 6 }],
+        "courses": ["21-120"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Mathematics (HL)", "score": 7 }],
+        "courses": ["21-120", "21-122"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Music (HL)", "score": 6 }],
+        "courses": ["57-013"],
+        "subject": "Arts",
+        "school": [],
+        "info": "(cannot count as any School of Music theory course)"
+    },
+    {
+        "exams": [{ "name": "Music (HL)", "score": 7 }],
+        "courses": ["57-013"],
+        "subject": "Arts",
+        "school": [],
+        "info": "(cannot count as any School of Music theory course)"
+    },
+    {
+        "exams": [{ "name": "Philosophy (HL)", "score": 6 }],
+        "courses": ["80-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Philosophy (HL)", "score": 7 }],
+        "courses": ["80-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Physics (HL)", "score": 7 }],
+        "courses": ["33-141"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Psychology (HL)", "score": 6 }],
+        "courses": ["85-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Psychology (HL)", "score": 7 }],
+        "courses": ["85-012"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Russian A or B (HL)", "score": 6 }],
+        "courses": ["82-035"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Russian must take the placement exam and contact The Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Russian A or B (HL)", "score": 7 }],
+        "courses": ["82-036"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Russian must take the placement exam and contact The Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [
+            { "name": "Social & Cultural Anthropology (HL)", "score": 6 }
+        ],
+        "courses": ["79-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [
+            { "name": "Social & Cultural Anthropology (HL)", "score": 7 }
+        ],
+        "courses": ["79-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Spanish A or B (HL)", "score": 6 }],
+        "courses": ["82-037"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Spanish A or B (HL)", "score": 7 }],
+        "courses": ["82-038"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    }
+]
