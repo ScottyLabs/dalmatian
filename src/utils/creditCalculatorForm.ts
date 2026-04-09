@@ -11,6 +11,10 @@ import {
 } from "discord.js";
 
 import { DEFAULT_EMBED_COLOR } from "../constants.js";
+import {
+    AdvancedCreditType,
+    SCORE_RANGES,
+} from "./advancedCreditCourseUtils.js";
 export interface SetupField {
     key: string;
     label: string;
@@ -23,6 +27,7 @@ export interface SetupField {
         label: string;
         value: string;
     }[];
+    noDuplicateDataKey?: string; //Setting this to a non undefined value will enable deduping by the given key based on the collected data for that key. This is used to prevent selecting the same exam multiple times across different fields.
     modal?: {
         title: string;
         input: {
@@ -36,6 +41,7 @@ export interface SetupField {
 
 export interface SetupSchema {
     name: string;
+    type: AdvancedCreditType;
     fields: SetupField[];
     onComplete: (data: Record<string, any>) => Promise<ContainerBuilder>;
 }
@@ -98,7 +104,13 @@ export class SetupForm {
             .setPlaceholder("Select an exam");
 
         if (field.options) {
-            select.addOptions(field.options);
+            let options = field.options
+            const noDuplicateDataKey = field.noDuplicateDataKey;
+            if (noDuplicateDataKey && this.state.collectedData[field.key]) {
+                options = options.filter((o) => !this.state.collectedData[field.key].some((d: any) => d[noDuplicateDataKey] === o.label));
+            }
+
+            select.addOptions(options);
         }
 
         if (field.multiple) {
@@ -320,9 +332,17 @@ export class SetupForm {
             )
             .setPlaceholder(`Select score for ${examName}`)
             .addOptions(
-                ["1", "2", "3", "4", "5"].map((n) => ({
-                    label: n,
-                    value: n,
+                Array.from(
+                    {
+                        length:
+                            SCORE_RANGES[this.schema.type].max -
+                            SCORE_RANGES[this.schema.type].min +
+                            1,
+                    },
+                    (_, i) => i + SCORE_RANGES[this.schema.type].min,
+                ).map((n) => ({
+                    label: n.toString(),
+                    value: n.toString(),
                 })),
             );
 
