@@ -7,11 +7,38 @@ import {
     SlashCommandBuilder,
     StringSelectMenuBuilder,
 } from "discord.js";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { db, pollConfig, pollOptions, polls, pollVotes } from "../db/index.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { SetupForm, type SetupSchema } from "../utils/setupForm.ts";
+
+export function buildPollEmbed(
+    question: string,
+    options: { id: number; label: string }[],
+    votes: { pollOptionId: number; userId: string }[],
+    anonymous: boolean,
+    createdBy: string,
+) {
+    const description = options
+        .map((opt, i) => {
+            let line = `**${i + 1}.** ${opt.label}`;
+            if (!anonymous) {
+                const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
+                if (optVotes.length > 0) {
+                    line += `\n${optVotes.map((v) => `<@${v.userId}>`).join(", ")}`;
+                }
+            }
+            return line;
+        })
+        .join("\n");
+
+    return new EmbedBuilder()
+        .setTitle(question)
+        .setDescription(description)
+        .setFooter({ text: `Poll by <@${createdBy}>` })
+        .setTimestamp();
+}
 
 const pollSetupSchema = z.object({
     channelId: z.string().min(1, "Polls channel is required"),
@@ -60,6 +87,24 @@ const builder = new SlashCommandBuilder()
             opt
                 .setName("multi_select")
                 .setDescription("Allow voting for multiple options")
+                .setRequired(false),
+        );
+        sub.addBooleanOption((opt) =>
+            opt
+                .setName("anonymous")
+                .setDescription("Hide who voted for what")
+                .setRequired(false),
+        );
+        sub.addRoleOption((opt) =>
+            opt
+                .setName("role_whitelist")
+                .setDescription("Only this role can vote")
+                .setRequired(false),
+        );
+        sub.addRoleOption((opt) =>
+            opt
+                .setName("role_blacklist")
+                .setDescription("This role cannot vote")
                 .setRequired(false),
         );
         return sub;
@@ -170,6 +215,18 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
 
     const question = interaction.options.getString("question", true);
     const multiSelect = interaction.options.getBoolean("multi_select") ?? false;
+    const anonymous = interaction.options.getBoolean("anonymous") ?? false;
+    const roleWhitelist = interaction.options.getRole("role_whitelist");
+    const roleBlacklist = interaction.options.getRole("role_blacklist");
+
+    if (roleWhitelist && roleBlacklist) {
+        await interaction.reply({
+            content: "Cannot use both role whitelist and blacklist.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
     const options: string[] = [];
     for (let i = 1; i <= 10; i++) {
         const opt = interaction.options.getString(`option_${i}`);
@@ -195,6 +252,9 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
             question,
             createdBy: interaction.user.id,
             multiSelect,
+            anonymous,
+            roleWhitelistId: roleWhitelist?.id ?? null,
+            roleBlacklistId: roleBlacklist?.id ?? null,
         })
         .returning();
 
@@ -205,15 +265,13 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         .values(options.map((label) => ({ pollId: poll.id, label })))
         .returning();
 
-    const description = insertedOptions
-        .map((opt, i) => `**${i + 1}.** ${opt.label}`)
-        .join("\n");
-
-    const embed = new EmbedBuilder()
-        .setTitle(question)
-        .setDescription(description)
-        .setFooter({ text: `Poll by ${interaction.user.displayName}` })
-        .setTimestamp();
+    const embed = buildPollEmbed(
+        question,
+        insertedOptions,
+        [],
+        anonymous,
+        interaction.user.id,
+    );
 
     const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(`poll:vote:${poll.id}`)
@@ -271,26 +329,31 @@ async function handleResults(interaction: ChatInputCommandInteraction) {
         .from(pollOptions)
         .where(eq(pollOptions.pollId, poll.id));
 
-    const results = await Promise.all(
-        options.map(async (opt) => {
-            const votes = await db
-                .select()
-                .from(pollVotes)
-                .where(eq(pollVotes.pollOptionId, opt.id));
-            return { ...opt, voteCount: votes.length };
-        }),
-    );
+    const votes = await db
+        .select()
+        .from(pollVotes)
+        .where(
+            inArray(
+                pollVotes.pollOptionId,
+                options.map((o) => o.id),
+            ),
+        );
 
-    const totalVotes = results.reduce((sum, r) => sum + r.voteCount, 0);
+    const totalVotes = votes.length;
 
-    const description = results
-        .map((r, i) => {
+    const description = options
+        .map((opt, i) => {
+            const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
             const pct =
                 totalVotes > 0
-                    ? Math.round((r.voteCount / totalVotes) * 100)
+                    ? Math.round((optVotes.length / totalVotes) * 100)
                     : 0;
             const bar = "\u2588".repeat(Math.round(pct / 5));
-            return `**${i + 1}.** ${r.label} - ${r.voteCount} vote${r.voteCount === 1 ? "" : "s"} (${pct}%)\n${bar}`;
+            let line = `**${i + 1}.** ${opt.label} - ${optVotes.length} vote${optVotes.length === 1 ? "" : "s"} (${pct}%)\n${bar}`;
+            if (!poll.anonymous && optVotes.length > 0) {
+                line += `\n${optVotes.map((v) => `<@${v.userId}>`).join(", ")}`;
+            }
+            return line;
         })
         .join("\n\n");
 

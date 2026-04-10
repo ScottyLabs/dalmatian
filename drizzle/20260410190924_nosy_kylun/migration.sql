@@ -25,6 +25,9 @@ CREATE TABLE "polls" (
 	"question" text NOT NULL,
 	"created_by" bigint NOT NULL,
 	"multi_select" boolean DEFAULT false NOT NULL,
+	"anonymous" boolean DEFAULT false NOT NULL,
+	"role_whitelist_id" bigint,
+	"role_blacklist_id" bigint,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
