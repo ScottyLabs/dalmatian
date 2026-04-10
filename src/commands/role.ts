@@ -49,6 +49,23 @@ const command: SlashCommand = {
             });
         }
 
+        //Check for member count mismatch, as Discord.js may slightly drift due to sharding behaviour
+        if (interaction.guild.members.cache.size < interaction.guild.memberCount ) {
+            console.log(`Cache mismatch detected, refreshing member cache..., timestamp ${new Date().toISOString()}`); //TODO: Remove timestamp when we switch to a proper logger framework
+            try {
+                await interaction.guild.members.fetch();
+                console.log(
+                    `Updated member cache for guild ${interaction.guild.name} (${interaction.guild.id})`,
+                );
+            } catch (error) {
+                console.error(
+                    `Failed to update member cache for guild ${interaction.guild.id}:`,
+                    error,
+                );
+            }
+        }
+            
+
         function lookup(roleName: string): GuildMember[] {
             const role = interaction.guild!.roles.cache.find(
                 (r) => r.name === roleName,
