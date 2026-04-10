@@ -6,10 +6,12 @@ import {
     InteractionType,
     type MessageContextMenuCommandInteraction,
     MessageFlags,
+    type StringSelectMenuInteraction,
     type UserContextMenuCommandInteraction,
 } from "discord.js";
 import type { Event, MessageContextCommand, UserContextCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
+import { handlePollVote } from "../utils/pollVotes.ts";
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
@@ -57,10 +59,21 @@ const event: Event<Events.InteractionCreate> = {
                     logger.error("Error in autocomplete:", nodeError(error));
                 }
             }
-        } else if (
-            interaction.isUserContextMenuCommand() ||
-            interaction.isMessageContextMenuCommand()
-        ) {
+        } else if (interaction.isStringSelectMenu()) {
+            if (interaction.customId.startsWith("poll:vote:")) {
+                try {
+                    await handlePollVote(
+                        interaction as StringSelectMenuInteraction,
+                    );
+                } catch (error) {
+                    console.error("Error handling poll vote:", error);
+                    await interaction.reply({
+                        content: "Failed to record your vote.",
+                        flags: MessageFlags.Ephemeral,
+                    });
+                }
+            }
+        } else if (interaction.isUserContextMenuCommand()) {
             const command = client.contextCommands.get(interaction.commandName);
             if (!command) {
                 logger.warn(
