@@ -28,6 +28,8 @@ CREATE TABLE "polls" (
 	"anonymous" boolean DEFAULT false NOT NULL,
 	"role_whitelist_id" bigint,
 	"role_blacklist_id" bigint,
+	"expires_at" timestamp,
+	"closed" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint

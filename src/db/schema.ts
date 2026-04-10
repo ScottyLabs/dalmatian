@@ -84,6 +84,8 @@ export const polls = pgTable("polls", {
     anonymous: boolean("anonymous").notNull().default(false),
     roleWhitelistId: bigint("role_whitelist_id", { mode: "string" }),
     roleBlacklistId: bigint("role_blacklist_id", { mode: "string" }),
+    expiresAt: timestamp("expires_at"),
+    closed: boolean("closed").notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

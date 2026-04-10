@@ -1,7 +1,7 @@
 {
     "version": "8",
     "dialect": "postgres",
-    "id": "a1097505-6042-470d-a780-a7e45debcacd",
+    "id": "be84b4c3-c989-4ab6-b7be-7c19e163c818",
     "prevIds": ["0225484b-4087-49b7-8bdb-05269621f979"],
     "ddl": [
         {
@@ -412,6 +412,32 @@
             "generated": null,
             "identity": null,
             "name": "role_blacklist_id",
+            "entityType": "columns",
+            "schema": "public",
+            "table": "polls"
+        },
+        {
+            "type": "timestamp",
+            "typeSchema": null,
+            "notNull": false,
+            "dimensions": 0,
+            "default": null,
+            "generated": null,
+            "identity": null,
+            "name": "expires_at",
+            "entityType": "columns",
+            "schema": "public",
+            "table": "polls"
+        },
+        {
+            "type": "boolean",
+            "typeSchema": null,
+            "notNull": true,
+            "dimensions": 0,
+            "default": "false",
+            "generated": null,
+            "identity": null,
+            "name": "closed",
             "entityType": "columns",
             "schema": "public",
             "table": "polls"
