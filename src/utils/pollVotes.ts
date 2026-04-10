@@ -129,7 +129,7 @@ export function schedulePollExpiry(
 
     const remaining = poll.expiresAt.getTime() - Date.now();
     if (remaining <= 0) {
-        closePoll(client, poll.id);
+        void closePoll(client, poll.id);
         return;
     }
 
@@ -138,7 +138,7 @@ export function schedulePollExpiry(
 
     const timer = setTimeout(() => {
         pollTimers.delete(poll.id);
-        closePoll(client, poll.id);
+        void closePoll(client, poll.id);
     }, remaining);
 
     pollTimers.set(poll.id, timer);
