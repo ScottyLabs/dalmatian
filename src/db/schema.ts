@@ -81,6 +81,9 @@ export const polls = pgTable("polls", {
     question: text("question").notNull(),
     createdBy: bigint("created_by", { mode: "string" }).notNull(),
     multiSelect: boolean("multi_select").notNull().default(false),
+    anonymous: boolean("anonymous").notNull().default(false),
+    roleWhitelistId: bigint("role_whitelist_id", { mode: "string" }),
+    roleBlacklistId: bigint("role_blacklist_id", { mode: "string" }),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

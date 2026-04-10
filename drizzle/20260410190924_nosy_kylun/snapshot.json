@@ -1,7 +1,7 @@
 {
     "version": "8",
     "dialect": "postgres",
-    "id": "9d8c268a-f51a-4d57-b8e1-729982a7fdf7",
+    "id": "a1097505-6042-470d-a780-a7e45debcacd",
     "prevIds": ["0225484b-4087-49b7-8bdb-05269621f979"],
     "ddl": [
         {
@@ -373,6 +373,45 @@
             "generated": null,
             "identity": null,
             "name": "multi_select",
+            "entityType": "columns",
+            "schema": "public",
+            "table": "polls"
+        },
+        {
+            "type": "boolean",
+            "typeSchema": null,
+            "notNull": true,
+            "dimensions": 0,
+            "default": "false",
+            "generated": null,
+            "identity": null,
+            "name": "anonymous",
+            "entityType": "columns",
+            "schema": "public",
+            "table": "polls"
+        },
+        {
+            "type": "bigint",
+            "typeSchema": null,
+            "notNull": false,
+            "dimensions": 0,
+            "default": null,
+            "generated": null,
+            "identity": null,
+            "name": "role_whitelist_id",
+            "entityType": "columns",
+            "schema": "public",
+            "table": "polls"
+        },
+        {
+            "type": "bigint",
+            "typeSchema": null,
+            "notNull": false,
+            "dimensions": 0,
+            "default": null,
+            "generated": null,
+            "identity": null,
+            "name": "role_blacklist_id",
             "entityType": "columns",
             "schema": "public",
             "table": "polls"
