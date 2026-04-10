@@ -5,9 +5,11 @@ import {
     Events,
     InteractionType,
     MessageFlags,
+    type StringSelectMenuInteraction,
     type UserContextMenuCommandInteraction,
 } from "discord.js";
 import type { Event } from "../types.d.ts";
+import { handlePollVote } from "../utils/pollVotes.ts";
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
@@ -51,6 +53,20 @@ const event: Event<Events.InteractionCreate> = {
                     );
                 } catch (error) {
                     console.error(error);
+                }
+            }
+        } else if (interaction.isStringSelectMenu()) {
+            if (interaction.customId.startsWith("poll:vote:")) {
+                try {
+                    await handlePollVote(
+                        interaction as StringSelectMenuInteraction,
+                    );
+                } catch (error) {
+                    console.error("Error handling poll vote:", error);
+                    await interaction.reply({
+                        content: "Failed to record your vote.",
+                        flags: MessageFlags.Ephemeral,
+                    });
                 }
             }
         } else if (interaction.isUserContextMenuCommand()) {
