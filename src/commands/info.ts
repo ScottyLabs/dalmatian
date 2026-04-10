@@ -47,11 +47,9 @@ const command: SlashCommand = {
                         ? latestContributors.map(c => `[${c.username}](${c.url})`).join(", ")
                         : "No contributors in the last 7 days",
                 },
-                ...(process.env['COMMIT_HASH'] ? [{
-                    name: "Current Version",
-                    value: `[${process.env['COMMIT_HASH'].slice(0, 7)}](https://github.com/ScottyLabs/dalmatian/commit/${process.env['COMMIT_HASH']})`
-                }] : [])
-            );
+            )
+    
+        if (process.env['COMMIT_HASH']) embed.setFooter({text: `Current Version: [${process.env['COMMIT_HASH'].slice(0, 7)}](https://github.com/ScottyLabs/dalmatian/commit/${process.env['COMMIT_HASH']})`});
 
         const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
             new ButtonBuilder()
