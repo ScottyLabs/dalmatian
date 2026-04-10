@@ -118,7 +118,6 @@ const command: SlashCommand = {
                     label: e.name,
                     value: e.name,
                 })),
-                noDuplicateDataKey: "examName",
                 modal: {
                     title: `Enter ${coursesType} Score`,
                     input: {
@@ -137,7 +136,6 @@ const command: SlashCommand = {
                     label: e.name,
                     value: e.name,
                 })),
-                noDuplicateDataKey: "examName",
                 modal: {
                     title: `Enter ${coursesType} Score`,
                     input: {

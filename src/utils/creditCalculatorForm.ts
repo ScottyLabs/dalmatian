@@ -27,7 +27,6 @@ export interface SetupField {
         label: string;
         value: string;
     }[];
-    noDuplicateDataKey?: string; //Setting this to a non undefined value will enable deduping by the given key based on the collected data for that key. This is used to prevent selecting the same exam multiple times across different fields.
     modal?: {
         title: string;
         input: {
@@ -104,18 +103,7 @@ export class SetupForm {
             .setPlaceholder("Select an exam");
 
         if (field.options) {
-            let options = field.options;
-            const noDuplicateDataKey = field.noDuplicateDataKey;
-            if (noDuplicateDataKey && this.state.collectedData[field.key]) {
-                options = options.filter(
-                    (o) =>
-                        !this.state.collectedData[field.key].some(
-                            (d: any) => d[noDuplicateDataKey] === o.label,
-                        ),
-                );
-            }
-
-            select.addOptions(options);
+            select.addOptions(field.options);
         }
 
         if (field.multiple) {
