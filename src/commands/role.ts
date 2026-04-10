@@ -50,6 +50,7 @@ const command: SlashCommand = {
         }
 
         //Check for member count mismatch, as Discord.js may slightly drift due to sharding behaviour
+        interaction.guild.fetch() //discord.js dosen't guarantee we have up to date member count after shard reconnects, so we fetch the guild to get the latest member count, this is a non-expensive operation
         if (interaction.guild.members.cache.size < interaction.guild.memberCount ) {
             console.log(`Cache mismatch detected, refreshing member cache..., timestamp ${new Date().toISOString()}`); //TODO: Remove timestamp when we switch to a proper logger framework
             try {
