@@ -1,7 +1,6 @@
 import {
     ActionRowBuilder,
     type ChatInputCommandInteraction,
-    EmbedBuilder,
     MessageFlags,
     PermissionFlagsBits,
     SlashCommandBuilder,
@@ -11,33 +10,28 @@ import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { db, pollConfig, pollOptions, polls, pollVotes } from "../db/index.ts";
 import type { SlashCommand } from "../types.d.ts";
+import {
+    buildPollEmbed,
+    buildResultsEmbed,
+    closePoll,
+    schedulePollExpiry,
+} from "../utils/pollVotes.ts";
 import { SetupForm, type SetupSchema } from "../utils/setupForm.ts";
 
-export function buildPollEmbed(
-    question: string,
-    options: { id: number; label: string }[],
-    votes: { pollOptionId: number; userId: string }[],
-    anonymous: boolean,
-    createdBy: string,
-) {
-    const description = options
-        .map((opt, i) => {
-            let line = `**${i + 1}.** ${opt.label}`;
-            if (!anonymous) {
-                const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
-                if (optVotes.length > 0) {
-                    line += `\n${optVotes.map((v) => `<@${v.userId}>`).join(", ")}`;
-                }
-            }
-            return line;
-        })
-        .join("\n");
+const DURATION_MULTIPLIERS: Record<string, number> = {
+    m: 60 * 1000,
+    h: 60 * 60 * 1000,
+    d: 24 * 60 * 60 * 1000,
+    w: 7 * 24 * 60 * 60 * 1000,
+};
 
-    return new EmbedBuilder()
-        .setTitle(question)
-        .setDescription(description)
-        .setFooter({ text: `Poll by <@${createdBy}>` })
-        .setTimestamp();
+function parseDuration(input: string): number | null {
+    const match = input.match(/^(\d+)([mhdw])$/);
+    if (!match?.[1] || !match[2]) return null;
+    const value = Number.parseInt(match[1], 10);
+    const multiplier = DURATION_MULTIPLIERS[match[2]];
+    if (!multiplier) return null;
+    return value * multiplier;
 }
 
 const pollSetupSchema = z.object({
@@ -83,6 +77,14 @@ const builder = new SlashCommandBuilder()
                     .setRequired(false),
             );
         }
+        sub.addStringOption((opt) =>
+            opt
+                .setName("duration")
+                .setDescription(
+                    "Poll duration, e.g. 30m, 1h, 5d, 2w (default: 5d)",
+                )
+                .setRequired(false),
+        );
         sub.addBooleanOption((opt) =>
             opt
                 .setName("multi_select")
@@ -122,6 +124,17 @@ const builder = new SlashCommandBuilder()
     )
     .addSubcommand((sub) =>
         sub
+            .setName("close")
+            .setDescription("Close a poll (admin or poll author)")
+            .addStringOption((opt) =>
+                opt
+                    .setName("message_id")
+                    .setDescription("The message ID of the poll")
+                    .setRequired(true),
+            ),
+    )
+    .addSubcommand((sub) =>
+        sub
             .setName("delete")
             .setDescription("Delete a poll (admin or poll author)")
             .addStringOption((opt) =>
@@ -143,6 +156,8 @@ const command: SlashCommand = {
             await handleCreate(interaction);
         } else if (subcommand === "results") {
             await handleResults(interaction);
+        } else if (subcommand === "close") {
+            await handleClose(interaction);
         } else if (subcommand === "delete") {
             await handleDelete(interaction);
         }
@@ -218,10 +233,21 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
     const anonymous = interaction.options.getBoolean("anonymous") ?? false;
     const roleWhitelist = interaction.options.getRole("role_whitelist");
     const roleBlacklist = interaction.options.getRole("role_blacklist");
+    const durationStr = interaction.options.getString("duration") ?? "5d";
 
     if (roleWhitelist && roleBlacklist) {
         await interaction.reply({
             content: "Cannot use both role whitelist and blacklist.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
+    const durationMs = parseDuration(durationStr);
+    if (!durationMs) {
+        await interaction.reply({
+            content:
+                "Invalid duration format. Use a number followed by m, h, d, or w.",
             flags: MessageFlags.Ephemeral,
         });
         return;
@@ -242,19 +268,21 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    // Insert poll and options into DB first to get IDs for select menu
+    const expiresAt = new Date(Date.now() + durationMs);
+
     const [poll] = await db
         .insert(polls)
         .values({
             guildId: interaction.guildId,
             channelId: config.channelId,
-            messageId: "0", // placeholder, updated after sending
+            messageId: "0",
             question,
             createdBy: interaction.user.id,
             multiSelect,
             anonymous,
             roleWhitelistId: roleWhitelist?.id ?? null,
             roleBlacklistId: roleBlacklist?.id ?? null,
+            expiresAt,
         })
         .returning();
 
@@ -295,11 +323,12 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         components: [row],
     });
 
-    // Update poll with actual message ID
     await db
         .update(polls)
         .set({ messageId: message.id })
         .where(eq(polls.id, poll.id));
+
+    schedulePollExpiry(interaction.client, { id: poll.id, expiresAt });
 
     await interaction.reply({
         content: `Poll created in <#${config.channelId}>!`,
@@ -339,31 +368,54 @@ async function handleResults(interaction: ChatInputCommandInteraction) {
             ),
         );
 
-    const totalVotes = votes.length;
-
-    const description = options
-        .map((opt, i) => {
-            const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
-            const pct =
-                totalVotes > 0
-                    ? Math.round((optVotes.length / totalVotes) * 100)
-                    : 0;
-            const bar = "\u2588".repeat(Math.round(pct / 5));
-            let line = `**${i + 1}.** ${opt.label} - ${optVotes.length} vote${optVotes.length === 1 ? "" : "s"} (${pct}%)\n${bar}`;
-            if (!poll.anonymous && optVotes.length > 0) {
-                line += `\n${optVotes.map((v) => `<@${v.userId}>`).join(", ")}`;
-            }
-            return line;
-        })
-        .join("\n\n");
-
-    const embed = new EmbedBuilder()
-        .setTitle(`Results: ${poll.question}`)
-        .setDescription(description)
-        .setFooter({ text: `Total votes: ${totalVotes}` })
-        .setTimestamp();
-
+    const embed = buildResultsEmbed(poll, options, votes);
     await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+}
+
+async function handleClose(interaction: ChatInputCommandInteraction) {
+    const messageId = interaction.options.getString("message_id", true);
+
+    const [poll] = await db
+        .select()
+        .from(polls)
+        .where(eq(polls.messageId, messageId))
+        .limit(1);
+
+    if (!poll) {
+        await interaction.reply({
+            content: "No poll found with that message ID.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
+    if (poll.closed) {
+        await interaction.reply({
+            content: "This poll is already closed.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
+    const isAdmin = interaction.memberPermissions?.has(
+        PermissionFlagsBits.Administrator,
+    );
+    const isAuthor = poll.createdBy === interaction.user.id;
+
+    if (!isAdmin && !isAuthor) {
+        await interaction.reply({
+            content: "Only the poll author or an admin can close this poll.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
+    await closePoll(interaction.client, poll.id);
+
+    await interaction.reply({
+        content: "Poll closed.",
+        flags: MessageFlags.Ephemeral,
+    });
 }
 
 async function handleDelete(interaction: ChatInputCommandInteraction) {
@@ -396,7 +448,6 @@ async function handleDelete(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    // Delete the poll message
     try {
         const channel = await interaction.guild?.channels.fetch(poll.channelId);
         if (channel?.isSendable()) {
@@ -407,7 +458,6 @@ async function handleDelete(interaction: ChatInputCommandInteraction) {
         // Message may already be deleted
     }
 
-    // Delete from DB (cascade deletes options and votes)
     await db.delete(polls).where(eq(polls.id, poll.id));
 
     await interaction.reply({
