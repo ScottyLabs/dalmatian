@@ -11,6 +11,10 @@ import {
 } from "discord.js";
 
 import { DEFAULT_EMBED_COLOR } from "../constants.js";
+import {
+    AdvancedCreditType,
+    SCORE_RANGES,
+} from "./advancedCreditCourseUtils.js";
 export interface SetupField {
     key: string;
     label: string;
@@ -36,6 +40,7 @@ export interface SetupField {
 
 export interface SetupSchema {
     name: string;
+    type: AdvancedCreditType;
     fields: SetupField[];
     onComplete: (data: Record<string, any>) => Promise<ContainerBuilder>;
 }
@@ -320,9 +325,17 @@ export class SetupForm {
             )
             .setPlaceholder(`Select score for ${examName}`)
             .addOptions(
-                ["1", "2", "3", "4", "5"].map((n) => ({
-                    label: n,
-                    value: n,
+                Array.from(
+                    {
+                        length:
+                            SCORE_RANGES[this.schema.type].max -
+                            SCORE_RANGES[this.schema.type].min +
+                            1,
+                    },
+                    (_, i) => i + SCORE_RANGES[this.schema.type].min,
+                ).map((n) => ({
+                    label: n.toString(),
+                    value: n.toString(),
                 })),
             );
 
