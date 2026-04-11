@@ -14,6 +14,8 @@ const command: SlashCommand = {
         .setName("info")
         .setDescription("Get information about the bot"),
     async execute(interaction) {
+        await interaction.deferReply();
+
         const commit = (await (
             await fetch(
                 "https://api.github.com/repos/scottylabs/dalmatian/commits",
@@ -84,7 +86,7 @@ const command: SlashCommand = {
                 .setURL("https://github.com/ScottyLabs/dalmatian/issues/new"),
         );
 
-        await interaction.reply({
+        await interaction.followUp({
             embeds: [embed],
             components: [components],
         });
