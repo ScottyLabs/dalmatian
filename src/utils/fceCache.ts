@@ -29,9 +29,13 @@ export type FCERecordSummary = {
 };
 
 export type FCEStartupCache = {
-    // course code -> aggregated summary for that course
+    /**
+     * <course code, aggregated summary for that course>
+     */
     summaryByCourseCode: Map<string, FCERecordSummary>;
-    // course code -> (instructor name -> aggregated summary for that instructor in that course)
+    /**
+     * <course code, <instructor name, aggregated summary for that instructor in that course>>
+     */
     summaryByInstructorByCourseCode: Map<string, Map<string, FCERecordSummary>>;
 };
 
@@ -112,8 +116,9 @@ function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
 function buildFCEStartupCache(
     fceDataByCourse: Record<string, FCEData>,
 ): FCEStartupCache {
+    // <course code, aggregate summary>
     const summaryByCourseCode = new Map<string, FCERecordSummary>();
-    // Two-level index to support O(1) summary lookup by course and instructor at runtime.
+    // <course code, <instructor name, aggregate summary>>
     const summaryByInstructorByCourseCode = new Map<
         string,
         Map<string, FCERecordSummary>
@@ -173,7 +178,7 @@ function loadFCEData(): Record<string, FCEData> {
         count: number;
     };
 
-    // course code -> ("instructor-semester" -> running FCE sums)
+    // <course code, <"instructor-semester" unique key, running FCE sums>>
     const pendingByCourse: Record<string, Map<string, PendingFCERecord>> = {};
 
     for (const record of records) {

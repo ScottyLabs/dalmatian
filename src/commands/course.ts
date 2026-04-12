@@ -10,7 +10,7 @@ import {
 } from "discord.js";
 import { SCOTTYLABS_URL } from "../constants.js";
 import type { SlashCommand } from "../types.d.ts";
-import { formatCourseNumber, loadCoursesData } from "../utils/index.ts";
+import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -25,7 +25,7 @@ const command: SlashCommand = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        const coursesData = loadCoursesData();
+        const coursesData = COURSES_DATA;
         const courseCode = formatCourseNumber(
             interaction.options.getString("course_code", true),
         );

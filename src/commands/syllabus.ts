@@ -9,7 +9,7 @@ import SyllabiData from "../data/course-api.syllabi.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { FCE_DATA_BY_COURSE } from "../utils/fceCache.ts";
-import { formatCourseNumber, loadCoursesData } from "../utils/index.ts";
+import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
 
 type Syllabus = {
     _id: {
@@ -69,7 +69,7 @@ const command: SlashCommand = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        const coursesData = loadCoursesData();
+        const coursesData = COURSES_DATA;
         const syllabi = loadSyllabiData();
         const fceData = FCE_DATA_BY_COURSE;
 

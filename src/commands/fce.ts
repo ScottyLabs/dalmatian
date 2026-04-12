@@ -19,7 +19,7 @@ import {
     FCE_STARTUP_CACHE,
     FCEData,
 } from "../utils/fceCache.ts";
-import { Course, formatCourseNumber, loadCoursesData } from "../utils/index.ts";
+import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -34,7 +34,7 @@ const command: SlashCommand = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        const coursesData = loadCoursesData();
+        const coursesData = COURSES_DATA;
         const input = interaction.options.getString("course_codes", true);
         const rawCodes = input.split(/[\s,]+/).filter((code) => code.trim());
 

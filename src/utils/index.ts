@@ -29,9 +29,7 @@ export type GenEd = {
     stopsCounting: string;
 };
 
-export function loadCoursesData(): Record<string, Course> {
-    return CoursesData as Record<string, Course>;
-}
+export const COURSES_DATA = CoursesData as Record<string, Course>;
 
 export function formatCourseNumber(courseNumber: string): string | null {
     if (courseNumber.match(/^\d{2}(-| )?\d{3}$/)) {

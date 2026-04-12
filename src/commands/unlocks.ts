@@ -9,7 +9,7 @@ import {
 import { SCOTTYLABS_URL } from "../constants.js";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
-import { Course, formatCourseNumber, loadCoursesData } from "../utils/index.ts";
+import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
 import { parseAndEvaluate } from "../utils/operatorParser.ts";
 
 function fetchCourseUnlocks(
@@ -40,7 +40,7 @@ const command: SlashCommand = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        const coursesData = loadCoursesData();
+        const coursesData = COURSES_DATA;
 
         function lookup(value: string): Course[] {
             const courseCode = formatCourseNumber(value);
