@@ -699,9 +699,6 @@ const command: SlashCommand = {
                             );
                         }
                     },
-                    async onEnd() {
-                        selectRow.components[0]?.setDisabled(true);
-                    },
                 });
                 await paginator.send(interaction);
             } else {

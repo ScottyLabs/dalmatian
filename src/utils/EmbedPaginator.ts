@@ -63,9 +63,7 @@ export class EmbedPaginator {
         }
     }
 
-    private buildButtons(
-        disableAll = false,
-    ): ActionRowBuilder<MessageActionRowComponentBuilder> {
+    private buildButtons(): ActionRowBuilder<MessageActionRowComponentBuilder> {
         const atStart = this.current == 0;
         const atEnd = this.current == this.pages.length - 1;
 
@@ -74,12 +72,12 @@ export class EmbedPaginator {
                 .setCustomId("first")
                 .setLabel("<<")
                 .setStyle(ButtonStyle.Primary)
-                .setDisabled(disableAll || atStart),
+                .setDisabled(atStart),
             new ButtonBuilder()
                 .setCustomId("prev")
                 .setLabel("<")
                 .setStyle(ButtonStyle.Primary)
-                .setDisabled(disableAll || atStart),
+                .setDisabled(atStart),
             new ButtonBuilder()
                 .setCustomId("info")
                 .setLabel(`${this.current + 1}/${this.pages.length}`)
@@ -89,61 +87,26 @@ export class EmbedPaginator {
                 .setCustomId("next")
                 .setLabel(">")
                 .setStyle(ButtonStyle.Primary)
-                .setDisabled(disableAll || atEnd),
+                .setDisabled(atEnd),
             new ButtonBuilder()
                 .setCustomId("last")
                 .setLabel(">>")
                 .setStyle(ButtonStyle.Primary)
-                .setDisabled(disableAll || atEnd),
+                .setDisabled(atEnd),
         );
     }
 
-    private buildComponents(
-        disableAll = false,
-    ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
+    private buildComponents(): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
         if (this.pages.length == 1) {
-            return this.components;
+            return this.components; // hide page buttons if there is only one page
         }
-        return [...this.components, this.buildButtons(disableAll)];
-    }
-
-    private getRenderPayload(disableAll = false) {
-        return {
-            embeds: this.pages[this.current]!,
-            components: this.buildComponents(disableAll),
-        };
-    }
-
-    private handleNavigation(
-        compInteraction: MessageComponentInteraction,
-    ): boolean {
-        if (!compInteraction.isButton()) {
-            return false;
-        }
-        if (compInteraction.customId == "next") {
-            this.current++;
-            this.current %= this.pages.length;
-            return true;
-        }
-        if (compInteraction.customId == "prev") {
-            this.current--;
-            this.current %= this.pages.length;
-            return true;
-        }
-        if (compInteraction.customId == "first") {
-            this.current = 0;
-            return true;
-        }
-        if (compInteraction.customId == "last") {
-            this.current = this.pages.length - 1;
-            return true;
-        }
-        return false;
+        return [...this.components, this.buildButtons()];
     }
 
     public async send(interaction: CommandInteraction) {
         const response = await interaction.reply({
-            ...this.getRenderPayload(),
+            embeds: this.pages[this.current],
+            components: this.buildComponents(),
             withResponse: true,
         });
 
@@ -161,19 +124,43 @@ export class EmbedPaginator {
                 return;
             }
 
-            this.handleNavigation(compInteraction);
+            if (compInteraction.isButton()) {
+                if (compInteraction.customId == "next") {
+                    this.current++;
+                    this.current %= this.pages.length;
+                }
+                if (compInteraction.customId == "prev") {
+                    this.current--;
+                    this.current %= this.pages.length;
+                }
+                if (compInteraction.customId == "first") {
+                    this.current = 0;
+                }
+                if (compInteraction.customId == "last") {
+                    this.current = this.pages.length - 1;
+                }
+            }
+
             this.onCollect(compInteraction);
-            await compInteraction.update(this.getRenderPayload());
+            await compInteraction.update({
+                embeds: this.pages[this.current],
+                components: this.buildComponents(),
+            });
         });
 
         collector.on("end", async (_collected, reason) => {
-            if (reason.includes("Delete")) return;
-            if (this.onEnd) {
-                await this.onEnd();
-            }
-            await interaction.editReply({
-                components: this.buildComponents(true),
+            if (reason.includes("Delete")) return; // return immediately if the message is deleted
+
+            await this.onEnd();
+
+            const components = this.buildComponents();
+
+            // disable every component
+            components.forEach((row) => {
+                row.components.forEach((c) => c.setDisabled(true));
             });
+
+            await interaction.editReply({ components });
         });
     }
 }
