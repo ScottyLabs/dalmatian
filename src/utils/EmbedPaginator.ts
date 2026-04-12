@@ -17,28 +17,42 @@ type CollectHandler = (
 type EndHandler = () => Promise<void>;
 
 export class EmbedPaginator {
-    pages: EmbedBuilder[][];
-    current = 0;
-    private components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
-    private onCollect?: CollectHandler;
-    private onEnd?: EndHandler;
+    private pages: EmbedBuilder[][] = [];
+    private current;
+    private verbose;
+    private components: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+    private onCollect;
+    private onEnd;
 
-    constructor(
-        pages: EmbedBuilder[],
-        components?: ActionRowBuilder<MessageActionRowComponentBuilder>[],
+    constructor({
+        pages,
+        components = [],
         verbose = false,
-        onCollect: CollectHandler = async () => false,
-        onEnd: EndHandler = async () => {},
-    ) {
-        if (pages.length == 0) {
-            throw new Error("No embed pages provided");
-        }
-
+        onCollect = async (_) => false,
+        onEnd = async () => {},
+    }: {
+        pages: EmbedBuilder[];
+        components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+        verbose?: boolean;
+        onCollect?: (
+            interaction: MessageComponentInteraction,
+        ) => Promise<boolean>;
+        onEnd?: () => Promise<void>;
+    }) {
+        this.current = 0;
+        this.verbose = verbose;
         this.components = components;
         this.onCollect = onCollect;
         this.onEnd = onEnd;
+        this.setPages(pages);
+    }
 
-        if (verbose) {
+    public setPages(pages: EmbedBuilder[]) {
+        this.current = 0;
+        if (pages.length == 0) {
+            throw new Error("No embed pages provided");
+        }
+        if (this.verbose) {
             const verbosePages = [];
             let chunk: EmbedBuilder[] = [];
             for (const page of pages) {
@@ -57,6 +71,7 @@ export class EmbedPaginator {
             this.pages = pages.map((page) => [page]);
         }
     }
+
     private buildButtons(
         disableAll = false,
     ): ActionRowBuilder<MessageActionRowComponentBuilder> {
@@ -95,7 +110,10 @@ export class EmbedPaginator {
     private buildComponents(
         disableAll = false,
     ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
-        return [this.buildButtons(disableAll)].concat(this.components ?? []);
+        if (this.pages.length == 1) {
+            return this.components;
+        }
+        return [...this.components, this.buildButtons(disableAll)];
     }
 
     private getRenderPayload(disableAll = false) {
@@ -133,13 +151,6 @@ export class EmbedPaginator {
     }
 
     public async send(interaction: CommandInteraction) {
-        if (this.pages.length == 1) {
-            await interaction.reply({
-                embeds: this.pages[0]!,
-            });
-            return;
-        }
-
         const response = await interaction.reply({
             ...this.getRenderPayload(),
             withResponse: true,

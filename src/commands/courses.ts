@@ -11,6 +11,7 @@ import {
     italic,
     MessageFlags,
     SlashCommandBuilder,
+    StringSelectMenuBuilder,
     underline,
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
@@ -368,7 +369,7 @@ const command: SlashCommand = {
                 }
             }
 
-            const paginator = new EmbedPaginator(embeds);
+            const paginator = new EmbedPaginator({ pages: embeds });
             await paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "course-info") {
@@ -514,14 +515,51 @@ const command: SlashCommand = {
                     workload: number;
                     responseRate: number;
                     count: number;
-                    lastTaught: string;
+                    semesters: Set<string>;
                 };
 
+                type IndividualFCE = {
+                    teachingRate: number;
+                    courseRate: number;
+                    workload: number;
+                    responseRate: number;
+                    instructor: string;
+                    semesterTag: string;
+                    year: number;
+                };
+
+                function parseSemesterTag(semester: string): string {
+                    const normalized = semester.trim().toLowerCase();
+                    if (normalized === "fall") {
+                        return "F";
+                    }
+                    if (normalized === "spring") {
+                        return "S";
+                    }
+                    if (normalized === "summer") {
+                        return "M";
+                    }
+                    return "?";
+                }
+
+                function formatSemesterLabel(
+                    semester: string,
+                    year: number,
+                ): string {
+                    const tag = parseSemesterTag(semester);
+                    return `${tag}${String(year).slice(-2)}`;
+                }
+
                 const instructorMap = new Map<string, InstructorFCE>();
+                const allFCEs: IndividualFCE[] = [];
 
                 for (const record of fce.records) {
                     const instructor = record.instructor;
-                    const lastTaught = `${record.semester} ${record.year}`;
+                    const semesterLabel = formatSemesterLabel(
+                        record.semester,
+                        record.year,
+                    );
+
                     if (!instructorMap.has(instructor)) {
                         instructorMap.set(instructor, {
                             teachingRate: 0,
@@ -529,61 +567,144 @@ const command: SlashCommand = {
                             workload: 0,
                             responseRate: 0,
                             count: 0,
-                            lastTaught,
+                            semesters: new Set<string>(),
                         });
                     }
                     const stats = instructorMap.get(instructor)!;
-                    if (stats.lastTaught === lastTaught) {
-                        stats.teachingRate += record.overallTeachingRate;
-                        stats.courseRate += record.overallCourseRate;
-                        stats.workload += record.hrsPerWeek;
-                        stats.responseRate += record.responseRate;
-                        stats.count++;
-                    }
+                    stats.teachingRate += record.overallTeachingRate;
+                    stats.courseRate += record.overallCourseRate;
+                    stats.workload += record.hrsPerWeek;
+                    stats.responseRate += record.responseRate;
+                    stats.count++;
+                    stats.semesters.add(semesterLabel);
+
+                    allFCEs.push({
+                        teachingRate: record.overallTeachingRate,
+                        courseRate: record.overallCourseRate,
+                        workload: record.hrsPerWeek,
+                        responseRate: record.responseRate,
+                        instructor: record.instructor,
+                        semesterTag: record.semester,
+                        year: record.year,
+                    });
                 }
 
-                const embeds = [];
-                let chunk = [];
-
-                if (notFound.length > 0) {
-                    chunk.push(
-                        `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
-                    );
-                }
-
-                chunk.push(
-                    `:pushpin: ${bold("Aggregate Data (past 5 years, excluding summers)")}\n` +
-                        `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
-                        `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
-                        `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
-                        `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
-                );
-                let i = 0;
-                for (const [instructor, stats] of instructorMap) {
-                    const name = instructor.toUpperCase();
-                    const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
-                    chunk.push(
-                        `${hyperlink(bold(name), url)} ${italic(`(${stats.lastTaught})`)}\n` +
+                const byInstructorRows = [...instructorMap.entries()].map(
+                    ([instructor, stats]) => {
+                        const name = instructor.toUpperCase();
+                        const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
+                        const semesters = [...stats.semesters];
+                        return (
+                            `${hyperlink(bold(name), url)} ${italic(`(${semesters.join(", ")})`)}\n` +
                             `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
                             `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
                             `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
-                            `Response Rate: ${bold(`${(stats.responseRate / stats.count).toFixed(1)}%`)}`,
+                            `Response Rate: ${bold(`${(stats.responseRate / stats.count).toFixed(1)}%`)}`
+                        );
+                    },
+                );
+
+                const allSemesterRows = allFCEs.map((stats) => {
+                    const name = stats.instructor.toUpperCase();
+                    const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
+
+                    return (
+                        `${hyperlink(bold(name), url)} ${italic(`(${stats.semesterTag})`)}\n` +
+                        `Teaching: ${bold(stats.teachingRate.toFixed(2))}/5 • ` +
+                        `Course: ${bold(stats.courseRate.toFixed(2))}/5\n` +
+                        `Workload: ${bold(stats.workload.toFixed(2))} hrs/wk • ` +
+                        `Response Rate: ${bold(`${stats.responseRate.toFixed(1)}%`)}`
                     );
-                    i++;
-                    if (chunk.length >= 5 || i == instructorMap.size) {
-                        const description = chunk.join("\n\n");
-                        const embed = new EmbedBuilder()
-                            .setTitle(
-                                `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
-                            )
-                            .setURL(`${SCOTTYLABS_URL}/course/${code}`)
-                            .setDescription(description);
-                        embeds.push(embed);
-                        chunk = [];
+                });
+
+                function buildFCEPages(rows: string[]): EmbedBuilder[] {
+                    const pages: EmbedBuilder[] = [];
+                    let chunk: string[] = [];
+                    let index = 0;
+
+                    if (notFound.length > 0) {
+                        chunk.push(
+                            `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
+                        );
                     }
+
+                    chunk.push(
+                        `:pushpin: ${bold("Aggregate Data (past 5 years, excluding summers)")}\n` +
+                            `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
+                            `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
+                            `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
+                            `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
+                    );
+
+                    for (const row of rows) {
+                        chunk.push(row);
+                        index++;
+
+                        if (chunk.length >= 5 || index === rows.length) {
+                            pages.push(
+                                new EmbedBuilder()
+                                    .setTitle(
+                                        `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
+                                    )
+                                    .setURL(`${SCOTTYLABS_URL}/course/${code}`)
+                                    .setDescription(chunk.join("\n\n")),
+                            );
+                            chunk = [];
+                        }
+                    }
+
+                    return pages;
                 }
 
-                const paginator = new EmbedPaginator(embeds);
+                const pageVersions = new Map<string, EmbedBuilder[]>();
+                pageVersions.set(
+                    "by_instructor",
+                    buildFCEPages(byInstructorRows),
+                );
+                pageVersions.set(
+                    "all_semesters",
+                    buildFCEPages(allSemesterRows),
+                );
+
+                const selectOptions = [
+                    {
+                        label: "By Instructor",
+                        value: "by_instructor",
+                        default: true,
+                    },
+                    {
+                        label: "All Semesters",
+                        value: "all_semesters",
+                    },
+                ];
+                const selectRow =
+                    new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+                        new StringSelectMenuBuilder()
+                            .setCustomId("fce_select_menu")
+                            .addOptions(selectOptions),
+                    );
+
+                const paginator = new EmbedPaginator({
+                    pages: pageVersions.get("by_instructor")!,
+                    components: [selectRow],
+                    async onCollect(interaction) {
+                        if (interaction.isStringSelectMenu()) {
+                            const choice = interaction.values[0]!;
+                            paginator.setPages(pageVersions.get(choice)!);
+                            selectRow.components[0]?.setOptions(
+                                selectOptions.map((option) => ({
+                                    ...option,
+                                    default: option.value === choice,
+                                })),
+                            );
+                            return true;
+                        }
+                        return false;
+                    },
+                    async onEnd() {
+                        selectRow.components[0]?.setDisabled(true);
+                    },
+                });
                 await paginator.send(interaction);
             } else {
                 function formatLine(
@@ -763,7 +884,7 @@ const command: SlashCommand = {
                 );
             }
 
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator({ pages: embeds }).send(interaction);
         }
     },
 };

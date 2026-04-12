@@ -333,9 +333,10 @@ const command: SlashCommand = {
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
                 subcommand == "all-verbose",
             );
-            return new EmbedPaginator(embeds, subcommand == "all-verbose").send(
-                interaction,
-            );
+            return new EmbedPaginator({
+                pages: embeds,
+                verbose: subcommand == "all-verbose",
+            }).send(interaction);
         }
 
         if (subcommand === "open" || subcommand == "open-verbose") {
@@ -346,10 +347,10 @@ const command: SlashCommand = {
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
                 subcommand == "open-verbose",
             );
-            return new EmbedPaginator(
-                embeds,
-                subcommand == "open-verbose",
-            ).send(interaction);
+            return new EmbedPaginator({
+                pages: embeds,
+                verbose: subcommand == "open-verbose",
+            }).send(interaction);
         }
 
         if (subcommand === "search") {
@@ -384,7 +385,7 @@ const command: SlashCommand = {
                 matchedLocations.sort((a, b) => a.name.localeCompare(b.name)),
                 false,
             );
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator({ pages: embeds }).send(interaction);
         }
     },
 
