@@ -697,9 +697,7 @@ const command: SlashCommand = {
                                     default: option.value === choice,
                                 })),
                             );
-                            return true;
                         }
-                        return false;
                     },
                     async onEnd() {
                         selectRow.components[0]?.setDisabled(true);

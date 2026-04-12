@@ -9,13 +9,6 @@ import {
     MessageFlags,
 } from "discord.js";
 
-// Return true if the embed should render and false otherwise
-type CollectHandler = (
-    interaction: MessageComponentInteraction,
-) => Promise<boolean>;
-
-type EndHandler = () => Promise<void>;
-
 export class EmbedPaginator {
     private pages: EmbedBuilder[][] = [];
     private current;
@@ -28,15 +21,13 @@ export class EmbedPaginator {
         pages,
         components = [],
         verbose = false,
-        onCollect = async (_) => false,
+        onCollect = async (_) => {},
         onEnd = async () => {},
     }: {
         pages: EmbedBuilder[];
         components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
         verbose?: boolean;
-        onCollect?: (
-            interaction: MessageComponentInteraction,
-        ) => Promise<boolean>;
+        onCollect?: (interaction: MessageComponentInteraction) => Promise<void>;
         onEnd?: () => Promise<void>;
     }) {
         this.current = 0;
@@ -170,18 +161,9 @@ export class EmbedPaginator {
                 return;
             }
 
-            let shouldRender = this.handleNavigation(compInteraction);
-
-            if (this.onCollect) {
-                shouldRender ||= await this.onCollect(compInteraction);
-            }
-
-            if (shouldRender) {
-                await compInteraction.update(this.getRenderPayload());
-                return;
-            }
-
-            await compInteraction.deferUpdate();
+            this.handleNavigation(compInteraction);
+            this.onCollect(compInteraction);
+            await compInteraction.update(this.getRenderPayload());
         });
 
         collector.on("end", async (_collected, reason) => {
