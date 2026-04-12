@@ -6,9 +6,9 @@ import {
     SlashCommandBuilder,
     userMention,
 } from "discord.js";
-import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
+import { parseAndEvaluate } from "../utils/operatorParser.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()

@@ -1,3 +1,5 @@
+import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+
 export type Session = {
     term: string;
     section: string;
@@ -26,3 +28,23 @@ export type GenEd = {
     startsCounting: string;
     stopsCounting: string;
 };
+
+export function loadCoursesData(): Record<string, Course> {
+    return CoursesData as Record<string, Course>;
+}
+
+export function formatCourseNumber(courseNumber: string): string | null {
+    if (courseNumber.match(/^\d{2}(-| )?\d{3}$/)) {
+        if (courseNumber.includes("-")) {
+            return courseNumber;
+        }
+
+        if (courseNumber.includes(" ")) {
+            return `${courseNumber.slice(0, 2)}-${courseNumber.slice(3)}`;
+        }
+
+        return `${courseNumber.slice(0, 2)}-${courseNumber.slice(2)}`;
+    }
+
+    return null;
+}
