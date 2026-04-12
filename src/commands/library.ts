@@ -50,14 +50,83 @@ const LIBRARY_FACILITIES = {
     "Posner Center": "7195",
 } as Record<string, string>;
 
+function getETOffset(at: Date = new Date()) {
+    const etAbbrev = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        timeZoneName: "short",
+    })
+        .formatToParts(at)
+        .find((part) => part.type === "timeZoneName")?.value;
+
+    return etAbbrev === "EDT" ? "-04:00" : "-05:00";
+}
+
+function inTimePeriod(from: string, to: string, now = new Date()) {
+    if (!from || !to) return false;
+
+    const etDate = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/New_York",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    }).format(now);
+
+    const etOffset = getETOffset(now);
+
+    function parseTime(time: string): Date {
+        const match = time.trim().match(/^(\d{1,2}):(\d{2})(am|pm)$/i);
+        if (!match) {
+            throw new Error(`Invalid time format: ${time}`);
+        }
+
+        const hours = Number.parseInt(match[1] ?? "0", 10);
+        const minutes = Number.parseInt(match[2] ?? "0", 10);
+        const amOrPm = (match[3] ?? "").toLowerCase();
+
+        if (hours < 1 || hours > 12 || minutes < 0 || minutes > 59) {
+            throw new Error(`Invalid time format: ${time}`);
+        }
+
+        let hours24 = hours % 12;
+
+        if (amOrPm === "pm") {
+            hours24 += 12;
+        }
+
+        const hh = String(hours24).padStart(2, "0");
+        const mm = String(minutes).padStart(2, "0");
+        return new Date(`${etDate}T${hh}:${mm}:00${etOffset}`);
+    }
+
+    const start = parseTime(from);
+    const end = parseTime(to);
+
+    if (end > start) {
+        return now >= start && now <= end;
+    }
+
+    const endNext = new Date(end);
+    endNext.setDate(endNext.getDate() + 1);
+
+    const startPrev = new Date(start);
+    startPrev.setDate(startPrev.getDate() - 1);
+
+    return (now >= start && now <= endNext) || (now >= startPrev && now <= end);
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("library")
         .setDescription("See which libraries are open!")
         .addSubcommand((subcommand) =>
             subcommand
-                .setName("status")
+                .setName("all")
                 .setDescription("Get status of all libraries!"),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("open")
+                .setDescription("Find all open libraries!"),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -77,9 +146,11 @@ const command: SlashCommand = {
                 ),
         ),
     async execute(interaction) {
-        if (interaction.options.getSubcommand() === "status") {
-            await interaction.deferReply();
+        await interaction.deferReply();
 
+        const subcommand = interaction.options.getSubcommand();
+
+        if (subcommand === "all" || subcommand === "open") {
             const apiEndpoint = "https://cmu.libcal.com/api/1.0/hours";
 
             const libraries = ["7070", "7071", "7072", "7195"];
@@ -116,17 +187,40 @@ const command: SlashCommand = {
                 let fieldDescription = "";
                 const todayStatus = library.dates[etDate];
 
-                if (!todayStatus)
+                if (!todayStatus) {
                     fieldTitle = `⚠️ ${library.name} (No status data available)**`;
-                else if (todayStatus.status === "open") {
-                    fieldTitle = `🟢 ${library.name} (Open)`;
-                    fieldDescription = `from ${todayStatus.hours?.[0]?.from} to ${todayStatus.hours?.[0]?.to}`;
-                } else if (todayStatus.status === "closed") {
-                    fieldTitle = `⛔ ${library.name} (Closed)`;
-                } else if (todayStatus.status === "text") {
-                    fieldTitle = todayStatus.text
-                        ? `⛔ ${library.name} (${todayStatus.text})`
-                        : `⚠️ ${library.name} (No status data available)`;
+                } else {
+                    if (todayStatus.status === "open" && todayStatus.hours) {
+                        const currentlyOpen = todayStatus.hours.some((h) =>
+                            inTimePeriod(h.from, h.to),
+                        );
+                        if (!currentlyOpen) todayStatus.status = "closed"; // the api likes trolling and will tell us it's open even if we're out of hours
+                    }
+
+                    if (
+                        subcommand === "open" &&
+                        todayStatus.status !== "open"
+                    ) {
+                        continue;
+                    }
+
+                    switch (todayStatus.status) {
+                        case "open":
+                            fieldTitle = `🟢 ${library.name} (Open)`;
+                            if (todayStatus.hours)
+                                fieldDescription = `open from ${todayStatus.hours?.[0]?.from} to ${todayStatus.hours?.[0]?.to}`;
+                            break;
+                        case "closed":
+                            fieldTitle = `⛔ ${library.name} (Closed)`;
+                            if (todayStatus.hours)
+                                fieldDescription = `open from ${todayStatus.hours?.[0]?.from} to ${todayStatus.hours?.[0]?.to}`;
+                            break;
+                        case "text":
+                            fieldTitle = todayStatus.text
+                                ? `⛔ ${library.name} (${todayStatus.text})`
+                                : `⚠️ ${library.name} (No status data available)`;
+                            break;
+                    }
                 }
 
                 embed.addFields({
@@ -135,13 +229,16 @@ const command: SlashCommand = {
                 });
             }
 
+            if (embed.toJSON().fields?.length === 0)
+                embed.setDescription("No libraries are currently open!");
+
             await interaction.followUp({
                 embeds: [embed],
             });
-        } else if (interaction.options.getSubcommand() === "schedule") {
+        } else if (subcommand === "schedule") {
             const libraryName = interaction.options.getString("library", true);
             const libraryId = LIBRARY_FACILITIES[libraryName];
-            const weeks = 10000; //yes, this is absurd on purpose
+            const weeks = 1000; //yes, this is absurd on purpose, it won't try giving more than it can (or rather, all of them will have status not-set)
 
             const response = await fetch(
                 `https://cmu.libcal.com/api_hours_grid.php?format=json&weeks=${weeks}&systemTime=0`,
@@ -178,7 +275,9 @@ const command: SlashCommand = {
                     ? libraryData.color
                     : DEFAULT_EMBED_COLOR;
 
-            const tzString = "T00:00:00-05:00";
+            const etOffset = getETOffset();
+
+            const tzString = `T00:00:00${etOffset}`;
 
             const embeds: EmbedBuilder[] = [];
 
@@ -215,11 +314,11 @@ const command: SlashCommand = {
                         fieldTitle = `⚠️ ${dayName} (Open by appointment)`;
                     } else if (info.times.status === "text") {
                         fieldTitle = info.times.text
-                            ? `⛔ ${dayName} (${info.times.text}`
+                            ? `⛔ ${dayName} (${info.times.text})`
                             : `⚠️ ${dayName} (No status data available)`;
                     }
                     if (info.times.note) {
-                        fieldDescription += `\n📝 **Note:** ${info.times.note}`;
+                        fieldDescription += ` • 📝 **Note:** ${info.times.note}`;
                     }
 
                     editEmbed.addFields({
