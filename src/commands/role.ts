@@ -172,7 +172,7 @@ const command: SlashCommand = {
                 embeds.push(embed);
             }
 
-            const paginator = new EmbedPaginator(embeds);
+            const paginator = new EmbedPaginator({ pages: embeds });
             return paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "count") {
