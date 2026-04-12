@@ -12,6 +12,7 @@ import {
     MessageFlags,
     SlashCommandBuilder,
     StringSelectMenuBuilder,
+    strikethrough,
     underline,
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
@@ -27,12 +28,6 @@ import { Course } from "../utils/index.ts";
 type FCEData = {
     courseNum: string;
     courseName: string;
-    aggregateTeachingRate: number;
-    aggregateCourseRate: number;
-    aggregateHrsPerWeek: number;
-    aggregateSemesterLabels: string[];
-    responseRate: number;
-    count: number;
     records: FCERecord[];
 };
 
@@ -44,6 +39,21 @@ type FCERecord = {
     overallCourseRate: number;
     responseRate: number;
     semesterLabel: string;
+};
+
+type FCERecordSummary = {
+    teachingRate: number;
+    courseRate: number;
+    workload: number;
+    responseRate: number;
+    semesterLabels: string[];
+};
+
+type FCEStartupCache = {
+    // course code -> aggregated summary for that course
+    summaryByCourseCode: Map<string, FCERecordSummary>;
+    // course code -> (instructor name -> aggregated summary for that instructor in that course)
+    summaryByInstructorByCourseCode: Map<string, Map<string, FCERecordSummary>>;
 };
 
 type Syllabus = {
@@ -109,6 +119,100 @@ function fetchCourseUnlocks(
     return unlocks;
 }
 
+function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
+    const uniqueSemesters = [
+        ...new Set(records.map((record) => record.semesterLabel)),
+    ];
+    const nonSummerRecords = records.filter(
+        (record) => !record.semesterLabel.startsWith("M"),
+    );
+
+    // exclude summer semesters when fall/spring data exists
+    const shouldStrikeSummerTerms = nonSummerRecords.length > 0;
+    const includedRecords = shouldStrikeSummerTerms
+        ? nonSummerRecords
+        : records;
+    const semesterLabels = uniqueSemesters.map((label) =>
+        shouldStrikeSummerTerms && label.startsWith("M")
+            ? strikethrough(label)
+            : label,
+    );
+
+    const n = includedRecords.length;
+    if (n === 0) {
+        return {
+            teachingRate: 0,
+            courseRate: 0,
+            workload: 0,
+            responseRate: 0,
+            semesterLabels,
+        };
+    }
+
+    return {
+        teachingRate:
+            includedRecords.reduce(
+                (sum, record) => sum + record.overallTeachingRate,
+                0,
+            ) / n,
+        courseRate:
+            includedRecords.reduce(
+                (sum, record) => sum + record.overallCourseRate,
+                0,
+            ) / n,
+        workload:
+            includedRecords.reduce(
+                (sum, record) => sum + record.hrsPerWeek,
+                0,
+            ) / n,
+        responseRate:
+            includedRecords.reduce(
+                (sum, record) => sum + record.responseRate,
+                0,
+            ) / n,
+        semesterLabels,
+    };
+}
+
+function buildFCEStartupCache(
+    fceDataByCourse: Record<string, FCEData>,
+): FCEStartupCache {
+    const summaryByCourseCode = new Map<string, FCERecordSummary>();
+    const summaryByInstructorByCourseCode = new Map<
+        string,
+        Map<string, FCERecordSummary>
+    >();
+
+    for (const [courseCode, fceData] of Object.entries(fceDataByCourse)) {
+        summaryByCourseCode.set(
+            courseCode,
+            summarizeFCERecords(fceData.records),
+        );
+
+        const recordsByInstructor = new Map<string, FCERecord[]>();
+        for (const record of fceData.records) {
+            const instructorRecords =
+                recordsByInstructor.get(record.instructor) ?? [];
+            instructorRecords.push(record);
+            recordsByInstructor.set(record.instructor, instructorRecords);
+        }
+
+        const instructorSummaries = new Map<string, FCERecordSummary>();
+        for (const [instructor, instructorRecords] of recordsByInstructor) {
+            instructorSummaries.set(
+                instructor,
+                summarizeFCERecords(instructorRecords),
+            );
+        }
+        summaryByInstructorByCourseCode.set(courseCode, instructorSummaries);
+    }
+
+    return {
+        summaryByCourseCode,
+        summaryByInstructorByCourseCode,
+    };
+}
+
 function loadFCEData(): Record<string, FCEData> {
     const fceMap: Record<string, FCEData> = {};
     const csvPath = join(__dirname, "../data/fce_data.csv");
@@ -122,6 +226,20 @@ function loadFCEData(): Record<string, FCEData> {
     const currentYear = new Date().getFullYear();
     const cutoffYear = currentYear - 5;
 
+    type PendingFCERecord = {
+        section: string;
+        instructor: string;
+        semesterLabel: string;
+        hrsPerWeekSum: number;
+        overallTeachingRateSum: number;
+        overallCourseRateSum: number;
+        responseRateSum: number;
+        count: number;
+    };
+
+    // course code -> ("instructor-semester" key -> FCE running sums)
+    const pendingByCourse: Record<string, Map<string, PendingFCERecord>> = {};
+
     for (const record of records) {
         const dept = record["Dept"];
         const num = record["Num"];
@@ -132,8 +250,10 @@ function loadFCEData(): Record<string, FCEData> {
         // Only consider FCEs from the past 5 years
         if (year < cutoffYear) continue;
 
-        const formattedCode = formatCourseNumber(num)!;
-        const semesterLabel = formatSemesterLabel(semester!, year);
+        const formattedCode = formatCourseNumber(num);
+        if (!formattedCode || !semester) continue;
+
+        const semesterLabel = formatSemesterLabel(semester, year);
 
         const hrsPerWeek = parseFloat(record["Hrs Per Week"] ?? "");
         const overallTeachingRate = parseFloat(
@@ -144,17 +264,20 @@ function loadFCEData(): Record<string, FCEData> {
         );
         const responseRate = parseFloat(record["Response Rate"] ?? "");
 
+        if (
+            Number.isNaN(hrsPerWeek) ||
+            Number.isNaN(overallTeachingRate) ||
+            Number.isNaN(overallCourseRate) ||
+            Number.isNaN(responseRate)
+        ) {
+            continue;
+        }
+
         if (!fceMap[formattedCode]) {
             const courseName = record["Course Name"] ?? "";
             fceMap[formattedCode] = {
                 courseNum: formattedCode,
                 courseName: courseName,
-                aggregateTeachingRate: 0,
-                aggregateCourseRate: 0,
-                aggregateHrsPerWeek: 0,
-                aggregateSemesterLabels: [],
-                responseRate: 0,
-                count: 0,
                 records: [],
             };
         }
@@ -162,37 +285,64 @@ function loadFCEData(): Record<string, FCEData> {
         const instructor = record["Instructor"] ?? "";
         const section = record["Section"] ?? "";
 
-        fceMap[formattedCode].records.push({
-            section,
-            instructor,
-            hrsPerWeek,
-            semesterLabel,
-            overallTeachingRate,
-            overallCourseRate,
-            responseRate,
-        });
+        if (!pendingByCourse[formattedCode]) {
+            pendingByCourse[formattedCode] = new Map<
+                string,
+                PendingFCERecord
+            >();
+        }
 
-        if (semester && !semester.toLowerCase().includes("summer")) {
-            fceMap[formattedCode].aggregateTeachingRate += overallTeachingRate;
-            fceMap[formattedCode].aggregateCourseRate += overallCourseRate;
-            fceMap[formattedCode].aggregateHrsPerWeek += hrsPerWeek;
-            fceMap[formattedCode].responseRate += responseRate;
-            fceMap[formattedCode].aggregateSemesterLabels.push(semesterLabel);
-            fceMap[formattedCode].count++;
+        const dedupeKey = `${instructor}-${semesterLabel}`;
+        const pendingRecord = pendingByCourse[formattedCode].get(dedupeKey);
+        if (!pendingRecord) {
+            pendingByCourse[formattedCode].set(dedupeKey, {
+                section,
+                instructor,
+                semesterLabel,
+                hrsPerWeekSum: hrsPerWeek,
+                overallTeachingRateSum: overallTeachingRate,
+                overallCourseRateSum: overallCourseRate,
+                responseRateSum: responseRate,
+                count: 1,
+            });
+        } else {
+            pendingRecord.hrsPerWeekSum += hrsPerWeek;
+            pendingRecord.overallTeachingRateSum += overallTeachingRate;
+            pendingRecord.overallCourseRateSum += overallCourseRate;
+            pendingRecord.responseRateSum += responseRate;
+            pendingRecord.count++;
         }
     }
 
-    for (const courseCode in fceMap) {
+    // merge FCE data with the same instructor in the same semester
+    for (const courseCode in pendingByCourse) {
         const data = fceMap[courseCode];
         if (!data) continue;
-        data.aggregateTeachingRate = data.aggregateTeachingRate / data.count;
-        data.aggregateCourseRate = data.aggregateCourseRate / data.count;
-        data.aggregateHrsPerWeek = data.aggregateHrsPerWeek / data.count;
-        data.responseRate = data.responseRate / data.count;
+
+        const pendingCourseRecords = pendingByCourse[courseCode];
+        if (!pendingCourseRecords) continue;
+
+        data.records = [...pendingCourseRecords.values()].map(
+            (pendingRecord): FCERecord => ({
+                section: pendingRecord.section,
+                instructor: pendingRecord.instructor,
+                semesterLabel: pendingRecord.semesterLabel,
+                hrsPerWeek: pendingRecord.hrsPerWeekSum / pendingRecord.count,
+                overallTeachingRate:
+                    pendingRecord.overallTeachingRateSum / pendingRecord.count,
+                overallCourseRate:
+                    pendingRecord.overallCourseRateSum / pendingRecord.count,
+                responseRate:
+                    pendingRecord.responseRateSum / pendingRecord.count,
+            }),
+        );
     }
 
     return fceMap;
 }
+
+const FCE_DATA_BY_COURSE = loadFCEData();
+const FCE_STARTUP_CACHE = buildFCEStartupCache(FCE_DATA_BY_COURSE);
 
 function loadSyllabiData(): Record<string, Syllabus[]> {
     const syllabiData = SyllabiData as Syllabus[];
@@ -470,7 +620,10 @@ const command: SlashCommand = {
                 fce: FCEData;
             };
 
-            const fceData = loadFCEData();
+            const fceData = FCE_DATA_BY_COURSE;
+            const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
+            const summaryByInstructorByCourseCode =
+                FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
             const validCourses: Array<ValidCourse> = [];
             const invalidCodes: string[] = [];
             const noCourseData: string[] = [];
@@ -522,57 +675,7 @@ const command: SlashCommand = {
 
             if (validCourses.length === 1) {
                 const { code, course, fce } = validCourses[0]!;
-
-                type InstructorFCE = {
-                    teachingRate: number;
-                    courseRate: number;
-                    workload: number;
-                    responseRate: number;
-                    count: number;
-                    semesters: Set<string>;
-                };
-
-                type IndividualFCE = {
-                    teachingRate: number;
-                    courseRate: number;
-                    workload: number;
-                    responseRate: number;
-                    instructor: string;
-                    semesterLabel: string;
-                };
-
-                const instructorMap = new Map<string, InstructorFCE>();
-                const allFCEs: IndividualFCE[] = [];
-
-                for (const record of fce.records) {
-                    const instructor = record.instructor;
-                    if (!instructorMap.has(instructor)) {
-                        instructorMap.set(instructor, {
-                            teachingRate: 0,
-                            courseRate: 0,
-                            workload: 0,
-                            responseRate: 0,
-                            count: 0,
-                            semesters: new Set<string>(),
-                        });
-                    }
-                    const stats = instructorMap.get(instructor)!;
-                    stats.teachingRate += record.overallTeachingRate;
-                    stats.courseRate += record.overallCourseRate;
-                    stats.workload += record.hrsPerWeek;
-                    stats.responseRate += record.responseRate;
-                    stats.count++;
-                    stats.semesters.add(record.semesterLabel);
-
-                    allFCEs.push({
-                        teachingRate: record.overallTeachingRate,
-                        courseRate: record.overallCourseRate,
-                        workload: record.hrsPerWeek,
-                        responseRate: record.responseRate,
-                        instructor: record.instructor,
-                        semesterLabel: record.semesterLabel,
-                    });
-                }
+                const summary = summaryByCourseCode.get(code)!;
 
                 const baseEmbed = new EmbedBuilder()
                     .setTitle(
@@ -580,18 +683,16 @@ const command: SlashCommand = {
                     )
                     .setURL(`${SCOTTYLABS_URL}/course/${code}`);
 
-                function joinAndTruncate(
-                    items: string[],
-                    limit: number,
-                ): string {
-                    if (items.length <= limit) {
+                function joinAndTruncate(items: string[], max = 8, buffer = 3) {
+                    if (items.length <= max) {
                         return items.join(", ");
                     }
 
-                    const visibleItems = items.slice(0, limit).join(", ");
-                    const remainingCount = items.length - limit;
+                    const cutoff = max - buffer;
+                    const shown = items.slice(0, cutoff).join(", ");
+                    const hidden = items.length - cutoff;
 
-                    return `${visibleItems}, and ${remainingCount} more...`;
+                    return `${shown}, and ${hidden} more...`;
                 }
 
                 function createFCEEntry(
@@ -603,7 +704,7 @@ const command: SlashCommand = {
                     responseRate: number,
                 ) {
                     return (
-                        `${bold(title)} ${italic(`(${joinAndTruncate(semesterLabels, 8)})`)}\n` +
+                        `${bold(title)} ${italic(`(${joinAndTruncate(semesterLabels)})`)}\n` +
                         `Teaching: ${bold(teachingRate.toFixed(2))}/5 • ` +
                         `Course: ${bold(courseRate.toFixed(2))}/5\n` +
                         `Workload: ${bold(workload.toFixed(2))} hrs/wk • ` +
@@ -611,46 +712,46 @@ const command: SlashCommand = {
                     );
                 }
 
-                const summaryPage = EmbedBuilder.from(baseEmbed)
-                    .setDescription(
-                        createFCEEntry(
-                            "Aggregate Data",
-                            fce.aggregateSemesterLabels,
-                            fce.aggregateTeachingRate,
-                            fce.aggregateCourseRate,
-                            fce.aggregateHrsPerWeek,
-                            fce.responseRate,
-                        ),
-                    )
-                    .setFooter({ text: "Excluding summers" });
+                const summaryPage = EmbedBuilder.from(baseEmbed).setDescription(
+                    createFCEEntry(
+                        "Aggregate Data",
+                        summary.semesterLabels,
+                        summary.teachingRate,
+                        summary.courseRate,
+                        summary.workload,
+                        summary.responseRate,
+                    ),
+                );
 
-                const byInstructorEntries = [...instructorMap.entries()].map(
-                    ([instructor, stats]) => {
+                const instructorMap = summaryByInstructorByCourseCode.get(code);
+                const byInstructorEntries = Array.from(
+                    instructorMap ?? [],
+                    ([instructor, summary]) => {
                         const name = instructor.toUpperCase();
                         const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
-                        const semesters = [...stats.semesters];
+
                         return createFCEEntry(
                             hyperlink(name, url),
-                            semesters,
-                            stats.teachingRate / stats.count,
-                            stats.courseRate / stats.count,
-                            stats.workload / stats.count,
-                            stats.responseRate / stats.count,
+                            summary.semesterLabels,
+                            summary.teachingRate,
+                            summary.courseRate,
+                            summary.workload,
+                            summary.responseRate,
                         );
                     },
                 );
 
-                const allSemesterEntries = allFCEs.map((stats) => {
-                    const name = stats.instructor.toUpperCase();
+                const allSemesterEntries = fce.records.map((record) => {
+                    const name = record.instructor.toUpperCase();
                     const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
 
                     return createFCEEntry(
                         hyperlink(name, url),
-                        [stats.semesterLabel],
-                        stats.teachingRate,
-                        stats.courseRate,
-                        stats.workload,
-                        stats.responseRate,
+                        [record.semesterLabel],
+                        record.overallTeachingRate,
+                        record.overallCourseRate,
+                        record.hrsPerWeek,
+                        record.responseRate,
                     );
                 });
 
@@ -689,8 +790,8 @@ const command: SlashCommand = {
                         pages: [summaryPage],
                     },
                     {
-                        label: "By Instructor",
-                        value: "by_instructor",
+                        label: "Aggregate By Instructor",
+                        value: "aggregate_by_instructor",
                         pages: buildFCEPages(byInstructorEntries),
                     },
                     {
@@ -711,19 +812,19 @@ const command: SlashCommand = {
                     pages: selectOptions[0]!.pages,
                     components: [selectRow],
                     async onCollect(interaction) {
-                        if (interaction.isStringSelectMenu()) {
-                            const choice = interaction.values[0]!;
-                            const selected = selectOptions.find(
-                                (option) => option.value === choice,
-                            );
-                            paginator.setPages(selected!.pages);
-                            selectRow.components[0]?.setOptions(
-                                selectOptions.map((option) => ({
-                                    ...option,
-                                    default: option.value === choice,
-                                })),
-                            );
-                        }
+                        if (!interaction.isStringSelectMenu()) return;
+
+                        const choice = interaction.values[0]!;
+                        const selected = selectOptions.find(
+                            (option) => option.value === choice,
+                        );
+                        paginator.setPages(selected!.pages);
+                        selectRow.components[0]?.setOptions(
+                            selectOptions.map((option) => ({
+                                ...option,
+                                default: option.value === choice,
+                            })),
+                        );
                     },
                 });
                 await paginator.send(interaction);
@@ -749,10 +850,11 @@ const command: SlashCommand = {
                 let totalUnits = 0;
                 let unitIssuePostFixer = "";
                 for (const { code, course, fce } of validCourses) {
+                    const summary = summaryByCourseCode.get(code)!;
                     const courseName = fce.courseName.toUpperCase();
                     description +=
                         formatLine(
-                            fce.aggregateHrsPerWeek,
+                            summary.workload,
                             hyperlink(
                                 `${bold(code)} (${courseName})`,
                                 `${SCOTTYLABS_URL}/course/${code}`,
@@ -766,7 +868,8 @@ const command: SlashCommand = {
                 }
 
                 let totalHours = validCourses.reduce(
-                    (sum, { fce }) => sum + fce.aggregateHrsPerWeek,
+                    (sum, { code }) =>
+                        sum + summaryByCourseCode.get(code)!.workload,
                     0,
                 );
                 const fywMinis = validCourses.filter(({ code }) =>
@@ -774,8 +877,8 @@ const command: SlashCommand = {
                 );
                 if (fywMinis.length == 2) {
                     const miniWorkload =
-                        fywMinis[0]!.fce.aggregateHrsPerWeek +
-                        fywMinis[1]!.fce.aggregateHrsPerWeek;
+                        summaryByCourseCode.get(fywMinis[0]!.code)!.workload +
+                        summaryByCourseCode.get(fywMinis[1]!.code)!.workload;
                     const miniAvg = miniWorkload / 2;
                     totalHours -= miniWorkload;
                     totalHours += miniAvg;
@@ -816,7 +919,7 @@ const command: SlashCommand = {
         }
         if (interaction.options.getSubcommand() === "syllabus") {
             const syllabi = loadSyllabiData();
-            const fceData = loadFCEData();
+            const fceData = FCE_DATA_BY_COURSE;
 
             const courseid = formatCourseNumber(
                 interaction.options.getString("course_id", true),
