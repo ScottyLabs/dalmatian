@@ -27,23 +27,23 @@ import { Course } from "../utils/index.ts";
 type FCEData = {
     courseNum: string;
     courseName: string;
-    overallTeachingRate: number;
-    overallCourseRate: number;
-    hrsPerWeek: number;
+    aggregateTeachingRate: number;
+    aggregateCourseRate: number;
+    aggregateHrsPerWeek: number;
+    aggregateSemesterLabels: string[];
     responseRate: number;
     count: number;
     records: FCERecord[];
 };
 
 type FCERecord = {
-    year: number;
-    semester: string;
     section: string;
     instructor: string;
     hrsPerWeek: number;
     overallTeachingRate: number;
     overallCourseRate: number;
     responseRate: number;
+    semesterLabel: string;
 };
 
 type Syllabus = {
@@ -73,6 +73,25 @@ function formatCourseNumber(courseNumber: string): string | null {
     }
 
     return null;
+}
+
+function abbrevSemester(semester: string): string {
+    const normalized = semester.trim().toLowerCase();
+    if (normalized === "fall") {
+        return "F";
+    }
+    if (normalized === "spring") {
+        return "S";
+    }
+    if (normalized === "summer") {
+        return "M";
+    }
+    return "?";
+}
+
+function formatSemesterLabel(semester: string, year: number): string {
+    const tag = abbrevSemester(semester);
+    return `${tag}${String(year).slice(-2)}`;
 }
 
 function fetchCourseUnlocks(
@@ -114,6 +133,7 @@ function loadFCEData(): Record<string, FCEData> {
         if (year < cutoffYear) continue;
 
         const formattedCode = formatCourseNumber(num)!;
+        const semesterLabel = formatSemesterLabel(semester!, year);
 
         const hrsPerWeek = parseFloat(record["Hrs Per Week"] ?? "");
         const overallTeachingRate = parseFloat(
@@ -124,21 +144,15 @@ function loadFCEData(): Record<string, FCEData> {
         );
         const responseRate = parseFloat(record["Response Rate"] ?? "");
 
-        if (
-            isNaN(hrsPerWeek) ||
-            isNaN(overallTeachingRate) ||
-            isNaN(overallCourseRate)
-        )
-            continue;
-
         if (!fceMap[formattedCode]) {
             const courseName = record["Course Name"] ?? "";
             fceMap[formattedCode] = {
                 courseNum: formattedCode,
                 courseName: courseName,
-                overallTeachingRate: 0,
-                overallCourseRate: 0,
-                hrsPerWeek: 0,
+                aggregateTeachingRate: 0,
+                aggregateCourseRate: 0,
+                aggregateHrsPerWeek: 0,
+                aggregateSemesterLabels: [],
                 responseRate: 0,
                 count: 0,
                 records: [],
@@ -149,21 +163,21 @@ function loadFCEData(): Record<string, FCEData> {
         const section = record["Section"] ?? "";
 
         fceMap[formattedCode].records.push({
-            year,
-            semester: semester ?? "",
             section,
             instructor,
             hrsPerWeek,
+            semesterLabel,
             overallTeachingRate,
             overallCourseRate,
             responseRate,
         });
 
         if (semester && !semester.toLowerCase().includes("summer")) {
-            fceMap[formattedCode].overallTeachingRate += overallTeachingRate;
-            fceMap[formattedCode].overallCourseRate += overallCourseRate;
-            fceMap[formattedCode].hrsPerWeek += hrsPerWeek;
+            fceMap[formattedCode].aggregateTeachingRate += overallTeachingRate;
+            fceMap[formattedCode].aggregateCourseRate += overallCourseRate;
+            fceMap[formattedCode].aggregateHrsPerWeek += hrsPerWeek;
             fceMap[formattedCode].responseRate += responseRate;
+            fceMap[formattedCode].aggregateSemesterLabels.push(semesterLabel);
             fceMap[formattedCode].count++;
         }
     }
@@ -171,9 +185,9 @@ function loadFCEData(): Record<string, FCEData> {
     for (const courseCode in fceMap) {
         const data = fceMap[courseCode];
         if (!data) continue;
-        data.overallTeachingRate = data.overallTeachingRate / data.count;
-        data.overallCourseRate = data.overallCourseRate / data.count;
-        data.hrsPerWeek = data.hrsPerWeek / data.count;
+        data.aggregateTeachingRate = data.aggregateTeachingRate / data.count;
+        data.aggregateCourseRate = data.aggregateCourseRate / data.count;
+        data.aggregateHrsPerWeek = data.aggregateHrsPerWeek / data.count;
         data.responseRate = data.responseRate / data.count;
     }
 
@@ -188,7 +202,7 @@ function loadSyllabiData(): Record<string, Syllabus[]> {
         F: 0,
         S: 1,
         M: 2,
-        N: 3,
+        N: 3, // retained for compatability with summers before 2026
     };
 
     for (const entry of syllabiData) {
@@ -524,42 +538,14 @@ const command: SlashCommand = {
                     workload: number;
                     responseRate: number;
                     instructor: string;
-                    semesterTag: string;
-                    year: number;
+                    semesterLabel: string;
                 };
-
-                function parseSemesterTag(semester: string): string {
-                    const normalized = semester.trim().toLowerCase();
-                    if (normalized === "fall") {
-                        return "F";
-                    }
-                    if (normalized === "spring") {
-                        return "S";
-                    }
-                    if (normalized === "summer") {
-                        return "M";
-                    }
-                    return "?";
-                }
-
-                function formatSemesterLabel(
-                    semester: string,
-                    year: number,
-                ): string {
-                    const tag = parseSemesterTag(semester);
-                    return `${tag}${String(year).slice(-2)}`;
-                }
 
                 const instructorMap = new Map<string, InstructorFCE>();
                 const allFCEs: IndividualFCE[] = [];
 
                 for (const record of fce.records) {
                     const instructor = record.instructor;
-                    const semesterLabel = formatSemesterLabel(
-                        record.semester,
-                        record.year,
-                    );
-
                     if (!instructorMap.has(instructor)) {
                         instructorMap.set(instructor, {
                             teachingRate: 0,
@@ -576,7 +562,7 @@ const command: SlashCommand = {
                     stats.workload += record.hrsPerWeek;
                     stats.responseRate += record.responseRate;
                     stats.count++;
-                    stats.semesters.add(semesterLabel);
+                    stats.semesters.add(record.semesterLabel);
 
                     allFCEs.push({
                         teachingRate: record.overallTeachingRate,
@@ -584,40 +570,91 @@ const command: SlashCommand = {
                         workload: record.hrsPerWeek,
                         responseRate: record.responseRate,
                         instructor: record.instructor,
-                        semesterTag: record.semester,
-                        year: record.year,
+                        semesterLabel: record.semesterLabel,
                     });
                 }
 
-                const byInstructorRows = [...instructorMap.entries()].map(
+                const baseEmbed = new EmbedBuilder()
+                    .setTitle(
+                        `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
+                    )
+                    .setURL(`${SCOTTYLABS_URL}/course/${code}`);
+
+                function joinAndTruncate(
+                    items: string[],
+                    limit: number,
+                ): string {
+                    if (items.length <= limit) {
+                        return items.join(", ");
+                    }
+
+                    const visibleItems = items.slice(0, limit).join(", ");
+                    const remainingCount = items.length - limit;
+
+                    return `${visibleItems}, and ${remainingCount} more...`;
+                }
+
+                function createFCEEntry(
+                    title: string,
+                    semesterLabels: string[],
+                    teachingRate: number,
+                    courseRate: number,
+                    workload: number,
+                    responseRate: number,
+                ) {
+                    return (
+                        `${bold(title)} ${italic(`(${joinAndTruncate(semesterLabels, 8)})`)}\n` +
+                        `Teaching: ${bold(teachingRate.toFixed(2))}/5 • ` +
+                        `Course: ${bold(courseRate.toFixed(2))}/5\n` +
+                        `Workload: ${bold(workload.toFixed(2))} hrs/wk • ` +
+                        `Response Rate: ${bold(`${responseRate.toFixed(1)}%`)}`
+                    );
+                }
+
+                const summaryPage = EmbedBuilder.from(baseEmbed)
+                    .setDescription(
+                        createFCEEntry(
+                            "Aggregate Data",
+                            fce.aggregateSemesterLabels,
+                            fce.aggregateTeachingRate,
+                            fce.aggregateCourseRate,
+                            fce.aggregateHrsPerWeek,
+                            fce.responseRate,
+                        ),
+                    )
+                    .setFooter({ text: "Excluding summers" });
+
+                const byInstructorEntries = [...instructorMap.entries()].map(
                     ([instructor, stats]) => {
                         const name = instructor.toUpperCase();
                         const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
                         const semesters = [...stats.semesters];
-                        return (
-                            `${hyperlink(bold(name), url)} ${italic(`(${semesters.join(", ")})`)}\n` +
-                            `Teaching: ${bold((stats.teachingRate / stats.count).toFixed(2))}/5 • ` +
-                            `Course: ${bold((stats.courseRate / stats.count).toFixed(2))}/5\n` +
-                            `Workload: ${bold((stats.workload / stats.count).toFixed(2))} hrs/wk • ` +
-                            `Response Rate: ${bold(`${(stats.responseRate / stats.count).toFixed(1)}%`)}`
+                        return createFCEEntry(
+                            hyperlink(name, url),
+                            semesters,
+                            stats.teachingRate / stats.count,
+                            stats.courseRate / stats.count,
+                            stats.workload / stats.count,
+                            stats.responseRate / stats.count,
                         );
                     },
                 );
 
-                const allSemesterRows = allFCEs.map((stats) => {
+                const allSemesterEntries = allFCEs.map((stats) => {
                     const name = stats.instructor.toUpperCase();
                     const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
 
-                    return (
-                        `${hyperlink(bold(name), url)} ${italic(`(${stats.semesterTag})`)}\n` +
-                        `Teaching: ${bold(stats.teachingRate.toFixed(2))}/5 • ` +
-                        `Course: ${bold(stats.courseRate.toFixed(2))}/5\n` +
-                        `Workload: ${bold(stats.workload.toFixed(2))} hrs/wk • ` +
-                        `Response Rate: ${bold(`${stats.responseRate.toFixed(1)}%`)}`
+                    return createFCEEntry(
+                        hyperlink(name, url),
+                        [stats.semesterLabel],
+                        stats.teachingRate,
+                        stats.courseRate,
+                        stats.workload,
+                        stats.responseRate,
                     );
                 });
 
-                function buildFCEPages(rows: string[]): EmbedBuilder[] {
+                function buildFCEPages(entries: string[]): EmbedBuilder[] {
                     const pages: EmbedBuilder[] = [];
                     let chunk: string[] = [];
                     let index = 0;
@@ -628,27 +665,15 @@ const command: SlashCommand = {
                         );
                     }
 
-                    chunk.push(
-                        `:pushpin: ${bold("Aggregate Data (past 5 years, excluding summers)")}\n` +
-                            `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
-                            `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
-                            `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
-                            `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
-                    );
-
-                    for (const row of rows) {
-                        chunk.push(row);
+                    for (const entry of entries) {
+                        chunk.push(entry);
                         index++;
 
-                        if (chunk.length >= 5 || index === rows.length) {
-                            pages.push(
-                                new EmbedBuilder()
-                                    .setTitle(
-                                        `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
-                                    )
-                                    .setURL(`${SCOTTYLABS_URL}/course/${code}`)
-                                    .setDescription(chunk.join("\n\n")),
-                            );
+                        if (chunk.length >= 5 || index === entries.length) {
+                            const embed = EmbedBuilder.from(
+                                baseEmbed,
+                            ).setDescription(chunk.join("\n\n"));
+                            pages.push(embed);
                             chunk = [];
                         }
                     }
@@ -656,27 +681,25 @@ const command: SlashCommand = {
                     return pages;
                 }
 
-                const pageVersions = new Map<string, EmbedBuilder[]>();
-                pageVersions.set(
-                    "by_instructor",
-                    buildFCEPages(byInstructorRows),
-                );
-                pageVersions.set(
-                    "all_semesters",
-                    buildFCEPages(allSemesterRows),
-                );
-
                 const selectOptions = [
+                    {
+                        label: "Summary",
+                        value: "summary",
+                        default: true,
+                        pages: [summaryPage],
+                    },
                     {
                         label: "By Instructor",
                         value: "by_instructor",
-                        default: true,
+                        pages: buildFCEPages(byInstructorEntries),
                     },
                     {
                         label: "All Semesters",
                         value: "all_semesters",
+                        pages: buildFCEPages(allSemesterEntries),
                     },
                 ];
+
                 const selectRow =
                     new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
                         new StringSelectMenuBuilder()
@@ -685,12 +708,15 @@ const command: SlashCommand = {
                     );
 
                 const paginator = new EmbedPaginator({
-                    pages: pageVersions.get("by_instructor")!,
+                    pages: selectOptions[0]!.pages,
                     components: [selectRow],
                     async onCollect(interaction) {
                         if (interaction.isStringSelectMenu()) {
                             const choice = interaction.values[0]!;
-                            paginator.setPages(pageVersions.get(choice)!);
+                            const selected = selectOptions.find(
+                                (option) => option.value === choice,
+                            );
+                            paginator.setPages(selected!.pages);
                             selectRow.components[0]?.setOptions(
                                 selectOptions.map((option) => ({
                                     ...option,
@@ -726,7 +752,7 @@ const command: SlashCommand = {
                     const courseName = fce.courseName.toUpperCase();
                     description +=
                         formatLine(
-                            fce.hrsPerWeek,
+                            fce.aggregateHrsPerWeek,
                             hyperlink(
                                 `${bold(code)} (${courseName})`,
                                 `${SCOTTYLABS_URL}/course/${code}`,
@@ -740,7 +766,7 @@ const command: SlashCommand = {
                 }
 
                 let totalHours = validCourses.reduce(
-                    (sum, { fce }) => sum + fce.hrsPerWeek,
+                    (sum, { fce }) => sum + fce.aggregateHrsPerWeek,
                     0,
                 );
                 const fywMinis = validCourses.filter(({ code }) =>
@@ -748,8 +774,8 @@ const command: SlashCommand = {
                 );
                 if (fywMinis.length == 2) {
                     const miniWorkload =
-                        fywMinis[0]!.fce.hrsPerWeek +
-                        fywMinis[1]!.fce.hrsPerWeek;
+                        fywMinis[0]!.fce.aggregateHrsPerWeek +
+                        fywMinis[1]!.fce.aggregateHrsPerWeek;
                     const miniAvg = miniWorkload / 2;
                     totalHours -= miniWorkload;
                     totalHours += miniAvg;
@@ -789,13 +815,6 @@ const command: SlashCommand = {
             }
         }
         if (interaction.options.getSubcommand() === "syllabus") {
-            const convertSem: Record<string, string> = {
-                F: "Fall",
-                S: "Spring",
-                M: "Summer",
-                N: "Summer",
-            };
-
             const syllabi = loadSyllabiData();
             const fceData = loadFCEData();
 
@@ -842,11 +861,13 @@ const command: SlashCommand = {
                 let fceEntry = undefined;
 
                 for (const rec of fceRec) {
-                    // Rec.year and Syllabus.year will both be 2 digits
                     if (
-                        rec.semester == convertSem[syllabus.season] &&
-                        rec.year == syllabus.year + 2000 &&
-                        rec.section == syllabus.section
+                        rec.section == syllabus.section &&
+                        (rec.semesterLabel ==
+                            `${syllabus.season}${syllabus.year}` ||
+                            (syllabus.season == "N" &&
+                                rec.semesterLabel == `M${syllabus.year}`))
+                        // edge-case: syllabi summers before 2026 can start with M or N, but FCE data always start with M
                     ) {
                         fceEntry = rec;
                     }
