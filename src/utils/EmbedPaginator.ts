@@ -141,7 +141,7 @@ export class EmbedPaginator {
                 }
             }
 
-            this.onCollect(compInteraction);
+            await this.onCollect(compInteraction);
             await compInteraction.update({
                 embeds: this.pages[this.current],
                 components: this.buildComponents(),
