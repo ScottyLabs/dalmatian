@@ -321,14 +321,14 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         .setPlaceholder(
             multiSelect ? "Vote for one or more options" : "Vote for an option",
         )
-        .setMinValues(0)
-        .setMaxValues(multiSelect ? insertedOptions.length : 1)
-        .addOptions(
-            insertedOptions.map((opt) => ({
+        .setMaxValues(multiSelect ? insertedOptions.length + 1 : 1)
+        .addOptions([
+            ...insertedOptions.map((opt) => ({
                 label: opt.label,
                 value: String(opt.id),
             })),
-        );
+            { label: "Clear vote", value: "unvote" },
+        ]);
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
         selectMenu,

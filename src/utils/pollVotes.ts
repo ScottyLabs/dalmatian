@@ -259,8 +259,8 @@ export async function handlePollVote(interaction: StringSelectMenuInteraction) {
         ),
     );
 
-    // Handle unvote (empty selection)
-    if (interaction.values.length === 0) {
+    // Handle unvote
+    if (interaction.values.includes("unvote")) {
         if (!poll.anonymous) {
             const allVotes = await db
                 .select()
@@ -288,9 +288,9 @@ export async function handlePollVote(interaction: StringSelectMenuInteraction) {
         return;
     }
 
-    const selectedOptionIds = interaction.values.map((v) =>
-        Number.parseInt(v, 10),
-    );
+    const selectedOptionIds = interaction.values
+        .filter((v) => v !== "unvote")
+        .map((v) => Number.parseInt(v, 10));
 
     const validOptions = allOptions.filter((o) =>
         selectedOptionIds.includes(o.id),
