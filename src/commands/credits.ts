@@ -213,15 +213,15 @@ const command: SlashCommand = {
                 for (const { exam, courses: awardedCourses } of awarded) {
                     let geneds: GenEd[] = [];
 
-                    if (userSchool == "DC") {
+                    if (userSchool === "DC") {
                         geneds = DCGenedData as GenEd[];
-                    } else if (userSchool == "CIT") {
+                    } else if (userSchool === "CIT") {
                         geneds = CITGenedData as GenEd[];
-                    } else if (userSchool == "MCS") {
+                    } else if (userSchool === "MCS") {
                         geneds = MCSGenedData as GenEd[];
-                    } else if (userSchool == "SCS") {
+                    } else if (userSchool === "SCS") {
                         geneds = SCSGenedData as GenEd[];
-                    } else if (userSchool == "CFA" || userSchool == "TEP") {
+                    } else if (userSchool === "CFA" || userSchool === "TEP") {
                         container.addTextDisplayComponents((t) =>
                             t.setContent(
                                 `Gened data not available for ${userSchool}`,

@@ -125,18 +125,18 @@ export class EmbedPaginator {
             }
 
             if (compInteraction.isButton()) {
-                if (compInteraction.customId == "next") {
+                if (compInteraction.customId === "next") {
                     this.current++;
                     this.current %= this.pages.length;
                 }
-                if (compInteraction.customId == "prev") {
+                if (compInteraction.customId === "prev") {
                     this.current--;
                     this.current %= this.pages.length;
                 }
-                if (compInteraction.customId == "first") {
+                if (compInteraction.customId === "first") {
                     this.current = 0;
                 }
-                if (compInteraction.customId == "last") {
+                if (compInteraction.customId === "last") {
                     this.current = this.pages.length - 1;
                 }
             }
