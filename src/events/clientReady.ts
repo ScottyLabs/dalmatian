@@ -1,5 +1,6 @@
 import { Events } from "discord.js";
 import type { Event } from "../types.d.ts";
+import { recoverPollTimers } from "../utils/pollVotes.ts";
 
 const event: Event<Events.ClientReady> = {
     name: Events.ClientReady,
@@ -21,6 +22,8 @@ const event: Event<Events.ClientReady> = {
                 );
             }
         }
+
+        await recoverPollTimers(client);
     },
 };
 
