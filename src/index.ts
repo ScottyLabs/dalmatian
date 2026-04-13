@@ -55,7 +55,7 @@ readdirSync(handlersDir).forEach(async (handler) => {
 const origToJSON = EmbedBuilder.prototype.toJSON;
 
 EmbedBuilder.prototype.toJSON = function (this: EmbedBuilder) {
-    if (this.data.color == undefined) {
+    if (this.data.color === undefined) {
         this.setColor(DEFAULT_EMBED_COLOR);
     }
     return origToJSON.call(this);
