@@ -7,7 +7,25 @@ import {
 } from "discord.js";
 import type { SlashCommand } from "../types.js";
 import ms from "ms";
-import { DEFAULT_EMBED_COLOR } from "../constants.ts";
+import { z } from "zod";
+import { DEFAULT_EMBED_COLOR } from "../constants.js";
+
+const commitSchema = z.array(
+    z.object({
+        author: z
+            .object({
+                login: z.string(),
+                html_url: z.string().url(),
+            })
+            .nullable()
+            .optional(),
+        commit: z.object({
+            committer: z.object({
+                date: z.string(),
+            }),
+        }),
+    }),
+);
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -16,28 +34,47 @@ const command: SlashCommand = {
     async execute(interaction) {
         await interaction.deferReply();
 
-        const commit = (await (
-            await fetch(
-                "https://api.github.com/repos/scottylabs/dalmatian/commits",
-            )
-        ).json()) as {
-            author: { login: string; html_url: string };
-            commit: { committer: { date: string } };
-        }[];
+        const commitRaw = await fetch(
+            "https://api.github.com/repos/scottylabs/dalmatian/commits",
+        )
+            .then((f) => f.json())
+            .catch((_) => undefined);
 
-        const latestContributors = commit
-            .filter(
-                (c) =>
-                    new Date(c.commit.committer.date) >
-                    new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-            ) //last 7 days
-            .map((c) => ({ username: c.author.login, url: c.author.html_url }))
-            .filter(
-                (value, index, self) =>
-                    index ===
-                    self.findIndex((t) => t.username === value.username),
-            )
-            .slice(0, 5); //top 5 max
+        const commitResult = commitSchema.safeParse(commitRaw);
+
+        let contributors = "Contributors could not be fetched!";
+        if (commitResult.success) {
+            const latestContributors = commitResult.data
+                .filter(
+                    (c) =>
+                        new Date(c.commit.committer.date) >
+                        new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                ) //last 7 days
+                .filter(
+                    (
+                        c,
+                    ): c is typeof c & {
+                        author: NonNullable<typeof c.author>;
+                    } => c.author != null,
+                )
+                .map((c) => ({
+                    username: c.author.login,
+                    url: c.author.html_url,
+                }))
+                .filter(
+                    (value, index, self) =>
+                        index ===
+                        self.findIndex((t) => t.username === value.username),
+                )
+                .slice(0, 5); //top 5 max
+
+            contributors =
+                latestContributors.length > 0
+                    ? latestContributors
+                          .map((c) => `[${c.username}](${c.url})`)
+                          .join(", ")
+                    : "No contributors in the last 7 days";
+        }
 
         const embed = new EmbedBuilder()
             .setTitle("Info about dalmatian")
@@ -64,11 +101,7 @@ const command: SlashCommand = {
                 {
                     name: "Latest Contributors",
                     value:
-                        (latestContributors.length > 0
-                            ? latestContributors
-                                  .map((c) => `[${c.username}](${c.url})`)
-                                  .join(", ")
-                            : "No contributors in the last 7 days") +
+                        contributors +
                         (process.env["COMMIT_HASH"]
                             ? `\n\n-# commit [\`${process.env["COMMIT_HASH"].slice(0, 7)}\`](https://github.com/ScottyLabs/dalmatian/commit/${process.env["COMMIT_HASH"]})`
                             : ""),

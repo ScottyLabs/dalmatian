@@ -69,25 +69,43 @@ export class EmbedPaginator {
         );
     }
 
+    //TODO, this seems to be used in a few places, maybe abstract into a MessageUtils class or something
+    private async respond(
+        interaction: CommandInteraction,
+        options: {
+            embeds: EmbedBuilder[];
+            components?: ActionRowBuilder<ButtonBuilder>[];
+        },
+    ) {
+        if (interaction.deferred || interaction.replied) {
+            await interaction.editReply(options);
+            return;
+        }
+
+        await interaction.reply({
+            ...options,
+        });
+    }
+
     public async send(interaction: CommandInteraction) {
         if (this.pages.length == 1) {
-            await interaction.reply({
+            await this.respond(interaction, {
                 embeds: this.pages[0]!,
             });
             return;
         }
 
-        const response = await interaction.reply({
+        await this.respond(interaction, {
             embeds: this.pages[this.current]!,
             components: [this.buildButtons()],
-            withResponse: true,
         });
 
-        const collector =
-            response.resource!.message!.createMessageComponentCollector({
-                componentType: ComponentType.Button,
-                time: 840_000, // 14 minutes
-            });
+        const reply = await interaction.fetchReply();
+
+        const collector = reply.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            time: 840_000, // 14 minutes
+        });
 
         collector.on("collect", async (btnInteraction) => {
             if (btnInteraction.user.id !== interaction.user.id) {

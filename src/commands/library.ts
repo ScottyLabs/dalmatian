@@ -2,43 +2,51 @@ import { EmbedBuilder, HexColorString, SlashCommandBuilder } from "discord.js";
 import type { SlashCommand } from "../types.js";
 import { DEFAULT_EMBED_COLOR } from "../constants.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
+import { z } from "zod";
 
-type LibraryStatusInfo = {
-    name: string;
-    dates: {
-        [date: string]: {
-            status: "open" | "closed" | "text";
-            text?: string;
-            hours?: {
-                from: string;
-                to: string;
-            }[];
-        };
-    };
-};
+const libraryHoursRangeSchema = z.object({
+    from: z.string(),
+    to: z.string(),
+});
 
-type LibraryScheduleInfo = {
-    locations: {
-        lid: number;
-        name: string;
-        color: HexColorString;
-        weeks: {
-            [day: string]: {
-                date: string;
-                rendered: string;
-                times: {
-                    status: "open" | "closed" | "text" | "ByApp" | "not-set";
-                    text?: string;
-                    note?: string;
-                    hours: {
-                        from: string;
-                        to: string;
-                    }[];
-                };
-            };
-        }[];
-    }[];
-};
+const libraryStatusEntrySchema = z.object({
+    status: z.enum(["open", "closed", "text"]),
+    text: z.string().optional(),
+    hours: z.array(libraryHoursRangeSchema).optional(),
+});
+
+const libraryStatusResponseSchema = z.array(
+    z.object({
+        name: z.string(),
+        dates: z.record(z.string(), libraryStatusEntrySchema),
+    }),
+);
+
+const libraryScheduleDaySchema = z.object({
+    date: z.string(),
+    rendered: z.string(),
+    times: z.object({
+        status: z.enum(["open", "closed", "text", "ByApp", "not-set"]),
+        text: z.string().optional(),
+        note: z.string().optional(),
+        hours: z.array(libraryHoursRangeSchema).optional(),
+    }),
+});
+
+const libraryScheduleResponseSchema = z.object({
+    locations: z.array(
+        z.object({
+            lid: z.number(),
+            name: z.string(),
+            color: z.custom<HexColorString>(
+                (value) =>
+                    typeof value === "string" &&
+                    /^#[0-9a-fA-F]{6}$/.test(value),
+            ),
+            weeks: z.array(z.record(z.string(), libraryScheduleDaySchema)),
+        }),
+    ),
+});
 
 const LIBRARY_FACILITIES = {
     "Hunt Library": "7070",
@@ -155,13 +163,18 @@ const command: SlashCommand = {
 
             const libraries = ["7070", "7071", "7072", "7195"];
 
-            const apiKey = "f350ce8f5f34fd1cae1ccee509352e59";
+            const apiKey = "f350ce8f5f34fd1cae1ccee509352e59"; //This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
 
-            const response = (await fetch(
+            const responseRaw = await fetch(
                 `${apiEndpoint}/${libraries.join(",")}?key=${apiKey}`,
-            ).then((res) => res.json())) as LibraryStatusInfo[];
+            )
+                .then((res) => res.json())
+                .catch((_) => undefined);
 
-            if (!response) {
+            const responseResult =
+                libraryStatusResponseSchema.safeParse(responseRaw);
+
+            if (!responseResult.success) {
                 const embed1 = new EmbedBuilder().setTitle(
                     "Failed to fetch library hours. Please try again later.",
                 );
@@ -169,7 +182,10 @@ const command: SlashCommand = {
                 await interaction.editReply({
                     embeds: [embed1],
                 });
+                return;
             }
+
+            const response = responseResult.data;
 
             const etDate = new Intl.DateTimeFormat("en-CA", {
                 timeZone: "America/New_York",
@@ -178,9 +194,19 @@ const command: SlashCommand = {
                 day: "2-digit",
             }).format(new Date());
 
-            const embed = new EmbedBuilder().setTitle(
-                `Current Library Status for ${etDate}`,
-            );
+            const displayEtDate = new Date().toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+                timeZone: "America/New_York",
+            });
+
+            const embedTitle =
+                subcommand === "open"
+                    ? `Currently Open Libraries for ${displayEtDate}`
+                    : `Current Library Status for ${displayEtDate}`;
+
+            const embed = new EmbedBuilder().setTitle(embedTitle);
 
             for (const library of response) {
                 let fieldTitle = "";
@@ -229,7 +255,7 @@ const command: SlashCommand = {
                 });
             }
 
-            if (embed.toJSON().fields?.length === 0)
+            if ((embed.toJSON().fields?.length || 0) === 0)
                 embed.setDescription("No libraries are currently open!");
 
             await interaction.followUp({
@@ -240,15 +266,18 @@ const command: SlashCommand = {
             const libraryId = LIBRARY_FACILITIES[libraryName];
             const weeks = 1000; //yes, this is absurd on purpose, it won't try giving more than it can (or rather, all of them will have status not-set)
 
-            const response = await fetch(
+            const responseRaw = await fetch(
                 `https://cmu.libcal.com/api_hours_grid.php?format=json&weeks=${weeks}&systemTime=0`,
-            );
-            const data = (await response.json()) as LibraryScheduleInfo;
-            const libraryData = data.locations.find(
-                (loc) => loc.lid === parseInt(libraryId ?? "0"),
-            );
+            )
+                .then((f) => f.json())
+                .catch((_) => undefined);
 
-            if (!data) {
+            const responseResult =
+                libraryScheduleResponseSchema.safeParse(responseRaw);
+
+            if (!responseResult.success) {
+                console.log(JSON.stringify(responseResult.error.format()));
+                console.log(responseRaw);
                 const embed1 = new EmbedBuilder().setTitle(
                     "Failed to fetch library schedule. Please try again later.",
                 );
@@ -258,6 +287,11 @@ const command: SlashCommand = {
                 });
                 return;
             }
+
+            const data = responseResult.data;
+            const libraryData = data.locations.find(
+                (loc) => loc.lid === parseInt(libraryId ?? "0"),
+            );
 
             if (!libraryId || !libraryData || libraryData.weeks.length === 0) {
                 const embed1 = new EmbedBuilder().setTitle(
