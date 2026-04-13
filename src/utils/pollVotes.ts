@@ -10,6 +10,29 @@ import { db, pollOptions, polls, pollVotes } from "../db/index.ts";
 
 const pollTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
+const MAX_DISPLAYED_VOTERS = 10;
+
+function formatVoterList(
+    votes: { pollOptionId: number; userId: string }[],
+    optionId: number,
+) {
+    const optVotes = votes.filter((v) => v.pollOptionId === optionId);
+    if (optVotes.length === 0) return "";
+    const displayed = optVotes
+        .slice(0, MAX_DISPLAYED_VOTERS)
+        .map((v) => `<@${v.userId}>`)
+        .join(", ");
+    const remaining = optVotes.length - MAX_DISPLAYED_VOTERS;
+    if (remaining > 0) {
+        return `\n${displayed} + ${remaining} more`;
+    }
+    return `\n${displayed}`;
+}
+
+function pollMessageUrl(guildId: string, channelId: string, messageId: string) {
+    return `https://discord.com/channels/${guildId}/${channelId}/${messageId}`;
+}
+
 export function buildPollEmbed(
     question: string,
     options: { id: number; label: string }[],
@@ -17,48 +40,61 @@ export function buildPollEmbed(
     anonymous: boolean,
     createdBy: string,
 ) {
-    const description = options
-        .map((opt, i) => {
-            let line = `**${i + 1}.** ${opt.label}`;
-            if (!anonymous) {
-                const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
-                if (optVotes.length > 0) {
-                    line += `\n${optVotes.map((v) => `<@${v.userId}>`).join(", ")}`;
-                }
-            }
-            return line;
-        })
-        .join("\n");
+    const lines = options.map((opt, i) => {
+        const optVoteCount = votes.filter(
+            (v) => v.pollOptionId === opt.id,
+        ).length;
+        let line = `**${i + 1}.** ${opt.label}`;
+        if (optVoteCount > 0) {
+            line += ` (${optVoteCount})`;
+        }
+        if (!anonymous) {
+            line += formatVoterList(votes, opt.id);
+        }
+        return line;
+    });
+
+    const description = `Poll by <@${createdBy}>\n\n${lines.join("\n")}`;
 
     return new EmbedBuilder()
         .setTitle(question)
         .setDescription(description)
-        .setFooter({ text: `Poll by <@${createdBy}>` })
         .setTimestamp();
 }
 
 export function buildResultsEmbed(
-    poll: { question: string; anonymous: boolean },
+    poll: {
+        question: string;
+        anonymous: boolean;
+        guildId: string;
+        channelId: string;
+        messageId: string;
+    },
     options: { id: number; label: string }[],
     votes: { pollOptionId: number; userId: string }[],
 ) {
     const totalVotes = votes.length;
+    const pollUrl = pollMessageUrl(
+        poll.guildId,
+        poll.channelId,
+        poll.messageId,
+    );
 
-    const description = options
-        .map((opt, i) => {
-            const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
-            const pct =
-                totalVotes > 0
-                    ? Math.round((optVotes.length / totalVotes) * 100)
-                    : 0;
-            const bar = "\u2588".repeat(Math.round(pct / 5));
-            let line = `**${i + 1}.** ${opt.label} - ${optVotes.length} vote${optVotes.length === 1 ? "" : "s"} (${pct}%)\n${bar}`;
-            if (!poll.anonymous && optVotes.length > 0) {
-                line += `\n${optVotes.map((v) => `<@${v.userId}>`).join(", ")}`;
-            }
-            return line;
-        })
-        .join("\n\n");
+    const lines = options.map((opt, i) => {
+        const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
+        const pct =
+            totalVotes > 0
+                ? Math.round((optVotes.length / totalVotes) * 100)
+                : 0;
+        const bar = "\u2588".repeat(Math.round(pct / 5));
+        let line = `**${i + 1}.** ${opt.label} - ${optVotes.length} vote${optVotes.length === 1 ? "" : "s"} (${pct}%)\n${bar}`;
+        if (!poll.anonymous) {
+            line += formatVoterList(votes, opt.id);
+        }
+        return line;
+    });
+
+    const description = `[Original poll](${pollUrl})\n\n${lines.join("\n\n")}`;
 
     return new EmbedBuilder()
         .setTitle(`Results: ${poll.question}`)
@@ -92,7 +128,6 @@ export async function closePoll(client: Client, pollId: number) {
 
     await db.update(polls).set({ closed: true }).where(eq(polls.id, poll.id));
 
-    // Cancel any existing timer
     const timer = pollTimers.get(pollId);
     if (timer) {
         clearTimeout(timer);
@@ -161,7 +196,7 @@ export async function recoverPollTimers(client: Client) {
 
 export async function handlePollVote(interaction: StringSelectMenuInteraction) {
     const pollIdStr = interaction.customId.split(":")[2];
-    if (!pollIdStr || interaction.values.length === 0) return;
+    if (!pollIdStr) return;
 
     const pollId = Number.parseInt(pollIdStr, 10);
 
@@ -208,14 +243,54 @@ export async function handlePollVote(interaction: StringSelectMenuInteraction) {
         }
     }
 
-    const selectedOptionIds = interaction.values.map((v) =>
-        Number.parseInt(v, 10),
-    );
-
     const allOptions = await db
         .select()
         .from(pollOptions)
         .where(eq(pollOptions.pollId, pollId));
+
+    // Remove all existing votes by this user on this poll
+    await db.delete(pollVotes).where(
+        and(
+            inArray(
+                pollVotes.pollOptionId,
+                allOptions.map((o) => o.id),
+            ),
+            eq(pollVotes.userId, interaction.user.id),
+        ),
+    );
+
+    // Handle unvote (empty selection)
+    if (interaction.values.length === 0) {
+        if (!poll.anonymous) {
+            const allVotes = await db
+                .select()
+                .from(pollVotes)
+                .where(
+                    inArray(
+                        pollVotes.pollOptionId,
+                        allOptions.map((o) => o.id),
+                    ),
+                );
+            const embed = buildPollEmbed(
+                poll.question,
+                allOptions,
+                allVotes,
+                poll.anonymous,
+                poll.createdBy,
+            );
+            await interaction.update({ embeds: [embed] });
+        } else {
+            await interaction.reply({
+                content: "Vote cleared.",
+                flags: MessageFlags.Ephemeral,
+            });
+        }
+        return;
+    }
+
+    const selectedOptionIds = interaction.values.map((v) =>
+        Number.parseInt(v, 10),
+    );
 
     const validOptions = allOptions.filter((o) =>
         selectedOptionIds.includes(o.id),
@@ -228,17 +303,6 @@ export async function handlePollVote(interaction: StringSelectMenuInteraction) {
         });
         return;
     }
-
-    // Remove all existing votes by this user on this poll
-    await db.delete(pollVotes).where(
-        and(
-            inArray(
-                pollVotes.pollOptionId,
-                allOptions.map((o) => o.id),
-            ),
-            eq(pollVotes.userId, interaction.user.id),
-        ),
-    );
 
     // Insert new votes
     await db.insert(pollVotes).values(

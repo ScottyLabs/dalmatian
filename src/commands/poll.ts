@@ -6,7 +6,7 @@ import {
     SlashCommandBuilder,
     StringSelectMenuBuilder,
 } from "discord.js";
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { db, pollConfig, pollOptions, polls, pollVotes } from "../db/index.ts";
 import type { SlashCommand } from "../types.d.ts";
@@ -81,7 +81,7 @@ const builder = new SlashCommandBuilder()
             opt
                 .setName("duration")
                 .setDescription(
-                    "Poll duration, e.g. 30m, 1h, 5d, 2w (default: 5d)",
+                    "Poll duration, e.g. 30m, 1h, 5d, 2w (no expiry if omitted)",
                 )
                 .setRequired(false),
         );
@@ -124,6 +124,17 @@ const builder = new SlashCommandBuilder()
     )
     .addSubcommand((sub) =>
         sub
+            .setName("myvote")
+            .setDescription("See your vote on a poll")
+            .addStringOption((opt) =>
+                opt
+                    .setName("message_id")
+                    .setDescription("The message ID of the poll")
+                    .setRequired(true),
+            ),
+    )
+    .addSubcommand((sub) =>
+        sub
             .setName("close")
             .setDescription("Close a poll (admin or poll author)")
             .addStringOption((opt) =>
@@ -156,6 +167,8 @@ const command: SlashCommand = {
             await handleCreate(interaction);
         } else if (subcommand === "results") {
             await handleResults(interaction);
+        } else if (subcommand === "myvote") {
+            await handleMyVote(interaction);
         } else if (subcommand === "close") {
             await handleClose(interaction);
         } else if (subcommand === "delete") {
@@ -233,7 +246,7 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
     const anonymous = interaction.options.getBoolean("anonymous") ?? false;
     const roleWhitelist = interaction.options.getRole("role_whitelist");
     const roleBlacklist = interaction.options.getRole("role_blacklist");
-    const durationStr = interaction.options.getString("duration") ?? "5d";
+    const durationStr = interaction.options.getString("duration");
 
     if (roleWhitelist && roleBlacklist) {
         await interaction.reply({
@@ -243,14 +256,18 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const durationMs = parseDuration(durationStr);
-    if (!durationMs) {
-        await interaction.reply({
-            content:
-                "Invalid duration format. Use a number followed by m, h, d, or w.",
-            flags: MessageFlags.Ephemeral,
-        });
-        return;
+    let expiresAt: Date | null = null;
+    if (durationStr) {
+        const durationMs = parseDuration(durationStr);
+        if (!durationMs) {
+            await interaction.reply({
+                content:
+                    "Invalid duration format. Use a number followed by m, h, d, or w.",
+                flags: MessageFlags.Ephemeral,
+            });
+            return;
+        }
+        expiresAt = new Date(Date.now() + durationMs);
     }
 
     const options: string[] = [];
@@ -267,8 +284,6 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         });
         return;
     }
-
-    const expiresAt = new Date(Date.now() + durationMs);
 
     const [poll] = await db
         .insert(polls)
@@ -306,6 +321,7 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         .setPlaceholder(
             multiSelect ? "Vote for one or more options" : "Vote for an option",
         )
+        .setMinValues(0)
         .setMaxValues(multiSelect ? insertedOptions.length : 1)
         .addOptions(
             insertedOptions.map((opt) => ({
@@ -328,7 +344,12 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         .set({ messageId: message.id })
         .where(eq(polls.id, poll.id));
 
-    schedulePollExpiry(interaction.client, { id: poll.id, expiresAt });
+    if (expiresAt) {
+        schedulePollExpiry(interaction.client, {
+            id: poll.id,
+            expiresAt,
+        });
+    }
 
     await interaction.reply({
         content: `Poll created in <#${config.channelId}>!`,
@@ -370,6 +391,60 @@ async function handleResults(interaction: ChatInputCommandInteraction) {
 
     const embed = buildResultsEmbed(poll, options, votes);
     await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+}
+
+async function handleMyVote(interaction: ChatInputCommandInteraction) {
+    const messageId = interaction.options.getString("message_id", true);
+
+    const [poll] = await db
+        .select()
+        .from(polls)
+        .where(eq(polls.messageId, messageId))
+        .limit(1);
+
+    if (!poll) {
+        await interaction.reply({
+            content: "No poll found with that message ID.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
+    const options = await db
+        .select()
+        .from(pollOptions)
+        .where(eq(pollOptions.pollId, poll.id));
+
+    const myVotes = await db
+        .select()
+        .from(pollVotes)
+        .where(
+            and(
+                inArray(
+                    pollVotes.pollOptionId,
+                    options.map((o) => o.id),
+                ),
+                eq(pollVotes.userId, interaction.user.id),
+            ),
+        );
+
+    if (myVotes.length === 0) {
+        await interaction.reply({
+            content: "You haven't voted on this poll.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
+    const votedOptions = options.filter((o) =>
+        myVotes.some((v) => v.pollOptionId === o.id),
+    );
+    const labels = votedOptions.map((o) => `**${o.label}**`).join(", ");
+
+    await interaction.reply({
+        content: `Your vote: ${labels}`,
+        flags: MessageFlags.Ephemeral,
+    });
 }
 
 async function handleClose(interaction: ChatInputCommandInteraction) {
