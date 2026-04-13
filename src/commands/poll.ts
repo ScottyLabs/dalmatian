@@ -25,13 +25,17 @@ const DURATION_MULTIPLIERS: Record<string, number> = {
     w: 7 * 24 * 60 * 60 * 1000,
 };
 
+const MAX_DURATION_MS = 365 * 24 * 60 * 60 * 1000; // 1 year
+
 function parseDuration(input: string): number | null {
     const match = input.match(/^(\d+)([mhdw])$/);
     if (!match?.[1] || !match[2]) return null;
     const value = Number.parseInt(match[1], 10);
     const multiplier = DURATION_MULTIPLIERS[match[2]];
     if (!multiplier) return null;
-    return value * multiplier;
+    const ms = value * multiplier;
+    if (ms > MAX_DURATION_MS) return null;
+    return ms;
 }
 
 const pollSetupSchema = z.object({
@@ -242,6 +246,14 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
     }
 
     const question = interaction.options.getString("question", true);
+    if (question.length > 256) {
+        await interaction.reply({
+            content: "Question must be 256 characters or fewer.",
+            flags: MessageFlags.Ephemeral,
+        });
+        return;
+    }
+
     const multiSelect = interaction.options.getBoolean("multi_select") ?? false;
     const anonymous = interaction.options.getBoolean("anonymous") ?? false;
     const roleWhitelist = interaction.options.getRole("role_whitelist");
@@ -262,7 +274,7 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         if (!durationMs) {
             await interaction.reply({
                 content:
-                    "Invalid duration format. Use a number followed by m, h, d, or w.",
+                    "Invalid duration. Use a number followed by m, h, d, or w (max 1 year).",
                 flags: MessageFlags.Ephemeral,
             });
             return;

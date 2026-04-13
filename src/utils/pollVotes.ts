@@ -11,6 +11,12 @@ import { db, pollOptions, polls, pollVotes } from "../db/index.ts";
 const pollTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
 const MAX_DISPLAYED_VOTERS = 10;
+const MAX_DESCRIPTION_LENGTH = 4096;
+
+function truncateDescription(description: string) {
+    if (description.length <= MAX_DESCRIPTION_LENGTH) return description;
+    return `${description.slice(0, MAX_DESCRIPTION_LENGTH - 4)}...\n`;
+}
 
 function formatVoterList(
     votes: { pollOptionId: number; userId: string }[],
@@ -40,11 +46,11 @@ export function buildPollEmbed(
     anonymous: boolean,
     createdBy: string,
 ) {
-    const lines = options.map((opt, i) => {
+    const lines = options.map((opt) => {
         const optVoteCount = votes.filter(
             (v) => v.pollOptionId === opt.id,
         ).length;
-        let line = `**${i + 1}.** ${opt.label}`;
+        let line = `**${opt.label}**`;
         if (optVoteCount > 0) {
             line += ` (${optVoteCount})`;
         }
@@ -54,7 +60,9 @@ export function buildPollEmbed(
         return line;
     });
 
-    const description = `Poll by <@${createdBy}>\n\n${lines.join("\n")}`;
+    const description = truncateDescription(
+        `Poll by <@${createdBy}>\n\n${lines.join("\n")}`,
+    );
 
     return new EmbedBuilder()
         .setTitle(question)
@@ -80,21 +88,23 @@ export function buildResultsEmbed(
         poll.messageId,
     );
 
-    const lines = options.map((opt, i) => {
+    const lines = options.map((opt) => {
         const optVotes = votes.filter((v) => v.pollOptionId === opt.id);
         const pct =
             totalVotes > 0
                 ? Math.round((optVotes.length / totalVotes) * 100)
                 : 0;
         const bar = "\u2588".repeat(Math.round(pct / 5));
-        let line = `**${i + 1}.** ${opt.label} - ${optVotes.length} vote${optVotes.length === 1 ? "" : "s"} (${pct}%)\n${bar}`;
+        let line = `**${opt.label}** - ${optVotes.length} vote${optVotes.length === 1 ? "" : "s"} (${pct}%)\n${bar}`;
         if (!poll.anonymous) {
             line += formatVoterList(votes, opt.id);
         }
         return line;
     });
 
-    const description = `[Original poll](${pollUrl})\n\n${lines.join("\n\n")}`;
+    const description = truncateDescription(
+        `[Original poll](${pollUrl})\n\n${lines.join("\n\n")}`,
+    );
 
     return new EmbedBuilder()
         .setTitle(`Results: ${poll.question}`)
