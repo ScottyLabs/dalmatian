@@ -13,7 +13,7 @@ export class EmbedPaginator {
     current = 0;
 
     constructor(pages: EmbedBuilder[], verbose = false) {
-        if (pages.length == 0) {
+        if (pages.length === 0) {
             throw new Error("No embed pages provided");
         }
         if (verbose) {
@@ -37,8 +37,8 @@ export class EmbedPaginator {
     }
 
     private buildButtons(disableAll = false): ActionRowBuilder<ButtonBuilder> {
-        const atStart = this.current == 0;
-        const atEnd = this.current == this.pages.length - 1;
+        const atStart = this.current === 0;
+        const atEnd = this.current === this.pages.length - 1;
 
         return new ActionRowBuilder<ButtonBuilder>().addComponents(
             new ButtonBuilder()
@@ -70,7 +70,7 @@ export class EmbedPaginator {
     }
 
     public async send(interaction: CommandInteraction) {
-        if (this.pages.length == 1) {
+        if (this.pages.length === 1) {
             await interaction.reply({
                 embeds: this.pages[0]!,
             });
@@ -98,15 +98,15 @@ export class EmbedPaginator {
                 return;
             }
 
-            if (btnInteraction.customId == "next") {
+            if (btnInteraction.customId === "next") {
                 this.current++;
                 this.current %= this.pages.length;
-            } else if (btnInteraction.customId == "prev") {
+            } else if (btnInteraction.customId === "prev") {
                 this.current--;
                 this.current %= this.pages.length;
-            } else if (btnInteraction.customId == "first") {
+            } else if (btnInteraction.customId === "first") {
                 this.current = 0;
-            } else if (btnInteraction.customId == "last") {
+            } else if (btnInteraction.customId === "last") {
                 this.current = this.pages.length - 1;
             }
 

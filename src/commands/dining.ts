@@ -234,7 +234,7 @@ function formatLocations(
         ];
     }
 
-    if (locations.length == 1) {
+    if (locations.length === 1) {
         return [formatLocationEmbed(locations[0]!)];
     }
 
@@ -328,27 +328,27 @@ const command: SlashCommand = {
         const locations = await getLocations();
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand === "all" || subcommand == "all-verbose") {
+        if (subcommand === "all" || subcommand === "all-verbose") {
             const embeds = formatLocations(
                 locations.sort((a, b) => a.name.localeCompare(b.name)),
-                subcommand == "all-verbose",
+                subcommand === "all-verbose",
             );
-            return new EmbedPaginator(embeds, subcommand == "all-verbose").send(
+            return new EmbedPaginator(embeds, subcommand === "all-verbose").send(
                 interaction,
             );
         }
 
-        if (subcommand === "open" || subcommand == "open-verbose") {
+        if (subcommand === "open" || subcommand === "open-verbose") {
             const openLocations = locations.filter((loc) =>
                 isOpen(loc, Date.now()),
             );
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
-                subcommand == "open-verbose",
+                subcommand === "open-verbose",
             );
             return new EmbedPaginator(
                 embeds,
-                subcommand == "open-verbose",
+                subcommand === "open-verbose",
             ).send(interaction);
         }
 
