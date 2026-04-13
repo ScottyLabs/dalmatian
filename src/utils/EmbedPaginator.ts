@@ -10,13 +10,30 @@ import {
 } from "discord.js";
 
 export class EmbedPaginator {
+    /** An array of pages, where each page is an array of embeds. */
     private pages: EmbedBuilder[][] = [];
-    private current;
-    private verbose;
+    /** Zero-based index of the currently displayed page. */
+    private current: number;
+    /** Whether the paginator should group up to 10 embeds per page. */
+    private verbose: boolean;
+    /** Extra component rows to include alongside page buttons. */
     private components: ActionRowBuilder<MessageActionRowComponentBuilder>[];
-    private onCollect;
-    private onEnd;
+    /** Called when there is a message interaction. */
+    private onCollect: (
+        interaction: MessageComponentInteraction,
+    ) => Promise<void>;
+    /** Called when the interaction collector times out. */
+    private onEnd: () => Promise<void>;
 
+    /**
+     * Creates a paginator for one or more embeds.
+     *
+     * @param options.pages Embeds to paginate through.
+     * @param options.components Extra component rows to include alongside page buttons.
+     * @param options.verbose Whether the paginator should group up to 10 embeds per page.
+     * @param options.onCollect Called when there is a message interaction.
+     * @param options.onEnd Called when the interaction collector times out.
+     */
     constructor({
         pages,
         components = [],
@@ -44,6 +61,7 @@ export class EmbedPaginator {
             throw new Error("No embed pages provided");
         }
         if (this.verbose) {
+            // group up to 10 embeds per page
             const verbosePages = [];
             let chunk: EmbedBuilder[] = [];
             for (const page of pages) {
@@ -59,6 +77,7 @@ export class EmbedPaginator {
             verbosePages.push(chunk);
             this.pages = verbosePages;
         } else {
+            // use only 1 embed per page
             this.pages = pages.map((page) => [page]);
         }
     }
