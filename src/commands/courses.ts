@@ -349,7 +349,7 @@ const command: SlashCommand = {
             let chunk = [];
             while (unlockCourses.length > 0) {
                 chunk.push(unlockCourses.shift());
-                if (chunk.length >= 20 || unlockCourses.length == 0) {
+                if (chunk.length >= 20 || unlockCourses.length === 0) {
                     const description = chunk
                         .map((course) =>
                             hyperlink(
@@ -570,7 +570,7 @@ const command: SlashCommand = {
                             `Response Rate: ${bold(`${(stats.responseRate / stats.count).toFixed(1)}%`)}`,
                     );
                     i++;
-                    if (chunk.length >= 5 || i == instructorMap.size) {
+                    if (chunk.length >= 5 || i === instructorMap.size) {
                         const description = chunk.join("\n\n");
                         const embed = new EmbedBuilder()
                             .setTitle(
@@ -597,7 +597,7 @@ const command: SlashCommand = {
                         left = underline(left);
                         right = underline(right);
                     }
-                    if (workload.toFixed(1).length == 3) {
+                    if (workload.toFixed(1).length === 3) {
                         return left + " — " + right; // em dash
                     }
                     return left + " - " + right;
@@ -630,7 +630,7 @@ const command: SlashCommand = {
                 const fywMinis = validCourses.filter(({ code }) =>
                     FYW_MINIS.includes(code),
                 );
-                if (fywMinis.length == 2) {
+                if (fywMinis.length === 2) {
                     const miniWorkload =
                         fywMinis[0]!.fce.hrsPerWeek +
                         fywMinis[1]!.fce.hrsPerWeek;
@@ -640,7 +640,7 @@ const command: SlashCommand = {
                 }
 
                 description += formatLine(totalHours, bold("Total FCE"), true);
-                if (fywMinis.length == 2) {
+                if (fywMinis.length === 2) {
                     description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
                 }
                 if (notFound.length > 0) {
@@ -728,9 +728,9 @@ const command: SlashCommand = {
                 for (const rec of fceRec) {
                     // Rec.year and Syllabus.year will both be 2 digits
                     if (
-                        rec.semester == convertSem[syllabus.season] &&
-                        rec.year == syllabus.year + 2000 &&
-                        rec.section == syllabus.section
+                        rec.semester === convertSem[syllabus.season] &&
+                        rec.year === syllabus.year + 2000 &&
+                        rec.section === syllabus.section
                     ) {
                         fceEntry = rec;
                     }
