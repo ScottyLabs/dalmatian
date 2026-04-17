@@ -179,7 +179,7 @@ export class EmbedPaginator {
                 row.components.forEach((c) => c.setDisabled(true));
             });
 
-            await interaction.editReply({ components });
+            await response.resource?.message?.edit({ components });
         });
     }
 }
