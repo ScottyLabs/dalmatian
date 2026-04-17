@@ -5,9 +5,9 @@ import {
     EmbedBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import type { SlashCommand } from "../types.js";
 import ms from "ms";
 import { DEFAULT_EMBED_COLOR } from "../constants.ts";
+import type { SlashCommand } from "../types.js";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
