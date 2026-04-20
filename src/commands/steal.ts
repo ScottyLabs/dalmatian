@@ -148,43 +148,43 @@ const command: SlashCommand = {
             }
         }
 
-        let sound: { sound_id: string; name: string } | undefined;
-        try {
-            const sounds = (await guild.client.rest.get(
-                `/guilds/${guild.id}/soundboard-sounds`,
-            )) as { items: Array<{ sound_id: string; name: string }> };
-            const defaultSounds = (await guild.client.rest.get(
-                `/soundboard-default-sounds`,
-            )) as Array<{ sound_id: string; name: string }>;
-            const allSounds = [
-                ...(sounds.items ?? []),
-                ...(defaultSounds ?? []),
-            ];
-            sound = allSounds.find((s) => s.sound_id === id);
-        } catch (err) {
-            console.warn("soundboard lookup failed skipping…", err);
-        }
+        const soundCdnUrl = `https://cdn.discordapp.com/soundboard-sounds/${id}`;
+        const soundRes = await fetch(soundCdnUrl);
+        if (soundRes.ok) {
+            const buffer = Buffer.from(await soundRes.arrayBuffer());
+            const contentType =
+                soundRes.headers.get("content-type") ?? undefined;
 
-        if (sound) {
+            let originalName: string | undefined;
             try {
-                await guild.client.rest.post(
-                    `/guilds/${guild.id}/soundboard-sounds`,
-                    {
-                        body: {
-                            sound_id: sound.sound_id,
-                            name: providedName ?? sound.name,
-                        },
-                    },
+                const defaultSounds = (await guild.client.rest.get(
+                    `/soundboard-default-sounds`,
+                )) as Array<{ sound_id: string; name: string }>;
+                originalName = defaultSounds?.find(
+                    (s) => s.sound_id === id,
+                )?.name;
+            } catch (err) {
+                console.warn("Default soundboard lookup failed ", err);
+            }
+
+            try {
+                const finalName = sanitizeName(
+                    providedName ?? originalName ?? "stolen sound",
                 );
+                const added = await guild.soundboardSounds.create({
+                    file: buffer,
+                    name: finalName,
+                    contentType,
+                });
                 const embed = new EmbedBuilder()
-                    .setTitle("Sound Added")
+                    .setTitle("Sound Added!")
                     .setDescription(
-                        `Added soundboard sound **${sound.name}** to this server.`,
+                        `Added soundboard sound **${added.name ?? finalName}** to this server`,
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `found the sound but caused ${err}…`,
+                    content: `Found the sound but failed to add it ${err}`,
                 });
             }
         }
