@@ -4,10 +4,15 @@ import {
     Client,
     Events,
     InteractionType,
+    type MessageContextMenuCommandInteraction,
     MessageFlags,
     type UserContextMenuCommandInteraction,
 } from "discord.js";
-import type { Event } from "../types.d.ts";
+import type {
+    Event,
+    MessageContextCommand,
+    UserContextCommand,
+} from "../types.d.ts";
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
@@ -53,7 +58,10 @@ const event: Event<Events.InteractionCreate> = {
                     console.error(error);
                 }
             }
-        } else if (interaction.isUserContextMenuCommand()) {
+        } else if (
+            interaction.isUserContextMenuCommand() ||
+            interaction.isMessageContextMenuCommand()
+        ) {
             const command = client.contextCommands.get(interaction.commandName);
             if (!command) {
                 console.error(
@@ -63,9 +71,15 @@ const event: Event<Events.InteractionCreate> = {
             }
 
             try {
-                await command.execute(
-                    interaction as UserContextMenuCommandInteraction,
-                );
+                if (interaction.isMessageContextMenuCommand()) {
+                    await (command as MessageContextCommand).execute(
+                        interaction as MessageContextMenuCommandInteraction,
+                    );
+                } else {
+                    await (command as UserContextCommand).execute(
+                        interaction as UserContextMenuCommandInteraction,
+                    );
+                }
             } catch (error) {
                 console.error(error);
                 if (interaction.deferred || interaction.replied) {
