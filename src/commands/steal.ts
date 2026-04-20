@@ -1,4 +1,10 @@
-import { EmbedBuilder, SlashCommandBuilder, StickerFormatType } from "discord.js";
+import {
+    DiscordAPIError,
+    EmbedBuilder,
+    RESTJSONErrorCodes,
+    SlashCommandBuilder,
+    StickerFormatType,
+} from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
 async function fetchEmojiUrl(
@@ -31,10 +37,7 @@ async function fetchStickerUrl(
     return null;
 }
 
-/**
- * Accepts a raw snowflake, or a full emoji string like `<:name:id>` or `<a:name:id>`.
- * Returns the extracted id and (if available) the original name.
- */
+
 function parseEmojiInput(
     input: string,
 ): { id: string; name?: string; animated?: boolean } {
@@ -59,13 +62,13 @@ const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("steal")
         .setDescription(
-            "Steals emotes, stickers, or soundboards from another server.",
+            "Steals emotes, stickers, or soundboards from another server",
         )
         .addStringOption((option) =>
             option
                 .setName("id")
                 .setDescription(
-                    "A message ID, emote (ID or `<:name:id>`), sticker ID, or sound effect ID.",
+                    "A message, emote, sticker, or sound effect ID",
                 )
                 .setRequired(true),
         )
@@ -73,7 +76,7 @@ const command: SlashCommand = {
             option
                 .setName("name")
                 .setDescription(
-                    "Optional name override. Defaults to the original name when available.",
+                    "set new emoji name",
                 )
                 .setRequired(false),
         ),
@@ -88,23 +91,21 @@ const command: SlashCommand = {
 
         if (!guild) {
             return interaction.reply({
-                content: "This command must be used in a server.",
+                content: "This command must be used in a server",
                 ephemeral: true,
             });
         }
 
         await interaction.deferReply();
 
-        // Accept raw IDs or full emoji strings like `<:name:id>`
         const parsed = parseEmojiInput(rawInput);
         const id = parsed.id;
 
-        // --- Attempt 1: Treat as an emoji ID (works cross-server via CDN) ---
         const emojiData = await fetchEmojiUrl(id);
         if (emojiData) {
             try {
                 const finalName = sanitizeName(
-                    providedName ?? parsed.name ?? "stolen_emoji",
+                    providedName ?? parsed.name ?? "stolen emoji",
                 );
                 const added = await guild.emojis.create({
                     attachment: emojiData.url,
@@ -112,7 +113,7 @@ const command: SlashCommand = {
                 });
                 const embed = new EmbedBuilder()
                     .setTitle(
-                        `${emojiData.animated ? "Animated " : ""}Emoji Added!`,
+                        `${emojiData.animated ? "Animated " : ""}Emoji Added`,
                     )
                     .setDescription(
                         `Added ${added} (\`${added.name}\`) to the server.`,
@@ -120,35 +121,34 @@ const command: SlashCommand = {
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the emoji but failed to add it: ${err}`,
+                    content: `Found the emoji but caused ${err}`,
                 });
             }
         }
 
-        // --- Attempt 2: Treat as a sticker ID (works cross-server via CDN) ---
         const stickerData = await fetchStickerUrl(id);
         if (stickerData) {
             try {
-                const finalName = sanitizeName(providedName ?? "stolen_sticker");
+                const finalName = sanitizeName(providedName ?? "stolen sticker");
                 const added = await guild.stickers.create({
                     file: stickerData.url,
                     name: finalName,
                     tags: "grinning",
                 });
                 const embed = new EmbedBuilder()
-                    .setTitle("Sticker Added!")
+                    .setTitle("Sticker Added")
                     .setDescription(
-                        `Added sticker **${added.name}** to the server.`,
+                        `Added sticker **${added.name}** to the server`,
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the sticker but failed to add it: ${err}`,
+                    content: `Found the sticker but caused ${err}…`,
                 });
             }
         }
 
-        // --- Attempt 3: Treat as a sound effect ID ---
+        let sound: { sound_id: string; name: string } | undefined;
         try {
             const sounds = (await guild.client.rest.get(
                 `/guilds/${guild.id}/soundboard-sounds`,
@@ -160,9 +160,13 @@ const command: SlashCommand = {
                 ...(sounds.items ?? []),
                 ...(defaultSounds ?? []),
             ];
-            const sound = allSounds.find((s) => s.sound_id === id);
+            sound = allSounds.find((s) => s.sound_id === id);
+        } catch (err) {
+            console.warn("soundboard lookup failed skipping…", err);
+        }
 
-            if (sound) {
+        if (sound) {
+            try {
                 await guild.client.rest.post(
                     `/guilds/${guild.id}/soundboard-sounds`,
                     {
@@ -173,33 +177,42 @@ const command: SlashCommand = {
                     },
                 );
                 const embed = new EmbedBuilder()
-                    .setTitle("Sound Added!")
+                    .setTitle("Sound Added")
                     .setDescription(
                         `Added soundboard sound **${sound.name}** to this server.`,
                     );
                 return interaction.editReply({ embeds: [embed] });
+            } catch (err) {
+                return interaction.editReply({
+                    content: `found the sound but caused ${err}…`,
+                });
             }
-        } catch {
-            // Not a sound ID, continue
         }
 
-        // --- Attempt 4: Treat as a message ID — scan visible channels ---
         const channels = guild.channels.cache.filter((c) => c.isTextBased());
 
         for (const [, channel] of channels) {
             if (!channel.isTextBased()) continue;
+            let message;
             try {
-                const message = await channel.messages.fetch(id);
+                message = await channel.messages.fetch(id);
+            } catch (err) {
+                if (
+                    err instanceof DiscordAPIError &&
+                    err.code === RESTJSONErrorCodes.UnknownMessage
+                ) {
+                    continue;
+                }
+                console.warn(
+                    `unexpected error fetching message ${id} in #${channel.name}:`,
+                    err,
+                );
+                continue;
+            }
 
-                // Stickers attached to the message take precedence
+            try {
                 const sticker = message.stickers.first();
                 if (sticker) {
-                    if (sticker.format === StickerFormatType.Lottie) {
-                        return interaction.editReply({
-                            content:
-                                "That message has a Lottie sticker, which can't be re-uploaded.",
-                        });
-                    }
                     const ext =
                         sticker.format === StickerFormatType.GIF ? "gif" : "png";
                     const url = `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}?size=320`;
@@ -209,12 +222,12 @@ const command: SlashCommand = {
                     const added = await guild.stickers.create({
                         file: url,
                         name: finalName,
-                        tags: sticker.tags ?? "grinning",
+                        tags: sticker.tags ?? "",
                     });
                     const embed = new EmbedBuilder()
-                        .setTitle("Sticker Added!")
+                        .setTitle("Sticker Added")
                         .setDescription(
-                            `Stole sticker **${added.name}** from message.`,
+                            `Stole sticker **${added.name}** from message`,
                         );
                     return interaction.editReply({ embeds: [embed] });
                 }
@@ -225,7 +238,7 @@ const command: SlashCommand = {
                     const ext = animated ? "gif" : "png";
                     const url = `https://cdn.discordapp.com/emojis/${emojiId}.${ext}?size=128`;
                     const finalName = sanitizeName(
-                        providedName ?? emojiName ?? "stolen_emoji",
+                        providedName ?? emojiName ?? "stolen emoji",
                     );
 
                     const added = await guild.emojis.create({
@@ -233,21 +246,23 @@ const command: SlashCommand = {
                         name: finalName,
                     });
                     const embed = new EmbedBuilder()
-                        .setTitle("Emoji Added!")
+                        .setTitle("Emoji Added")
                         .setDescription(
-                            `Stole ${added} (\`${added.name}\`) from message.`,
+                            `Stole ${added} (\`${added.name}\`) from message`,
                         );
                     return interaction.editReply({ embeds: [embed] });
                 }
                 break;
-            } catch {
-                // Message not in this channel, try next
+            } catch (err) {
+                return interaction.editReply({
+                    content: `Found the message but caused ${err}…`,
+                });
             }
         }
 
         return interaction.editReply({
             content:
-                "Could not find a valid emoji, sticker, sound, or message with that ID.",
+                "Could not find a valid item ID",
         });
     },
 };

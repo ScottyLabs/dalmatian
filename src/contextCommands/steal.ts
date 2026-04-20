@@ -33,7 +33,6 @@ const command: MessageContextCommand = {
 
         const message = interaction.targetMessage;
 
-        // Dedupe emotes by ID so the same one isn't added twice if repeated in the message
         const emojiRegex = /<(a?):(\w+):(\d+)>/g;
         const emoteMatches = new Map<
             string,
