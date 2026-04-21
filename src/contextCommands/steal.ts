@@ -68,7 +68,7 @@ const command: MessageContextCommand = {
                     attachment: url,
                     name: sanitizeName(info.name),
                 });
-                added.push(`${emoji} \`${emoji.name}\``);
+                added.push(`${emoji.toString()} \`${emoji.name}\``);
             } catch (err) {
                 const reason = err instanceof Error ? err.message : String(err);
                 failed.push(`\`${info.name}\` — ${reason}`);

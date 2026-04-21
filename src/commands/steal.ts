@@ -59,6 +59,10 @@ function sanitizeName(name: string): string {
     return name.trim().replace(/\s+/g, "_");
 }
 
+function formatError(err: unknown): string {
+    return err instanceof Error ? err.message : String(err);
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("steal")
@@ -113,12 +117,12 @@ const command: SlashCommand = {
                         `${emojiData.animated ? "Animated " : ""}Emoji Added`,
                     )
                     .setDescription(
-                        `Added ${added} (\`${added.name}\`) to the server`,
+                        `Added ${added.toString()} (\`${added.name}\`) to the server`,
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the emoji but caused ${err}`,
+                    content: `Found the emoji but caused ${formatError(err)}`,
                 });
             }
         }
@@ -142,7 +146,7 @@ const command: SlashCommand = {
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the sticker but caused ${err}...`,
+                    content: `Found the sticker but caused ${formatError(err)}...`,
                 });
             }
         }
@@ -183,7 +187,7 @@ const command: SlashCommand = {
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the sound but failed to add it ${err}`,
+                    content: `Found the sound but failed to add it ${formatError(err)}`,
                 });
             }
         }
@@ -249,14 +253,14 @@ const command: SlashCommand = {
                     const embed = new EmbedBuilder()
                         .setTitle("Emoji Added")
                         .setDescription(
-                            `Stole ${added} (\`${added.name}\`) from message`,
+                            `Stole ${added.toString()} (\`${added.name}\`) from message`,
                         );
                     return interaction.editReply({ embeds: [embed] });
                 }
                 break;
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the message but caused ${err}`,
+                    content: `Found the message but caused ${formatError(err)}`,
                 });
             }
         }
