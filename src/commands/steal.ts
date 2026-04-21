@@ -37,10 +37,11 @@ async function fetchStickerUrl(
     return null;
 }
 
-
-function parseEmojiInput(
-    input: string,
-): { id: string; name?: string; animated?: boolean } {
+function parseEmojiInput(input: string): {
+    id: string;
+    name?: string;
+    animated?: boolean;
+} {
     const match = input.match(/^<(a?):(\w+):(\d+)>$/);
     if (match) {
         const [, animated, name, id] = match as unknown as [
@@ -67,17 +68,13 @@ const command: SlashCommand = {
         .addStringOption((option) =>
             option
                 .setName("id")
-                .setDescription(
-                    "A message, emote, sticker, or sound effect ID",
-                )
+                .setDescription("A message, emote, sticker, or sound effect ID")
                 .setRequired(true),
         )
         .addStringOption((option) =>
             option
                 .setName("name")
-                .setDescription(
-                    "set new emoji name",
-                )
+                .setDescription("set new emoji name")
                 .setRequired(false),
         ),
 
@@ -116,7 +113,7 @@ const command: SlashCommand = {
                         `${emojiData.animated ? "Animated " : ""}Emoji Added`,
                     )
                     .setDescription(
-                        `Added ${added} (\`${added.name}\`) to the server.`,
+                        `Added ${added} (\`${added.name}\`) to the server`,
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
@@ -129,7 +126,9 @@ const command: SlashCommand = {
         const stickerData = await fetchStickerUrl(id);
         if (stickerData) {
             try {
-                const finalName = sanitizeName(providedName ?? "stolen sticker");
+                const finalName = sanitizeName(
+                    providedName ?? "stolen sticker",
+                );
                 const added = await guild.stickers.create({
                     file: stickerData.url,
                     name: finalName,
@@ -143,7 +142,7 @@ const command: SlashCommand = {
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the sticker but caused ${err}…`,
+                    content: `Found the sticker but caused ${err}...`,
                 });
             }
         }
@@ -214,7 +213,9 @@ const command: SlashCommand = {
                 const sticker = message.stickers.first();
                 if (sticker) {
                     const ext =
-                        sticker.format === StickerFormatType.GIF ? "gif" : "png";
+                        sticker.format === StickerFormatType.GIF
+                            ? "gif"
+                            : "png";
                     const url = `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}?size=320`;
                     const finalName = sanitizeName(
                         providedName ?? sticker.name,
@@ -255,14 +256,13 @@ const command: SlashCommand = {
                 break;
             } catch (err) {
                 return interaction.editReply({
-                    content: `Found the message but caused ${err}…`,
+                    content: `Found the message but caused ${err}`,
                 });
             }
         }
 
         return interaction.editReply({
-            content:
-                "Could not find a valid item ID",
+            content: "Could not find a valid item ID",
         });
     },
 };

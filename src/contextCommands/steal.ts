@@ -26,7 +26,7 @@ const command: MessageContextCommand = {
         const guild = interaction.guild;
         if (!guild) {
             await interaction.editReply({
-                content: "This command can only be used in a server.",
+                content: "This command can only be used in a server",
             });
             return;
         }
@@ -52,7 +52,7 @@ const command: MessageContextCommand = {
 
         if (emoteMatches.size === 0 && message.stickers.size === 0) {
             await interaction.editReply({
-                content: "No custom emotes or stickers found in this message.",
+                content: "No custom emotes or stickers found in this message",
             });
             return;
         }
@@ -108,7 +108,7 @@ const command: MessageContextCommand = {
 
         const embed = new EmbedBuilder()
             .setTitle("Steal Emotes")
-            .setDescription(sections.join("\n\n") || "Nothing happened.");
+            .setDescription(sections.join("\n\n") || "Nothing happened");
 
         await interaction.editReply({ embeds: [embed] });
     },
