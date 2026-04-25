@@ -145,13 +145,26 @@ const command: MessageContextCommand = {
         }
 
         for (const sticker of message.stickers.values()) {
-            const ext =
-                sticker.format === StickerFormatType.GIF ? "gif" : "png";
-            try {
-                const stickerRes = await fetch(
-                    `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}`,
+            if (sticker.format === StickerFormatType.Lottie) {
+                failed.push(
+                    `sticker \`${sticker.name}\` — Lottie stickers can't be re-uploaded`,
                 );
-                if (!stickerRes.ok) throw new Error("Could not fetch sticker");
+                continue;
+            }
+            try {
+                let stickerRes: Response | null = null;
+                let ext: "gif" | "png" = "gif";
+                for (const tryExt of ["gif", "png"] as const) {
+                    const res = await fetch(
+                        `https://cdn.discordapp.com/stickers/${sticker.id}.${tryExt}?size=320`,
+                    );
+                    if (res.ok) {
+                        stickerRes = res;
+                        ext = tryExt;
+                        break;
+                    }
+                }
+                if (!stickerRes) throw new Error("Could not fetch sticker");
                 const created = await guild.stickers.create({
                     file: {
                         attachment: Buffer.from(await stickerRes.arrayBuffer()),

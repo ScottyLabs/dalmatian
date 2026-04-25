@@ -28,7 +28,7 @@ async function fetchStickerAttachment(
 ): Promise<{ attachment: { attachment: Buffer; name: string }; format: "png" | "gif" } | null> {
     for (const format of ["gif", "png"] as const) {
         const res = await fetch(
-            `https://cdn.discordapp.com/stickers/${stickerId}.${format}`,
+            `https://cdn.discordapp.com/stickers/${stickerId}.${format}?size=320`,
         );
         if (res.ok) {
             return {
@@ -207,19 +207,29 @@ const command: SlashCommand = {
             try {
                 const sticker = message.stickers.first();
                 if (sticker) {
-                    const ext =
-                        sticker.format === StickerFormatType.GIF
-                            ? "gif"
-                            : "png";
-                    const stickerRes = await fetch(
-                        `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}`,
-                    );
-                    if (!stickerRes.ok) throw new Error("Could not fetch sticker");
+                    if (sticker.format === StickerFormatType.Lottie) {
+                        return interaction.editReply({
+                            content: "Lottie stickers can't be re-uploaded",
+                        });
+                    }
+                    let stickerRes: Response | null = null;
+                    let stickerExt: "gif" | "png" = "gif";
+                    for (const tryExt of ["gif", "png"] as const) {
+                        const res = await fetch(
+                            `https://cdn.discordapp.com/stickers/${sticker.id}.${tryExt}?size=320`,
+                        );
+                        if (res.ok) {
+                            stickerRes = res;
+                            stickerExt = tryExt;
+                            break;
+                        }
+                    }
+                    if (!stickerRes) throw new Error("Could not fetch sticker");
                     const finalName = (providedName ?? sticker.name).trim();
                     const added = await guild.stickers.create({
                         file: {
                             attachment: Buffer.from(await stickerRes.arrayBuffer()),
-                            name: `sticker.${ext}`,
+                            name: `sticker.${stickerExt}`,
                         },
                         name: finalName,
                         tags: sticker.tags ?? finalName,
