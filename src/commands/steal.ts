@@ -23,18 +23,23 @@ async function fetchEmojiUrl(
     return null;
 }
 
-async function fetchStickerUrl(
+async function fetchStickerAttachment(
     stickerId: string,
-): Promise<{ url: string; format: "png" | "gif" } | null> {
-    const gifUrl = `https://cdn.discordapp.com/stickers/${stickerId}.gif?size=320`;
-    const pngUrl = `https://cdn.discordapp.com/stickers/${stickerId}.png?size=320`;
-
-    const gifRes = await fetch(gifUrl);
-    if (gifRes.ok) return { url: gifUrl, format: "gif" };
-
-    const pngRes = await fetch(pngUrl);
-    if (pngRes.ok) return { url: pngUrl, format: "png" };
-
+): Promise<{ attachment: { attachment: Buffer; name: string }; format: "png" | "gif" } | null> {
+    for (const format of ["gif", "png"] as const) {
+        const res = await fetch(
+            `https://cdn.discordapp.com/stickers/${stickerId}.${format}`,
+        );
+        if (res.ok) {
+            return {
+                attachment: {
+                    attachment: Buffer.from(await res.arrayBuffer()),
+                    name: `sticker.${format}`,
+                },
+                format,
+            };
+        }
+    }
     return null;
 }
 
@@ -117,12 +122,12 @@ const command: SlashCommand = {
             }
         }
 
-        const stickerData = await fetchStickerUrl(id);
+        const stickerData = await fetchStickerAttachment(id);
         if (stickerData) {
             try {
                 const finalName = (providedName ?? "stolen_sticker").trim();
                 const added = await guild.stickers.create({
-                    file: stickerData.url,
+                    file: stickerData.attachment,
                     name: finalName,
                     tags: finalName,
                 });
@@ -206,10 +211,16 @@ const command: SlashCommand = {
                         sticker.format === StickerFormatType.GIF
                             ? "gif"
                             : "png";
-                    const url = `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}?size=320`;
+                    const stickerRes = await fetch(
+                        `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}`,
+                    );
+                    if (!stickerRes.ok) throw new Error("Could not fetch sticker");
                     const finalName = (providedName ?? sticker.name).trim();
                     const added = await guild.stickers.create({
-                        file: url,
+                        file: {
+                            attachment: Buffer.from(await stickerRes.arrayBuffer()),
+                            name: `sticker.${ext}`,
+                        },
                         name: finalName,
                         tags: sticker.tags ?? finalName,
                     });

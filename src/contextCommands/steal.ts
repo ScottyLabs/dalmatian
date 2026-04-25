@@ -1,6 +1,6 @@
 import {
-    ActionRowBuilder,
     ApplicationCommandType,
+    ComponentType,
     ContextMenuCommandBuilder,
     EmbedBuilder,
     InteractionContextType,
@@ -9,7 +9,6 @@ import {
     ModalBuilder,
     parseEmoji,
     StickerFormatType,
-    TextInputBuilder,
     TextInputStyle,
 } from "discord.js";
 
@@ -62,23 +61,27 @@ const command: MessageContextCommand = {
             });
             return;
         }
-
-        // Image with no pre-named content — ask for a name via modal
         if (!hasNamedContent && imageAttachment) {
-            const modal = new ModalBuilder()
-                .setCustomId("steal_image_name")
-                .setTitle("Name this emoji")
-                .addComponents(
-                    new ActionRowBuilder<TextInputBuilder>().addComponents(
-                        new TextInputBuilder()
-                            .setCustomId("emoji_name")
-                            .setLabel("Emoji name (2–32 chars, no spaces)")
-                            .setStyle(TextInputStyle.Short)
-                            .setRequired(true)
-                            .setMinLength(2)
-                            .setMaxLength(32),
-                    ),
-                );
+            const modal = new ModalBuilder({
+                custom_id: "steal_image_name",
+                title: "Enter name for this emoji",
+                components: [
+                    {
+                        type: ComponentType.ActionRow,
+                        components: [
+                            {
+                                type: ComponentType.TextInput,
+                                custom_id: "emoji_name",
+                                label: "Emoji name (2-32 chars w/ no spaces)",
+                                style: TextInputStyle.Short,
+                                required: true,
+                                min_length: 2,
+                                max_length: 32,
+                            },
+                        ],
+                    },
+                ],
+            });
 
             await interaction.showModal(modal);
 
@@ -91,7 +94,6 @@ const command: MessageContextCommand = {
                     time: 60_000,
                 });
             } catch {
-                // User dismissed or timed out — nothing to do
                 return;
             }
 
@@ -122,7 +124,6 @@ const command: MessageContextCommand = {
             return;
         }
 
-        // Named content (emojis / stickers) — use existing names, no modal
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const added: string[] = [];
@@ -144,18 +145,18 @@ const command: MessageContextCommand = {
         }
 
         for (const sticker of message.stickers.values()) {
-            if (sticker.format === StickerFormatType.Lottie) {
-                failed.push(
-                    `sticker \`${sticker.name}\` — Lottie stickers can't be re-uploaded`,
-                );
-                continue;
-            }
             const ext =
                 sticker.format === StickerFormatType.GIF ? "gif" : "png";
-            const url = `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}?size=320`;
             try {
+                const stickerRes = await fetch(
+                    `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}`,
+                );
+                if (!stickerRes.ok) throw new Error("Could not fetch sticker");
                 const created = await guild.stickers.create({
-                    file: url,
+                    file: {
+                        attachment: Buffer.from(await stickerRes.arrayBuffer()),
+                        name: `sticker.${ext}`,
+                    },
                     name: sticker.name,
                     tags: sticker.tags ?? sticker.name,
                 });
