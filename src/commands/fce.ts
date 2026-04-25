@@ -155,15 +155,22 @@ const command: SlashCommand = {
                 );
             }
 
-            const summaryPage = EmbedBuilder.from(baseEmbed).setDescription(
-                createFCEEntry(
-                    "Aggregate Data",
-                    summary.semesterLabels,
-                    summary.teachingRate,
-                    summary.courseRate,
-                    summary.workload,
-                    summary.responseRate,
-                ),
+            const summaryPage = EmbedBuilder.from(baseEmbed).addFields(
+                {
+                    name: "Teaching",
+                    value: `${bold(summary.teachingRate.toFixed(2))}/5`,
+                    inline: true,
+                },
+                {
+                    name: "Course",
+                    value: `${bold(summary.courseRate.toFixed(2))}/5`,
+                    inline: true,
+                },
+                {
+                    name: "Workload",
+                    value: `${bold(summary.workload.toFixed(2))} hrs/wk`,
+                    inline: true,
+                },
             );
 
             const instructorMap = summaryByInstructorByCourseCode.get(code);
