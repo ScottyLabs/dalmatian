@@ -146,9 +146,12 @@ const command: MessageContextCommand = {
 
         for (const sticker of message.stickers.values()) {
             if (sticker.format === StickerFormatType.Lottie) {
-                failed.push(
-                    `sticker \`${sticker.name}\` — Lottie stickers can't be re-uploaded`,
-                );
+                failed.push(`Lottie stickers can't be re-uploaded`);
+                continue;
+            }
+            // TODO: support animated (APNG) sticker stealing
+            if (sticker.format === StickerFormatType.APNG) {
+                failed.push(`animated stickers aren't supported yet`);
                 continue;
             }
             try {
