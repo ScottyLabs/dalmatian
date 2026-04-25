@@ -1,18 +1,19 @@
 import {
+    ActionRowBuilder,
     ApplicationCommandType,
     ContextMenuCommandBuilder,
     EmbedBuilder,
     InteractionContextType,
     type MessageContextMenuCommandInteraction,
     MessageFlags,
+    ModalBuilder,
+    parseEmoji,
     StickerFormatType,
+    TextInputBuilder,
+    TextInputStyle,
 } from "discord.js";
 
 import type { MessageContextCommand } from "../types.d.ts";
-
-function sanitizeName(name: string): string {
-    return name.trim().replace(/\s+/g, "_");
-}
 
 const command: MessageContextCommand = {
     data: new ContextMenuCommandBuilder()
@@ -21,41 +22,108 @@ const command: MessageContextCommand = {
         .setContexts(InteractionContextType.Guild),
 
     async execute(interaction: MessageContextMenuCommandInteraction) {
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
         const guild = interaction.guild;
         if (!guild) {
-            await interaction.editReply({
+            await interaction.reply({
                 content: "This command can only be used in a server",
+                flags: MessageFlags.Ephemeral,
             });
             return;
         }
 
         const message = interaction.targetMessage;
 
-        const emojiRegex = /<(a?):(\w+):(\d+)>/g;
         const emoteMatches = new Map<
             string,
             { name: string; animated: boolean }
         >();
-        for (const match of message.content.matchAll(emojiRegex)) {
-            const [, animated, name, id] = match as unknown as [
-                string,
-                string,
-                string,
-                string,
-            ];
-            if (!emoteMatches.has(id)) {
-                emoteMatches.set(id, { name, animated: animated === "a" });
+        for (const raw of message.content.match(/<a?:\w+:\d+>/g) ?? []) {
+            const parsed = parseEmoji(raw);
+            if (parsed?.id && parsed.name && !emoteMatches.has(parsed.id)) {
+                emoteMatches.set(parsed.id, {
+                    name: parsed.name,
+                    animated: parsed.animated ?? false,
+                });
             }
         }
 
-        if (emoteMatches.size === 0 && message.stickers.size === 0) {
-            await interaction.editReply({
-                content: "No custom emotes or stickers found in this message",
+        const hasNamedContent =
+            emoteMatches.size > 0 || message.stickers.size > 0;
+
+        const imageAttachment = message.attachments.find((a) =>
+            a.contentType?.startsWith("image/"),
+        );
+
+        if (!hasNamedContent && !imageAttachment) {
+            await interaction.reply({
+                content:
+                    "No custom emotes, stickers, or images found in this message",
+                flags: MessageFlags.Ephemeral,
             });
             return;
         }
+
+        // Image with no pre-named content — ask for a name via modal
+        if (!hasNamedContent && imageAttachment) {
+            const modal = new ModalBuilder()
+                .setCustomId("steal_image_name")
+                .setTitle("Name this emoji")
+                .addComponents(
+                    new ActionRowBuilder<TextInputBuilder>().addComponents(
+                        new TextInputBuilder()
+                            .setCustomId("emoji_name")
+                            .setLabel("Emoji name (2–32 chars, no spaces)")
+                            .setStyle(TextInputStyle.Short)
+                            .setRequired(true)
+                            .setMinLength(2)
+                            .setMaxLength(32),
+                    ),
+                );
+
+            await interaction.showModal(modal);
+
+            let submitted;
+            try {
+                submitted = await interaction.awaitModalSubmit({
+                    filter: (i) =>
+                        i.customId === "steal_image_name" &&
+                        i.user.id === interaction.user.id,
+                    time: 60_000,
+                });
+            } catch {
+                // User dismissed or timed out — nothing to do
+                return;
+            }
+
+            await submitted.deferReply({ flags: MessageFlags.Ephemeral });
+
+            const name = submitted.fields
+                .getTextInputValue("emoji_name")
+                .trim()
+                .replace(/\s+/g, "_");
+
+            try {
+                const emoji = await guild.emojis.create({
+                    attachment: imageAttachment.url,
+                    name,
+                });
+                const embed = new EmbedBuilder()
+                    .setTitle("Emoji Added")
+                    .setDescription(
+                        `Added ${emoji.toString()} (\`${emoji.name}\`) to the server`,
+                    );
+                await submitted.editReply({ embeds: [embed] });
+            } catch (err) {
+                console.error("Failed to add emoji from image attachment", err);
+                await submitted.editReply({
+                    content: "Failed to add emoji",
+                });
+            }
+            return;
+        }
+
+        // Named content (emojis / stickers) — use existing names, no modal
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const added: string[] = [];
         const failed: string[] = [];
@@ -66,12 +134,12 @@ const command: MessageContextCommand = {
             try {
                 const emoji = await guild.emojis.create({
                     attachment: url,
-                    name: sanitizeName(info.name),
+                    name: info.name,
                 });
                 added.push(`${emoji.toString()} \`${emoji.name}\``);
             } catch (err) {
-                const reason = err instanceof Error ? err.message : String(err);
-                failed.push(`\`${info.name}\` — ${reason}`);
+                console.error(`Failed to add emoji ${info.name}`, err);
+                failed.push(`\`${info.name}\` — failed to add`);
             }
         }
 
@@ -88,13 +156,13 @@ const command: MessageContextCommand = {
             try {
                 const created = await guild.stickers.create({
                     file: url,
-                    name: sanitizeName(sticker.name),
-                    tags: sticker.tags ?? "grinning",
+                    name: sticker.name,
+                    tags: sticker.tags ?? sticker.name,
                 });
                 added.push(`sticker **${created.name}**`);
             } catch (err) {
-                const reason = err instanceof Error ? err.message : String(err);
-                failed.push(`sticker \`${sticker.name}\` — ${reason}`);
+                console.error(`Failed to add sticker ${sticker.name}`, err);
+                failed.push(`sticker \`${sticker.name}\` — failed to add`);
             }
         }
 

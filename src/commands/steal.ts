@@ -1,6 +1,7 @@
 import {
     DiscordAPIError,
     EmbedBuilder,
+    parseEmoji,
     RESTJSONErrorCodes,
     SlashCommandBuilder,
     StickerFormatType,
@@ -42,25 +43,15 @@ function parseEmojiInput(input: string): {
     name?: string;
     animated?: boolean;
 } {
-    const match = input.match(/^<(a?):(\w+):(\d+)>$/);
-    if (match) {
-        const [, animated, name, id] = match as unknown as [
-            string,
-            string,
-            string,
-            string,
-        ];
-        return { id, name, animated: animated === "a" };
+    const parsed = parseEmoji(input);
+    if (parsed?.id) {
+        return {
+            id: parsed.id,
+            name: parsed.name ?? undefined,
+            animated: parsed.animated ?? undefined,
+        };
     }
     return { id: input };
-}
-
-function sanitizeName(name: string): string {
-    return name.trim().replace(/\s+/g, "_");
-}
-
-function formatError(err: unknown): string {
-    return err instanceof Error ? err.message : String(err);
 }
 
 const command: SlashCommand = {
@@ -105,9 +96,9 @@ const command: SlashCommand = {
         const emojiData = await fetchEmojiUrl(id);
         if (emojiData) {
             try {
-                const finalName = sanitizeName(
-                    providedName ?? parsed.name ?? "stolen emoji",
-                );
+                const finalName = (
+                    providedName ?? parsed.name ?? "stolen_emoji"
+                ).trim();
                 const added = await guild.emojis.create({
                     attachment: emojiData.url,
                     name: finalName,
@@ -121,22 +112,19 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                return interaction.editReply({
-                    content: `Found the emoji but caused ${formatError(err)}`,
-                });
+                console.error("Failed to add emoji", err);
+                return interaction.editReply({ content: "Failed to add emoji" });
             }
         }
 
         const stickerData = await fetchStickerUrl(id);
         if (stickerData) {
             try {
-                const finalName = sanitizeName(
-                    providedName ?? "stolen sticker",
-                );
+                const finalName = (providedName ?? "stolen_sticker").trim();
                 const added = await guild.stickers.create({
                     file: stickerData.url,
                     name: finalName,
-                    tags: "grinning",
+                    tags: finalName,
                 });
                 const embed = new EmbedBuilder()
                     .setTitle("Sticker Added")
@@ -145,9 +133,8 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                return interaction.editReply({
-                    content: `Found the sticker but caused ${formatError(err)}...`,
-                });
+                console.error("Failed to add sticker", err);
+                return interaction.editReply({ content: "Failed to add sticker" });
             }
         }
 
@@ -171,9 +158,9 @@ const command: SlashCommand = {
             }
 
             try {
-                const finalName = sanitizeName(
-                    providedName ?? originalName ?? "stolen sound",
-                );
+                const finalName = (
+                    providedName ?? originalName ?? "stolen_sound"
+                ).trim();
                 const added = await guild.soundboardSounds.create({
                     file: buffer,
                     name: finalName,
@@ -186,9 +173,8 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                return interaction.editReply({
-                    content: `Found the sound but failed to add it ${formatError(err)}`,
-                });
+                console.error("Failed to add sound", err);
+                return interaction.editReply({ content: "Failed to add sound" });
             }
         }
 
@@ -221,13 +207,11 @@ const command: SlashCommand = {
                             ? "gif"
                             : "png";
                     const url = `https://cdn.discordapp.com/stickers/${sticker.id}.${ext}?size=320`;
-                    const finalName = sanitizeName(
-                        providedName ?? sticker.name,
-                    );
+                    const finalName = (providedName ?? sticker.name).trim();
                     const added = await guild.stickers.create({
                         file: url,
                         name: finalName,
-                        tags: sticker.tags ?? "",
+                        tags: sticker.tags ?? finalName,
                     });
                     const embed = new EmbedBuilder()
                         .setTitle("Sticker Added")
@@ -237,15 +221,14 @@ const command: SlashCommand = {
                     return interaction.editReply({ embeds: [embed] });
                 }
 
-                const emojiMatch = message.content.match(/<(a?):(\w+):(\d+)>/);
-                if (emojiMatch) {
-                    const [, animated, emojiName, emojiId] = emojiMatch;
-                    const ext = animated ? "gif" : "png";
-                    const url = `https://cdn.discordapp.com/emojis/${emojiId}.${ext}?size=128`;
-                    const finalName = sanitizeName(
-                        providedName ?? emojiName ?? "stolen emoji",
-                    );
-
+                const emojiRaw = message.content.match(/<a?:\w+:\d+>/)?.[0];
+                const emojiParsed = emojiRaw ? parseEmoji(emojiRaw) : null;
+                if (emojiParsed?.id) {
+                    const ext = emojiParsed.animated ? "gif" : "png";
+                    const url = `https://cdn.discordapp.com/emojis/${emojiParsed.id}.${ext}?size=128`;
+                    const finalName = (
+                        providedName ?? emojiParsed.name ?? "stolen_emoji"
+                    ).trim();
                     const added = await guild.emojis.create({
                         attachment: url,
                         name: finalName,
@@ -259,14 +242,13 @@ const command: SlashCommand = {
                 }
                 break;
             } catch (err) {
-                return interaction.editReply({
-                    content: `Found the message but caused ${formatError(err)}`,
-                });
+                console.error("Failed to steal from message", err);
+                return interaction.editReply({ content: "Failed to steal from message" });
             }
         }
 
         return interaction.editReply({
-            content: "Could not find a valid item ID",
+            content: "Nothing stealable",
         });
     },
 };
