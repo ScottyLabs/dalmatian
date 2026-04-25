@@ -23,9 +23,7 @@ async function fetchEmojiUrl(
     return null;
 }
 
-async function fetchStickerAttachment(
-    stickerId: string,
-): Promise<{
+async function fetchStickerAttachment(stickerId: string): Promise<{
     attachment: { attachment: Buffer; name: string };
     format: "png" | "gif";
 } | null> {
