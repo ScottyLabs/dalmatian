@@ -161,7 +161,12 @@ const command: SlashCommand = {
         if (subcommand === "all" || subcommand === "open") {
             const apiEndpoint = "https://cmu.libcal.com/api/1.0/hours";
 
-            const libraries = ["7070", "7071", "7072", "7195"];
+            const libraries = [
+                "Hunt Library",
+                "Sorrells Library",
+                "Mellon Library",
+                "Posner Center",
+            ].map((name) => LIBRARY_FACILITIES[name]);
 
             const apiKey = "f350ce8f5f34fd1cae1ccee509352e59"; //This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
 
@@ -233,13 +238,13 @@ const command: SlashCommand = {
                     switch (todayStatus.status) {
                         case "open":
                             fieldTitle = `🟢 ${library.name} (Open)`;
-                            if (todayStatus.hours)
-                                fieldDescription = `open from ${todayStatus.hours?.[0]?.from} to ${todayStatus.hours?.[0]?.to}`;
+                            if (todayStatus.hours?.[0])
+                                fieldDescription = `open from ${todayStatus.hours[0].from} to ${todayStatus.hours[0].to}`;
                             break;
                         case "closed":
                             fieldTitle = `⛔ ${library.name} (Closed)`;
-                            if (todayStatus.hours)
-                                fieldDescription = `open from ${todayStatus.hours?.[0]?.from} to ${todayStatus.hours?.[0]?.to}`;
+                            if (todayStatus.hours?.[0])
+                                fieldDescription = `open from ${todayStatus.hours[0].from} to ${todayStatus.hours[0].to}`;
                             break;
                         case "text":
                             fieldTitle = todayStatus.text
@@ -305,7 +310,7 @@ const command: SlashCommand = {
             }
 
             const embedColor =
-                libraryData.color != "#000000"
+                libraryData.color !== "#000000"
                     ? libraryData.color
                     : DEFAULT_EMBED_COLOR;
 
@@ -341,7 +346,9 @@ const command: SlashCommand = {
 
                     if (info.times.status === "open") {
                         fieldTitle = `🟢 ${dayName} (Open)`;
-                        fieldDescription = `from ${info.times.hours?.[0]?.from} to ${info.times.hours?.[0]?.to}`;
+                        if (info.times.hours?.[0]) {
+                            fieldDescription = `from ${info.times.hours[0].from} to ${info.times.hours[0].to}`;
+                        }
                     } else if (info.times.status === "closed") {
                         fieldTitle = `⛔ ${dayName} (Closed)`;
                     } else if (info.times.status === "ByApp") {
