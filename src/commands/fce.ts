@@ -158,17 +158,17 @@ const command: SlashCommand = {
             const summaryPage = EmbedBuilder.from(baseEmbed).addFields(
                 {
                     name: "Teaching",
-                    value: `${bold(summary.teachingRate.toFixed(2))}/5`,
+                    value: `${bold(summary.teachingRate.toFixed(1))}/5`,
                     inline: true,
                 },
                 {
                     name: "Course",
-                    value: `${bold(summary.courseRate.toFixed(2))}/5`,
+                    value: `${bold(summary.courseRate.toFixed(1))}/5`,
                     inline: true,
                 },
                 {
                     name: "Workload",
-                    value: `${bold(summary.workload.toFixed(2))} hrs/wk`,
+                    value: `${bold(summary.workload.toFixed(1))} hrs/wk`,
                     inline: true,
                 },
             );
