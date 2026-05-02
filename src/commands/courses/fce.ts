@@ -11,15 +11,15 @@ import {
     StringSelectMenuBuilder,
     underline,
 } from "discord.js";
-import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
-import type { SlashCommand } from "../types.d.ts";
-import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
+import { FYW_MINIS, SCOTTYLABS_URL } from "../../constants.ts";
+import type { SlashCommand } from "../../types.js";
+import { EmbedPaginator } from "../../utils/EmbedPaginator.ts";
 import {
     FCE_DATA_BY_COURSE,
     FCE_STARTUP_CACHE,
     FCEData,
-} from "../utils/fceCache.ts";
-import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
+} from "../../utils/fceCache.ts";
+import { COURSES_DATA, Course, formatCourseNumber } from "../../utils/index.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -27,7 +27,7 @@ const command: SlashCommand = {
         .setDescription("Get average FCE ratings for courses")
         .addStringOption((option) =>
             option
-                .setName("course_codes")
+                .setName("codes")
                 .setDescription(
                     "Course codes separated by spaces or commas (e.g., 15-112 21-127,15-122)",
                 )
@@ -35,7 +35,7 @@ const command: SlashCommand = {
         ),
     async execute(interaction) {
         const coursesData = COURSES_DATA;
-        const input = interaction.options.getString("course_codes", true);
+        const input = interaction.options.getString("codes", true);
         const rawCodes = input.split(/[\s,]+/).filter((code) => code.trim());
 
         if (rawCodes.length === 0) {

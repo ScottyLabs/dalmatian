@@ -4,12 +4,14 @@ import {
     MessageFlags,
     SlashCommandBuilder,
 } from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.js";
-import SyllabiData from "../data/course-api.syllabi.json" with { type: "json" };
-import type { SlashCommand } from "../types.d.ts";
-import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
-import { FCE_DATA_BY_COURSE } from "../utils/fceCache.ts";
-import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
+import { SCOTTYLABS_URL } from "../../constants.ts";
+import SyllabiData from "../../data/course-api.syllabi.json" with {
+    type: "json",
+};
+import type { SlashCommand } from "../../types.js";
+import { EmbedPaginator } from "../../utils/EmbedPaginator.ts";
+import { FCE_DATA_BY_COURSE } from "../../utils/fceCache.ts";
+import { COURSES_DATA, formatCourseNumber } from "../../utils/index.ts";
 
 type Syllabus = {
     _id: {
@@ -62,7 +64,7 @@ const command: SlashCommand = {
         .setDescription("Get pdfs of syllabi for a course")
         .addStringOption((option) =>
             option
-                .setName("course_id")
+                .setName("code")
                 .setDescription(
                     "Course code in XX-XXX or XXXXX format (e.g., 15-112)",
                 )
@@ -74,7 +76,7 @@ const command: SlashCommand = {
         const fceData = FCE_DATA_BY_COURSE;
 
         const courseid = formatCourseNumber(
-            interaction.options.getString("course_id", true),
+            interaction.options.getString("code", true),
         );
 
         if (!courseid) {

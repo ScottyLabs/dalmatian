@@ -6,11 +6,11 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.js";
-import type { SlashCommand } from "../types.d.ts";
-import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
-import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
-import { parseAndEvaluate } from "../utils/operatorParser.ts";
+import { SCOTTYLABS_URL } from "../../constants.ts";
+import type { SlashCommand } from "../../types.js";
+import { EmbedPaginator } from "../../utils/EmbedPaginator.ts";
+import { COURSES_DATA, Course, formatCourseNumber } from "../../utils/index.ts";
+import { parseAndEvaluate } from "../../utils/operatorParser.ts";
 
 function fetchCourseUnlocks(
     courseData: Record<string, Course>,
@@ -33,7 +33,7 @@ const command: SlashCommand = {
         .setDescription("Shows all the courses a course unlocks")
         .addStringOption((option) =>
             option
-                .setName("courses_string")
+                .setName("code_string")
                 .setDescription(
                     "The course code (e.g., 15-112 or 21127), optionally combined with AND/OR operators",
                 )
@@ -76,10 +76,7 @@ const command: SlashCommand = {
             );
         }
 
-        const courseString = interaction.options.getString(
-            "courses_string",
-            true,
-        );
+        const courseString = interaction.options.getString("code_string", true);
 
         let unlockCourses: Course[];
         try {

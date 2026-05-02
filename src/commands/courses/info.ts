@@ -8,17 +8,17 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.js";
-import type { SlashCommand } from "../types.d.ts";
-import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
+import { SCOTTYLABS_URL } from "../../constants.ts";
+import type { SlashCommand } from "../../types.js";
+import { COURSES_DATA, formatCourseNumber } from "../../utils/index.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
-        .setName("course")
+        .setName("info")
         .setDescription("Get detailed information about a course")
         .addStringOption((option) =>
             option
-                .setName("course_code")
+                .setName("code")
                 .setDescription(
                     "The course code (a two-digit number followed by a three-digit number, e.g., 15-112 or 21127)",
                 )
@@ -27,7 +27,7 @@ const command: SlashCommand = {
     async execute(interaction) {
         const coursesData = COURSES_DATA;
         const courseCode = formatCourseNumber(
-            interaction.options.getString("course_code", true),
+            interaction.options.getString("code", true),
         );
 
         if (!courseCode) {
