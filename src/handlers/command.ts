@@ -15,14 +15,31 @@ export default (client: Client) => {
     const slashCommands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];
     const slashCommandsDir = join(__dirname, "../commands");
 
+    function registerSlashCommand(command: SlashCommand, alias?: string) {
+        const data = alias
+            ? {
+                  name: alias,
+                  toJSON: () => ({
+                      ...command.data.toJSON(),
+                      name: alias,
+                  }),
+              }
+            : command.data;
+
+        slashCommands.push(data);
+        client.slashCommands.set(data.name, command);
+    }
+
     readdirSync(slashCommandsDir, { withFileTypes: true }).forEach((entry) => {
         if (!entry.isDirectory()) {
             if (!entry.name.endsWith(".ts")) return;
             const command: SlashCommand = require(
                 join(slashCommandsDir, entry.name),
             ).default;
-            slashCommands.push(command.data);
-            client.slashCommands.set(command.data.name, command);
+            registerSlashCommand(command);
+            command.aliases?.forEach((alias) =>
+                registerSlashCommand(command, alias),
+            );
             return;
         }
 
@@ -33,6 +50,12 @@ export default (client: Client) => {
                 (file) => require(join(subcommandsDir, file)).default,
             ) as SlashCommand[];
         if (subcommands.length === 0) return;
+
+        subcommands.forEach((command) => {
+            command.aliases?.forEach((alias) =>
+                registerSlashCommand(command, alias),
+            );
+        });
 
         const subcommandMap = new Map(
             subcommands.map((cmd) => [cmd.data.name, cmd]),
@@ -79,8 +102,7 @@ export default (client: Client) => {
             },
         };
 
-        slashCommands.push(parentCommand.data);
-        client.slashCommands.set(parentCommand.data.name, parentCommand);
+        registerSlashCommand(parentCommand);
         return;
     });
 

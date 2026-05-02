@@ -7,9 +7,9 @@ import type {
     SlashCommandBuilder,
 } from "discord.js";
 
-// TODO: add text commands to this interface
 export interface SlashCommand {
     data: Pick<SlashCommandBuilder, "name" | "toJSON">;
+    aliases?: string[];
     execute: (
         interaction: ChatInputCommandInteraction,
     ) => void | Promise<unknown>;
