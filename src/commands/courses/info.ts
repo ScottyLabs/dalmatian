@@ -24,6 +24,7 @@ const command: SlashCommand = {
                 )
                 .setRequired(true),
         ),
+    aliases: ["course"],
     async execute(interaction) {
         const coursesData = COURSES_DATA;
         const courseCode = formatCourseNumber(

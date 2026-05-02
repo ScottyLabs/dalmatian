@@ -70,6 +70,7 @@ const command: SlashCommand = {
                 )
                 .setRequired(true),
         ),
+    aliases: ["syllabus"],
     async execute(interaction) {
         const coursesData = COURSES_DATA;
         const syllabi = loadSyllabiData();

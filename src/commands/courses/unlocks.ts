@@ -39,6 +39,7 @@ const command: SlashCommand = {
                 )
                 .setRequired(true),
         ),
+    aliases: ["unlocks"],
     async execute(interaction) {
         const coursesData = COURSES_DATA;
 

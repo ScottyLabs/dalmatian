@@ -33,6 +33,7 @@ const command: SlashCommand = {
                 )
                 .setRequired(true),
         ),
+    aliases: ["fce"],
     async execute(interaction) {
         const coursesData = COURSES_DATA;
         const input = interaction.options.getString("codes", true);
