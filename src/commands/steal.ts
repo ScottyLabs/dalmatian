@@ -263,13 +263,23 @@ const command: SlashCommand = {
                 }
 
                 const emojis = [...message.content.matchAll(/<a?:\w+:\d+>/g)]
-                    .map(match => parseEmoji(match[0]))
-                    .filter((e): e is PartialEmoji & { id: string } => e?.id != null);
+                    .map((match) => parseEmoji(match[0]))
+                    .filter(
+                        (e): e is PartialEmoji & { id: string } =>
+                            e?.id != null,
+                    );
                 for (const emoji of emojis) {
                     const ext = emoji.animated ? "gif" : "png";
                     const url = `https://cdn.discordapp.com/emojis/${emoji.id}.${ext}?size=128`;
-                    const finalName = (providedName ?? emoji.name ?? "stolen_emoji").trim();
-                    const added = await guild.emojis.create({ attachment: url, name: finalName });
+                    const finalName = (
+                        providedName ??
+                        emoji.name ??
+                        "stolen_emoji"
+                    ).trim();
+                    const added = await guild.emojis.create({
+                        attachment: url,
+                        name: finalName,
+                    });
                     const embed = new EmbedBuilder()
                         .setTitle("Emoji Added")
                         .setDescription(
