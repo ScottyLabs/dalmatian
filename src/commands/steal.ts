@@ -5,6 +5,7 @@ import {
     RESTJSONErrorCodes,
     SlashCommandBuilder,
     StickerFormatType,
+    PartialEmoji,
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
@@ -261,20 +262,14 @@ const command: SlashCommand = {
                     return interaction.editReply({ embeds: [embed] });
                 }
 
-                const emojiRaw = message.content.match(/<a?:\w+:\d+>/)?.[0];
-                const emojiParsed = emojiRaw ? parseEmoji(emojiRaw) : null;
-                if (emojiParsed?.id) {
-                    const ext = emojiParsed.animated ? "gif" : "png";
-                    const url = `https://cdn.discordapp.com/emojis/${emojiParsed.id}.${ext}?size=128`;
-                    const finalName = (
-                        providedName ??
-                        emojiParsed.name ??
-                        "stolen_emoji"
-                    ).trim();
-                    const added = await guild.emojis.create({
-                        attachment: url,
-                        name: finalName,
-                    });
+                const emojis = [...message.content.matchAll(/<a?:\w+:\d+>/g)]
+                    .map(match => parseEmoji(match[0]))
+                    .filter((e): e is PartialEmoji & { id: string } => e?.id != null);
+                for (const emoji of emojis) {
+                    const ext = emoji.animated ? "gif" : "png";
+                    const url = `https://cdn.discordapp.com/emojis/${emoji.id}.${ext}?size=128`;
+                    const finalName = (providedName ?? emoji.name ?? "stolen_emoji").trim();
+                    const added = await guild.emojis.create({ attachment: url, name: finalName });
                     const embed = new EmbedBuilder()
                         .setTitle("Emoji Added")
                         .setDescription(
