@@ -853,9 +853,11 @@ const command: SlashCommand = {
                     `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
             );
             let i = 0;
+            let chartData = [];
             for (const [instructor, data] of instructorMap) {
                 const name = instructor.toUpperCase();
                 const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
+                let fcePoints = [];
                 let text = `${hyperlink(bold(name), url)}\n`;
                 for (const stats of data) {
                     text +=
@@ -865,8 +867,13 @@ const command: SlashCommand = {
                         `Workload: ${bold(stats.workload.toFixed(2))} hrs/wk • ` +
                         `Response Rate: ${bold(`${(stats.responseRate).toFixed(1)}%`)}`;
                     text += `\n\n`;
+                    fcePoints.push({ x: stats.year, y: stats.workload });
                 }
                 chunk.push(text);
+                chartData.push({
+                    Label: `${instructor.toUpperCase()}`,
+                    data: fcePoints,
+                });
                 // chunk.push(
                 //     `${hyperlink(bold(name), url)} ${italic(`(${stats.year})`)}\n` +
                 //         `Teaching: ${bold(stats.teachingRate.toFixed(2))}/5 • ` +
@@ -883,6 +890,28 @@ const command: SlashCommand = {
                         )
                         .setURL(`${SCOTTYLABS_URL}/course/${courseCode}`)
                         .setDescription(description);
+
+                    const chart = {
+                        type: "scatter",
+                        data: {
+                            datasets: chartData,
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [
+                                    {
+                                        type: "linear",
+                                        position: "bottom",
+                                    },
+                                ],
+                            },
+                        },
+                    };
+                    const encodedChart = encodeURIComponent(
+                        JSON.stringify(chart),
+                    );
+                    const chartUrl = `https://quickchart.io/chart?bkg=%23ffffff&c=${encodedChart}`;
+                    embed.setImage(chartUrl);
                     embeds.push(embed);
                     chunk = [];
                 }
