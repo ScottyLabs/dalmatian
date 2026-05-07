@@ -178,7 +178,6 @@ function loadFCEData(): Record<string, FCEData> {
 
     return fceMap;
 }
-
 function loadSyllabiData(): Record<string, Syllabus[]> {
     const syllabiData = SyllabiData as Syllabus[];
     const syllabi: Record<string, Syllabus[]> = {};
@@ -258,11 +257,24 @@ const command: SlashCommand = {
         )
         .addSubcommand((subcommand) =>
             subcommand
-                .setName("syllabus")
+                .setName("syllabussssssss")
                 .setDescription("Get pdfs of syllabi for a course")
                 .addStringOption((option) =>
                     option
                         .setName("course_id")
+                        .setDescription(
+                            "Course code in XX-XXX or XXXXX format (e.g., 15-112)",
+                        )
+                        .setRequired(true),
+                ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("fce-graph")
+                .setDescription("Get a graph of fce data over time")
+                .addStringOption((option) =>
+                    option
+                        .setName("course_code")
                         .setDescription(
                             "Course code in XX-XXX or XXXXX format (e.g., 15-112)",
                         )
@@ -764,6 +776,120 @@ const command: SlashCommand = {
             }
 
             return new EmbedPaginator(embeds).send(interaction);
+        }
+        if (interaction.options.getSubcommand() === "fce-graph") {
+            const courseCode = formatCourseNumber(
+                interaction.options.getString("course_code", true),
+            );
+
+            if (!courseCode) {
+                return interaction.reply({
+                    content:
+                        "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            if (!coursesData[courseCode]) {
+                return interaction.reply({
+                    content: `Course with code ${courseCode} not found.`,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+
+            const course = coursesData[courseCode];
+            const fceData = loadFCEData();
+
+            if (!fceData[courseCode]) {
+                let errorMsg = "No valid FCE data found";
+                return interaction.reply({
+                    content: errorMsg,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+            const fce = fceData[courseCode];
+
+            type InstructorFCE = {
+                teachingRate: number;
+                courseRate: number;
+                workload: number;
+                responseRate: number;
+                year: number;
+            };
+
+            const instructorMap = new Map<string, InstructorFCE[]>();
+
+            for (const record of fce.records) {
+                const instructor = record.instructor;
+                if (!instructorMap.has(instructor)) {
+                    instructorMap.set(instructor, []);
+                }
+                const stats = instructorMap.get(instructor)!;
+                const teachingRate = record.overallTeachingRate;
+                const courseRate = record.overallCourseRate;
+                const workload = record.hrsPerWeek;
+                const responseRate = record.responseRate;
+                let year = record.year;
+                if (record.semester == "Spring") {
+                    year += 0.5;
+                }
+                stats.push({
+                    teachingRate,
+                    courseRate,
+                    workload,
+                    responseRate,
+                    year,
+                });
+            }
+
+            const embeds = [];
+            let chunk = [];
+
+            chunk.push(
+                `:pushpin: ${bold("Aggregate Data (past 5 years, excluding summers)")}\n` +
+                    `Teaching: ${bold(fce.overallTeachingRate.toFixed(2))}/5 • ` +
+                    `Course: ${bold(fce.overallCourseRate.toFixed(2))}/5\n` +
+                    `Workload: ${bold(fce.hrsPerWeek.toFixed(2))} hrs/wk • ` +
+                    `Response Rate: ${bold(`${fce.responseRate.toFixed(1)}%`)}`,
+            );
+            let i = 0;
+            for (const [instructor, data] of instructorMap) {
+                const name = instructor.toUpperCase();
+                const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
+                let text = `${hyperlink(bold(name), url)}\n`;
+                for (const stats of data) {
+                    text +=
+                        `${underline(`Year: ${bold(`(${stats.year})`)}`)}\n` +
+                        `Teaching: ${bold(stats.teachingRate.toFixed(2))}/5 • ` +
+                        `Course: ${bold(stats.courseRate.toFixed(2))}/5\n` +
+                        `Workload: ${bold(stats.workload.toFixed(2))} hrs/wk • ` +
+                        `Response Rate: ${bold(`${(stats.responseRate).toFixed(1)}%`)}`;
+                    text += `\n\n`;
+                }
+                chunk.push(text);
+                // chunk.push(
+                //     `${hyperlink(bold(name), url)} ${italic(`(${stats.year})`)}\n` +
+                //         `Teaching: ${bold(stats.teachingRate.toFixed(2))}/5 • ` +
+                //         `Course: ${bold(stats.courseRate.toFixed(2))}/5\n` +
+                //         `Workload: ${bold(stats.workload.toFixed(2))} hrs/wk • ` +
+                //         `Response Rate: ${bold(`${(stats.responseRate).toFixed(1)}%`)}`,
+                // );
+                i++;
+                if (chunk.length >= 5 || i == instructorMap.size) {
+                    const description = chunk.join("\n\n");
+                    const embed = new EmbedBuilder()
+                        .setTitle(
+                            `${underline(`${courseCode}: ${course.name}`)} (${course.units} units)`,
+                        )
+                        .setURL(`${SCOTTYLABS_URL}/course/${courseCode}`)
+                        .setDescription(description);
+                    embeds.push(embed);
+                    chunk = [];
+                }
+            }
+
+            const paginator = new EmbedPaginator(embeds);
+            await paginator.send(interaction);
         }
     },
 };
