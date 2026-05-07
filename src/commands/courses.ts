@@ -871,7 +871,7 @@ const command: SlashCommand = {
                 }
                 chunk.push(text);
                 chartData.push({
-                    Label: `${instructor.toUpperCase()}`,
+                    label: name,
                     data: fcePoints,
                 });
                 // chunk.push(
