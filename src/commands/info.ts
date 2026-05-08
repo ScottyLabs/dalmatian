@@ -5,10 +5,10 @@ import {
     EmbedBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import type { SlashCommand } from "../types.js";
 import ms from "ms";
 import { z } from "zod";
 import { DEFAULT_EMBED_COLOR } from "../constants.js";
+import type { SlashCommand } from "../types.js";
 
 const commitSchema = z.array(
     z.object({
