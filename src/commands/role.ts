@@ -6,9 +6,9 @@ import {
     SlashCommandBuilder,
     userMention,
 } from "discord.js";
-import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
+import { parseAndEvaluate } from "../utils/operatorParser.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -172,7 +172,7 @@ const command: SlashCommand = {
                 embeds.push(embed);
             }
 
-            const paginator = new EmbedPaginator(embeds);
+            const paginator = new EmbedPaginator({ pages: embeds });
             return paginator.send(interaction);
         }
         if (interaction.options.getSubcommand() === "count") {
