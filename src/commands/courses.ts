@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { parse } from "csv-parse/sync";
 import {
     ActionRowBuilder,
+    AttachmentBuilder,
     ButtonBuilder,
     ButtonStyle,
     bold,
@@ -20,6 +21,8 @@ import { parseAndEvaluate } from "../modules/operator-parser.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { Course } from "../utils/index.ts";
+
+const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 
 //TODO: many of these fields could be made into CourseCodes
 
@@ -211,7 +214,47 @@ function loadSyllabiData(): Record<string, Syllabus[]> {
 
     return syllabi;
 }
+function findLineByLeastSquares(
+    values_x: number[],
+    values_y: number[],
+): [number, number] {
+    let sum_x = 0;
+    let sum_y = 0;
+    let sum_xy = 0;
+    let sum_xx = 0;
+    let count = 0;
 
+    const values_length = values_x.length;
+
+    if (values_length !== values_y.length) {
+        throw new Error(
+            "The parameters values_x and values_y need to have same size!",
+        );
+    }
+
+    if (values_length === 0) {
+        throw new Error("Input arrays cannot be empty.");
+    }
+
+    for (let i = 0; i < values_length; i++) {
+        const x = values_x[i]!;
+        const y = values_y[i]!;
+
+        sum_x += x;
+        sum_y += y;
+        sum_xx += x * x;
+        sum_xy += x * y;
+        count++;
+    }
+
+    // y = mx + b
+    const m =
+        (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
+
+    const b = sum_y / count - (m * sum_x) / count;
+
+    return [m, b];
+}
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("courses")
@@ -869,10 +912,28 @@ const command: SlashCommand = {
                     text += `\n\n`;
                     fcePoints.push({ x: stats.year, y: stats.workload });
                 }
-                chunk.push(text);
+                //chunk.push(text);
+                const xValues = fcePoints.map((p) => p.x);
+                const yValues = fcePoints.map((p) => p.y);
+
+                const [m, b] = findLineByLeastSquares(xValues, yValues);
+                xValues.sort();
+                const first = xValues[0]!;
+                const last = xValues[xValues.length - 1]!;
+
                 chartData.push({
+                    type: "scatter",
                     label: name,
                     data: fcePoints,
+                });
+                chartData.push({
+                    type: "line",
+                    label: "",
+                    data: [
+                        [first, m * first + b],
+                        [last, m * last + b],
+                    ],
+                    pointRadius: 0,
                 });
                 // chunk.push(
                 //     `${hyperlink(bold(name), url)} ${italic(`(${stats.year})`)}\n` +
@@ -882,43 +943,78 @@ const command: SlashCommand = {
                 //         `Response Rate: ${bold(`${(stats.responseRate).toFixed(1)}%`)}`,
                 // );
                 i++;
-                if (chunk.length >= 5 || i == instructorMap.size) {
-                    const description = chunk.join("\n\n");
-                    const embed = new EmbedBuilder()
-                        .setTitle(
-                            `${underline(`${courseCode}: ${course.name}`)} (${course.units} units)`,
-                        )
-                        .setURL(`${SCOTTYLABS_URL}/course/${courseCode}`)
-                        .setDescription(description);
+                //if (chunk.length >= 5 || i == instructorMap.size) {
+            }
+            const description = chunk.join("\n\n");
+            const embed = new EmbedBuilder()
+                .setTitle(
+                    `${underline(`${courseCode}: ${course.name}`)} (${course.units} units)`,
+                )
+                .setURL(`${SCOTTYLABS_URL}/course/${courseCode}`)
+                .setDescription(description);
 
-                    const chart = {
-                        type: "scatter",
-                        data: {
-                            datasets: chartData,
+            const chart = {
+                type: "scatter",
+                data: {
+                    datasets: chartData,
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${courseCode}: ${course.name}`,
                         },
-                        options: {
-                            scales: {
-                                xAxes: [
-                                    {
-                                        type: "linear",
-                                        position: "bottom",
-                                    },
-                                ],
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function (value: number) {
+                                    if (value - Math.floor(value) > 0) {
+                                        return `${Math.floor(value)} S`;
+                                    }
+                                    return `${Math.floor(value)} F`;
+                                },
+                            },
+                            grid: {
+                                color: "#525252",
                             },
                         },
-                    };
-                    const encodedChart = encodeURIComponent(
-                        JSON.stringify(chart),
-                    );
-                    const chartUrl = `https://quickchart.io/chart?bkg=%23ffffff&c=${encodedChart}`;
-                    embed.setImage(chartUrl);
-                    embeds.push(embed);
-                    chunk = [];
-                }
+                        y: {
+                            grid: {
+                                color: "#525252",
+                            },
+                        },
+                    },
+                },
+            };
+            let height = 300;
+            if (i > 5) {
+                height = 500;
             }
+            const renderer = new ChartJSNodeCanvas({
+                width: 800,
+                height: height,
+            });
+            const image = await renderer.renderToBuffer(chart);
+            const attachment = new AttachmentBuilder(image, {
+                name: "graph.png",
+            });
+            const encodedChart = encodeURIComponent(JSON.stringify(chart));
+            const _chartUrl = `https://quickchart.io/chart?bkg=%23ffffff&c=${encodedChart}`;
+            //embed.setImage(chartUrl);
+            embeds.push(embed);
+            chunk = [];
 
-            const paginator = new EmbedPaginator(embeds);
-            await paginator.send(interaction);
+            //}
+
+            await interaction.deferReply();
+
+            await interaction.editReply({
+                embeds,
+                files: [attachment],
+            });
+            //const paginator = new EmbedPaginator(embeds);
+            //await paginator.send(interaction);
         }
     },
 };
