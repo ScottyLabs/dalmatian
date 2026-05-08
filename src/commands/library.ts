@@ -390,7 +390,7 @@ const command: SlashCommand = {
                 embeds.push(editEmbed);
             }
 
-            return new EmbedPaginator(embeds).send(interaction);
+            return new EmbedPaginator({ pages: embeds }).send(interaction);
         }
     },
 };
