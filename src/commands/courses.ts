@@ -1079,6 +1079,7 @@ const command: SlashCommand = {
                         // [first, m * first + b],
                         // [last, m * last + b],
                         pointRadius: 0,
+                        borderWidth: 5,
                         backgroundColor: Colors[i % 20] + `d0`,
                         borderColor: Colors[i % 20] + `d0`,
                         hidden: false,
@@ -1141,18 +1142,12 @@ const command: SlashCommand = {
                                     return `${Math.floor(value)} F`;
                                 },
                             },
-                            grid: {
-                                color: "#525252",
-                            },
                             title: {
                                 text: `Year`,
                                 display: true,
                             },
                         },
                         y: {
-                            grid: {
-                                color: "#525252",
-                            },
                             title: {
                                 text: `FCE`,
                                 display: true,
