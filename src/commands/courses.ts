@@ -59,6 +59,40 @@ type Syllabus = {
     url: string;
 };
 
+//modified from https://sashamaps.net/docs/resources/20-colors/
+const Colors = [
+    "#e6194b",
+    "#3cb44b",
+    "#ffe119",
+    "#4363d8",
+    "#f58231",
+    "#911eb4",
+    "#46f0f0",
+    "#f032e6",
+    "#bcf60c",
+    "#fabebe",
+    "#008080",
+    "#e6beff",
+    "#9a6324",
+    "#fffac8",
+    "#800000",
+    "#aaffc3",
+    "#808000",
+    "#ffd8b1",
+    "#000075",
+    "#076f00",
+];
+const plugin = {
+    id: "customCanvasBackgroundColor",
+    beforeDraw: (chart: any, args: any, options: any) => {
+        const { ctx } = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = options.color || "#99ffff";
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+    },
+};
 function loadCoursesData(): Record<string, Course> {
     return CoursesData as Record<string, Course>;
 }
@@ -254,6 +288,103 @@ function findLineByLeastSquares(
     const b = sum_y / count - (m * sum_x) / count;
 
     return [m, b];
+}
+
+function findLineByLeastSquaresWeighted(
+    values_x: number[],
+    values_y: number[],
+    xCenter: number,
+    span: number,
+): [number, number] {
+    let sum_w = 0;
+    let sum_wx = 0;
+    let sum_wy = 0;
+    let sum_wxy = 0;
+    let sum_wxx = 0;
+
+    const values_length = values_x.length;
+
+    if (values_length !== values_y.length) {
+        throw new Error(
+            "The parameters values_x and values_y need to have same size!",
+        );
+    }
+
+    if (values_length === 0) {
+        throw new Error("Input arrays cannot be empty.");
+    }
+
+    for (let i = 0; i < values_length; i++) {
+        const x = values_x[i]!;
+        const y = values_y[i]!;
+        const h = (x - xCenter) / span;
+        const w = Math.max(0, Math.pow(1 - Math.pow(Math.abs(h), 3), 3));
+
+        sum_w += w;
+        sum_wx += w * x;
+        sum_wy += w * y;
+        sum_wxx += w * x * x;
+        sum_wxy += w * x * y;
+    }
+
+    // y = mx + b
+
+    let m =
+        (sum_w * sum_wxy - sum_wx * sum_wy) /
+        (sum_w * sum_wxx - sum_wx * sum_wx);
+    if (sum_w * sum_wxx - sum_wx * sum_wx == 0) {
+        console.log("denom = 0");
+        console.log("%f %f %f %f", m, sum_w, sum_wxx, sum_wx);
+        m = 0;
+    }
+    const b = (sum_wy - m * sum_wx) / sum_w;
+
+    if (sum_w == 0) {
+        console.log("sum_w = 0");
+    }
+
+    if (sum_wx == 0) {
+        console.log("sumwx = 0");
+    }
+
+    return [m, b];
+}
+function LOWESS(values_x: number[], values_y: number[]): any[] {
+    let alpha = 0.5;
+    const n = values_x.length;
+
+    if (n !== values_y.length) {
+        throw new Error(
+            "The parameters values_x and values_y need to have same size!",
+        );
+    }
+
+    if (n === 0) {
+        throw new Error("Input arrays cannot be empty.");
+    }
+
+    const [first, last] = values_x.reduce(
+        ([min, max], x) => [Math.min(min, x), Math.max(max, x)],
+        [Infinity, -Infinity],
+    );
+    const range = last - first;
+    if (n < 4 || range < 3) {
+        alpha = 1;
+    }
+    const span = range * alpha;
+    const output = [];
+    for (let i = first; i <= last + 0.01; i += 0.1) {
+        const [m, b] = findLineByLeastSquaresWeighted(
+            values_x,
+            values_y,
+            i,
+            span,
+        );
+        output.push({ x: i, y: m * i + b });
+        console.log("x: %f, y: %f", i, m * i + b);
+        console.log("m %f, b %f", m, b);
+    }
+    return output;
 }
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -915,26 +1046,46 @@ const command: SlashCommand = {
                 //chunk.push(text);
                 const xValues = fcePoints.map((p) => p.x);
                 const yValues = fcePoints.map((p) => p.y);
-
-                const [m, b] = findLineByLeastSquares(xValues, yValues);
-                xValues.sort();
-                const first = xValues[0]!;
-                const last = xValues[xValues.length - 1]!;
-
                 chartData.push({
                     type: "scatter",
                     label: name,
                     data: fcePoints,
+                    // backgroundColor: Colors[i % 20],
+                    pointBorderColor: Colors[i % 20],
+                    pointBackgroundColor: Colors[i % 20],
                 });
-                chartData.push({
-                    type: "line",
-                    label: "",
-                    data: [
-                        [first, m * first + b],
-                        [last, m * last + b],
-                    ],
-                    pointRadius: 0,
-                });
+                if (xValues.length > 1) {
+                    let bestfitline = [];
+                    const [m, b] = findLineByLeastSquares(xValues, yValues);
+                    const [first, last] = xValues.reduce(
+                        ([min, max], x) => [Math.min(min, x), Math.max(max, x)],
+                        [Infinity, -Infinity],
+                    );
+                    if (xValues.length == 2) {
+                        bestfitline.push([first, m * first + b]);
+                        bestfitline.push([last, m * last + b]);
+                    } else {
+                        console.log("lowess");
+                        bestfitline = LOWESS(xValues, yValues);
+                        for (const point of fcePoints) {
+                            // console.log("x: %f, y: %f", point.x, point.y);
+                        }
+                        console.log("end");
+                    }
+                    chartData.push({
+                        type: "line",
+                        label: "line",
+                        data: bestfitline,
+                        // [first, m * first + b],
+                        // [last, m * last + b],
+                        pointRadius: 0,
+                        backgroundColor: Colors[i % 20] + `d0`,
+                        borderColor: Colors[i % 20] + `d0`,
+                        hidden: false,
+                        hideFromLegend: true,
+                        //tension: 0.5,
+                    });
+                }
                 // chunk.push(
                 //     `${hyperlink(bold(name), url)} ${italic(`(${stats.year})`)}\n` +
                 //         `Teaching: ${bold(stats.teachingRate.toFixed(2))}/5 • ` +
@@ -964,7 +1115,22 @@ const command: SlashCommand = {
                             display: true,
                             text: `${courseCode}: ${course.name}`,
                         },
+                        legend: {
+                            labels: {
+                                filter: (legendItem: any, chart: any) => {
+                                    // legendItem: { text, datasetIndex, ... }
+                                    return !String(legendItem.text)
+                                        .toLowerCase()
+                                        .includes("line");
+                                },
+                            },
+                        },
+
+                        customCanvasBackgroundColor: {
+                            color: "white",
+                        },
                     },
+
                     scales: {
                         x: {
                             ticks: {
@@ -978,19 +1144,26 @@ const command: SlashCommand = {
                             grid: {
                                 color: "#525252",
                             },
+                            title: {
+                                text: `Year`,
+                                display: true,
+                            },
                         },
                         y: {
                             grid: {
                                 color: "#525252",
                             },
+                            title: {
+                                text: `FCE`,
+                                display: true,
+                            },
                         },
                     },
                 },
+                plugins: [plugin],
             };
-            let height = 300;
-            if (i > 5) {
-                height = 500;
-            }
+            let height = Math.min(500 + 100 * Math.floor(i / 5), 800);
+
             const renderer = new ChartJSNodeCanvas({
                 width: 800,
                 height: height,
@@ -1001,6 +1174,7 @@ const command: SlashCommand = {
             });
             const encodedChart = encodeURIComponent(JSON.stringify(chart));
             const _chartUrl = `https://quickchart.io/chart?bkg=%23ffffff&c=${encodedChart}`;
+            embed.setImage("attachment://graph.png");
             //embed.setImage(chartUrl);
             embeds.push(embed);
             chunk = [];
