@@ -6,28 +6,26 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 import { DEFAULT_EMBED_COLOR, SCHOOLS, SCOTTYLABS_URL } from "../constants.ts";
+import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+import CITGenedData from "../data/geneds/CITgeneds.json" with { type: "json" };
+import DCGenedData from "../data/geneds/DCgeneds.json" with { type: "json" };
+import MCSGenedData from "../data/geneds/MCSgeneds.json" with { type: "json" };
+import SCSGenedData from "../data/geneds/SCSgeneds.json" with { type: "json" };
+import type { SlashCommand } from "../types.js";
 import {
     AdvancedCreditType,
     Exam,
     getGenedsForCourse,
     loadCreditData,
-    School,
     SCORE_RANGES,
+    School,
 } from "../utils/advancedCreditCourseUtils.ts";
-
-import type { SlashCommand } from "../types.js";
 import {
     type SetupField,
     SetupForm,
     type SetupSchema,
 } from "../utils/creditCalculatorForm.ts";
-
-import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 import { Course, GenEd } from "../utils/index.ts";
-import CITGenedData from "../data/geneds/CITgeneds.json" with { type: "json" };
-import DCGenedData from "../data/geneds/DCgeneds.json" with { type: "json" };
-import MCSGenedData from "../data/geneds/MCSgeneds.json" with { type: "json" };
-import SCSGenedData from "../data/geneds/SCSgeneds.json" with { type: "json" };
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -215,15 +213,15 @@ const command: SlashCommand = {
                 for (const { exam, courses: awardedCourses } of awarded) {
                     let geneds: GenEd[] = [];
 
-                    if (userSchool == "DC") {
+                    if (userSchool === "DC") {
                         geneds = DCGenedData as GenEd[];
-                    } else if (userSchool == "CIT") {
+                    } else if (userSchool === "CIT") {
                         geneds = CITGenedData as GenEd[];
-                    } else if (userSchool == "MCS") {
+                    } else if (userSchool === "MCS") {
                         geneds = MCSGenedData as GenEd[];
-                    } else if (userSchool == "SCS") {
+                    } else if (userSchool === "SCS") {
                         geneds = SCSGenedData as GenEd[];
-                    } else if (userSchool == "CFA" || userSchool == "TEP") {
+                    } else if (userSchool === "CFA" || userSchool === "TEP") {
                         container.addTextDisplayComponents((t) =>
                             t.setContent(
                                 `Gened data not available for ${userSchool}`,
