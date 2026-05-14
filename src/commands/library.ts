@@ -26,7 +26,14 @@ const libraryScheduleDaySchema = z.object({
     date: z.string(),
     rendered: z.string(),
     times: z.object({
-        status: z.enum(["open", "closed", "text", "ByApp", "not-set", "24hours"]),
+        status: z.enum([
+            "open",
+            "closed",
+            "text",
+            "ByApp",
+            "not-set",
+            "24hours",
+        ]),
         text: z.string().optional(),
         note: z.string().optional(),
         hours: z.array(libraryHoursRangeSchema).optional(),
@@ -48,12 +55,10 @@ const libraryScheduleResponseSchema = z.object({
     ),
 });
 
-type LibraryStatusResponse = z.infer<typeof libraryStatusResponseSchema>;
 type LibraryScheduleResponse = z.infer<typeof libraryScheduleResponseSchema>;
 type LibraryScheduleLocation = LibraryScheduleResponse["locations"][number];
 
-const LIBRARY_API_KEY =
-    "f350ce8f5f34fd1cae1ccee509352e59"; // This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
+const LIBRARY_API_KEY = "f350ce8f5f34fd1cae1ccee509352e59"; // This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
 const LIBRARY_HOURS_ENDPOINT = "https://cmu.libcal.com/api/1.0/hours";
 const LIBRARY_SCHEDULE_ENDPOINT =
     "https://cmu.libcal.com/api_hours_grid.php?format=json&weeks=1000&systemTime=0";
@@ -293,7 +298,8 @@ const command: SlashCommand = {
                     }
 
                     if (todayNote) {
-                        if (fieldDescription.length > 0) fieldDescription += " • ";
+                        if (fieldDescription.length > 0)
+                            fieldDescription += " • ";
                         fieldDescription += `📝 **Note:** ${todayNote}`;
                     }
                 }
@@ -407,7 +413,10 @@ const command: SlashCommand = {
                         fieldTitle = `⛔ ${dayName} (Closed)`;
                     } else if (info.times.status === "ByApp") {
                         fieldTitle = `⚠️ ${dayName} (Open by appointment)`;
-                    } else if (info.times.status === "text" || info.times.status === "not-set") {
+                    } else if (
+                        info.times.status === "text" ||
+                        info.times.status === "not-set"
+                    ) {
                         fieldTitle = info.times.text
                             ? `⛔ ${dayName} (${info.times.text})`
                             : `⚠️ ${dayName} (No status data available)`;
@@ -415,7 +424,8 @@ const command: SlashCommand = {
                         fieldTitle = `🟢 ${dayName} (Open 24 hours)`;
                     }
                     if (info.times.note) {
-                        if (fieldDescription.length > 0) fieldDescription += " • ";
+                        if (fieldDescription.length > 0)
+                            fieldDescription += " • ";
                         fieldDescription += `📝 **Note:** ${info.times.note}`;
                     }
 
