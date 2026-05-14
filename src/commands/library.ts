@@ -26,7 +26,7 @@ const libraryScheduleDaySchema = z.object({
     date: z.string(),
     rendered: z.string(),
     times: z.object({
-        status: z.enum(["open", "closed", "text", "ByApp", "not-set"]),
+        status: z.enum(["open", "closed", "text", "ByApp", "not-set", "24hours"]),
         text: z.string().optional(),
         note: z.string().optional(),
         hours: z.array(libraryHoursRangeSchema).optional(),
@@ -47,6 +47,16 @@ const libraryScheduleResponseSchema = z.object({
         }),
     ),
 });
+
+type LibraryStatusResponse = z.infer<typeof libraryStatusResponseSchema>;
+type LibraryScheduleResponse = z.infer<typeof libraryScheduleResponseSchema>;
+type LibraryScheduleLocation = LibraryScheduleResponse["locations"][number];
+
+const LIBRARY_API_KEY =
+    "f350ce8f5f34fd1cae1ccee509352e59"; // This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
+const LIBRARY_HOURS_ENDPOINT = "https://cmu.libcal.com/api/1.0/hours";
+const LIBRARY_SCHEDULE_ENDPOINT =
+    "https://cmu.libcal.com/api_hours_grid.php?format=json&weeks=1000&systemTime=0";
 
 const LIBRARY_FACILITIES = {
     "Hunt Library": "7070",
@@ -122,6 +132,27 @@ function inTimePeriod(from: string, to: string, now = new Date()) {
     return (now >= start && now <= endNext) || (now >= startPrev && now <= end);
 }
 
+async function fetchJson(url: string) {
+    return fetch(url)
+        .then((res) => res.json())
+        .catch((_) => undefined);
+}
+
+function getLibraryNoteForDate(
+    libraryData: LibraryScheduleLocation,
+    etDate: string,
+) {
+    for (const week of libraryData.weeks) {
+        for (const day of Object.values(week)) {
+            if (day.date === etDate) {
+                return day.times.note;
+            }
+        }
+    }
+
+    return undefined;
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("library")
@@ -159,8 +190,6 @@ const command: SlashCommand = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === "all" || subcommand === "open") {
-            const apiEndpoint = "https://cmu.libcal.com/api/1.0/hours";
-
             const libraries = [
                 "Hunt Library",
                 "Sorrells Library",
@@ -168,16 +197,15 @@ const command: SlashCommand = {
                 "Posner Center",
             ].map((name) => LIBRARY_FACILITIES[name]);
 
-            const apiKey = "f350ce8f5f34fd1cae1ccee509352e59"; //This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
-
-            const responseRaw = await fetch(
-                `${apiEndpoint}/${libraries.join(",")}?key=${apiKey}`,
-            )
-                .then((res) => res.json())
-                .catch((_) => undefined);
+            const [statusRaw, scheduleRaw] = await Promise.all([
+                fetchJson(
+                    `${LIBRARY_HOURS_ENDPOINT}/${libraries.join(",")}?key=${LIBRARY_API_KEY}`,
+                ),
+                fetchJson(LIBRARY_SCHEDULE_ENDPOINT),
+            ]);
 
             const responseResult =
-                libraryStatusResponseSchema.safeParse(responseRaw);
+                libraryStatusResponseSchema.safeParse(statusRaw);
 
             if (!responseResult.success) {
                 const embed1 = new EmbedBuilder().setTitle(
@@ -191,6 +219,11 @@ const command: SlashCommand = {
             }
 
             const response = responseResult.data;
+            const scheduleResult =
+                libraryScheduleResponseSchema.safeParse(scheduleRaw);
+            const scheduleData = scheduleResult.success
+                ? scheduleResult.data
+                : undefined;
 
             const etDate = new Intl.DateTimeFormat("en-CA", {
                 timeZone: "America/New_York",
@@ -217,6 +250,12 @@ const command: SlashCommand = {
                 let fieldTitle = "";
                 let fieldDescription = "";
                 const todayStatus = library.dates[etDate];
+                const librarySchedule = scheduleData?.locations.find(
+                    (loc) => loc.name === library.name,
+                );
+                const todayNote = librarySchedule
+                    ? getLibraryNoteForDate(librarySchedule, etDate)
+                    : undefined;
 
                 if (!todayStatus) {
                     fieldTitle = `⚠️ ${library.name} (No status data available)**`;
@@ -252,6 +291,11 @@ const command: SlashCommand = {
                                 : `⚠️ ${library.name} (No status data available)`;
                             break;
                     }
+
+                    if (todayNote) {
+                        if (fieldDescription.length > 0) fieldDescription += " • ";
+                        fieldDescription += `📝 **Note:** ${todayNote}`;
+                    }
                 }
 
                 embed.addFields({
@@ -269,14 +313,15 @@ const command: SlashCommand = {
         } else if (subcommand === "schedule") {
             const libraryName = interaction.options.getString("library", true);
             const libraryId = LIBRARY_FACILITIES[libraryName];
-            const weeks = 1000; //yes, this is absurd on purpose, it won't try giving more than it can (or rather, all of them will have status not-set)
+            const [statusRaw, responseRaw] = await Promise.all([
+                fetchJson(
+                    `${LIBRARY_HOURS_ENDPOINT}/${libraryId}?key=${LIBRARY_API_KEY}`,
+                ),
+                fetchJson(LIBRARY_SCHEDULE_ENDPOINT),
+            ]);
 
-            const responseRaw = await fetch(
-                `https://cmu.libcal.com/api_hours_grid.php?format=json&weeks=${weeks}&systemTime=0`,
-            )
-                .then((f) => f.json())
-                .catch((_) => undefined);
-
+            const _statusResult =
+                libraryStatusResponseSchema.safeParse(statusRaw);
             const responseResult =
                 libraryScheduleResponseSchema.safeParse(responseRaw);
 
@@ -315,15 +360,26 @@ const command: SlashCommand = {
                     : DEFAULT_EMBED_COLOR;
 
             const etOffset = getETOffset();
-
             const tzString = `T00:00:00${etOffset}`;
 
             const embeds: EmbedBuilder[] = [];
 
-            weekLoop: for (const week of libraryData.weeks) {
+            for (const week of libraryData.weeks) {
                 const editEmbed = new EmbedBuilder().setColor(embedColor);
                 let dateRange: [string, string] = ["", ""];
                 const days = Object.entries(week);
+
+                let notSetCount = 0;
+                for (const [_day, info] of days) {
+                    if (info.times.status === "not-set") {
+                        notSetCount++;
+                    }
+                }
+
+                // if all days are not-set, skip this week since it's probably just a placeholder week with no data
+                if (notSetCount === days.length) {
+                    continue;
+                }
 
                 for (const [i, [_day, info]] of days.entries()) {
                     if (i === 0) dateRange[0] = info.date;
@@ -339,8 +395,6 @@ const command: SlashCommand = {
                         day: "numeric",
                     });
 
-                    if (info.times.status === "not-set") break weekLoop;
-
                     let fieldTitle = "";
                     let fieldDescription = "";
 
@@ -353,13 +407,16 @@ const command: SlashCommand = {
                         fieldTitle = `⛔ ${dayName} (Closed)`;
                     } else if (info.times.status === "ByApp") {
                         fieldTitle = `⚠️ ${dayName} (Open by appointment)`;
-                    } else if (info.times.status === "text") {
+                    } else if (info.times.status === "text" || info.times.status === "not-set") {
                         fieldTitle = info.times.text
                             ? `⛔ ${dayName} (${info.times.text})`
                             : `⚠️ ${dayName} (No status data available)`;
+                    } else if (info.times.status === "24hours") {
+                        fieldTitle = `🟢 ${dayName} (Open 24 hours)`;
                     }
                     if (info.times.note) {
-                        fieldDescription += ` • 📝 **Note:** ${info.times.note}`;
+                        if (fieldDescription.length > 0) fieldDescription += " • ";
+                        fieldDescription += `📝 **Note:** ${info.times.note}`;
                     }
 
                     editEmbed.addFields({
