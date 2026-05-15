@@ -1,5 +1,7 @@
 import {
     ActionRowBuilder,
+    Attachment,
+    AttachmentBuilder,
     ButtonBuilder,
     ButtonStyle,
     bold,
@@ -18,8 +20,35 @@ import {
     FCE_DATA_BY_COURSE,
     FCE_STARTUP_CACHE,
     FCEData,
+    FCERecord,
 } from "../utils/fceCache.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
+
+const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
+
+//modified from https://sashamaps.net/docs/resources/20-colors/
+const Colors = [
+    "#e6194b",
+    "#3cb44b",
+    "#ffe119",
+    "#4363d8",
+    "#f58231",
+    "#911eb4",
+    "#46f0f0",
+    "#f032e6",
+    "#bcf60c",
+    "#fabebe",
+    "#008080",
+    "#e6beff",
+    "#9a6324",
+    "#fffac8",
+    "#800000",
+    "#aaffc3",
+    "#808000",
+    "#ffd8b1",
+    "#000075",
+    "#076f00",
+];
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -231,7 +260,144 @@ const command: SlashCommand = {
 
                 return pages;
             }
+            async function buildFCEGraph(
+                entries: FCERecord[],
+            ): Promise<EmbedBuilder[]> {
+                const pages: EmbedBuilder[] = [];
+                let chunk: string[] = [];
+                let index = 0;
+                let chartData = [];
 
+                if (notFound.length > 0) {
+                    chunk.push(
+                        `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
+                    );
+                }
+
+                const instructorMap = new Map<string, FCERecord[]>();
+                for (const record of entries) {
+                    const instructor = record.instructor;
+                    if (!instructorMap.has(instructor)) {
+                        instructorMap.set(instructor, []);
+                    }
+                    const stats = instructorMap.get(instructor)!;
+                    stats.push(record);
+                }
+                for (const [instructor, data] of instructorMap) {
+                    let text = `${instructor}`;
+                    //let text = "G";
+                    let fcePoints = [];
+                    const name = instructor.toUpperCase();
+                    chunk.push(text);
+                    for (const record of data) {
+                        const season = record.semesterLabel[0];
+                        const year = Number(record.semesterLabel.slice(1));
+
+                        const xPoint = season === "S" ? year + 0.5 : year;
+                        //text += `${record.hrsPerWeek}, ${record.semesterLabel} \n`;
+                        fcePoints.push({ x: xPoint, y: record.hrsPerWeek });
+                    }
+                    chartData.push({
+                        type: "scatter",
+                        label: name,
+                        data: fcePoints,
+                        backgroundColor: Colors[index % 20],
+                        pointBorderColor: Colors[index % 20],
+                        pointBackgroundColor: Colors[index % 20] + "80",
+                    });
+
+                    index++;
+
+                    if (chunk.length >= 5 || index === instructorMap.size) {
+                        const embed = EmbedBuilder.from(
+                            baseEmbed,
+                        ).setDescription(chunk.join("\n\n"));
+
+                        const chart = {
+                            type: "scatter",
+                            data: {
+                                datasets: chartData,
+                            },
+                            options: {
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: `${course.id}: ${course.name}`,
+                                    },
+                                    legend: {
+                                        labels: {
+                                            filter: (
+                                                legendItem: any,
+                                                chart: any,
+                                            ) => {
+                                                return !String(legendItem.text)
+                                                    .toLowerCase()
+                                                    .includes("line");
+                                            },
+                                        },
+                                    },
+                                },
+
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            callback: function (value: number) {
+                                                if (
+                                                    value - Math.floor(value) >
+                                                    0
+                                                ) {
+                                                    return `${Math.floor(value)} S`;
+                                                }
+                                                return `${Math.floor(value)} F`;
+                                            },
+                                        },
+                                        title: {
+                                            text: `Year`,
+                                            display: true,
+                                        },
+                                    },
+                                    y: {
+                                        title: {
+                                            text: `FCE`,
+                                            display: true,
+                                        },
+                                    },
+                                },
+                            },
+                        };
+                        const response = await fetch(
+                            "https://quickchart.io/chart/create",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    chart,
+                                    backgroundColor: "white",
+                                    version: "4",
+                                }),
+                            },
+                        );
+
+                        if (!response.ok) {
+                            throw new Error("Failed to create chart");
+                        }
+
+                        const json = await response.json();
+                        console.log(json);
+                        // Short persistent URL
+                        const chartUrl = json.url;
+                        // const chartUrl = `https://quickchart.io/chart?bkg=%23ffffff&c=${encodedChart}`;
+                        embed.setImage(chartUrl);
+                        pages.push(embed);
+
+                        chunk = [];
+                    }
+                }
+
+                return pages;
+            }
             const selectOptions = [
                 {
                     label: "Summary",
@@ -248,6 +414,11 @@ const command: SlashCommand = {
                     label: "All Semesters",
                     value: "all_semesters",
                     pages: buildFCEPages(allSemesterEntries),
+                },
+                {
+                    label: "FCE Graph",
+                    value: "graph",
+                    pages: await buildFCEGraph(fce.records),
                 },
             ];
 
