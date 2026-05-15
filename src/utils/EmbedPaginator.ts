@@ -115,6 +115,21 @@ export class EmbedPaginator {
         );
     }
 
+    //TODO, this seems to be used in a few places, maybe abstract into a MessageUtils class or something
+    private async respond(
+        interaction: CommandInteraction,
+        options: {
+            embeds: EmbedBuilder[];
+            components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+        },
+    ) {
+        if (interaction.deferred || interaction.replied) {
+            return interaction.editReply(options);
+        }
+
+        return interaction.reply(options);
+    }
+
     private buildComponents(): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
         if (this.pages.length == 1) {
             return this.components; // hide page buttons if there is only one page
@@ -123,16 +138,16 @@ export class EmbedPaginator {
     }
 
     public async send(interaction: CommandInteraction) {
-        const response = await interaction.reply({
-            embeds: this.pages[this.current],
+        await this.respond(interaction, {
+            embeds: this.pages[this.current]!,
             components: this.buildComponents(),
-            withResponse: true,
         });
 
-        const collector =
-            response.resource!.message!.createMessageComponentCollector({
-                time: 840_000, // 14 minutes
-            });
+        const response = await interaction.fetchReply();
+
+        const collector = response.createMessageComponentCollector({
+            time: 840_000, // 14 minutes
+        });
 
         collector.on("collect", async (compInteraction) => {
             if (compInteraction.user.id !== interaction.user.id) {
@@ -179,7 +194,7 @@ export class EmbedPaginator {
                 row.components.forEach((c) => c.setDisabled(true));
             });
 
-            await response.resource?.message?.edit({ components });
+            await response?.edit({ components });
         });
     }
 }
