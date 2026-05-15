@@ -1,7 +1,5 @@
 import {
     ActionRowBuilder,
-    Attachment,
-    AttachmentBuilder,
     ButtonBuilder,
     ButtonStyle,
     bold,
@@ -23,8 +21,6 @@ import {
     FCERecord,
 } from "../utils/fceCache.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
-
-const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 
 //modified from https://sashamaps.net/docs/resources/20-colors/
 const Colors = [
@@ -274,6 +270,7 @@ const command: SlashCommand = {
                     );
                 }
 
+                //build instructor map
                 const instructorMap = new Map<string, FCERecord[]>();
                 for (const record of entries) {
                     const instructor = record.instructor;
@@ -283,6 +280,8 @@ const command: SlashCommand = {
                     const stats = instructorMap.get(instructor)!;
                     stats.push(record);
                 }
+
+                //go through every instructor
                 for (const [instructor, data] of instructorMap) {
                     let text = `${instructor}`;
                     //let text = "G";
@@ -308,10 +307,11 @@ const command: SlashCommand = {
 
                     index++;
 
-                    if (chunk.length >= 5 || index === instructorMap.size) {
-                        const embed = EmbedBuilder.from(
-                            baseEmbed,
-                        ).setDescription(chunk.join("\n\n"));
+                    if (chunk.length >= 10 || index === instructorMap.size) {
+                        const embed =
+                            EmbedBuilder.from(baseEmbed).setDescription(
+                                "graph",
+                            );
 
                         const chart = {
                             type: "scatter",
@@ -384,7 +384,7 @@ const command: SlashCommand = {
                             throw new Error("Failed to create chart");
                         }
 
-                        const json = await response.json();
+                        const json: any = await response.json();
                         console.log(json);
                         // Short persistent URL
                         const chartUrl = json.url;
@@ -393,6 +393,7 @@ const command: SlashCommand = {
                         pages.push(embed);
 
                         chunk = [];
+                        chartData = [];
                     }
                 }
 
