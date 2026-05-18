@@ -1,0 +1,114 @@
+name: Task
+description: Standard Dalmatian Development issue
+title: "[BRIEF DESCRIPTION]"
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "## Overall Objective"
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Overall Objective
+      description: What is this issue trying to accomplish and why?
+      placeholder: "e.g. Users currently see stale data because the cache isn't invalidated on update. This issue fixes that."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## Implementation Instructions"
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Instructions
+      description: Step-by-step technical approach. Be specific enough that anyone can pick this up.
+      placeholder: |
+        1. Locate the cache layer in `src/cache/...`
+        2. Add invalidation call after `updateRecord()`
+        3. Write a test for the new behavior
+        4. ...
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## Resources"
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: Links, docs, prior issues, Figma files, etc. (customize per repo)
+      placeholder: |
+        - Design: [Figma link]
+        - Docs: [link]
+        - Related issue: #
+
+  - type: markdown
+    attributes:
+      value: "## Points of Contact"
+
+  - type: textarea
+    id: contacts
+    attributes:
+      label: Points of Contact
+      description: Who to ask questions — include their GitHub handle and area of ownership.
+      placeholder: |
+        - @handle — backend / auth
+        - @handle — design / UX
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      description: Rough effort estimate
+      options:
+        - XS
+        - S
+        - M
+        - L
+        - XL
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P0
+        - P1
+        - P2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Ready
+        - In progress
+        - Backlog
+        - Done
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: label
+    attributes:
+      label: Label
+      options:
+        - bug
+        - enhancement
+        - chore
+        - good first issue
+        - documentation
+        - wontfix
+    validations:
+      required: true
