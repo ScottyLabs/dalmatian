@@ -19,7 +19,7 @@ async function fetchEmojiData(
 
     let name: string | undefined;
     try {
-        const emoji = await client.rest.get(`/emojis/${emojiId}`) as {
+        const emoji = (await client.rest.get(`/emojis/${emojiId}`)) as {
             name: string;
             animated: boolean;
         };
@@ -63,17 +63,19 @@ async function fetchSoundName(
     client: Client,
 ): Promise<string | undefined> {
     try {
-        const defaults = await client.rest.get(`/soundboard-default-sounds`) as Array<{ sound_id: string; name: string }>;
+        const defaults = (await client.rest.get(
+            `/soundboard-default-sounds`,
+        )) as Array<{ sound_id: string; name: string }>;
         const found = defaults.find((s) => s.sound_id === soundId);
         if (found) return found.name;
-    } catch { }
+    } catch {}
 
     for (const [, guild] of client.guilds.cache) {
         try {
             const sounds = await guild.soundboardSounds.fetch();
             const found = sounds.find((s) => s.soundId === soundId);
             if (found) return found.name;
-        } catch { }
+        } catch {}
     }
 
     return undefined;
@@ -138,10 +140,16 @@ const command: SlashCommand = {
         const emojiData = await fetchEmojiData(id, interaction.client);
         if (emojiData) {
             try {
-                const finalName = (providedName ?? parsed.name ?? emojiData.name ?? "").trim();
+                const finalName = (
+                    providedName ??
+                    parsed.name ??
+                    emojiData.name ??
+                    ""
+                ).trim();
                 if (!finalName) {
                     return interaction.editReply({
-                        content: "Couldn't find emoji name. Pass the full emoji with the `name` option.",
+                        content:
+                            "Couldn't find emoji name. Pass the full emoji with the `name` option.",
                     });
                 }
                 const added = await guild.emojis.create({
@@ -191,14 +199,16 @@ const command: SlashCommand = {
         const soundRes = await fetch(soundCdnUrl);
         if (soundRes.ok) {
             const buffer = Buffer.from(await soundRes.arrayBuffer());
-            const contentType = soundRes.headers.get("content-type") ?? undefined;
+            const contentType =
+                soundRes.headers.get("content-type") ?? undefined;
 
             const originalName = await fetchSoundName(id, interaction.client);
 
             const finalName = (providedName ?? originalName ?? "").trim();
             if (!finalName) {
                 return interaction.editReply({
-                    content: "Couldn't determine sound name. Please use the `name` option.",
+                    content:
+                        "Couldn't determine sound name. Please use the `name` option.",
                 });
             }
 
