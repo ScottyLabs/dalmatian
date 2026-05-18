@@ -1,4 +1,5 @@
 import {
+    Client,
     DiscordAPIError,
     EmbedBuilder,
     parseEmoji,
@@ -9,17 +10,29 @@ import {
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
-async function fetchEmojiUrl(
+async function fetchEmojiData(
     emojiId: string,
-): Promise<{ url: string; animated: boolean } | null> {
+    client: Client,
+): Promise<{ url: string; animated: boolean; name?: string } | null> {
     const gifUrl = `https://cdn.discordapp.com/emojis/${emojiId}.gif?size=128`;
     const pngUrl = `https://cdn.discordapp.com/emojis/${emojiId}.png?size=128`;
 
+    let name: string | undefined;
+    try {
+        const emoji = await client.rest.get(`/emojis/${emojiId}`) as {
+            name: string;
+            animated: boolean;
+        };
+        name = emoji.name;
+    } catch {
+        // bot isn't in that server, name will be undefined
+    }
+
     const gifRes = await fetch(gifUrl);
-    if (gifRes.ok) return { url: gifUrl, animated: true };
+    if (gifRes.ok) return { url: gifUrl, animated: true, name };
 
     const pngRes = await fetch(pngUrl);
-    if (pngRes.ok) return { url: pngUrl, animated: false };
+    if (pngRes.ok) return { url: pngUrl, animated: false, name };
 
     return null;
 }
@@ -43,6 +56,27 @@ async function fetchStickerAttachment(stickerId: string): Promise<{
         }
     }
     return null;
+}
+
+async function fetchSoundName(
+    soundId: string,
+    client: Client,
+): Promise<string | undefined> {
+    try {
+        const defaults = await client.rest.get(`/soundboard-default-sounds`) as Array<{ sound_id: string; name: string }>;
+        const found = defaults.find((s) => s.sound_id === soundId);
+        if (found) return found.name;
+    } catch { }
+
+    for (const [, guild] of client.guilds.cache) {
+        try {
+            const sounds = await guild.soundboardSounds.fetch();
+            const found = sounds.find((s) => s.soundId === soundId);
+            if (found) return found.name;
+        } catch { }
+    }
+
+    return undefined;
 }
 
 function parseEmojiInput(input: string): {
@@ -99,15 +133,17 @@ const command: SlashCommand = {
 
         const parsed = parseEmojiInput(rawInput);
         const id = parsed.id;
+        console.log("parsed id:", id, "parsed name:", parsed.name);
 
-        const emojiData = await fetchEmojiUrl(id);
+        const emojiData = await fetchEmojiData(id, interaction.client);
         if (emojiData) {
             try {
-                const finalName = (
-                    providedName ??
-                    parsed.name ??
-                    "stolen_emoji"
-                ).trim();
+                const finalName = (providedName ?? parsed.name ?? emojiData.name ?? "").trim();
+                if (!finalName) {
+                    return interaction.editReply({
+                        content: "Couldn't find emoji name. Pass the full emoji with the `name` option.",
+                    });
+                }
                 const added = await guild.emojis.create({
                     attachment: emojiData.url,
                     name: finalName,
@@ -155,27 +191,18 @@ const command: SlashCommand = {
         const soundRes = await fetch(soundCdnUrl);
         if (soundRes.ok) {
             const buffer = Buffer.from(await soundRes.arrayBuffer());
-            const contentType =
-                soundRes.headers.get("content-type") ?? undefined;
+            const contentType = soundRes.headers.get("content-type") ?? undefined;
 
-            let originalName: string | undefined;
-            try {
-                const defaultSounds = (await guild.client.rest.get(
-                    `/soundboard-default-sounds`,
-                )) as Array<{ sound_id: string; name: string }>;
-                originalName = defaultSounds?.find(
-                    (s) => s.sound_id === id,
-                )?.name;
-            } catch (err) {
-                console.warn("Default soundboard lookup failed ", err);
+            const originalName = await fetchSoundName(id, interaction.client);
+
+            const finalName = (providedName ?? originalName ?? "").trim();
+            if (!finalName) {
+                return interaction.editReply({
+                    content: "Couldn't determine sound name. Please use the `name` option.",
+                });
             }
 
             try {
-                const finalName = (
-                    providedName ??
-                    originalName ??
-                    "stolen_sound"
-                ).trim();
                 const added = await guild.soundboardSounds.create({
                     file: buffer,
                     name: finalName,
