@@ -16,7 +16,7 @@ import type { MessageContextCommand } from "../types.d.ts";
 
 const command: MessageContextCommand = {
     data: new ContextMenuCommandBuilder()
-        .setName("Steal Emotes")
+        .setName("Steal Emotes/Stickers")
         .setType(ApplicationCommandType.Message)
         .setContexts(InteractionContextType.Guild),
 

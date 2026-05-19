@@ -18,14 +18,23 @@ async function fetchEmojiData(
     const pngUrl = `https://cdn.discordapp.com/emojis/${emojiId}.png?size=128`;
 
     let name: string | undefined;
-    try {
-        const emoji = (await client.rest.get(`/emojis/${emojiId}`)) as {
-            name: string;
-            animated: boolean;
-        };
-        name = emoji.name;
-    } catch {
-        // bot isn't in that server, name will be undefined
+
+    for (const [, guild] of client.guilds.cache) {
+        const emoji = guild.emojis.cache.get(emojiId);
+        if (emoji) {
+            name = emoji.name ?? undefined;
+            break;
+        }
+    }
+
+    if (!name) {
+        try {
+            const emoji = await client.rest.get(`/emojis/${emojiId}`) as {
+                name: string;
+                animated: boolean;
+            };
+            name = emoji.name;
+        } catch { }
     }
 
     const gifRes = await fetch(gifUrl);
@@ -56,6 +65,18 @@ async function fetchStickerAttachment(stickerId: string): Promise<{
         }
     }
     return null;
+}
+
+async function fetchStickerName(
+    stickerId: string,
+    client: Client,
+): Promise<string | undefined> {
+    try {
+        const sticker = await client.rest.get(`/stickers/${stickerId}`) as { name: string };
+        return sticker.name;
+    } catch {
+        return undefined;
+    }
 }
 
 async function fetchSoundName(
@@ -175,7 +196,8 @@ const command: SlashCommand = {
         const stickerData = await fetchStickerAttachment(id);
         if (stickerData) {
             try {
-                const finalName = (providedName ?? "stolen_sticker").trim();
+                const fetchedName = await fetchStickerName(id, interaction.client);
+                const finalName = (providedName ?? fetchedName ?? "stolen_sticker").trim();
                 const added = await guild.stickers.create({
                     file: stickerData.attachment,
                     name: finalName,
@@ -188,6 +210,11 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
+                if (err instanceof DiscordAPIError && err.code === 30039) {
+                    return interaction.editReply({
+                        content: "This server has reached the maximum number of stickers.",
+                    });
+                }
                 console.error("Failed to add sticker", err);
                 return interaction.editReply({
                     content: "Failed to add sticker",
@@ -305,26 +332,36 @@ const command: SlashCommand = {
                         (e): e is PartialEmoji & { id: string } =>
                             e?.id != null,
                     );
+                const results: string[] = [];
                 for (const emoji of emojis) {
                     const ext = emoji.animated ? "gif" : "png";
                     const url = `https://cdn.discordapp.com/emojis/${emoji.id}.${ext}?size=128`;
-                    const finalName = (
-                        providedName ??
-                        emoji.name ??
-                        "stolen_emoji"
-                    ).trim();
-                    const added = await guild.emojis.create({
-                        attachment: url,
-                        name: finalName,
-                    });
-                    const embed = new EmbedBuilder()
-                        .setTitle("Emoji Added")
-                        .setDescription(
-                            `Stole ${added.toString()} (\`${added.name}\`) from message`,
-                        );
-                    return interaction.editReply({ embeds: [embed] });
+                    const finalName = (providedName ?? emoji.name ?? "").trim();
+                    if (!finalName) continue;
+                    try {
+                        const added = await guild.emojis.create({
+                            attachment: url,
+                            name: finalName,
+                        });
+                        results.push(`${added.toString()} (\`${added.name}\`)`);
+                    } catch (err) {
+                        if (err instanceof DiscordAPIError && err.code === 30008) {
+                            return interaction.editReply({
+                                content: `Reached max emojis. Successfully added: ${results.join(", ") || "none"}`,
+                            });
+                        }
+                        console.error("Failed to steal emoji", err);
+                    }
                 }
-                break;
+
+                if (results.length === 0) {
+                    return interaction.editReply({ content: "Failed to steal any emojis." });
+                }
+
+                const embed = new EmbedBuilder()
+                    .setTitle("Emojis Added")
+                    .setDescription(`Stole ${results.join(", ")} from message`);
+                return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 console.error("Failed to steal from message", err);
                 return interaction.editReply({
