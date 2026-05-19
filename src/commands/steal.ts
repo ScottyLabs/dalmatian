@@ -29,12 +29,12 @@ async function fetchEmojiData(
 
     if (!name) {
         try {
-            const emoji = await client.rest.get(`/emojis/${emojiId}`) as {
+            const emoji = (await client.rest.get(`/emojis/${emojiId}`)) as {
                 name: string;
                 animated: boolean;
             };
             name = emoji.name;
-        } catch { }
+        } catch {}
     }
 
     const gifRes = await fetch(gifUrl);
@@ -72,7 +72,9 @@ async function fetchStickerName(
     client: Client,
 ): Promise<string | undefined> {
     try {
-        const sticker = await client.rest.get(`/stickers/${stickerId}`) as { name: string };
+        const sticker = (await client.rest.get(`/stickers/${stickerId}`)) as {
+            name: string;
+        };
         return sticker.name;
     } catch {
         return undefined;
@@ -196,8 +198,15 @@ const command: SlashCommand = {
         const stickerData = await fetchStickerAttachment(id);
         if (stickerData) {
             try {
-                const fetchedName = await fetchStickerName(id, interaction.client);
-                const finalName = (providedName ?? fetchedName ?? "stolen_sticker").trim();
+                const fetchedName = await fetchStickerName(
+                    id,
+                    interaction.client,
+                );
+                const finalName = (
+                    providedName ??
+                    fetchedName ??
+                    "stolen_sticker"
+                ).trim();
                 const added = await guild.stickers.create({
                     file: stickerData.attachment,
                     name: finalName,
@@ -212,7 +221,8 @@ const command: SlashCommand = {
             } catch (err) {
                 if (err instanceof DiscordAPIError && err.code === 30039) {
                     return interaction.editReply({
-                        content: "This server has reached the maximum number of stickers.",
+                        content:
+                            "This server has reached the maximum number of stickers.",
                     });
                 }
                 console.error("Failed to add sticker", err);
@@ -345,7 +355,10 @@ const command: SlashCommand = {
                         });
                         results.push(`${added.toString()} (\`${added.name}\`)`);
                     } catch (err) {
-                        if (err instanceof DiscordAPIError && err.code === 30008) {
+                        if (
+                            err instanceof DiscordAPIError &&
+                            err.code === 30008
+                        ) {
                             return interaction.editReply({
                                 content: `Reached max emojis. Successfully added: ${results.join(", ") || "none"}`,
                             });
@@ -355,7 +368,9 @@ const command: SlashCommand = {
                 }
 
                 if (results.length === 0) {
-                    return interaction.editReply({ content: "Failed to steal any emojis." });
+                    return interaction.editReply({
+                        content: "Failed to steal any emojis.",
+                    });
                 }
 
                 const embed = new EmbedBuilder()
