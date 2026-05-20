@@ -3,10 +3,6 @@ description: (Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
 labels: []
 body:
-  - type: markdown
-    attributes:
-      value: "## Overall Objective"
-
   - type: textarea
     id: objective
     attributes:
@@ -15,10 +11,6 @@ body:
       placeholder: "e.g. Users currently see stale data because the cache isn't invalidated on update. This issue fixes that."
     validations:
       required: true
-
-  - type: markdown
-    attributes:
-      value: "## Suggested Approach"
 
   - type: textarea
     id: approach
@@ -32,10 +24,6 @@ body:
     validations:
       required: true
 
-  - type: markdown
-    attributes:
-      value: "## Resources"
-
   - type: textarea
     id: resources
     attributes:
@@ -46,21 +34,21 @@ body:
         - Docs: [link]
         - Related issue: #
 
-  - type: markdown
-    attributes:
-      value: "## Points of Contact"
-
   - type: textarea
     id: contacts
     attributes:
       label: Points of Contact
       description: Who to ask questions — include their GitHub handle and area of ownership.
-      placeholder: |
+      value: |
         - @Tentype — technical issues/help and outreach/usage
         - @maybe-yiyi — technical issues/help
-        - @Gostmeaper - outreach and product usage
+        - @Gostmeaper — outreach and product usage
     validations:
       required: true
+
+  - type: markdown
+    attributes:
+      value: "**Issue Metadata**"
 
   - type: dropdown
     id: size
@@ -84,6 +72,7 @@ body:
         - P0
         - P1
         - P2
+        - No Priority
     validations:
       required: true
 
