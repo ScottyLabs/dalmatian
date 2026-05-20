@@ -77,9 +77,9 @@ body:
     attributes:
       label: Status
       options:
+        - Backlog
         - Ready
         - In progress
-        - Backlog
         - Done
     validations:
       required: true
