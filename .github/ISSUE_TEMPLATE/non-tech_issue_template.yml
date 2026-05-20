@@ -1,33 +1,17 @@
 name: Task (Non-Technical)
 description: (Non-Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
-labels: []
+labels: ["needs-triage"]
 body:
   - type: markdown
     attributes:
-      value: "## Overall Objective"
+      value: "## Feature Request or Bug Report"
 
   - type: textarea
-    id: objective
+    id: request
     attributes:
-      label: Overall Objective
+      label: Feature Request
       description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
-      placeholder: "e.g. Users currently see stale data because the cache isn't invalidated on update. This issue fixes that."
-    validations:
-      required: true
-
-  - type: markdown
-    attributes:
-      value: "## Suggested Approach"
-
-  - type: textarea
-    id: approach
-    attributes:
-      label: Suggested Approach
-      description: What might be a good direction to go down or what might be good resources/ideas to start from. If applicable.
-      placeholder: |
-        1. Use X to do Y
-        2. I suggest looking up the docs for X
-        3. Think about how to X
+      placeholder: "e.g. The transition between the about and help page stutters randomly. Fix this bug if possible."
     validations:
       required: true
