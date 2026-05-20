@@ -1,0 +1,114 @@
+name: Task (Technical)
+description: (Technical) Standard Dalmatian Development issue
+title: "[BRIEF DESCRIPTION]"
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "## Overall Objective"
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Overall Objective
+      description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
+      placeholder: "e.g. Users currently see stale data because the cache isn't invalidated on update. This issue fixes that."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## Suggested Approach"
+
+  - type: textarea
+    id: approach
+    attributes:
+      label: Suggested Approach
+      description: What might be a good direction to go down or what might be good resources/ideas to start from
+      placeholder: |
+        1. Use X to do Y
+        2. I suggest looking up the docs for X
+        3. Think about how to X
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## Resources"
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: Links, docs, prior issues, Figma files, etc. (customize per repo)
+      placeholder: |
+        - Design: [Figma link]
+        - Docs: [link]
+        - Related issue: #
+
+  - type: markdown
+    attributes:
+      value: "## Points of Contact"
+
+  - type: textarea
+    id: contacts
+    attributes:
+      label: Points of Contact
+      description: Who to ask questions — include their GitHub handle and area of ownership.
+      placeholder: |
+        - @Tentype — technical issues/help and outreach/usage
+        - @maybe-yiyi — technical issues/help
+        - @Gostmeaper - outreach and product usage
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      description: Rough effort estimate
+      options:
+        - XS
+        - S
+        - M
+        - L
+        - XL
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P0
+        - P1
+        - P2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Ready
+        - In progress
+        - Backlog
+        - Done
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: label
+    attributes:
+      label: Label
+      options:
+        - bug
+        - enhancement
+        - chore
+        - good first issue
+        - documentation
+        - wontfix
+    validations:
+      required: true
