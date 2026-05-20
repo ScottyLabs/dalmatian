@@ -46,10 +46,6 @@ body:
     validations:
       required: true
 
-  - type: markdown
-    attributes:
-      value: "### Issue Metadata"
-
   - type: dropdown
     id: size
     attributes:
