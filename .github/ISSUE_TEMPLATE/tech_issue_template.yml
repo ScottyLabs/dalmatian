@@ -44,7 +44,7 @@ body:
       label: Points of Contact
       description: Who to ask questions — include their GitHub handle and area of ownership.
       value: |
-        - @Tentype — technical issues/help and outreach/usage
+        - @TenType — technical issues/help and outreach/usage
         - @maybe-yiyi — technical issues/help
         - @Gostmeaper — outreach and product usage
     validations:
