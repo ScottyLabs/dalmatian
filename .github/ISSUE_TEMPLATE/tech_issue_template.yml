@@ -97,11 +97,11 @@ body:
     attributes:
       label: Label
       options:
-        - bug
-        - enhancement
-        - chore
-        - good first issue
-        - documentation
-        - wontfix
+        - label: bug
+        - label: enhancement
+        - label: chore
+        - label: good first issue
+        - label: documentation
+        - label: wontfix
     validations:
       required: true
