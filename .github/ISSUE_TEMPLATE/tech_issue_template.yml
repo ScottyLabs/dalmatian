@@ -1,3 +1,4 @@
+---
 name: Task (Technical)
 description: (Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
@@ -6,36 +7,34 @@ body:
   - type: markdown
     attributes:
       value: "## Overall Objective"
-
   - type: textarea
     id: objective
     attributes:
       label: Overall Objective
-      description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
-      placeholder: "e.g. Users currently see stale data because the cache isn't invalidated on update. This issue fixes that."
+      description: What is this issue trying to accomplish and why? If applicable
+        where does the project stand right now?
+      placeholder: e.g. Users currently see stale data because the cache isn't
+        invalidated on update. This issue fixes that.
     validations:
       required: true
-
   - type: markdown
     attributes:
       value: "## Suggested Approach"
-
   - type: textarea
     id: approach
     attributes:
       label: Suggested Approach
-      description: What might be a good direction to go down or what might be good resources/ideas to start from
+      description: What might be a good direction to go down or what might be good
+        resources/ideas to start from
       placeholder: |
         1. Use X to do Y
         2. I suggest looking up the docs for X
         3. Think about how to X
     validations:
       required: true
-
   - type: markdown
     attributes:
       value: "## Resources"
-
   - type: textarea
     id: resources
     attributes:
@@ -45,11 +44,9 @@ body:
         - Design: [Figma link]
         - Docs: [link]
         - Related issue: #
-
   - type: markdown
     attributes:
       value: "## Points of Contact"
-
   - type: textarea
     id: contacts
     attributes:
@@ -61,7 +58,6 @@ body:
         - @Gostmeaper - outreach and product usage
     validations:
       required: true
-
   - type: dropdown
     id: size
     attributes:
@@ -75,7 +71,6 @@ body:
         - XL
     validations:
       required: true
-
   - type: dropdown
     id: priority
     attributes:
@@ -86,7 +81,6 @@ body:
         - P2
     validations:
       required: true
-
   - type: dropdown
     id: status
     attributes:
@@ -98,7 +92,6 @@ body:
         - Done
     validations:
       required: true
-
   - type: checkboxes
     id: label
     attributes:
