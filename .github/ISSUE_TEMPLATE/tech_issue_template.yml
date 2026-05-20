@@ -71,9 +71,7 @@ body:
         - P0
         - P1
         - P2
-        - No Priority
-    validations:
-      required: true
+
   - type: dropdown
     id: status
     attributes:
