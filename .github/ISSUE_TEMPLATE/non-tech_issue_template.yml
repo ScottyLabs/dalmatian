@@ -17,9 +17,7 @@ body:
     attributes:
       label: Points of Contact
       description: Add who to ask questions regarding this issue, if able. Otherwise keep default contacts.
-      placeholder: |
+      value: |
         - @Tentype — technical issues/help and outreach/usage
         - @maybe-yiyi — technical issues/help
         - @Gostmeaper - outreach and product usage
-    validations:
-      required: true
