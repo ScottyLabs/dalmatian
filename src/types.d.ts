@@ -1,10 +1,12 @@
 import type {
     AutocompleteInteraction,
     ChatInputCommandInteraction,
+    Client,
     ClientEvents,
     ContextMenuCommandBuilder,
-    ContextMenuCommandInteraction,
+    MessageContextMenuCommandInteraction,
     SlashCommandBuilder,
+    UserContextMenuCommandInteraction,
 } from "discord.js";
 
 // TODO: add text commands to this interface
