@@ -20,6 +20,11 @@ export async function configureLogger() {
                 lowestLevel: "info",
                 sinks: ["console"],
             },
+            {
+                category: ["logtape", "meta"],
+                lowestLevel: "warning",
+                sinks: ["console"],
+            }
         ],
     });
 }
