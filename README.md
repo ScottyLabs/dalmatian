@@ -1,5 +1,10 @@
 # Dalmatian
 
+[![License](https://img.shields.io/github/license/ScottyLabs/dalmatian)](https://github.com/ScottyLabs/dalmatian)
+[![Stars](https://img.shields.io/github/stars/ScottyLabs/dalmatian)](https://github.com/ScottyLabs/dalmatian)
+[![Issues](https://img.shields.io/github/issues/ScottyLabs/dalmatian)](https://github.com/ScottyLabs/dalmatian/issues)
+
+
 Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMU Courses and CMU Eats right at your fingertips!
 
 <!--TODO: ## Features-->
