@@ -1,4 +1,4 @@
-import { ansiColorFormatter, getLogger } from "@logtape/logtape";
+import { getAnsiColorFormatter, getLogger } from "@logtape/logtape";
 import { configure, getConsoleSink } from "@logtape/logtape";
 
 export const logger = getLogger("dalmatian");
@@ -7,7 +7,11 @@ export async function configureLogger() {
     await configure({
         sinks: {
             console: getConsoleSink({
-                formatter: ansiColorFormatter,
+                formatter: getAnsiColorFormatter({
+                    timestamp: "date-time-timezone",
+                    timeZone: "America/New_York",
+                    level: "FULL",
+                }),
             }),
         },
         loggers: [
