@@ -13,6 +13,7 @@ import type {
     MessageContextCommand,
     UserContextCommand,
 } from "../types.d.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
@@ -23,7 +24,7 @@ const event: Event<Events.InteractionCreate> = {
         if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
             const command = client.slashCommands.get(interaction.commandName);
             if (!command) {
-                console.error(
+                logger.error(
                     `No command matching "${interaction.commandName}" found`,
                 );
                 return;
@@ -34,8 +35,12 @@ const event: Event<Events.InteractionCreate> = {
                     await command.execute(
                         interaction as ChatInputCommandInteraction,
                     );
+
+                    logger.info(
+                        `Executed command "${interaction.commandName}" for user ${interaction.user.tag}`,
+                    );
                 } catch (error) {
-                    console.error(error);
+                    logger.error("Error executing command:", nodeError(error));
                     if (interaction.deferred || interaction.replied) {
                         await interaction.editReply({
                             content:
@@ -61,7 +66,7 @@ const event: Event<Events.InteractionCreate> = {
                         interaction as AutocompleteInteraction,
                     );
                 } catch (error) {
-                    console.error(error);
+                    logger.error("Error in autocomplete:", nodeError(error));
                 }
             }
         } else if (
@@ -70,7 +75,7 @@ const event: Event<Events.InteractionCreate> = {
         ) {
             const command = client.contextCommands.get(interaction.commandName);
             if (!command) {
-                console.error(
+                logger.error(
                     `No context command matching "${interaction.commandName}" found`,
                 );
                 return;
@@ -86,8 +91,15 @@ const event: Event<Events.InteractionCreate> = {
                         interaction as UserContextMenuCommandInteraction,
                     );
                 }
+
+                logger.info(
+                    `Executed context command "${interaction.commandName}" for user ${interaction.user.tag}`,
+                );
             } catch (error) {
-                console.error(error);
+                logger.error(
+                    "Error executing context command:",
+                    nodeError(error),
+                );
                 if (interaction.deferred || interaction.replied) {
                     await interaction.editReply({
                         content:

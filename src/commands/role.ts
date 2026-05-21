@@ -9,6 +9,7 @@ import {
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { parseAndEvaluate } from "../utils/operatorParser.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -54,18 +55,17 @@ const command: SlashCommand = {
         if (
             interaction.guild.members.cache.size < interaction.guild.memberCount
         ) {
-            console.log(
-                `Cache mismatch detected, refreshing member cache..., timestamp ${new Date().toISOString()}`,
-            ); //TODO: Remove timestamp when we switch to a proper logger framework
+            logger.info(`Cache mismatch detected, refreshing member cache`);
+
             try {
                 await interaction.guild.members.fetch();
-                console.log(
+                logger.info(
                     `Updated member cache for guild ${interaction.guild.name} (${interaction.guild.id})`,
                 );
             } catch (error) {
-                console.error(
+                logger.error(
                     `Failed to update member cache for guild ${interaction.guild.id}:`,
-                    error,
+                    nodeError(error),
                 );
             }
         }

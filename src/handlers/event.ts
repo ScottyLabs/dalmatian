@@ -2,6 +2,7 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Client, ClientEvents } from "discord.js";
 import type { Event } from "../types.d.ts";
+import { logger } from "../utils/log.ts";
 
 export default (client: Client) => {
     const eventsDir = join(__dirname, "../events");
@@ -18,6 +19,6 @@ export default (client: Client) => {
         } else {
             client.on(event.name, (...args) => event.execute(...args));
         }
-        console.log(`Loaded event ${event.name}`);
+        logger.info(`Loaded event ${event.name}`);
     });
 };

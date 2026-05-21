@@ -10,6 +10,7 @@ import {
     checkReactionRedirect,
     recordUserPing,
 } from "../utils/reactionRedirect.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
 const event: Event<Events.MessageReactionAdd> = {
     name: Events.MessageReactionAdd,
@@ -41,7 +42,7 @@ const event: Event<Events.MessageReactionAdd> = {
             const message = reaction.message;
 
             if (!message.author || !message.guild) {
-                console.error(
+                logger.error(
                     "Cannot send redirect message: invalid message data",
                 );
                 return;
@@ -53,7 +54,7 @@ const event: Event<Events.MessageReactionAdd> = {
             );
 
             if (!redirectChannel?.isSendable()) {
-                console.error(
+                logger.error(
                     "Cannot send redirect message: redirect channel not sendable",
                 );
                 return;
@@ -70,11 +71,11 @@ const event: Event<Events.MessageReactionAdd> = {
                 result.redirectionInstance.id,
             );
 
-            console.log(
+            logger.info(
                 `Redirected ${user.tag} reaction to ${message.author.tag}'s message`,
             );
         } catch (error) {
-            console.error("Error handling message reaction:", error);
+            logger.error("Error handling message reaction:", nodeError(error));
         }
     },
 };

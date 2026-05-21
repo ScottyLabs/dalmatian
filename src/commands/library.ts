@@ -332,8 +332,6 @@ const command: SlashCommand = {
                 libraryScheduleResponseSchema.safeParse(responseRaw);
 
             if (!responseResult.success) {
-                console.log(JSON.stringify(responseResult.error.format()));
-                console.log(responseRaw);
                 const embed1 = new EmbedBuilder().setTitle(
                     "Failed to fetch library schedule. Please try again later.",
                 );

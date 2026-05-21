@@ -5,6 +5,7 @@
     "": {
       "name": "dalmatian",
       "dependencies": {
+        "@logtape/logtape": "^2.1.1",
         "@types/ms": "^2.1.0",
         "@types/node": "^24.10.4",
         "csv-parse": "^6.1.0",
@@ -194,6 +195,8 @@
     "@js-joda/core": ["@js-joda/core@5.7.0", "", {}, "sha512-WBu4ULVVxySLLzK1Ppq+OdfP+adRS4ntmDQT915rzDJ++i95gc2jZkM5B6LWEAwN3lGXpfie3yPABozdD3K3Vg=="],
 
     "@js-temporal/polyfill": ["@js-temporal/polyfill@0.5.1", "", { "dependencies": { "jsbi": "^4.3.0" } }, "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ=="],
+
+    "@logtape/logtape": ["@logtape/logtape@2.1.1", "", {}, "sha512-aULbCqUQGerfOsZ3CMvcKtueKzmdchluXYUd3bIHKmOIS93fx1ko0+hyRQ4flloGZ8EiyRPydZXiy8n1J/eAQA=="],
 
     "@oxlint-tsgolint/darwin-arm64": ["@oxlint-tsgolint/darwin-arm64@0.9.2", "", { "os": "darwin", "cpu": "arm64" }, "sha512-AujIYejzo2KgSWEn65FxkTwJ7Xkq106wUjyKYpljpEsrldO3QkW1yjj6osisoIjM/NdV0VO21YWjIGFIKd0/Ug=="],
 

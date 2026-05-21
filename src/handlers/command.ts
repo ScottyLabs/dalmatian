@@ -9,6 +9,7 @@ import {
     type SlashCommandBuilder,
 } from "discord.js";
 import type { ContextCommand, SlashCommand } from "../types.d.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
 export default (client: Client) => {
     const slashCommands: Pick<SlashCommandBuilder, "name" | "toJSON">[] = [];
@@ -42,7 +43,7 @@ export default (client: Client) => {
 
     (async () => {
         try {
-            console.log("Started refreshing application commands.");
+            logger.info("Started refreshing application commands.");
 
             const allCommands = [
                 ...slashCommands.map((command) => command.toJSON()),
@@ -60,16 +61,20 @@ export default (client: Client) => {
                     const commandCount = Array.isArray(data)
                         ? data.length
                         : "unknown";
-                    console.log(
+                    logger.info(
                         `Successfully reloaded ${commandCount} application commands (${slashCommands.length} slash, ${contextCommands.length} context menu).`,
                     );
                 });
         } catch (error: unknown) {
-            console.error(
-                error instanceof Error ? error.message : String(error),
+            logger.error(
+                "Failed to refresh application commands:",
+                nodeError(error),
             );
         }
     })().catch((error: unknown) => {
-        console.error(error instanceof Error ? error.message : String(error));
+        logger.error(
+            "Failed to refresh application commands:",
+            nodeError(error),
+        );
     });
 };

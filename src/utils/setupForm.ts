@@ -18,6 +18,7 @@ import {
     TextInputStyle,
 } from "discord.js";
 import { z } from "zod";
+import { logger, nodeError } from "./log.ts";
 
 export function displayEmoji(emojiId: string): string {
     // Snowflake ID, wrap in emoji syntax
@@ -294,7 +295,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                console.error("Error in handleChannelSelect:", error);
+                logger.error("Error in handleChannelSelect:", nodeError(error));
             }
         }
     }
@@ -328,7 +329,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                console.error("Error in handleRoleSelect:", error);
+                logger.error("Error in handleRoleSelect:", nodeError(error));
             }
         }
     }
@@ -388,7 +389,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
 
             await this.handleModalSubmit(modalSubmit, field);
         } catch (error) {
-            console.error("Error waiting for modal submit:", error);
+            logger.error("Error waiting for modal submit:", nodeError(error));
         }
     }
 
@@ -452,7 +453,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                console.error("Error in handleModalSubmit:", error);
+                logger.error("Error in handleModalSubmit:", nodeError(error));
             }
         }
     }
@@ -498,7 +499,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                console.error("Setup completion error:", error);
+                logger.error("Setup completion error:", nodeError(error));
                 await interaction.reply({
                     content: `Failed to complete setup: ${error instanceof Error ? error.message : "Unknown error"}`,
                     flags: MessageFlags.Ephemeral,

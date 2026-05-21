@@ -13,6 +13,7 @@ import {
 } from "discord.js";
 
 import type { MessageContextCommand } from "../types.d.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
 const command: MessageContextCommand = {
     data: new ContextMenuCommandBuilder()
@@ -116,7 +117,10 @@ const command: MessageContextCommand = {
                     );
                 await submitted.editReply({ embeds: [embed] });
             } catch (err) {
-                console.error("Failed to add emoji from image attachment", err);
+                logger.error(
+                    "Failed to add emoji from image attachment",
+                    nodeError(err),
+                );
                 await submitted.editReply({
                     content: "Failed to add emoji",
                 });
@@ -139,7 +143,10 @@ const command: MessageContextCommand = {
                 });
                 added.push(`${emoji.toString()} \`${emoji.name}\``);
             } catch (err) {
-                console.error(`Failed to add emoji ${info.name}`, err);
+                logger.error(
+                    `Failed to add emoji ${info.name}`,
+                    nodeError(err),
+                );
                 failed.push(`\`${info.name}\` — failed to add`);
             }
         }
@@ -178,7 +185,10 @@ const command: MessageContextCommand = {
                 });
                 added.push(`sticker **${created.name}**`);
             } catch (err) {
-                console.error(`Failed to add sticker ${sticker.name}`, err);
+                logger.error(
+                    `Failed to add sticker ${sticker.name}`,
+                    nodeError(err),
+                );
                 failed.push(`sticker \`${sticker.name}\` — failed to add`);
             }
         }
