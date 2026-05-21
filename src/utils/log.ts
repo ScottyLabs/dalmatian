@@ -24,7 +24,7 @@ export async function configureLogger() {
                 category: ["logtape", "meta"],
                 lowestLevel: "warning",
                 sinks: ["console"],
-            }
+            },
         ],
     });
 }
