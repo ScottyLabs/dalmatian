@@ -1,20 +1,22 @@
 import {
-    ASTNode,
-    BaseContext,
     BaseRuntimeVal,
+    ASTNode,
+    PrattRule,
+    Parser,
+    BaseExecutionContext,
+} from "./parser.ts";
+import {
     BaseTokenType,
     isTokenEOX,
-    Parser,
-    PrattRule,
     SourceLocation,
     Tokenizer,
-} from "./operatorParser.js";
+} from "./tokenizer.ts";
 
-type BasicTokenTypes = BaseTokenType<
+type BasicOperatorTokenTypes = BaseTokenType<
     "LITERAL" | "AND" | "OR" | "NOT" | "LPAREN" | "RPAREN"
 >;
 
-export const basicTokenizer = new Tokenizer<BasicTokenTypes>([
+export const basicOperatorTokenizer = new Tokenizer<BasicOperatorTokenTypes>([
     {
         regex: /\s+/, // Skip whitespace
         type: null,
@@ -59,39 +61,56 @@ export const basicTokenizer = new Tokenizer<BasicTokenTypes>([
 ]);
 
 // The reason this exists is that in the future we could evaluate to multiple types, but in reality this usage only needs one type
-class GenericResultRuntimeVal<TResult> implements BaseRuntimeVal {
+class BasicOperatorRuntimeVal<TResult> implements BaseRuntimeVal {
     readonly type: string;
     constructor(public readonly value: TResult[]) {
         this.type = typeof value;
     }
 }
 
-class BasicParserContext<TLiteral, TResult> implements BaseContext {
+class BasicOperatorExecutionContext<
+    TLiteral,
+    TResult,
+> extends BaseExecutionContext {
     constructor(
         public readonly parseLiteral: (value: string) => TLiteral,
         public readonly lookup: (literal: TLiteral) => TResult[],
         public readonly equal: (a: TResult, b: TResult) => boolean,
         public readonly universe: () => TResult[],
-    ) {}
+        config = { maxCallDepth: 100 },
+    ) {
+        super(config);
+    }
 }
 
-class BasicParserBaseASTNode<TLiteral, TResult>
-    implements
-        ASTNode<
-            GenericResultRuntimeVal<TResult>,
-            BasicParserContext<TLiteral, TResult>
-        >
-{
-    constructor(
-        public readonly kind: string,
-        public readonly loc: SourceLocation,
-    ) {}
+export function configureBasicOperatorExecutionContext<
+    TLiteral,
+    TResult,
+>(context: {
+    parseLiteral: (value: string) => TLiteral;
+    lookup: (literal: TLiteral) => TResult[];
+    equal: (a: TResult, b: TResult) => boolean;
+    universe: () => TResult[];
+    config?: {
+        maxCallDepth: number;
+    };
+}): BasicOperatorExecutionContext<TLiteral, TResult> {
+    return new BasicOperatorExecutionContext(
+        context.parseLiteral,
+        context.lookup,
+        context.equal,
+        context.universe,
+        context.config,
+    );
+}
 
-    evaluate(
-        context: BasicParserContext<TLiteral, TResult>,
-    ): GenericResultRuntimeVal<TResult> {
-        throw new Error("Evaluate not implemented");
-    }
+abstract class BasicParserBaseASTNode<TLiteral, TResult> extends ASTNode<
+    BasicOperatorRuntimeVal<TResult>,
+    BasicOperatorExecutionContext<TLiteral, TResult>
+> {
+    abstract override evaluateInner(
+        context: BasicOperatorExecutionContext<TLiteral, TResult>,
+    ): BasicOperatorRuntimeVal<TResult>;
 }
 
 class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
@@ -100,15 +119,18 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
 > {
     constructor(
         public readonly operator: "AND" | "OR" | "NOT",
-        public readonly operands: ASTNode<GenericResultRuntimeVal<TResult>, BasicParserContext<TLiteral, TResult>>[],
+        public readonly operands: ASTNode<
+            BasicOperatorRuntimeVal<TResult>,
+            BasicOperatorExecutionContext<TLiteral, TResult>
+        >[],
         loc: SourceLocation,
     ) {
         super("BooleanOperator", loc);
     }
 
-    override evaluate(
-        context: BasicParserContext<TLiteral, TResult>,
-    ): GenericResultRuntimeVal<TResult> {
+    evaluateInner(
+        context: BasicOperatorExecutionContext<TLiteral, TResult>,
+    ): BasicOperatorRuntimeVal<TResult> {
         if (this.operator === "NOT") {
             const right = this.operands.pop();
             if (!right) {
@@ -116,8 +138,10 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
             }
             const uni = context.universe();
             const rightValue = right.evaluate(context).value;
-            const result = uni.filter((u) => !rightValue.some((r: TResult) => context.equal(u, r)));
-            return new GenericResultRuntimeVal(result);
+            const result = uni.filter(
+                (u) => !rightValue.some((r: TResult) => context.equal(u, r)),
+            );
+            return new BasicOperatorRuntimeVal(result);
         } else if (this.operator === "AND" || this.operator === "OR") {
             const right = this.operands.pop();
             const left = this.operands.pop();
@@ -131,8 +155,8 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
             let result: TResult[];
             if (this.operator === "AND") {
                 result = leftValue.filter((l: TResult) =>
-                        rightValue.some((r: TResult) => context.equal(l, r)),
-                    );
+                    rightValue.some((r: TResult) => context.equal(l, r)),
+                );
             } else {
                 result = [...leftValue];
                 for (const r of rightValue) {
@@ -141,7 +165,7 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
                     }
                 }
             }
-            return new GenericResultRuntimeVal(result);
+            return new BasicOperatorRuntimeVal(result);
         }
         throw new Error(`Unknown operator: ${this.operator}`);
     }
@@ -158,16 +182,16 @@ class LiteralASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
         super("Literal", loc);
     }
 
-    override evaluate(
-        context: BasicParserContext<TLiteral, TResult>,
-    ): GenericResultRuntimeVal<TResult> {
-        return new GenericResultRuntimeVal(
+    evaluateInner(
+        context: BasicOperatorExecutionContext<TLiteral, TResult>,
+    ): BasicOperatorRuntimeVal<TResult> {
+        return new BasicOperatorRuntimeVal(
             context.lookup(context.parseLiteral(this.value)),
         );
     }
 }
 
-const notRule: PrattRule<BasicTokenTypes> = {
+const notRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "NOT",
     lbp: 3,
     rbp: 3.1,
@@ -176,13 +200,11 @@ const notRule: PrattRule<BasicTokenTypes> = {
             throw new Error("Unexpected end of input after NOT");
         }
         const right = parser.parsePratt(notRule.rbp);
-        return new BooleanOperatorASTNode("NOT", [right], {
-            index: token.index,
-        });
+        return new BooleanOperatorASTNode("NOT", [right], token.loc);
     },
 };
 
-const andRule: PrattRule<BasicTokenTypes> = {
+const andRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "AND",
     lbp: 2,
     rbp: 2.1,
@@ -191,13 +213,11 @@ const andRule: PrattRule<BasicTokenTypes> = {
             throw new Error("Unexpected end of input after AND");
         }
         const right = parser.parsePratt(andRule.rbp);
-        return new BooleanOperatorASTNode("AND", [left, right], {
-            index: token.index,
-        });
+        return new BooleanOperatorASTNode("AND", [left, right], token.loc);
     },
 };
 
-const orRule: PrattRule<BasicTokenTypes> = {
+const orRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "OR",
     lbp: 1,
     rbp: 1.1,
@@ -206,13 +226,11 @@ const orRule: PrattRule<BasicTokenTypes> = {
             throw new Error("Unexpected end of input after OR");
         }
         const right = parser.parsePratt(orRule.rbp);
-        return new BooleanOperatorASTNode("OR", [left, right], {
-            index: token.index,
-        });
+        return new BooleanOperatorASTNode("OR", [left, right], token.loc);
     },
 };
 
-const literalRule: PrattRule<BasicTokenTypes> = {
+const literalRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "LITERAL",
     lbp: 0,
     rbp: 0.1,
@@ -221,13 +239,11 @@ const literalRule: PrattRule<BasicTokenTypes> = {
             throw new Error("Unexpected end of input when expecting a literal");
         }
 
-        return new LiteralASTNode(token.value as string, {
-            index: token.index,
-        });
+        return new LiteralASTNode(token.value as string, token.loc);
     },
 };
 
-const lparenRule: PrattRule<BasicTokenTypes> = {
+const lparenRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "LPAREN",
     lbp: 0,
     rbp: 0.1,
@@ -248,7 +264,7 @@ const lparenRule: PrattRule<BasicTokenTypes> = {
     },
 };
 
-const prattRules: PrattRule<BasicTokenTypes>[] = [
+const prattRules: PrattRule<BasicOperatorTokenTypes>[] = [
     notRule,
     andRule,
     orRule,
@@ -258,9 +274,9 @@ const prattRules: PrattRule<BasicTokenTypes>[] = [
 
 export function parseAndEvaluate<TLiteral, TResult>(
     input: string,
-    context: BasicParserContext<TLiteral, TResult>,
+    context: BasicOperatorExecutionContext<TLiteral, TResult>,
 ): TResult[] {
-    const tokens = basicTokenizer.tokenize(input);
+    const tokens = basicOperatorTokenizer.tokenize(input);
     const parser = new Parser(tokens, prattRules, (parser) => {
         // This would normally be where RDP is implemented, but this grammar can entirely be parsed with Pratt
         return parser.parsePratt();
