@@ -22,8 +22,8 @@ export class UnexpectedTokenError extends ParserError {
 }
 
 export class UnexpectedEndOfInputError extends ParserError {
-    constructor() {
-        super(`Unexpected end of input`, { index: -1 });
+    constructor(location?: SourceLocation) {
+        super(`Unexpected end of input`, location ?? { index: -1 });
     }
 }
 
@@ -39,5 +39,11 @@ export class MaxCallDepthExceededError extends ParserError {
             `Maximum call depth of ${maxCallDepth} exceeded`,
             location || { index: -1 },
         );
+    }
+}
+
+export class EvaluationError extends ParserError {
+    constructor(message: string, location?: SourceLocation) {
+        super(message, location ?? { index: -1 });
     }
 }

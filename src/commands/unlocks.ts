@@ -11,7 +11,7 @@ import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
 import {
-    configureBasicOperatorExecutionContext,
+    BasicOperatorExecutionContext,
     parseAndEvaluate,
 } from "../utils/parser/basicOperatorParser.ts";
 
@@ -88,17 +88,17 @@ const command: SlashCommand = {
         try {
             unlockCourses = parseAndEvaluate<string, Course>(
                 courseString,
-                configureBasicOperatorExecutionContext<string, Course>({
-                    parseLiteral: (value) => {
+                new BasicOperatorExecutionContext<string, Course>(
+                    (value) => {
                         if (!value.match(/^\d{2}(-| )?\d{3}$/)) {
                             throw new Error(`Unexpected token: ${value}`);
                         }
                         return value;
                     },
                     lookup,
-                    equal: equals,
+                    equals,
                     universe,
-                }),
+                ),
             );
         } catch (error) {
             return interaction.reply({

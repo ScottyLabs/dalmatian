@@ -11,7 +11,7 @@ import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { logger, nodeError } from "../utils/log.ts";
 import {
-    configureBasicOperatorExecutionContext,
+    BasicOperatorExecutionContext,
     parseAndEvaluate,
 } from "../utils/parser/basicOperatorParser.ts";
 
@@ -130,14 +130,14 @@ const command: SlashCommand = {
         try {
             members = parseAndEvaluate<string, GuildMember>(
                 roleString,
-                configureBasicOperatorExecutionContext<string, GuildMember>({
-                    parseLiteral: (value) => {
+                new BasicOperatorExecutionContext<string, GuildMember>(
+                    (value) => {
                         return value;
                     },
                     lookup,
-                    equal: equals,
+                    equals,
                     universe
-                }),
+                ),
             );
         } catch (error) {
             return interaction.reply({
