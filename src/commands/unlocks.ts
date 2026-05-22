@@ -10,7 +10,10 @@ import { SCOTTYLABS_URL } from "../constants.js";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
-import { parseAndEvaluate } from "../utils/basicParser.ts";
+import {
+    configureBasicOperatorExecutionContext,
+    parseAndEvaluate,
+} from "../utils/parser/basicOperatorParser.ts";
 
 function fetchCourseUnlocks(
     courseData: Record<string, Course>,
@@ -83,17 +86,20 @@ const command: SlashCommand = {
 
         let unlockCourses: Course[];
         try {
-            unlockCourses = parseAndEvaluate<string, Course>(courseString, {
-                parseLiteral: (value) => {
-                    if (!value.match(/^\d{2}(-| )?\d{3}$/)) {
-                        throw new Error(`Unexpected token: ${value}`);
-                    }
-                    return value;
-                },
-                lookup,
-                equal: equals,
-                universe,
-            });
+            unlockCourses = parseAndEvaluate<string, Course>(
+                courseString,
+                configureBasicOperatorExecutionContext<string, Course>({
+                    parseLiteral: (value) => {
+                        if (!value.match(/^\d{2}(-| )?\d{3}$/)) {
+                            throw new Error(`Unexpected token: ${value}`);
+                        }
+                        return value;
+                    },
+                    lookup,
+                    equal: equals,
+                    universe,
+                }),
+            );
         } catch (error) {
             return interaction.reply({
                 content: `${(error as Error).message}`,
