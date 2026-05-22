@@ -8,6 +8,7 @@ import {
 } from "discord.js";
 
 import type { UserContextCommand } from "../types.js";
+import { logger, nodeError } from "../utils/log.ts";
 
 const command: UserContextCommand = {
     data: new ContextMenuCommandBuilder()
@@ -63,7 +64,7 @@ const command: UserContextCommand = {
                 content: `Updated roles for ${member.user.tag}.`,
             });
         } catch (error) {
-            console.error("Error updating roles:", error);
+            logger.error("Error updating roles:", nodeError(error));
             await interaction.editReply({
                 content: "Failed to update roles.",
             });

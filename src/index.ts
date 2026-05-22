@@ -11,6 +11,9 @@ import {
 import { DEFAULT_EMBED_COLOR } from "./constants.ts";
 import { runMigrations } from "./db/migrate.ts";
 import type { ContextCommand, SlashCommand } from "./types.d.ts";
+import { configureLogger, logger, nodeError } from "./utils/log.ts";
+
+await configureLogger();
 
 await runMigrations();
 
@@ -47,7 +50,7 @@ readdirSync(handlersDir).forEach(async (handler) => {
         const fn = mod.default ?? mod;
         if (typeof fn === "function") fn(client);
     } catch (err) {
-        console.error(`Failed to load handler ${handler}:`, err);
+        logger.error(`Failed to load handler ${handler}:`, nodeError(err));
     }
 });
 

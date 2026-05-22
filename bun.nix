@@ -341,6 +341,10 @@
     url = "https://registry.npmjs.org/@js-temporal/polyfill/-/polyfill-0.5.1.tgz";
     hash = "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ==";
   };
+  "@logtape/logtape@2.1.1" = fetchurl {
+    url = "https://registry.npmjs.org/@logtape/logtape/-/logtape-2.1.1.tgz";
+    hash = "sha512-aULbCqUQGerfOsZ3CMvcKtueKzmdchluXYUd3bIHKmOIS93fx1ko0+hyRQ4flloGZ8EiyRPydZXiy8n1J/eAQA==";
+  };
   "@oxlint-tsgolint/darwin-arm64@0.9.2" = fetchurl {
     url = "https://registry.npmjs.org/@oxlint-tsgolint/darwin-arm64/-/darwin-arm64-0.9.2.tgz";
     hash = "sha512-AujIYejzo2KgSWEn65FxkTwJ7Xkq106wUjyKYpljpEsrldO3QkW1yjj6osisoIjM/NdV0VO21YWjIGFIKd0/Ug==";

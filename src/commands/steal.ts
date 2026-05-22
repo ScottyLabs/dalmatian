@@ -9,6 +9,7 @@ import {
     PartialEmoji,
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
 async function fetchEmojiData(
     emojiId: string,
@@ -158,7 +159,6 @@ const command: SlashCommand = {
 
         const parsed = parseEmojiInput(rawInput);
         const id = parsed.id;
-        console.log("parsed id:", id, "parsed name:", parsed.name);
 
         const emojiData = await fetchEmojiData(id, interaction.client);
         if (emojiData) {
@@ -188,7 +188,7 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                console.error("Failed to add emoji", err);
+                logger.error("Failed to add emoji", nodeError(err));
                 return interaction.editReply({
                     content: "Failed to add emoji",
                 });
@@ -219,13 +219,17 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                if (err instanceof DiscordAPIError && err.code === 30039) {
+                if (
+                    err instanceof DiscordAPIError &&
+                    err.code ===
+                        RESTJSONErrorCodes.MaximumNumberOfStickersReached
+                ) {
                     return interaction.editReply({
                         content:
                             "This server has reached the maximum number of stickers.",
                     });
                 }
-                console.error("Failed to add sticker", err);
+                logger.error("Failed to add sticker", nodeError(err));
                 return interaction.editReply({
                     content: "Failed to add sticker",
                 });
@@ -262,7 +266,7 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                console.error("Failed to add sound", err);
+                logger.error("Failed to add sound", nodeError(err));
                 return interaction.editReply({
                     content: "Failed to add sound",
                 });
@@ -283,9 +287,9 @@ const command: SlashCommand = {
                 ) {
                     continue;
                 }
-                console.warn(
+                logger.warn(
                     `unexpected error fetching message ${id} in #${channel.name}:`,
-                    err,
+                    nodeError(err),
                 );
                 continue;
             }
@@ -357,13 +361,14 @@ const command: SlashCommand = {
                     } catch (err) {
                         if (
                             err instanceof DiscordAPIError &&
-                            err.code === 30008
+                            err.code ===
+                                RESTJSONErrorCodes.MaximumNumberOfEmojisReached
                         ) {
                             return interaction.editReply({
                                 content: `Reached max emojis. Successfully added: ${results.join(", ") || "none"}`,
                             });
                         }
-                        console.error("Failed to steal emoji", err);
+                        logger.error("Failed to steal emoji", nodeError(err));
                     }
                 }
 
@@ -378,7 +383,7 @@ const command: SlashCommand = {
                     .setDescription(`Stole ${results.join(", ")} from message`);
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                console.error("Failed to steal from message", err);
+                logger.error("Failed to steal from message", nodeError(err));
                 return interaction.editReply({
                     content: "Failed to steal from message",
                 });

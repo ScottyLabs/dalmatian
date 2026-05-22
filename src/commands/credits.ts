@@ -71,7 +71,6 @@ const command: SlashCommand = {
         const userSchool = interaction.options.getString("school");
 
         if (!userSchool || !SCHOOLS.includes(userSchool)) {
-            console.log(userSchool, SCHOOLS);
             return interaction.reply({
                 content: "Acceptable Colleges DC, CIT, SCS, TEP, MCS, CFA",
                 flags: MessageFlags.Ephemeral,
