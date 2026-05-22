@@ -14,6 +14,7 @@ import {
     BasicOperatorExecutionContext,
     parseAndEvaluate,
 } from "../utils/parser/basicOperatorParser.ts";
+import { InvalidTokenError, ParserError } from "../utils/parser/errors.ts";
 
 function fetchCourseUnlocks(
     courseData: Record<string, Course>,
@@ -91,7 +92,7 @@ const command: SlashCommand = {
                 new BasicOperatorExecutionContext<string, Course>(
                     (value) => {
                         if (!value.match(/^\d{2}(-| )?\d{3}$/)) {
-                            throw new Error(`Unexpected token: ${value}`);
+                            throw new InvalidTokenError(value);
                         }
                         return value;
                     },
@@ -101,8 +102,16 @@ const command: SlashCommand = {
                 ),
             );
         } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            const locationInfo = error instanceof ParserError ? ` at index ${error.sourceLocation.index}` : "";
             return interaction.reply({
-                content: `${(error as Error).message}`,
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Error parsing course string")
+                        .setDescription(
+                                `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
+                        )
+                ],
                 flags: MessageFlags.Ephemeral,
             });
         }

@@ -12,9 +12,9 @@ export class ParserError extends Error {
 export class UnexpectedTokenError extends ParserError {
     constructor(unexpectedToken: Token<any>, expectedTokenTypes?: string[]) {
         super(
-            `Unexpected token: ${unexpectedToken.toString()}. ` +
+            `Unexpected token: ${unexpectedToken.toString()}` +
                 (expectedTokenTypes
-                    ? `Expected one of: ${expectedTokenTypes.join(", ")}`
+                    ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
                     : ""),
             getTokenLocation(unexpectedToken),
         );

@@ -14,6 +14,8 @@ import {
     BasicOperatorExecutionContext,
     parseAndEvaluate,
 } from "../utils/parser/basicOperatorParser.ts";
+import { Parser } from "csv-parse";
+import { ParserError } from "../utils/parser/errors.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -140,8 +142,16 @@ const command: SlashCommand = {
                 ),
             );
         } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            const locationInfo = error instanceof ParserError ? ` at index ${error.sourceLocation.index}` : "";
             return interaction.reply({
-                content: `${(error as Error).message}`,
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Error parsing role string")
+                        .setDescription(
+                                `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
+                        )
+                ],
                 flags: MessageFlags.Ephemeral,
             });
         }
