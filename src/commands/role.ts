@@ -1,6 +1,7 @@
 import {
     bold,
     EmbedBuilder,
+    escapeMarkdown,
     GuildMember,
     MessageFlags,
     SlashCommandBuilder,
@@ -8,8 +9,8 @@ import {
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
-import { parseAndEvaluate } from "../utils/operatorParser.ts";
 import { logger, nodeError } from "../utils/log.ts";
+import { parseAndEvaluate } from "../utils/operatorParser.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -157,11 +158,13 @@ const command: SlashCommand = {
                         "\n" +
                         chunk
                             .map((member) => {
+                                const username = escapeMarkdown(
+                                    member!.user.username,
+                                );
                                 if (useMentions) {
-                                    return `${userMention(member!.id)} (${member!.user.username})`;
+                                    return `${userMention(member!.id)} (${username})`;
                                 }
-
-                                return `${bold(member!.displayName)} (${member!.user.username})`;
+                                return `${bold(escapeMarkdown(member!.displayName))} (${username})`;
                             })
                             .join("\n");
 
