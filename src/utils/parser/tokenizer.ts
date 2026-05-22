@@ -21,7 +21,7 @@ export type Token<T extends BaseTokenType<any>> =
 
 const tokenPrototype = {
     toString(this: Token<any>): string {
-        if (isTokenEOX(this)) return "EOX";
+        if (isTokenEOX(this)) return "End of Expression";
         return `${this.value}`;
     },
 };
@@ -36,6 +36,34 @@ function createToken<T extends BaseTokenType<any>>(
         value: { value, enumerable: true },
         loc: { value: loc, enumerable: true },
     });
+}
+
+export class TokenStream<T extends BaseTokenType<any>> {
+    private readonly tokens: Array<Token<T>>;
+
+    constructor(tokens: Array<Token<T>>) {
+        this.tokens = tokens;
+    }
+
+    peek(): Token<T> | undefined {
+        return this.tokens.at(-1);
+    }
+
+    consume(): Token<T> | undefined {
+        return this.tokens.pop();
+    }
+
+    expect(expectedType: T): Token<T> {
+        const token = this.consume();
+        if (!token || isTokenEOX(token) || token.type !== expectedType) {
+            throw new InvalidTokenError(token?.toString() ?? "end of input");
+        }
+        return token;
+    }
+
+    isEOX(token: Token<T> | undefined): boolean {
+        return !token || isTokenEOX(token);
+    }
 }
 
 export function getTokenLocation(token: Token<any>): SourceLocation {
@@ -63,7 +91,7 @@ export class Tokenizer<T extends BaseTokenType<any>> {
         this.rules = rules;
     }
 
-    tokenize(input: string): Array<Token<T>> {
+    tokenize(input: string): TokenStream<T> {
         let index = 0;
 
         const tokens: Array<Token<T>> = [];
@@ -72,9 +100,13 @@ export class Tokenizer<T extends BaseTokenType<any>> {
             let matched = false;
 
             for (const rule of this.rules) {
+                const flags = new Set(rule.regex.flags.split(""));
+                flags.delete("g");
+                flags.add("y");
+
                 const regex = new RegExp(
                     `${rule.regex.source}`,
-                    "y" + (rule.regex.ignoreCase ? "i" : ""),
+                    [...flags].join(""),
                 );
                 regex.lastIndex = index;
 
@@ -90,7 +122,7 @@ export class Tokenizer<T extends BaseTokenType<any>> {
                                 rule.transformer
                                     ? rule.transformer(value)
                                     : value,
-                                { index },
+                                { index: index - value.length },
                             ),
                         );
                     }
@@ -108,6 +140,6 @@ export class Tokenizer<T extends BaseTokenType<any>> {
         }
 
         tokens.push(EOX);
-        return tokens.reverse(); // Reverse for easier popping from the end
+        return new TokenStream(tokens.reverse()); // Reverse for easier popping from the end
     }
 }

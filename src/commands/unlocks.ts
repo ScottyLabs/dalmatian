@@ -11,9 +11,10 @@ import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
 import {
-    configureBasicOperatorExecutionContext,
+    BasicOperatorExecutionContext,
     parseAndEvaluate,
 } from "../utils/parser/basicOperatorParser.ts";
+import { InvalidTokenError, ParserError } from "../utils/parser/errors.ts";
 
 function fetchCourseUnlocks(courseData: Record<string, Course>, courseNumber: string): Course[] {
     const unlocks: Course[] = [];
@@ -82,21 +83,33 @@ const command: SlashCommand = {
         try {
             unlockCourses = parseAndEvaluate<string, Course>(
                 courseString,
-                configureBasicOperatorExecutionContext<string, Course>({
-                    parseLiteral: (value) => {
+                new BasicOperatorExecutionContext<string, Course>(
+                    (value) => {
                         if (!value.match(/^\d{2}(-| )?\d{3}$/)) {
-                            throw new Error(`Unexpected token: ${value}`);
+                            throw new InvalidTokenError(value);
                         }
                         return value;
                     },
                     lookup,
-                    equal: equals,
+                    equals,
                     universe,
-                }),
+                ),
             );
         } catch (error) {
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
+            const locationInfo =
+                error instanceof ParserError && error.sourceLocation.index >= 0
+                    ? ` at index ${error.sourceLocation.index}`
+                    : "";
             return interaction.reply({
-                content: `${(error as Error).message}`,
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Error parsing course string")
+                        .setDescription(
+                            `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
+                        ),
+                ],
                 flags: MessageFlags.Ephemeral,
             });
         }
