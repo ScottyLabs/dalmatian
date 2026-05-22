@@ -40,6 +40,12 @@ const command: SlashCommand = {
                         )
                         .setRequired(true)
                         .setAutocomplete(true),
+                )
+                .addBooleanOption((option) =>
+                    option
+                        .setName("mentions")
+                        .setDescription("Display members as mentions")
+                        .setRequired(false),
                 ),
         ),
     async execute(interaction) {
@@ -135,6 +141,9 @@ const command: SlashCommand = {
         }
 
         if (interaction.options.getSubcommand() === "members") {
+            const useMentions =
+                interaction.options.getBoolean("mentions") ?? false;
+
             members.sort((a, b) => a.displayName.localeCompare(b.displayName));
             const membersCount = members.length;
 
@@ -147,10 +156,13 @@ const command: SlashCommand = {
                         bold(`${membersCount} members`) +
                         "\n" +
                         chunk
-                            .map(
-                                (member) =>
-                                    `${userMention(member!.id)} (${member!.user.username})`,
-                            )
+                            .map((member) => {
+                                if (useMentions) {
+                                    return `${userMention(member!.id)} (${member!.user.username})`;
+                                }
+
+                                return `${bold(member!.displayName)} (${member!.user.username})`;
+                            })
                             .join("\n");
 
                     const embed = new EmbedBuilder()
