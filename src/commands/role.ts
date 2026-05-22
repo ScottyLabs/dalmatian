@@ -10,7 +10,7 @@ import {
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { logger, nodeError } from "../utils/log.ts";
-import { parseAndEvaluate } from "../utils/operatorParser.ts";
+import { parseAndEvaluate } from "../utils/basicParser.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -125,15 +125,14 @@ const command: SlashCommand = {
 
         let members: GuildMember[];
         try {
-            members = parseAndEvaluate<string, GuildMember>(
-                roleString,
-                (value) => {
+            members = parseAndEvaluate<string, GuildMember>(roleString, {
+                parseLiteral: (value) => {
                     return value;
                 },
                 lookup,
-                equals,
+                equal: equals,
                 universe,
-            );
+            });
         } catch (error) {
             return interaction.reply({
                 content: `${(error as Error).message}`,
