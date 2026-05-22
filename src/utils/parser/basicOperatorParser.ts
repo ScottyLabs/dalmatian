@@ -2,7 +2,6 @@ import {
     BaseRuntimeVal,
     ASTNode,
     PrattRule,
-    Parser,
     BaseExecutionContext,
 } from "./parser.ts";
 import {
@@ -121,7 +120,10 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
 
         if (this.operator === "NOT") {
             if (ops.length !== 1) {
-                throw new EvaluationError("NOT operator must have exactly one operand", this.loc);
+                throw new EvaluationError(
+                    "NOT operator must have exactly one operand",
+                    this.loc,
+                );
             }
             const right = ops[0]!;
             const uni = context.universe();
@@ -134,7 +136,10 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
 
         if (this.operator === "AND" || this.operator === "OR") {
             if (ops.length !== 2) {
-                throw new EvaluationError("AND/OR operators must have two operands", this.loc);
+                throw new EvaluationError(
+                    "AND/OR operators must have two operands",
+                    this.loc,
+                );
             }
 
             const left = ops[0]!;
@@ -159,7 +164,10 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
             return new BasicOperatorRuntimeVal(result);
         }
 
-        throw new EvaluationError(`Unknown operator: ${this.operator}`, this.loc);
+        throw new EvaluationError(
+            `Unknown operator: ${this.operator as string}`,
+            this.loc,
+        );
     }
 }
 
@@ -247,7 +255,9 @@ const lparenRule: PrattRule<BasicOperatorTokenTypes> = {
         const expr = parser.parsePratt(lparenRule.rbp);
         const nextToken = parser.consumeToken(); // Consume the next token
         if (!nextToken || isTokenEOX(nextToken)) {
-            throw new UnexpectedTokenError(nextToken ?? (EOX as any), ["RPAREN"]);
+            throw new UnexpectedTokenError(nextToken ?? (EOX as any), [
+                "RPAREN",
+            ]);
         }
         if (nextToken.type !== "RPAREN") {
             throw new UnexpectedTokenError(nextToken, ["RPAREN"]);

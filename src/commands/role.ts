@@ -136,7 +136,7 @@ const command: SlashCommand = {
                     },
                     lookup,
                     equals,
-                    universe
+                    universe,
                 ),
             );
         } catch (error) {

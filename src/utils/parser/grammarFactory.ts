@@ -16,7 +16,13 @@ export class GrammarFactory<
     TContext extends BaseExecutionContext,
     TResult extends ASTNode<any, TContext>,
 > {
-    constructor(private readonly definition: GrammarDefinition<TToken, TContext, TResult>) {}
+    constructor(
+        private readonly definition: GrammarDefinition<
+            TToken,
+            TContext,
+            TResult
+        >,
+    ) {}
 
     tokenize(input: string): TokenStream<TToken> {
         return this.definition.tokenizer.tokenize(input);
