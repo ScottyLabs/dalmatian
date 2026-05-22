@@ -12,9 +12,9 @@ export class ParserError extends Error {
 export class UnexpectedTokenError extends ParserError {
     constructor(unexpectedToken: Token<any>, expectedTokenTypes?: string[]) {
         super(
-            `Unexpected token: ${unexpectedToken.toString()}. ` +
-                (expectedTokenTypes
-                    ? `Expected one of: ${expectedTokenTypes.join(", ")}`
+            `Unexpected token: ${unexpectedToken.toString()}` +
+                (expectedTokenTypes?.length
+                    ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
                     : ""),
             getTokenLocation(unexpectedToken),
         );
@@ -22,8 +22,14 @@ export class UnexpectedTokenError extends ParserError {
 }
 
 export class UnexpectedEndOfInputError extends ParserError {
-    constructor() {
-        super(`Unexpected end of input`, { index: -1 });
+    constructor(location?: SourceLocation, expectedTokenTypes?: string[]) {
+        super(
+            `Unexpected end of input` +
+                (expectedTokenTypes?.length
+                    ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
+                    : ""),
+            location ?? { index: -1 },
+        );
     }
 }
 
@@ -39,5 +45,11 @@ export class MaxCallDepthExceededError extends ParserError {
             `Maximum call depth of ${maxCallDepth} exceeded`,
             location || { index: -1 },
         );
+    }
+}
+
+export class EvaluationError extends ParserError {
+    constructor(message: string, location?: SourceLocation) {
+        super(message, location ?? { index: -1 });
     }
 }

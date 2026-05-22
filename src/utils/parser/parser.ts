@@ -9,6 +9,7 @@ import {
     isTokenEOX,
     SourceLocation,
     Token,
+    TokenStream,
 } from "./tokenizer.ts";
 
 export abstract class BaseExecutionContext {
@@ -76,13 +77,13 @@ type BaseFunction = (parser: Parser<any>) => ASTNode<any, any>;
 
 export class Parser<T extends BaseTokenType<any>> {
     constructor(
-        public readonly tokenGenerator: Array<Token<T>>,
+        public readonly tokenStream: TokenStream<T>,
         private prattRules: PrattRule<T>[],
         private base: BaseFunction,
     ) {}
 
     peekToken(): Token<T> | undefined {
-        return this.tokenGenerator.at(-1);
+        return this.tokenStream.peek();
     }
 
     expectToken(expectedType: T): Token<T> {
@@ -96,7 +97,7 @@ export class Parser<T extends BaseTokenType<any>> {
     }
 
     consumeToken(): Token<T> | undefined {
-        return this.tokenGenerator.pop();
+        return this.tokenStream.consume();
     }
 
     parsePratt(precedence = 0): ASTNode<any, any> {
@@ -137,6 +138,13 @@ export class Parser<T extends BaseTokenType<any>> {
     }
 
     parse(): ASTNode<any, any> {
-        return this.base(this);
+        const node = this.base(this);
+
+        if (!this.tokenStream.isEOX(this.peekToken())) {
+            const nextToken = this.peekToken();
+            throw new UnexpectedTokenError(nextToken ?? EOX);
+        }
+
+        return node;
     }
 }
