@@ -1,5 +1,176 @@
-type Token = string;
-type Operator = "AND" | "OR" | "NOT";
+export type BaseTokenType<T> = T | null;
+
+//End of expression
+const EOX = Symbol.for("EOX"); // End of expression, guaranteed uniqueness
+
+// We will let token type be generic to allow for different token sets.
+
+type Token<T extends BaseTokenType<any>> =
+    | typeof EOX
+    | {
+          type: T;
+          index: number;
+          value: string;
+      };
+
+export function isTokenEOX<T extends BaseTokenType<any>>(token: Token<T>): token is typeof EOX {
+    console.log("Checking if token is EOX:", token, token === EOX);
+    return token === EOX;
+}
+type TokenRule<T extends BaseTokenType<any>> = {
+    regex: RegExp;
+    type: T;
+    transformer?: (value: string) => any;
+};
+
+export class Tokenizer<T extends BaseTokenType<any>> {
+    private rules: TokenRule<T>[];
+
+    constructor(rules: TokenRule<T>[]) {
+        this.rules = rules;
+    }
+
+
+    tokenize(input: string): Array<Token<T>> {
+        let index = 0;
+
+        const tokens: Array<Token<T>> = [];
+
+        while (index < input.length) {
+            let matched = false;
+
+            for (const rule of this.rules) {
+                const regex = new RegExp(
+                    `${rule.regex.source}`,
+                    "y" + (rule.regex.ignoreCase ? "i" : ""),
+                );
+                regex.lastIndex = index;
+
+                const match = regex.exec(input);
+
+                if (match && match.length > 0) {
+                    index += match[0].length;
+                    if (rule.type !== null) {
+                        const value = match[0];
+                        tokens.push({
+                            type: rule.type,
+                            index,
+                            value: rule.transformer
+                                ? rule.transformer(value)
+                                : value,
+                        });
+                    }
+
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched) {
+                throw new Error(
+                    `Unexpected token at index ${index}: "${input.slice(index)}"`,
+                );
+            }
+        }
+
+        tokens.push(EOX);
+        return tokens.reverse(); // Reverse for easier popping from the end
+    }
+}
+
+export interface ExecutionContext {
+    readonly config: {
+        maxCallDepth: number;
+        allowSideEffects: boolean;
+    };
+}
+
+export interface SourceLocation {
+    readonly index: number;
+}
+
+export interface BaseRuntimeVal {
+  readonly type: string;
+  readonly value: unknown; 
+}
+
+export interface BaseContext {
+  readonly [key: string]: unknown;
+}
+
+export interface ASTNode< R extends BaseRuntimeVal, C extends BaseContext> {
+  readonly kind: string;
+  readonly loc: SourceLocation;
+  evaluate(context: C): R;
+}
+
+export type PrattRule<T extends BaseTokenType<any>> = {
+    operator: T;
+    lbp: number; // left binding power
+    rbp: number; // right binding power
+    nud?: (token: Token<T>, parser: Parser<T>) => ASTNode<any, any>; // prefix operators
+    led?: (left: ASTNode<any, any>, token: Token<T>, parser: Parser<T>) => ASTNode<any, any>; // infix/postfix operators
+};
+
+type BaseFunction<C extends BaseContext>  = (context: C, parser: Parser<any>) => ASTNode<any, any>;
+
+export class Parser< T extends BaseTokenType<any>> {
+    constructor(
+        public readonly tokenGenerator: Array<Token<T>>,
+        private prattRules: PrattRule<T>[],
+        private base: BaseFunction<any>,
+    ) {}
+
+    peekToken(): Token<T> | undefined {
+        return this.tokenGenerator.at(-1);
+    }
+
+    consumeToken(): Token<T> | undefined {
+        return this.tokenGenerator.pop();
+    }
+
+    parsePratt(precedence = 0): ASTNode<any, any> {
+        const token = this.consumeToken();      
+
+        console.log ("Parsing token:", token);
+        if (!token || token === EOX) {
+            throw new Error("Unexpected end of input");
+        }
+
+        const rule = this.prattRules.find((r) => r.operator === token.type);
+        if (!rule || !rule.nud) {
+            console.log("Unexpected token:", token);
+            throw new Error(`Unexpected token: ${token.value}`);
+        }
+
+        let left = rule.nud(token, this);
+
+        while (true) {
+            const nextToken = this.peekToken(); // Look at the next token without consuming it
+            console.log("Next token:", nextToken);
+            if (!nextToken || isTokenEOX(nextToken)) {
+                break;
+            }
+
+            const nextRule = this.prattRules.find((r) => r.operator === nextToken.type);
+            if (!nextRule || !nextRule.led || nextRule.lbp <= precedence) {
+                // If the next token is not an operator or has lower binding power, stop parsing.
+                break;
+            }
+            
+            //if valid, consume
+            this.consumeToken(); // Consume the next token
+
+            left = nextRule.led(left, nextToken, this);
+        }
+
+        return left;
+
+    }
+
+}
+
+/*
 
 function tokenize(input: string): Token[] {
     // For future reference:
@@ -153,3 +324,4 @@ export function parseAndEvaluate<TLiteral, TResult>(
     const rpnTokens = parseExpr(input);
     return evaluateExpr(rpnTokens, parseLiteral, lookup, equal, universe);
 }
+*/
