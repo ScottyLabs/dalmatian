@@ -14,7 +14,6 @@ import {
     BasicOperatorExecutionContext,
     parseAndEvaluate,
 } from "../utils/parser/basicOperatorParser.ts";
-import { Parser } from "csv-parse";
 import { ParserError } from "../utils/parser/errors.ts";
 
 const command: SlashCommand = {
