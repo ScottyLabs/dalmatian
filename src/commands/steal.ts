@@ -7,6 +7,8 @@ import {
     SlashCommandBuilder,
     StickerFormatType,
     PartialEmoji,
+    GuildMember,
+    PermissionsBitField,
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
@@ -121,6 +123,38 @@ function parseEmojiInput(input: string): {
     return { id: input };
 }
 
+function extractSnowflake(input: string | undefined): string | null {
+    if (!input) return null;
+
+    const urlMatch = input.match(/\/(\d{17,20})(?:\/?$|\?)/);
+    if (urlMatch) return urlMatch[1] ?? null;
+
+    const idMatch = input.match(/^\d{17,20}$/);
+    if (idMatch) return idMatch[0];
+
+    const emojiMatch = input.match(/:(\d{17,20})>/);
+    if (emojiMatch) return emojiMatch[1] ?? null;
+    return null;
+}
+
+function parseMessageLink(input: string | undefined): {
+    guildId: string;
+    channelId: string;
+    messageId: string;
+} | null {
+    if (!input) return null;
+    // Matches: https://(can be discord.com or discordapp.com)/channels/<guildId>/<channelId>/<messageId>
+    const m = input.match(/^(?:https?:\/\/)?(?:ptb\.|canary\.)?discord(?:app)?\.com\/channels\/(?<guildId>(?:\d{17,20}|@me))\/(?<channelId>\d{17,20})\/(?<messageId>\d{17,20})$/i);
+    if (!m || m.length < 4) return null;
+
+    const guildId = m.groups?.['guildId'];
+    const channelId = m.groups?.['channelId'];
+    const messageId = m.groups?.['messageId'];
+    if (!guildId || !channelId || !messageId) return null;
+
+    return { guildId, channelId, messageId };
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("steal")
@@ -147,10 +181,23 @@ const command: SlashCommand = {
             ?.trim()
             .replace(/\s+/g, "_");
         const guild = interaction.guild;
+        const member = interaction.member;
 
-        if (!guild) {
+        if (!guild || !(member instanceof GuildMember)) {
             return interaction.reply({
                 content: "This command must be used in a server",
+                ephemeral: true,
+            });
+        }
+
+        const hasPerms = member.permissions.has(
+            PermissionsBitField.Flags.ManageGuildExpressions,
+        );
+
+        if (!hasPerms) {
+            return interaction.reply({
+                content:
+                    "You need the Manage Guild Expressions permission to use this command.",
                 ephemeral: true,
             });
         }
@@ -158,7 +205,15 @@ const command: SlashCommand = {
         await interaction.deferReply();
 
         const parsed = parseEmojiInput(rawInput);
-        const id = parsed.id;
+        
+        const extracted = extractSnowflake(rawInput) ?? extractSnowflake(parsed.id);
+        if (!extracted) {
+            return interaction.editReply({
+                content:
+                    "Invalid ID. Please provide a valid emoji, sticker, sound, or message ID (or message URL).",
+            });
+        }
+        const id = extracted;
 
         const emojiData = await fetchEmojiData(id, interaction.client);
         if (emojiData) {
@@ -276,7 +331,7 @@ const command: SlashCommand = {
         const channels = guild.channels.cache.filter((c) => c.isTextBased());
 
         for (const [, channel] of channels) {
-            if (!channel.isTextBased()) continue;
+
             let message;
             try {
                 message = await channel.messages.fetch(id);
