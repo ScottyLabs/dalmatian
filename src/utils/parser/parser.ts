@@ -139,7 +139,7 @@ export class Parser<T extends BaseTokenType<any>> {
 
     parse(): ASTNode<any, any> {
         const node = this.base(this);
-        
+
         if (!this.tokenStream.isEOX(this.peekToken())) {
             const nextToken = this.peekToken();
             throw new UnexpectedTokenError(nextToken ?? EOX);

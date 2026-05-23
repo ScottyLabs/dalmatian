@@ -142,15 +142,19 @@ const command: SlashCommand = {
                 ),
             );
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : "Unknown error";
-            const locationInfo = error instanceof ParserError ? ` at index ${error.sourceLocation.index}` : "";
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
+            const locationInfo =
+                error instanceof ParserError
+                    ? ` at index ${error.sourceLocation.index}`
+                    : "";
             return interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Error parsing role string")
                         .setDescription(
-                                `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
-                        )
+                            `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
+                        ),
                 ],
                 flags: MessageFlags.Ephemeral,
             });
