@@ -122,7 +122,7 @@ export class Tokenizer<T extends BaseTokenType<any>> {
                                 rule.transformer
                                     ? rule.transformer(value)
                                     : value,
-                                { index },
+                                { index: index - value.length },
                             ),
                         );
                     }
