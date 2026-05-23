@@ -7,6 +7,8 @@ import {
     SlashCommandBuilder,
     StickerFormatType,
     PartialEmoji,
+    PermissionsBitField,
+    GuildMember,
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
@@ -147,10 +149,23 @@ const command: SlashCommand = {
             ?.trim()
             .replace(/\s+/g, "_");
         const guild = interaction.guild;
+        const member = interaction.member;
 
-        if (!guild) {
+        if (!guild || !(member instanceof GuildMember)) {
             return interaction.reply({
                 content: "This command must be used in a server",
+                ephemeral: true,
+            });
+        }
+
+        const hasPerms = member.permissions.has(
+            PermissionsBitField.Flags.ManageGuildExpressions,
+        );
+
+        if (!hasPerms) {
+            return interaction.reply({
+                content:
+                    "You need the Manage Guild Expressions permission to use this command.",
                 ephemeral: true,
             });
         }
