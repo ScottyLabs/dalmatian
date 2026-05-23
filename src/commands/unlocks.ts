@@ -105,7 +105,7 @@ const command: SlashCommand = {
             const errorMessage =
                 error instanceof Error ? error.message : "Unknown error";
             const locationInfo =
-                error instanceof ParserError
+                error instanceof ParserError && error.sourceLocation.index >= 0
                     ? ` at index ${error.sourceLocation.index}`
                     : "";
             return interaction.reply({

@@ -21,7 +21,7 @@ export type Token<T extends BaseTokenType<any>> =
 
 const tokenPrototype = {
     toString(this: Token<any>): string {
-        if (isTokenEOX(this)) return "EOX";
+        if (isTokenEOX(this)) return "End of Expression";
         return `${this.value}`;
     },
 };
@@ -100,9 +100,13 @@ export class Tokenizer<T extends BaseTokenType<any>> {
             let matched = false;
 
             for (const rule of this.rules) {
+                const flags = new Set(rule.regex.flags.split(""));
+                flags.delete("g");
+                flags.add("y");
+
                 const regex = new RegExp(
                     `${rule.regex.source}`,
-                    "y" + (rule.regex.ignoreCase ? "i" : ""),
+                    [...flags].join(""),
                 );
                 regex.lastIndex = index;
 

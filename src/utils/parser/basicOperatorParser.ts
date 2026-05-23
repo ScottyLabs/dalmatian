@@ -247,7 +247,7 @@ const lparenRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "LPAREN",
     lbp: 0,
     rbp: 0.1,
-    //we want to force everything to parse until we hit rparen
+    // We want to force everything to parse until we hit rparen
     nud: (token, parser) => {
         if (isTokenEOX(token)) {
             throw new UnexpectedEndOfInputError();

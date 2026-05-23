@@ -13,7 +13,7 @@ export class UnexpectedTokenError extends ParserError {
     constructor(unexpectedToken: Token<any>, expectedTokenTypes?: string[]) {
         super(
             `Unexpected token: ${unexpectedToken.toString()}` +
-                (expectedTokenTypes
+                (expectedTokenTypes?.length
                     ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
                     : ""),
             getTokenLocation(unexpectedToken),
@@ -22,8 +22,14 @@ export class UnexpectedTokenError extends ParserError {
 }
 
 export class UnexpectedEndOfInputError extends ParserError {
-    constructor(location?: SourceLocation) {
-        super(`Unexpected end of input`, location ?? { index: -1 });
+    constructor(location?: SourceLocation, expectedTokenTypes?: string[]) {
+        super(
+            `Unexpected end of input` +
+                (expectedTokenTypes?.length
+                    ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
+                    : ""),
+            location ?? { index: -1 },
+        );
     }
 }
 
