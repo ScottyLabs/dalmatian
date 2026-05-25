@@ -29,7 +29,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Help & Resources
+        ### Help & Resources
         - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
         - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)
   - type: dropdown
