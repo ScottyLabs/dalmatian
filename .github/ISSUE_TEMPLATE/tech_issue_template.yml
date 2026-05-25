@@ -4,9 +4,6 @@ description: (Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
 labels: []
 body:
-  - type: markdown
-    attributes:
-      value: "## Overall Objective"
   - type: textarea
     id: objective
     attributes:
@@ -17,9 +14,6 @@ body:
         invalidated on update. This issue fixes that.
     validations:
       required: true
-  - type: markdown
-    attributes:
-      value: "## Suggested Approach"
   - type: textarea
     id: approach
     attributes:
