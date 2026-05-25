@@ -16,7 +16,7 @@ body:
       placeholder: "e.g. The transition between the about and help page stutters randomly. Fix this bug if possible."
     validations:
       required: true
-- type: markdown
+  - type: markdown
     attributes:
       value: |
         ## Help & Resources
