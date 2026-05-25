@@ -15,3 +15,9 @@ body:
       placeholder: "e.g. The transition between the about and help page stutters randomly. Fix this bug if possible."
     validations:
       required: true
+- type: markdown
+    attributes:
+      value: |
+        ## Help & Resources
+        - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
+        - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)
