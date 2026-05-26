@@ -1,0 +1,282 @@
+[
+    {
+        "exams": [{ "name": "Accounting (A Level)", "score": "B" }],
+        "courses": ["70-122"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Accounting (A Level)", "score": "A" }],
+        "courses": ["70-122"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Arabic (A Level)", "score": "B" }],
+        "courses": ["82-039"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Arabic must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Arabic (A Level)", "score": "A" }],
+        "courses": ["82-040"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Arabic must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Biology / Advanced Bio (9Bi07) (A Level)", "score": "B" }],
+        "courses": ["03-011"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Biology / Advanced Bio (9Bi07) (A Level)", "score": "A" }],
+        "courses": ["03-110"],
+        "subject": "STEM",
+        "school": [],
+        "info": "(students can elect to take an attainment exam. Students who pass this exam by September 30 will receive credit for 03-121 instead of 03-110)"
+    },
+    {
+        "exams": [{ "name": "Chemistry / Advanced Chemistry (9Ch07) (A Level)", "score": "A" }],
+        "courses": ["09-105"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Chinese (A Level)", "score": "B" }],
+        "courses": ["82-041"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Chinese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Chinese (A Level)", "score": "A" }],
+        "courses": ["82-042"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Chinese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Classical Studies (A Level)", "score": "B" }],
+        "courses": ["66-013"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Classical Studies (A Level)", "score": "A" }],
+        "courses": ["66-013"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Computer Science (A Level)", "score": "A" }],
+        "courses": ["15-112"],
+        "subject": "STEM",
+        "school": [],
+        "info": "(subsumes 15-110)"
+    },
+    {
+        "exams": [{ "name": "Divinity (A Level)", "score": "B" }],
+        "courses": ["66-014"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Divinity (A Level)", "score": "A" }],
+        "courses": ["66-014"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Economics (A Level)", "score": "A" }],
+        "courses": ["73-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students should take 73-104)"
+    },
+    {
+        "exams": [{ "name": "English: Language (A Level)", "score": "A" }],
+        "courses": ["76-015"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(must take 76-101 or two of the following half-semester mini courses at CMU: 76-106, 76-107, 76-108). Multilingual students with a grade of A can enroll in 76-101 or two of three mini courses (76-106, 76-107, 76-108) without taking the English placement exam for non-native English speakers."
+    },
+    {
+        "exams": [{ "name": "English: Literature (A Level)", "score": "A" }],
+        "courses": ["76-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(must take 76-101 or two of the following half-semester mini courses at CMU: 76-106, 76-107, 76-108). Multilingual students with a grade of A can enroll in either 76-101 or two of three mini courses (76-106, 76-107, 76-108) without taking the English placement exam for non-native English speakers."
+    },
+    {
+        "exams": [{ "name": "French (A Level)", "score": "B" }],
+        "courses": ["82-043"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of French must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "French (A Level)", "score": "A" }],
+        "courses": ["82-044"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of French must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Geography (A Level)", "score": "B" }],
+        "courses": ["66-015"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Geography (A Level)", "score": "A" }],
+        "courses": ["66-015"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "German (A Level)", "score": "B" }],
+        "courses": ["82-045"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of German must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "German (A Level)", "score": "A" }],
+        "courses": ["82-046"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of German must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Hinduism (A Level)", "score": "B" }],
+        "courses": ["66-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Hinduism (A Level)", "score": "A" }],
+        "courses": ["66-016"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Islamic Studies (A Level)", "score": "B" }],
+        "courses": ["66-017"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Islamic Studies (A Level)", "score": "A" }],
+        "courses": ["66-017"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Japanese (A Level)", "score": "B" }],
+        "courses": ["82-047"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Japanese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Japanese (A Level)", "score": "A" }],
+        "courses": ["82-048"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Japanese must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Law (A Level)", "score": "B" }],
+        "courses": ["66-018"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Law (A Level)", "score": "A" }],
+        "courses": ["66-018"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Mathematics (A Level)", "score": "B" }],
+        "courses": ["21-120"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Mathematics / C or Advanced Math (9371) or (9758) or (9709) (A Level)", "score": "A" }],
+        "courses": ["21-120", "21-122"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Further Mathematics C (A Level)", "score": "A" }],
+        "courses": ["36-225"],
+        "subject": "STEM",
+        "school": [],
+        "info": "Prerequisite waiver only: if a student takes and passes 36-226, 9 units of credit is awarded for 36-225."
+    },
+    {
+        "exams": [{ "name": "Physics / Advanced Physics (9Ph07) (A Level)", "score": "B" }],
+        "courses": ["33-141", "33-142"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Physics / Advanced Physics (9Ph07) (A Level)", "score": "A" }],
+        "courses": ["33-141", "33-142"],
+        "subject": "STEM",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Sociology (A Level)", "score": "B" }],
+        "courses": ["88-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Sociology (A Level)", "score": "A" }],
+        "courses": ["88-011"],
+        "subject": "Humanities",
+        "school": [],
+        "info": ""
+    },
+    {
+        "exams": [{ "name": "Spanish (A Level)", "score": "B" }],
+        "courses": ["82-049"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    },
+    {
+        "exams": [{ "name": "Spanish (A Level)", "score": "A" }],
+        "courses": ["82-050"],
+        "subject": "Humanities",
+        "school": [],
+        "info": "(students who wish to continue their study of Spanish must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
+    }
+]
