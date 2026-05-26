@@ -7,6 +7,9 @@ import apCreditData from "../data/advancedCredit/ap-credit.json" with {
 import ibCreditData from "../data/advancedCredit/ib-credit.json" with {
     type: "json",
 };
+import cambridgeCreditData from "../data/advancedCredit/cambridge-credit.json" with {
+    type: "json",
+};
 
 import nonOfferedCourses from "../data/nonOfferedCourses.json" with {
     type: "json",
@@ -14,7 +17,7 @@ import nonOfferedCourses from "../data/nonOfferedCourses.json" with {
 
 export type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 
-export type AdvancedCreditType = "AP" | "IB";
+export type AdvancedCreditType = "AP" | "IB" | "Cambridge";
 
 export type Exam = {
     name: string;
@@ -22,7 +25,7 @@ export type Exam = {
     school: School[];
     info: string;
     scores: {
-        score: number;
+        score: number | string;
         courses: Course[];
     }[];
 };
@@ -33,7 +36,10 @@ export type AdvancedCreditCourse = {
     units: string;
 };
 
-export const SCORE_RANGES = {
+export const SCORE_RANGES: Record<
+    AdvancedCreditType,
+    { label: string; min?: number; max?: number; options?: string[] }
+> = {
     AP: {
         label: "Score (1-5)",
         min: 1,
@@ -44,6 +50,10 @@ export const SCORE_RANGES = {
         min: 1,
         max: 7,
     },
+    Cambridge: {
+        label: "Grade (A*-E)",
+        options: ["A*", "A", "B", "C", "D", "E"],
+    },
 };
 
 export async function loadCreditData(
@@ -51,7 +61,12 @@ export async function loadCreditData(
 ): Promise<Exam[]> {
     const exams: Exam[] = [];
 
-    const creditData = creditType === "AP" ? apCreditData : ibCreditData;
+    const creditData =
+        creditType === "AP"
+            ? apCreditData
+            : creditType === "IB"
+              ? ibCreditData
+              : cambridgeCreditData;
 
     const courses = CoursesData as Record<string, Course>;
     const coursesIndex: Record<string, Course> = Object.fromEntries(
@@ -92,7 +107,8 @@ export async function loadCreditData(
                     };
                 } else if (
                     course.name.startsWith("AP") ||
-                    course.name.startsWith("IB")
+                    course.name.startsWith("IB") ||
+                    course.name.startsWith("CMBR")
                 ) {
                     return {
                         id,
