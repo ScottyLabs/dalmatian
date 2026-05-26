@@ -24,6 +24,7 @@ export type Exam = {
     subject: "STEM" | "Arts" | "Humanities" | "N/A";
     school: School[];
     info: string;
+    overrideUnits?: number;
     scores: {
         score: number | string;
         courses: Course[];
@@ -145,6 +146,7 @@ export async function loadCreditData(
                     | "N/A",
                 school: entry.school as School[],
                 info: entry.info?.trim() || "",
+                overrideUnits: (entry as any).overrideUnits,
                 scores,
             });
         }

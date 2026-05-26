@@ -254,7 +254,7 @@ const command: SlashCommand = {
                             new SeparatorBuilder(),
                         );
 
-                        const units = Number(course.units) || 0;
+                        const units = exam.overrideUnits ?? Number(course.units) ?? 0;
                         genedCreditTotal += units;
 
                         const courseName =

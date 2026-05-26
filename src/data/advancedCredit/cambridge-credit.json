@@ -235,6 +235,7 @@
         "courses": ["36-225"],
         "subject": "STEM",
         "school": [],
+        "overrideUnits": 0,
         "info": "Prerequisite waiver only: if a student takes and passes 36-226, 9 units of credit is awarded for 36-225."
     },
     {
