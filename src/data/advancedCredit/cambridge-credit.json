@@ -28,21 +28,21 @@
         "info": "(students who wish to continue their study of Arabic must take the placement exam and contact the Department of Languages, Cultures & Applied Linguistics for placement)"
     },
     {
-        "exams": [{ "name": "Biology / Advanced Bio (9Bi07) (A Level)", "score": "B" }],
+        "exams": [{ "name": "Biology (A Level)", "score": "B" }],
         "courses": ["03-011"],
         "subject": "STEM",
         "school": [],
         "info": ""
     },
     {
-        "exams": [{ "name": "Biology / Advanced Bio (9Bi07) (A Level)", "score": "A" }],
+        "exams": [{ "name": "Biology (A Level)", "score": "A" }],
         "courses": ["03-110"],
         "subject": "STEM",
         "school": [],
         "info": "(students can elect to take an attainment exam. Students who pass this exam by September 30 will receive credit for 03-121 instead of 03-110)"
     },
     {
-        "exams": [{ "name": "Chemistry / Advanced Chemistry (9Ch07) (A Level)", "score": "A" }],
+        "exams": [{ "name": "Chemistry (A Level)", "score": "A" }],
         "courses": ["09-105"],
         "subject": "STEM",
         "school": [],
@@ -224,28 +224,28 @@
         "info": ""
     },
     {
-        "exams": [{ "name": "Mathematics / C or Advanced Math (9371) or (9758) or (9709) (A Level)", "score": "A" }],
+        "exams": [{ "name": "Mathematics (A Level)", "score": "A" }],
         "courses": ["21-120", "21-122"],
         "subject": "STEM",
         "school": [],
         "info": ""
     },
     {
-        "exams": [{ "name": "Further Mathematics C (A Level)", "score": "A" }],
+        "exams": [{ "name": "Further Mathematics (A Level)", "score": "A" }],
         "courses": ["36-225"],
         "subject": "STEM",
         "school": [],
         "info": "Prerequisite waiver only: if a student takes and passes 36-226, 9 units of credit is awarded for 36-225."
     },
     {
-        "exams": [{ "name": "Physics / Advanced Physics (9Ph07) (A Level)", "score": "B" }],
+        "exams": [{ "name": "Physics (A Level)", "score": "B" }],
         "courses": ["33-141", "33-142"],
         "subject": "STEM",
         "school": [],
         "info": ""
     },
     {
-        "exams": [{ "name": "Physics / Advanced Physics (9Ph07) (A Level)", "score": "A" }],
+        "exams": [{ "name": "Physics (A Level)", "score": "A" }],
         "courses": ["33-141", "33-142"],
         "subject": "STEM",
         "school": [],
