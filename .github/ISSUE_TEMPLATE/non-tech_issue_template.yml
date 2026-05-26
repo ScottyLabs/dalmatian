@@ -1,3 +1,4 @@
+---
 name: Task (Non-Technical)
 description: (Non-Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
@@ -10,24 +11,14 @@ body:
   - type: textarea
     id: request
     attributes:
-      label: Feature Request
+      label: Description
       description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
       placeholder: "e.g. The transition between the about and help page stutters randomly. Fix this bug if possible."
     validations:
       required: true
-
   - type: markdown
     attributes:
-      value: "## Points of Contact"
-
-  - type: textarea
-    id: contacts
-    attributes:
-      label: Points of Contact
-      description: Add who to ask questions regarding this issue, if able. Otherwise keep default contacts.
-      placeholder: |
-        - @Tentype — technical issues/help and outreach/usage
-        - @maybe-yiyi — technical issues/help
-        - @Gostmeaper - outreach and product usage
-    validations:
-      required: true
+      value: |
+        ### Help & Resources
+        - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
+        - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)

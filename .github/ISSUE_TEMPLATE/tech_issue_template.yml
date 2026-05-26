@@ -4,9 +4,6 @@ description: (Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
 labels: []
 body:
-  - type: markdown
-    attributes:
-      value: "## Overall Objective"
   - type: textarea
     id: objective
     attributes:
@@ -17,9 +14,6 @@ body:
         invalidated on update. This issue fixes that.
     validations:
       required: true
-  - type: markdown
-    attributes:
-      value: "## Suggested Approach"
   - type: textarea
     id: approach
     attributes:
@@ -34,35 +28,15 @@ body:
       required: true
   - type: markdown
     attributes:
-      value: "## Resources"
-  - type: textarea
-    id: resources
-    attributes:
-      label: Resources
-      description: Links, docs, prior issues, Figma files, etc. (customize per repo)
-      placeholder: |
-        - Design: [Figma link]
-        - Docs: [link]
-        - Related issue: #
-  - type: markdown
-    attributes:
-      value: "## Points of Contact"
-  - type: textarea
-    id: contacts
-    attributes:
-      label: Points of Contact
-      description: Who to ask questions — include their GitHub handle and area of ownership.
-      placeholder: |
-        - @Tentype — technical issues/help and outreach/usage
-        - @maybe-yiyi — technical issues/help
-        - @Gostmeaper - outreach and product usage
-    validations:
-      required: true
+      value: |
+        ### Help & Resources
+        - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
+        - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)
   - type: dropdown
     id: size
     attributes:
       label: Size
-      description: Rough effort estimate
+      description: Rough effort estimate of issue size
       options:
         - XS
         - S
