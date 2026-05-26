@@ -83,7 +83,11 @@ const command: SlashCommand = {
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
         const coursesType: AdvancedCreditType =
-            subcommand === "ap" ? "AP" : subcommand === "ib" ? "IB" : "Cambridge";
+            subcommand === "ap"
+                ? "AP"
+                : subcommand === "ib"
+                  ? "IB"
+                  : "Cambridge";
 
         const userSchool = interaction.options.getString("school");
 
@@ -254,7 +258,8 @@ const command: SlashCommand = {
                             new SeparatorBuilder(),
                         );
 
-                        const units = exam.overrideUnits ?? (Number(course.units) || 0);
+                        const units =
+                            exam.overrideUnits ?? (Number(course.units) || 0);
                         genedCreditTotal += units;
 
                         const courseName =

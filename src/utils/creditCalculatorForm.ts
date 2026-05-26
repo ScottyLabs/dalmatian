@@ -275,7 +275,9 @@ export class SetupForm {
         if (!field) return;
 
         const raw = interaction.values[0];
-        const parsedScore = SCORE_RANGES[this.schema.type].options ? raw : Number(raw);
+        const parsedScore = SCORE_RANGES[this.schema.type].options
+            ? raw
+            : Number(raw);
 
         if (!this.state.collectedData[field.key]) {
             this.state.collectedData[field.key] = [];
