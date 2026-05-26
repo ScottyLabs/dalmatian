@@ -127,6 +127,15 @@ export async function loadCreditData(
                 return course;
             });
 
+            const scores: { score: number | string; courses: Course[] }[] = [
+                { score: exam.score, courses: scoreCourses },
+            ];
+
+            // A* is the highest Cambridge grade and satisfies any A requirement
+            if (creditType === "Cambridge" && exam.score === "A") {
+                scores.push({ score: "A*", courses: scoreCourses });
+            }
+
             exams.push({
                 name: exam.name,
                 subject: entry.subject as
@@ -136,12 +145,7 @@ export async function loadCreditData(
                     | "N/A",
                 school: entry.school as School[],
                 info: entry.info?.trim() || "",
-                scores: [
-                    {
-                        score: exam.score,
-                        courses: scoreCourses,
-                    },
-                ],
+                scores,
             });
         }
     }
