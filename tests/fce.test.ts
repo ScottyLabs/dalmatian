@@ -129,12 +129,20 @@ describe("summarizeFCERecords", () => {
         const data = buildFCEData(
             [
                 make(baseCsvRecord, {
-                    Year: "2019",
+                    Year: "2020",
                     Sem: "Fall",
                     "Overall teaching rate": "1",
                     "Overall course rate": "1",
                     "Hrs Per Week": "5",
                     "Response Rate": "50",
+                }),
+                make(baseCsvRecord, {
+                    Year: "2021",
+                    Sem: "Fall",
+                    "Overall teaching rate": "2",
+                    "Overall course rate": "2",
+                    "Hrs Per Week": "6",
+                    "Response Rate": "60",
                 }),
                 make(baseCsvRecord, {
                     Year: "2023",
@@ -145,7 +153,7 @@ describe("summarizeFCERecords", () => {
                     "Response Rate": "80",
                 }),
                 make(baseCsvRecord, {
-                    Year: "2025",
+                    Year: "2026",
                     Sem: "Fall",
                     "Overall teaching rate": "5",
                     "Overall course rate": "4",
@@ -158,13 +166,13 @@ describe("summarizeFCERecords", () => {
 
         const course = data["98-008"];
         expect(course).toBeDefined();
-        expect(course?.records.length).toBe(2);
+        expect(course?.records.length).toBe(3);
 
         const summary = summarizeFCERecords(course?.records ?? []);
-        expect(summary.teachingRate).toBeCloseTo(4.5, 5);
-        expect(summary.courseRate).toBeCloseTo(3.5, 5);
-        expect(summary.workload).toBeCloseTo(15, 5);
-        expect(summary.responseRate).toBeCloseTo(85, 5);
+        expect(summary.teachingRate).toBeCloseTo(11 / 3, 5);
+        expect(summary.courseRate).toBeCloseTo(3, 5);
+        expect(summary.workload).toBeCloseTo(12, 5);
+        expect(summary.responseRate).toBeCloseTo(230 / 3, 5);
     });
 });
 
@@ -186,7 +194,41 @@ describe("calculateTotalWorkload", () => {
         expect(totalWorkload).toBeCloseTo(12, 5);
     });
 
-    test("sums multiple courses without FYW minis", () => {
+    test("does not average one FYW mini", () => {
+        const summaryByCourseCode = new Map<string, FCERecordSummary>([
+            [FYW_MINIS[0]!, make(baseSummary, { workload: 7 })],
+            ["98-008", make(baseSummary, { workload: 5 })],
+        ]);
+
+        const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
+            [FYW_MINIS[0]!, "98-008"],
+            summaryByCourseCode,
+            FYW_MINIS,
+        );
+
+        expect(fywMinisAveraged).toBe(false);
+        expect(totalWorkload).toBeCloseTo(12, 5);
+    });
+
+    test("does not average three FYW minis", () => {
+        const summaryByCourseCode = new Map<string, FCERecordSummary>([
+            [FYW_MINIS[0]!, make(baseSummary, { workload: 4 })],
+            [FYW_MINIS[1]!, make(baseSummary, { workload: 6 })],
+            [FYW_MINIS[2]!, make(baseSummary, { workload: 8 })],
+            ["98-008", make(baseSummary, { workload: 2 })],
+        ]);
+
+        const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
+            [FYW_MINIS[0]!, FYW_MINIS[1]!, FYW_MINIS[2]!, "98-008"],
+            summaryByCourseCode,
+            FYW_MINIS,
+        );
+
+        expect(fywMinisAveraged).toBe(false);
+        expect(totalWorkload).toBeCloseTo(20, 5);
+    });
+
+    test("averages multiple courses without FYW minis", () => {
         const summaryByCourseCode = new Map<string, FCERecordSummary>([
             ["15-112", make(baseSummary, { workload: 9 })],
             ["15-122", make(baseSummary, { workload: 11 })],
@@ -218,7 +260,11 @@ describe("calculateTotalUnits", () => {
         expect(calculateTotalUnits(["VAR", "3"])).toBe("3+");
     });
 
-    test("sums numeric units without plus", () => {
+    test("sums whole units without plus", () => {
         expect(calculateTotalUnits(["3", "1", "2"])).toBe("6");
+    });
+
+    test("sums fractional units without plus", () => {
+        expect(calculateTotalUnits(["3", "1.5", "2"])).toBe("6.5");
     });
 });
