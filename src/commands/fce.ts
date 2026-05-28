@@ -296,7 +296,7 @@ const command: SlashCommand = {
         }
 
         let description = "";
-        for (const { code, course, fce } of validCourses) {
+        for (const { code, fce } of validCourses) {
             const summary = summaryByCourseCode.get(code)!;
             const courseName = fce.courseName.toUpperCase();
             description +=
