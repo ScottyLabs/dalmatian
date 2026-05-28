@@ -95,7 +95,8 @@ Before you commit and open a pull request, make sure to:
 
 - Run `bun lint` and fix any errors/warnings
 - Run `bun format` to format your code
-- Test the bot locally with your changes
+- Run `bun test` to ensure all tests pass
+- Test the bot locally with your changes by running `bun start`
 - Ensure your commits follow conventional commit format
 - Update documentation if you added/changed features
 
