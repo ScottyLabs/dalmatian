@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { FYW_MINIS } from "../src/constants.ts";
 import {
     buildFCEData,
+    calculateTotalUnits,
     calculateTotalWorkload,
     type FCERecord,
     type FCERecordSummary,
@@ -201,5 +202,23 @@ describe("calculateTotalWorkload", () => {
 
         expect(fywMinisAveraged).toBe(false);
         expect(totalWorkload).toBeCloseTo(34, 5);
+    });
+});
+
+describe("calculateTotalUnits", () => {
+    test("returns VAR when all courses are VAR", () => {
+        expect(calculateTotalUnits(["VAR", "VAR"])).toBe("VAR");
+    });
+
+    test("returns VAR when single course is VAR", () => {
+        expect(calculateTotalUnits(["VAR"])).toBe("VAR");
+    });
+
+    test("appends plus when mixed VAR and numeric", () => {
+        expect(calculateTotalUnits(["VAR", "3"])).toBe("3+");
+    });
+
+    test("sums numeric units without plus", () => {
+        expect(calculateTotalUnits(["3", "1", "2"])).toBe("6");
     });
 });

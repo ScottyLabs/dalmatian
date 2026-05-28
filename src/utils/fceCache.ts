@@ -269,6 +269,36 @@ export function calculateTotalWorkload(
     };
 }
 
+function formatUnitsValue(value: number): string {
+    return (+value.toFixed(1)).toString();
+}
+
+export function calculateTotalUnits(units: string[]): string {
+    let totalUnits = 0;
+    let hasVar = false;
+    let hasNumeric = false;
+
+    for (const unit of units) {
+        const parsed = Number(unit);
+        if (Number.isNaN(parsed)) {
+            hasVar = true;
+            continue;
+        }
+        totalUnits += parsed;
+        hasNumeric = true;
+    }
+
+    if (!hasNumeric && hasVar) {
+        return "VAR";
+    }
+
+    if (hasVar && hasNumeric) {
+        return `${formatUnitsValue(totalUnits)}+`;
+    }
+
+    return formatUnitsValue(totalUnits);
+}
+
 function buildFCEStartupCache(
     fceDataByCourse: Record<string, FCEData>,
 ): FCEStartupCache {

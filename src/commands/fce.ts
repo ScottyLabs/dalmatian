@@ -15,6 +15,7 @@ import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import {
+    calculateTotalUnits,
     calculateTotalWorkload,
     FCE_DATA_BY_COURSE,
     FCE_STARTUP_CACHE,
@@ -289,14 +290,12 @@ const command: SlashCommand = {
                 right = underline(right);
             }
             if (workload.toFixed(1).length === 3) {
-                return `${left} - ${right}`;
+                return `${left} — ${right}`;
             }
             return `${left} - ${right}`;
         }
 
         let description = "";
-        let totalUnits = 0;
-        let unitIssuePostFixer = "";
         for (const { code, course, fce } of validCourses) {
             const summary = summaryByCourseCode.get(code)!;
             const courseName = fce.courseName.toUpperCase();
@@ -308,12 +307,11 @@ const command: SlashCommand = {
                         `${SCOTTYLABS_URL}/course/${code}`,
                     ),
                 ) + "\n";
-            if (!Number.isNaN(Number(course.units))) {
-                totalUnits += Number(course.units);
-            } else {
-                unitIssuePostFixer = "+";
-            }
         }
+
+        const unitsDisplay = calculateTotalUnits(
+            validCourses.map(({ course }) => course.units),
+        );
 
         const courseCodes = validCourses.map(({ code }) => code);
         const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
@@ -332,7 +330,7 @@ const command: SlashCommand = {
 
         const embed = new EmbedBuilder()
             .setTitle(
-                `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)}${unitIssuePostFixer} units)`,
+                `FCE for ${validCourses.length} Courses (${unitsDisplay} units)`,
             )
             .setDescription(description);
 
