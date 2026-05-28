@@ -4,6 +4,8 @@ import { parse } from "csv-parse/sync";
 import { strikethrough } from "discord.js";
 import { formatCourseNumber } from "./index.ts";
 
+const YEARS_BACK = 5;
+
 export type FCEData = {
     courseNum: string;
     courseName: string;
@@ -39,6 +41,17 @@ export type FCEStartupCache = {
     summaryByInstructorByCourseCode: Map<string, Map<string, FCERecordSummary>>;
 };
 
+type PendingFCERecord = {
+    section: string;
+    instructor: string;
+    semesterLabel: string;
+    hrsPerWeekSum: number;
+    overallTeachingRateSum: number;
+    overallCourseRateSum: number;
+    responseRateSum: number;
+    count: number;
+};
+
 function abbrevSemester(semester: string): string {
     const normalized = semester.trim().toLowerCase();
     if (normalized === "fall") {
@@ -58,21 +71,23 @@ function formatSemesterLabel(semester: string, year: number): string {
     return `${tag}${String(year).slice(-2)}`;
 }
 
-function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
+function isSummerLabel(label: string): boolean {
+    return label.startsWith("M");
+}
+
+export function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
     const uniqueSemesters = [
         ...new Set(records.map((record) => record.semesterLabel)),
     ];
     const nonSummerRecords = records.filter(
-        (record) => !record.semesterLabel.startsWith("M"),
+        (record) => !isSummerLabel(record.semesterLabel),
     );
 
     // exclude summer semesters when fall/spring data exists
-    const shouldStrikeSummerTerms = nonSummerRecords.length > 0;
-    const includedRecords = shouldStrikeSummerTerms
-        ? nonSummerRecords
-        : records;
+    const shouldExcludeSummer = nonSummerRecords.length > 0;
+    const includedRecords = shouldExcludeSummer ? nonSummerRecords : records;
     const semesterLabels = uniqueSemesters.map((label) =>
-        shouldStrikeSummerTerms && label.startsWith("M")
+        shouldExcludeSummer && isSummerLabel(label)
             ? strikethrough(label)
             : label,
     );
@@ -113,79 +128,20 @@ function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
     };
 }
 
-function buildFCEStartupCache(
-    fceDataByCourse: Record<string, FCEData>,
-): FCEStartupCache {
-    // <course code, aggregate summary>
-    const summaryByCourseCode = new Map<string, FCERecordSummary>();
-    // <course code, <instructor name, aggregate summary>>
-    const summaryByInstructorByCourseCode = new Map<
-        string,
-        Map<string, FCERecordSummary>
-    >();
-
-    for (const [courseCode, fceData] of Object.entries(fceDataByCourse)) {
-        summaryByCourseCode.set(
-            courseCode,
-            summarizeFCERecords(fceData.records),
-        );
-
-        const recordsByInstructor = new Map<string, FCERecord[]>();
-        for (const record of fceData.records) {
-            const instructorRecords =
-                recordsByInstructor.get(record.instructor) ?? [];
-            instructorRecords.push(record);
-            recordsByInstructor.set(record.instructor, instructorRecords);
-        }
-
-        const instructorSummaries = new Map<string, FCERecordSummary>();
-        for (const [instructor, instructorRecords] of recordsByInstructor) {
-            instructorSummaries.set(
-                instructor,
-                summarizeFCERecords(instructorRecords),
-            );
-        }
-        summaryByInstructorByCourseCode.set(courseCode, instructorSummaries);
-    }
-
-    return {
-        summaryByCourseCode,
-        summaryByInstructorByCourseCode,
-    };
-}
-
-function loadFCEData(): Record<string, FCEData> {
+export function buildFCEData(
+    records: Array<Record<string, string>>,
+    currentYear: number,
+): Record<string, FCEData> {
     const fceMap: Record<string, FCEData> = {};
-    const csvPath = join(__dirname, "../data/fce_data.csv");
-    const csvContent = readFileSync(csvPath, "utf-8");
+    const cutoffYear = currentYear - YEARS_BACK;
 
-    const records = parse(csvContent, {
-        columns: true,
-        skip_empty_lines: true,
-    }) as Array<Record<string, string>>;
-
-    const currentYear = new Date().getFullYear();
-    const cutoffYear = currentYear - 5;
-
-    type PendingFCERecord = {
-        section: string;
-        instructor: string;
-        semesterLabel: string;
-        hrsPerWeekSum: number;
-        overallTeachingRateSum: number;
-        overallCourseRateSum: number;
-        responseRateSum: number;
-        count: number;
-    };
-
-    // <course code, <"instructor-semester" unique key, running FCE sums>>
     const pendingByCourse: Record<string, Map<string, PendingFCERecord>> = {};
 
     for (const record of records) {
         const dept = record["Dept"];
         const num = record["Num"];
         const semester = record["Sem"];
-        const year = parseInt(record["Year"] ?? "0");
+        const year = parseInt(record["Year"] ?? "0", 10);
         if (!dept || !num) continue;
 
         // only consider FCEs from the past 5 years
@@ -280,6 +236,90 @@ function loadFCEData(): Record<string, FCEData> {
     }
 
     return fceMap;
+}
+
+export function calculateTotalWorkload(
+    courseCodes: string[],
+    summaryByCourseCode: Map<string, FCERecordSummary>,
+    fywMiniCodes: string[],
+): { totalWorkload: number; fywMinisAveraged: boolean } {
+    const totalWorkload = courseCodes.reduce(
+        (sum, code) => sum + (summaryByCourseCode.get(code)?.workload ?? 0),
+        0,
+    );
+
+    const fywMiniCourses = courseCodes.filter((code) =>
+        fywMiniCodes.includes(code),
+    );
+    if (fywMiniCourses.length === 2) {
+        const miniWorkload = fywMiniCourses.reduce(
+            (sum, code) => sum + (summaryByCourseCode.get(code)?.workload ?? 0),
+            0,
+        );
+
+        return {
+            totalWorkload: totalWorkload - miniWorkload + miniWorkload / 2,
+            fywMinisAveraged: true,
+        };
+    }
+
+    return {
+        totalWorkload,
+        fywMinisAveraged: false,
+    };
+}
+
+function buildFCEStartupCache(
+    fceDataByCourse: Record<string, FCEData>,
+): FCEStartupCache {
+    // <course code, aggregate summary>
+    const summaryByCourseCode = new Map<string, FCERecordSummary>();
+    // <course code, <instructor name, aggregate summary>>
+    const summaryByInstructorByCourseCode = new Map<
+        string,
+        Map<string, FCERecordSummary>
+    >();
+
+    for (const [courseCode, fceData] of Object.entries(fceDataByCourse)) {
+        summaryByCourseCode.set(
+            courseCode,
+            summarizeFCERecords(fceData.records),
+        );
+
+        const recordsByInstructor = new Map<string, FCERecord[]>();
+        for (const record of fceData.records) {
+            const instructorRecords =
+                recordsByInstructor.get(record.instructor) ?? [];
+            instructorRecords.push(record);
+            recordsByInstructor.set(record.instructor, instructorRecords);
+        }
+
+        const instructorSummaries = new Map<string, FCERecordSummary>();
+        for (const [instructor, instructorRecords] of recordsByInstructor) {
+            instructorSummaries.set(
+                instructor,
+                summarizeFCERecords(instructorRecords),
+            );
+        }
+        summaryByInstructorByCourseCode.set(courseCode, instructorSummaries);
+    }
+
+    return {
+        summaryByCourseCode,
+        summaryByInstructorByCourseCode,
+    };
+}
+
+function loadFCEData(): Record<string, FCEData> {
+    const csvPath = join(__dirname, "../data/fce_data.csv");
+    const csvContent = readFileSync(csvPath, "utf-8");
+
+    const records = parse(csvContent, {
+        columns: true,
+        skip_empty_lines: true,
+    }) as Array<Record<string, string>>;
+
+    return buildFCEData(records, new Date().getFullYear());
 }
 
 export const FCE_DATA_BY_COURSE = loadFCEData();
