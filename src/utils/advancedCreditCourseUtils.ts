@@ -7,6 +7,9 @@ import apCreditData from "../data/advancedCredit/ap-credit.json" with {
 import ibCreditData from "../data/advancedCredit/ib-credit.json" with {
     type: "json",
 };
+import cambridgeCreditData from "../data/advancedCredit/cambridge-credit.json" with {
+    type: "json",
+};
 
 import nonOfferedCourses from "../data/nonOfferedCourses.json" with {
     type: "json",
@@ -14,15 +17,16 @@ import nonOfferedCourses from "../data/nonOfferedCourses.json" with {
 
 export type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 
-export type AdvancedCreditType = "AP" | "IB";
+export type AdvancedCreditType = "AP" | "IB" | "Cambridge";
 
 export type Exam = {
     name: string;
     subject: "STEM" | "Arts" | "Humanities" | "N/A";
     school: School[];
     info: string;
+    overrideUnits?: number;
     scores: {
-        score: number;
+        score: number | string;
         courses: Course[];
     }[];
 };
@@ -33,7 +37,10 @@ export type AdvancedCreditCourse = {
     units: string;
 };
 
-export const SCORE_RANGES = {
+export const SCORE_RANGES: Record<
+    AdvancedCreditType,
+    { label: string; min?: number; max?: number; options?: string[] }
+> = {
     AP: {
         label: "Score (1-5)",
         min: 1,
@@ -44,6 +51,10 @@ export const SCORE_RANGES = {
         min: 1,
         max: 7,
     },
+    Cambridge: {
+        label: "Grade (A*-E)",
+        options: ["A*", "A", "B", "C", "D", "E"],
+    },
 };
 
 export async function loadCreditData(
@@ -51,7 +62,12 @@ export async function loadCreditData(
 ): Promise<Exam[]> {
     const exams: Exam[] = [];
 
-    const creditData = creditType === "AP" ? apCreditData : ibCreditData;
+    const creditData =
+        creditType === "AP"
+            ? apCreditData
+            : creditType === "IB"
+              ? ibCreditData
+              : cambridgeCreditData;
 
     const courses = CoursesData as Record<string, Course>;
     const coursesIndex: Record<string, Course> = Object.fromEntries(
@@ -92,7 +108,8 @@ export async function loadCreditData(
                     };
                 } else if (
                     course.name.startsWith("AP") ||
-                    course.name.startsWith("IB")
+                    course.name.startsWith("IB") ||
+                    course.name.startsWith("CMBR")
                 ) {
                     return {
                         id,
@@ -111,6 +128,15 @@ export async function loadCreditData(
                 return course;
             });
 
+            const scores: { score: number | string; courses: Course[] }[] = [
+                { score: exam.score, courses: scoreCourses },
+            ];
+
+            // A* is the highest Cambridge grade and satisfies any A requirement
+            if (creditType === "Cambridge" && exam.score === "A") {
+                scores.push({ score: "A*", courses: scoreCourses });
+            }
+
             exams.push({
                 name: exam.name,
                 subject: entry.subject as
@@ -120,12 +146,8 @@ export async function loadCreditData(
                     | "N/A",
                 school: entry.school as School[],
                 info: entry.info?.trim() || "",
-                scores: [
-                    {
-                        score: exam.score,
-                        courses: scoreCourses,
-                    },
-                ],
+                overrideUnits: (entry as any).overrideUnits,
+                scores,
             });
         }
     }

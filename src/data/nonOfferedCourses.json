@@ -136,5 +136,29 @@
     { "id": "79-016", "name": "IB Anthropology", "units": "9" },
     
     { "id": "82-037", "name": "IB 6 Spanish", "units": "9" },
-    { "id": "82-038", "name": "IB 7 Spanish", "units": "9" }
+    { "id": "82-038", "name": "IB 7 Spanish", "units": "9" },
+
+    { "id": "82-039", "name": "CMBR B Arabic", "units": "12" },
+    { "id": "82-040", "name": "CMBR A Arabic", "units": "12" },
+    { "id": "82-041", "name": "CMBR B Chinese", "units": "12" },
+    { "id": "82-042", "name": "CMBR A Chinese", "units": "12" },
+    { "id": "82-043", "name": "CMBR B French", "units": "9" },
+    { "id": "82-044", "name": "CMBR A French", "units": "9" },
+    { "id": "82-045", "name": "CMBR B German", "units": "9" },
+    { "id": "82-046", "name": "CMBR A German", "units": "9" },
+    { "id": "82-047", "name": "CMBR B Japanese", "units": "12" },
+    { "id": "82-048", "name": "CMBR A Japanese", "units": "12" },
+    { "id": "82-049", "name": "CMBR B Spanish", "units": "9" },
+    { "id": "82-050", "name": "CMBR A Spanish", "units": "9" },
+
+    { "id": "66-013", "name": "CMBR Classical Studies", "units": "9" },
+    { "id": "66-014", "name": "CMBR Divinity", "units": "9" },
+    { "id": "66-015", "name": "CMBR Geography", "units": "9" },
+    { "id": "66-016", "name": "CMBR Hinduism", "units": "9" },
+    { "id": "66-017", "name": "CMBR Islamic Studies", "units": "9" },
+    { "id": "66-018", "name": "CMBR Law", "units": "9" },
+    { "id": "76-015", "name": "CMBR English: Language", "units": "9" },
+    { "id": "76-016", "name": "CMBR English: Literature", "units": "9" },
+    { "id": "88-011", "name": "CMBR Sociology", "units": "9" }
 ]
+

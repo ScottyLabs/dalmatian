@@ -274,7 +274,10 @@ export class SetupForm {
         const field = this.schema.fields.find((f) => f.key === fieldKey);
         if (!field) return;
 
-        const score = Number(interaction.values[0]);
+        const raw = interaction.values[0];
+        const parsedScore = SCORE_RANGES[this.schema.type].options
+            ? raw
+            : Number(raw);
 
         if (!this.state.collectedData[field.key]) {
             this.state.collectedData[field.key] = [];
@@ -284,9 +287,9 @@ export class SetupForm {
 
         const existing = arr.find((e: any) => e.examName === examName);
         if (existing) {
-            existing.score = score;
+            existing.score = parsedScore;
         } else {
-            arr.push({ examName, score });
+            arr.push({ examName, score: parsedScore });
         }
 
         await interaction.update({
@@ -323,21 +326,17 @@ export class SetupForm {
             .setCustomId(
                 `setup;${this.schema.name};score;${field.key};${examName};${this.rendNonce}`,
             )
-            .setPlaceholder(`Select score for ${examName}`)
-            .addOptions(
-                Array.from(
-                    {
-                        length:
-                            SCORE_RANGES[this.schema.type].max -
-                            SCORE_RANGES[this.schema.type].min +
-                            1,
-                    },
-                    (_, i) => i + SCORE_RANGES[this.schema.type].min,
-                ).map((n) => ({
-                    label: n.toString(),
-                    value: n.toString(),
-                })),
-            );
+            .setPlaceholder(`Select score for ${examName}`);
+        const range = SCORE_RANGES[this.schema.type];
+        // letter grades (Cambridge) vs numeric range (AP/IB)
+        const scoreOptions = range.options
+            ? range.options.map((o) => ({ label: o, value: o }))
+            : Array.from(
+                  { length: range.max! - range.min! + 1 },
+                  (_, i) => i + range.min!,
+              ).map((n) => ({ label: n.toString(), value: n.toString() }));
+
+        scoreSelect.addOptions(scoreOptions);
 
         return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
             scoreSelect,

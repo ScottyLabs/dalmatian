@@ -62,11 +62,32 @@ const command: SlashCommand = {
                         .setChoices(SCHOOLS.map((s) => ({ name: s, value: s })))
                         .setRequired(true),
                 ),
+        )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("cambridge")
+                .setDescription(
+                    "Calculate units and courses waived through your Cambridge A Levels",
+                )
+                .addStringOption((option) =>
+                    option
+                        .setName("school")
+                        .setDescription(
+                            "Enter College (DC, CIT, SCS, TEP, MCS, CFA)",
+                        )
+                        .setChoices(SCHOOLS.map((s) => ({ name: s, value: s })))
+                        .setRequired(true),
+                ),
         ),
 
     async execute(interaction) {
+        const subcommand = interaction.options.getSubcommand();
         const coursesType: AdvancedCreditType =
-            interaction.options.getSubcommand() === "ap" ? "AP" : "IB";
+            subcommand === "ap"
+                ? "AP"
+                : subcommand === "ib"
+                  ? "IB"
+                  : "Cambridge";
 
         const userSchool = interaction.options.getString("school");
 
@@ -152,7 +173,7 @@ const command: SlashCommand = {
                 const awarded: { exam: Exam; courses: Course[] }[] = [];
 
                 const processCategory = (
-                    entries: { examName: string; score: number }[],
+                    entries: { examName: string; score: number | string }[],
                 ) => {
                     entries.forEach(({ examName, score }) => {
                         const sameName = exams.filter(
@@ -237,7 +258,8 @@ const command: SlashCommand = {
                             new SeparatorBuilder(),
                         );
 
-                        const units = Number(course.units) || 0;
+                        const units =
+                            exam.overrideUnits ?? (Number(course.units) || 0);
                         genedCreditTotal += units;
 
                         const courseName =
