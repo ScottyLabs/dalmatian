@@ -15,6 +15,8 @@ import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import {
+    calculateTotalUnits,
+    calculateTotalWorkload,
     FCE_DATA_BY_COURSE,
     FCE_STARTUP_CACHE,
     FCEData,
@@ -288,15 +290,13 @@ const command: SlashCommand = {
                 right = underline(right);
             }
             if (workload.toFixed(1).length === 3) {
-                return `${left} - ${right}`;
+                return `${left} — ${right}`;
             }
             return `${left} - ${right}`;
         }
 
         let description = "";
-        let totalUnits = 0;
-        let unitIssuePostFixer = "";
-        for (const { code, course, fce } of validCourses) {
+        for (const { code, fce } of validCourses) {
             const summary = summaryByCourseCode.get(code)!;
             const courseName = fce.courseName.toUpperCase();
             description +=
@@ -307,31 +307,21 @@ const command: SlashCommand = {
                         `${SCOTTYLABS_URL}/course/${code}`,
                     ),
                 ) + "\n";
-            if (!Number.isNaN(Number(course.units))) {
-                totalUnits += Number(course.units);
-            } else {
-                unitIssuePostFixer = "+";
-            }
         }
 
-        let totalHours = validCourses.reduce(
-            (sum, { code }) => sum + summaryByCourseCode.get(code)!.workload,
-            0,
+        const unitsDisplay = calculateTotalUnits(
+            validCourses.map(({ course }) => course.units),
         );
-        const fywMinis = validCourses.filter(({ code }) =>
-            FYW_MINIS.includes(code),
-        );
-        if (fywMinis.length === 2) {
-            const miniWorkload =
-                summaryByCourseCode.get(fywMinis[0]!.code)!.workload +
-                summaryByCourseCode.get(fywMinis[1]!.code)!.workload;
-            const miniAvg = miniWorkload / 2;
-            totalHours -= miniWorkload;
-            totalHours += miniAvg;
-        }
 
-        description += formatLine(totalHours, bold("Total FCE"), true);
-        if (fywMinis.length === 2) {
+        const courseCodes = validCourses.map(({ code }) => code);
+        const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
+            courseCodes,
+            summaryByCourseCode,
+            FYW_MINIS,
+        );
+
+        description += formatLine(totalWorkload, bold("Total FCE"), true);
+        if (fywMinisAveraged) {
             description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
         }
         if (notFound.length > 0) {
@@ -340,7 +330,7 @@ const command: SlashCommand = {
 
         const embed = new EmbedBuilder()
             .setTitle(
-                `FCE for ${validCourses.length} Courses (${totalUnits.toFixed(1)}${unitIssuePostFixer} units)`,
+                `FCE for ${validCourses.length} Courses (${unitsDisplay} units)`,
             )
             .setDescription(description);
 
