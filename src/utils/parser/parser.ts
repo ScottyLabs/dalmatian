@@ -6,6 +6,7 @@ import {
 import {
     BaseTokenType,
     EOX,
+    getTokenLocation,
     isTokenEOX,
     SourceLocation,
     Token,
@@ -76,11 +77,37 @@ export type PrattRule<T extends BaseTokenType<any>> = {
 type BaseFunction = (parser: Parser<any>) => ASTNode<any, any>;
 
 export class Parser<T extends BaseTokenType<any>> {
+    private readonly config: {
+        maxParseDepth: number;
+    };
+
+    private currentParseDepth: number;
+
     constructor(
         public readonly tokenStream: TokenStream<T>,
         private prattRules: PrattRule<T>[],
         private base: BaseFunction,
-    ) {}
+        config = { maxParseDepth: 100 },
+    ) {
+        this.config = config;
+        this.currentParseDepth = 0;
+    }
+
+    private callParse<R>(fn: () => R): R {
+        if (this.currentParseDepth >= this.config.maxParseDepth) {
+            const token = this.peekToken();
+            throw new MaxCallDepthExceededError(
+                this.config.maxParseDepth,
+                token ? getTokenLocation(token) : { index: -1 },
+            );
+        }
+        this.currentParseDepth++;
+        try {
+            return fn();
+        } finally {
+            this.currentParseDepth--;
+        }
+    }
 
     peekToken(): Token<T> | undefined {
         return this.tokenStream.peek();
@@ -101,40 +128,42 @@ export class Parser<T extends BaseTokenType<any>> {
     }
 
     parsePratt(precedence = 0): ASTNode<any, any> {
-        const token = this.consumeToken();
+        return this.callParse(() => {
+            const token = this.consumeToken();
 
-        if (!token || token === EOX) {
-            throw new UnexpectedEndOfInputError();
-        }
-
-        const rule = this.prattRules.find((r) => r.operator === token.type);
-        if (!rule || !rule.nud) {
-            throw new UnexpectedTokenError(token, []);
-        }
-
-        let left = rule.nud(token, this);
-
-        while (true) {
-            const nextToken = this.peekToken(); // Look at the next token without consuming it
-            if (!nextToken || isTokenEOX(nextToken)) {
-                break;
+            if (!token || token === EOX) {
+                throw new UnexpectedEndOfInputError();
             }
 
-            const nextRule = this.prattRules.find(
-                (r) => r.operator === nextToken.type,
-            );
-            if (!nextRule || !nextRule.led || nextRule.lbp <= precedence) {
-                // If the next token is not an operator or has lower binding power, stop parsing.
-                break;
+            const rule = this.prattRules.find((r) => r.operator === token.type);
+            if (!rule || !rule.nud) {
+                throw new UnexpectedTokenError(token, []);
             }
 
-            // If valid, consume
-            this.consumeToken();
+            let left = rule.nud(token, this);
 
-            left = nextRule.led(left, nextToken, this);
-        }
+            while (true) {
+                const nextToken = this.peekToken(); // Look at the next token without consuming it
+                if (!nextToken || isTokenEOX(nextToken)) {
+                    break;
+                }
 
-        return left;
+                const nextRule = this.prattRules.find(
+                    (r) => r.operator === nextToken.type,
+                );
+                if (!nextRule || !nextRule.led || nextRule.lbp <= precedence) {
+                    // If the next token is not an operator or has lower binding power, stop parsing.
+                    break;
+                }
+
+                // If valid, consume
+                this.consumeToken();
+
+                left = nextRule.led(left, nextToken, this);
+            }
+
+            return left;
+        });
     }
 
     parse(): ASTNode<any, any> {

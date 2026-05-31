@@ -9,68 +9,76 @@ import {
     UnexpectedTokenError,
     EvaluationError,
 } from "./errors.ts";
-import { GrammarFactory } from "./grammarFactory.ts";
+import { createGrammarFactory } from "./grammarFactory.ts";
 import {
     BaseTokenType,
-    EOX,
     isTokenEOX,
     SourceLocation,
-    Tokenizer,
+    TokenRule,
 } from "./tokenizer.ts";
 
 type BasicOperatorTokenTypes = BaseTokenType<
     "LITERAL" | "AND" | "OR" | "NOT" | "LPAREN" | "RPAREN"
 >;
 
-export const basicOperatorTokenizer = new Tokenizer<BasicOperatorTokenTypes>([
+export const basicOperatorTokenizer: TokenRule<BasicOperatorTokenTypes>[] = [
     {
         regex: /\s+/, // Skip whitespace
         type: null,
+        humanName: "whitespace",
     },
     {
         regex: /\s*"([^"]*)"/, // Quoted strings (literal role names with spaces and operators)
         type: "LITERAL",
+        humanName: "quoted literal",
         transformer: (value) => value.slice(1, -1), // Remove the surrounding quotes
     },
     {
         regex: /\s*'([^']*)'/, // Single-quoted strings
         type: "LITERAL",
+        humanName: "quoted literal",
         transformer: (value) => value.slice(1, -1),
     },
     {
         regex: /\s*\(/, // Left parenthesis
         type: "LPAREN",
+        humanName: "left parenthesis",
     },
     {
         regex: /\s*\)/, // Right parenthesis
         type: "RPAREN",
+        humanName: "right parenthesis",
     },
     {
         regex: /\s*\b(NOT)\b/i, // Logical operators (case-insensitive)
         type: "NOT",
+        humanName: "NOT",
         transformer: (value) => value.trim().toUpperCase(),
     },
     {
         regex: /\s*\b(AND)\b/i,
         type: "AND",
+        humanName: "AND",
         transformer: (value) => value.trim().toUpperCase(),
     },
     {
         regex: /\s*\b(OR)\b/i,
         type: "OR",
+        humanName: "OR",
         transformer: (value) => value.trim().toUpperCase(),
     },
     {
         regex: /\s*([^()\s]+(?:\s+(?!AND|OR|NOT)[^()\s]+)*)/i, // Unquoted literals (no spaces or parentheses or operators)
         type: "LITERAL",
+        humanName: "unquoted literal",
     },
-]);
+];
 
 // The reason this exists is that in the future we could evaluate to multiple types, but in reality this usage only needs one type so we just make it a single generic
 class BasicOperatorRuntimeVal<TResult> implements BaseRuntimeVal {
     readonly type: string;
     constructor(public readonly value: TResult[]) {
-        this.type = typeof value;
+        this.type = "TResult[]"; // This isn't really used here since we only operate in one type
     }
 }
 
@@ -191,10 +199,19 @@ class LiteralASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<
     }
 }
 
+// Precendence values for operators, higher means more tightly bound
+const precedenceMap: {
+    [K in "OR" | "AND" | "NOT"]: number;
+} = {
+    OR: 1,
+    AND: 2,
+    NOT: 3,
+};
+
 const notRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "NOT",
-    lbp: 3,
-    rbp: 3.1,
+    lbp: precedenceMap.NOT,
+    rbp: precedenceMap.NOT + 0.1, //We always bind the right a bit tighter to ensure deterministic operator precedence, more applicable for AND
     nud: (token, parser) => {
         if (isTokenEOX(token)) {
             throw new UnexpectedEndOfInputError();
@@ -206,8 +223,8 @@ const notRule: PrattRule<BasicOperatorTokenTypes> = {
 
 const andRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "AND",
-    lbp: 2,
-    rbp: 2.1,
+    lbp: precedenceMap.AND,
+    rbp: precedenceMap.AND + 0.1,
     led: (left, token, parser) => {
         if (isTokenEOX(token)) {
             throw new UnexpectedEndOfInputError();
@@ -219,8 +236,8 @@ const andRule: PrattRule<BasicOperatorTokenTypes> = {
 
 const orRule: PrattRule<BasicOperatorTokenTypes> = {
     operator: "OR",
-    lbp: 1,
-    rbp: 1.1,
+    lbp: precedenceMap.OR,
+    rbp: precedenceMap.OR + 0.1,
     led: (left, token, parser) => {
         if (isTokenEOX(token)) {
             throw new UnexpectedEndOfInputError();
@@ -255,12 +272,12 @@ const lparenRule: PrattRule<BasicOperatorTokenTypes> = {
         const expr = parser.parsePratt(lparenRule.rbp);
         const nextToken = parser.consumeToken(); // Consume the next token
         if (!nextToken || isTokenEOX(nextToken)) {
-            throw new UnexpectedTokenError(nextToken ?? (EOX as any), [
-                "RPAREN",
+            throw new UnexpectedEndOfInputError(undefined, [
+                "right parenthesis",
             ]);
         }
         if (nextToken.type !== "RPAREN") {
-            throw new UnexpectedTokenError(nextToken, ["RPAREN"]);
+            throw new UnexpectedTokenError(nextToken, ["right parenthesis"]);
         }
         return expr;
     },
@@ -274,7 +291,7 @@ const prattRules: PrattRule<BasicOperatorTokenTypes>[] = [
     lparenRule,
 ];
 
-const basicOperatorGrammar = new GrammarFactory({
+const basicOperatorGrammar = createGrammarFactory({
     tokenizer: basicOperatorTokenizer,
     prattRules,
     base: (parser) => parser.parsePratt(),
