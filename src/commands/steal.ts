@@ -2,13 +2,14 @@ import {
     Client,
     DiscordAPIError,
     EmbedBuilder,
+    GuildMember,
+    PartialEmoji,
+    PermissionFlagsBits,
+    PermissionsBitField,
     parseEmoji,
     RESTJSONErrorCodes,
     SlashCommandBuilder,
     StickerFormatType,
-    PartialEmoji,
-    PermissionsBitField,
-    GuildMember,
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
@@ -129,6 +130,7 @@ const command: SlashCommand = {
         .setDescription(
             "Steals emotes, stickers, or soundboards from another server",
         )
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuildExpressions)
         .addStringOption((option) =>
             option
                 .setName("id")
