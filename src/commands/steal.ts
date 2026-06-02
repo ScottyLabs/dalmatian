@@ -2,13 +2,14 @@ import {
     Client,
     DiscordAPIError,
     EmbedBuilder,
+    GuildMember,
+    PermissionFlagsBits,
+    PermissionsBitField,
     parseEmoji,
     type PartialEmoji,
     RESTJSONErrorCodes,
     SlashCommandBuilder,
     StickerFormatType,
-    PermissionsBitField,
-    GuildMember,
 } from "discord.js";
 import { Buffer } from "node:buffer";
 import type { SlashCommand } from "../types.d.ts";
@@ -122,7 +123,10 @@ function parseEmojiInput(input: string): {
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("steal")
-        .setDescription("Steals emotes, stickers, or soundboards from another server")
+        .setDescription(
+            "Steals emotes, stickers, or soundboards from another server",
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuildExpressions)
         .addStringOption((option) =>
             option
                 .setName("id")
