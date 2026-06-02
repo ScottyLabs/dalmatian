@@ -5,7 +5,6 @@ import {
     GuildMember,
     PartialEmoji,
     PermissionFlagsBits,
-    PermissionsBitField,
     parseEmoji,
     RESTJSONErrorCodes,
     SlashCommandBuilder,
@@ -156,18 +155,6 @@ const command: SlashCommand = {
         if (!guild || !(member instanceof GuildMember)) {
             return interaction.reply({
                 content: "This command must be used in a server",
-                ephemeral: true,
-            });
-        }
-
-        const hasPerms = member.permissions.has(
-            PermissionsBitField.Flags.ManageGuildExpressions,
-        );
-
-        if (!hasPerms) {
-            return interaction.reply({
-                content:
-                    "You need the Manage Guild Expressions permission to use this command.",
                 ephemeral: true,
             });
         }
