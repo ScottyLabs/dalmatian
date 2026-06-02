@@ -97,7 +97,7 @@ Before you commit and open a pull request, make sure to:
 - Run `bun format` to format your code
 - Run `bun test` to ensure all tests pass
 - Test your changes on your Discord bot by running `bun start`
-- Ensure your commits follow conventional commit format
+- Ensure your commits follow the conventional commit format
 - Update documentation if you added/changed features
 
 ## Pull Request Guidelines
