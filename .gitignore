@@ -9,6 +9,8 @@ result-*
 
 .env
 .DS_Store
+.claude/
+.mcp.json
 
 # jetbrains files
 .idea/*
