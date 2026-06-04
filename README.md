@@ -43,6 +43,10 @@ bun start
 
 <!--TODO: ## Project Structure-->
 
+## Deployment
+
+Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv and secretspec. For the legacy → Kennel cutover runbook (issues, fixes, checklist), see [docs/kennel-migration.md](docs/kennel-migration.md).
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you contribute to this project!
