@@ -15,6 +15,8 @@
     kennel.services.dalmatian = { };
   };
 
+  processes.dalmatian.exec = "secretspec run --profile dev -- bun run start";
+
   env = {
     VAULT_ADDR = "https://secrets2.scottylabs.org";
     SECRETSPEC_PROFILE = "dev";

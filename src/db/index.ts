@@ -1,18 +1,7 @@
-import { SQL } from "bun";
 import { drizzle } from "drizzle-orm/bun-sql";
+import { createSqlClient } from "./client.ts";
 
-if (!process.env.DATABASE_URL && !process.env.PGHOST) {
-    throw new Error("DATABASE_URL or PGHOST/PGDATABASE environment variables must be set");
-}
-
-// dev uses DATABASE_URL from .env
-// prod uses PGHOST/PGDATABASE env vars set by NixOS module
-const client = process.env.DATABASE_URL
-    ? new SQL(process.env.DATABASE_URL)
-    : new SQL({
-          database: process.env.PGDATABASE,
-          path: process.env.PGHOST,
-      });
+const client = createSqlClient();
 
 export const db = drizzle({ client });
 

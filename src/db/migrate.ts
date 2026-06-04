@@ -1,23 +1,12 @@
-import { SQL } from "bun";
 import { drizzle } from "drizzle-orm/bun-sql";
 import { migrate } from "drizzle-orm/bun-sql/migrator";
 import { logger, nodeError } from "../utils/log.ts";
+import { createSqlClient } from "./client.ts";
 
 export const runMigrations = async () => {
-    if (!process.env.DATABASE_URL && !process.env.PGHOST) {
-        throw new Error("DATABASE_URL or PGHOST/PGDATABASE environment variables must be set");
-    }
-
     logger.info("Running database migrations...");
 
-    // Create Drizzle instance with Bun SQL client
-    const migrationClient = process.env.DATABASE_URL
-        ? new SQL(process.env.DATABASE_URL)
-        : new SQL({
-              database: process.env.PGDATABASE,
-              path: process.env.PGHOST,
-          });
-
+    const migrationClient = createSqlClient();
     const db = drizzle({ client: migrationClient });
 
     try {
