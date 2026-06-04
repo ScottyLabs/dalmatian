@@ -4,10 +4,14 @@ import { SQL } from "bun";
 // Bun mishandles that string form and falls back to TCP password auth.
 const UNIX_SOCKET_URL = /^postgresql:\/\/(?:[^@/]*@)?\/([^?]+)\?host=(.+)$/;
 
-function createSocketClient(database: string, socketPath: string): SQL {
+function clearDatabaseUrl(): void {
     // Bun still parses DATABASE_URL from the environment when options are passed,
     // treating ?host= as a Postgres GUC ("unrecognized configuration parameter host").
-    delete process.env.DATABASE_URL;
+    Reflect.deleteProperty(process.env, "DATABASE_URL");
+}
+
+function createSocketClient(database: string, socketPath: string): SQL {
+    clearDatabaseUrl();
 
     return new SQL({
         database,
@@ -30,8 +34,9 @@ export function createSqlClient(): SQL {
     }
 
     const unixMatch = databaseUrl.match(UNIX_SOCKET_URL);
-    if (unixMatch) {
-        return createSocketClient(unixMatch[1], unixMatch[2]);
+    const [, database, socketPath] = unixMatch ?? [];
+    if (database && socketPath) {
+        return createSocketClient(database, socketPath);
     }
 
     return new SQL(databaseUrl);
