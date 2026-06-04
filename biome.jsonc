@@ -3,26 +3,32 @@
     "vcs": {
         "enabled": true,
         "clientKind": "git",
-        "useIgnoreFile": true,
+        "useIgnoreFile": true
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": ["**", "!src/**", "!src/data/*.json", "!.claude/**", "!.mcp.json"],
+        "includes": [
+            "**",
+            "!src/**",
+            "!src/data/*.json",
+            "!.claude/**",
+            "!.mcp.json"
+        ]
     },
     "formatter": {
         "enabled": true,
-        "useEditorconfig": true,
+        "useEditorconfig": true
     },
     "linter": {
         // Using oxc w/ tsgolint for linting
-        "enabled": false,
+        "enabled": false
     },
     "assist": {
         "enabled": true,
         "actions": {
             "source": {
-                "organizeImports": "on",
-            },
-        },
-    },
+                "organizeImports": "on"
+            }
+        }
+    }
 }

@@ -27,5 +27,6 @@
 
   treefmt.config.settings.global.excludes = [
     "src/data/**"
+    "biome.jsonc"
   ];
 }
