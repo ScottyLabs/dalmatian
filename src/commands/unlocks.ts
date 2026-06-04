@@ -12,10 +12,7 @@ import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
 import { parseAndEvaluate } from "../utils/operatorParser.ts";
 
-function fetchCourseUnlocks(
-    courseData: Record<string, Course>,
-    courseNumber: string,
-): Course[] {
+function fetchCourseUnlocks(courseData: Record<string, Course>, courseNumber: string): Course[] {
     const unlocks: Course[] = [];
 
     for (const course of Object.values(courseData)) {
@@ -76,10 +73,7 @@ const command: SlashCommand = {
             );
         }
 
-        const courseString = interaction.options.getString(
-            "courses_string",
-            true,
-        );
+        const courseString = interaction.options.getString("courses_string", true);
 
         let unlockCourses: Course[];
         try {
@@ -125,9 +119,7 @@ const command: SlashCommand = {
                     )
                     .join("\n");
                 const embed = new EmbedBuilder()
-                    .setTitle(
-                        `Courses with the prerequisite ${underline(courseString)}`,
-                    )
+                    .setTitle(`Courses with the prerequisite ${underline(courseString)}`)
                     .setDescription(description);
                 embeds.push(embed);
                 chunk = [];

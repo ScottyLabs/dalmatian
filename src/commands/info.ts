@@ -28,15 +28,11 @@ const commitSchema = z.array(
 );
 
 const command: SlashCommand = {
-    data: new SlashCommandBuilder()
-        .setName("info")
-        .setDescription("Get information about the bot"),
+    data: new SlashCommandBuilder().setName("info").setDescription("Get information about the bot"),
     async execute(interaction) {
         await interaction.deferReply();
 
-        const commitRaw = await fetch(
-            "https://api.github.com/repos/scottylabs/dalmatian/commits",
-        )
+        const commitRaw = await fetch("https://api.github.com/repos/scottylabs/dalmatian/commits")
             .then((f) => f.json())
             .catch((_) => undefined);
 
@@ -63,16 +59,13 @@ const command: SlashCommand = {
                 }))
                 .filter(
                     (value, index, self) =>
-                        index ===
-                        self.findIndex((t) => t.username === value.username),
+                        index === self.findIndex((t) => t.username === value.username),
                 )
                 .slice(0, 5); //top 5 max
 
             contributors =
                 latestContributors.length > 0
-                    ? latestContributors
-                          .map((c) => `[${c.username}](${c.url})`)
-                          .join(", ")
+                    ? latestContributors.map((c) => `[${c.username}](${c.url})`).join(", ")
                     : "No contributors in the last 7 days";
         }
 

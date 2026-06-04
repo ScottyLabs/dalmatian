@@ -70,10 +70,7 @@ async function fetchStickerAttachment(stickerId: string): Promise<{
     return null;
 }
 
-async function fetchStickerName(
-    stickerId: string,
-    client: Client,
-): Promise<string | undefined> {
+async function fetchStickerName(stickerId: string, client: Client): Promise<string | undefined> {
     try {
         const sticker = (await client.rest.get(`/stickers/${stickerId}`)) as {
             name: string;
@@ -84,14 +81,12 @@ async function fetchStickerName(
     }
 }
 
-async function fetchSoundName(
-    soundId: string,
-    client: Client,
-): Promise<string | undefined> {
+async function fetchSoundName(soundId: string, client: Client): Promise<string | undefined> {
     try {
-        const defaults = (await client.rest.get(
-            `/soundboard-default-sounds`,
-        )) as Array<{ sound_id: string; name: string }>;
+        const defaults = (await client.rest.get(`/soundboard-default-sounds`)) as Array<{
+            sound_id: string;
+            name: string;
+        }>;
         const found = defaults.find((s) => s.sound_id === soundId);
         if (found) return found.name;
     } catch {}
@@ -126,9 +121,7 @@ function parseEmojiInput(input: string): {
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("steal")
-        .setDescription(
-            "Steals emotes, stickers, or soundboards from another server",
-        )
+        .setDescription("Steals emotes, stickers, or soundboards from another server")
         .addStringOption((option) =>
             option
                 .setName("id")
@@ -136,18 +129,12 @@ const command: SlashCommand = {
                 .setRequired(true),
         )
         .addStringOption((option) =>
-            option
-                .setName("name")
-                .setDescription("set new emoji name")
-                .setRequired(false),
+            option.setName("name").setDescription("set new emoji name").setRequired(false),
         ),
 
     async execute(interaction) {
         const rawInput = interaction.options.getString("id", true).trim();
-        const providedName = interaction.options
-            .getString("name")
-            ?.trim()
-            .replace(/\s+/g, "_");
+        const providedName = interaction.options.getString("name")?.trim().replace(/\s+/g, "_");
         const guild = interaction.guild;
         const member = interaction.member;
 
@@ -158,14 +145,11 @@ const command: SlashCommand = {
             });
         }
 
-        const hasPerms = member.permissions.has(
-            PermissionsBitField.Flags.ManageGuildExpressions,
-        );
+        const hasPerms = member.permissions.has(PermissionsBitField.Flags.ManageGuildExpressions);
 
         if (!hasPerms) {
             return interaction.reply({
-                content:
-                    "You need the Manage Guild Expressions permission to use this command.",
+                content: "You need the Manage Guild Expressions permission to use this command.",
                 ephemeral: true,
             });
         }
@@ -178,12 +162,7 @@ const command: SlashCommand = {
         const emojiData = await fetchEmojiData(id, interaction.client);
         if (emojiData) {
             try {
-                const finalName = (
-                    providedName ??
-                    parsed.name ??
-                    emojiData.name ??
-                    ""
-                ).trim();
+                const finalName = (providedName ?? parsed.name ?? emojiData.name ?? "").trim();
                 if (!finalName) {
                     return interaction.editReply({
                         content:
@@ -195,12 +174,8 @@ const command: SlashCommand = {
                     name: finalName,
                 });
                 const embed = new EmbedBuilder()
-                    .setTitle(
-                        `${emojiData.animated ? "Animated " : ""}Emoji Added`,
-                    )
-                    .setDescription(
-                        `Added ${added.toString()} (\`${added.name}\`) to the server`,
-                    );
+                    .setTitle(`${emojiData.animated ? "Animated " : ""}Emoji Added`)
+                    .setDescription(`Added ${added.toString()} (\`${added.name}\`) to the server`);
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 logger.error("Failed to add emoji", nodeError(err));
@@ -213,15 +188,8 @@ const command: SlashCommand = {
         const stickerData = await fetchStickerAttachment(id);
         if (stickerData) {
             try {
-                const fetchedName = await fetchStickerName(
-                    id,
-                    interaction.client,
-                );
-                const finalName = (
-                    providedName ??
-                    fetchedName ??
-                    "stolen_sticker"
-                ).trim();
+                const fetchedName = await fetchStickerName(id, interaction.client);
+                const finalName = (providedName ?? fetchedName ?? "stolen_sticker").trim();
                 const added = await guild.stickers.create({
                     file: stickerData.attachment,
                     name: finalName,
@@ -229,19 +197,15 @@ const command: SlashCommand = {
                 });
                 const embed = new EmbedBuilder()
                     .setTitle("Sticker Added")
-                    .setDescription(
-                        `Added sticker **${added.name}** to the server`,
-                    );
+                    .setDescription(`Added sticker **${added.name}** to the server`);
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
                 if (
                     err instanceof DiscordAPIError &&
-                    err.code ===
-                        RESTJSONErrorCodes.MaximumNumberOfStickersReached
+                    err.code === RESTJSONErrorCodes.MaximumNumberOfStickersReached
                 ) {
                     return interaction.editReply({
-                        content:
-                            "This server has reached the maximum number of stickers.",
+                        content: "This server has reached the maximum number of stickers.",
                     });
                 }
                 logger.error("Failed to add sticker", nodeError(err));
@@ -255,16 +219,14 @@ const command: SlashCommand = {
         const soundRes = await fetch(soundCdnUrl);
         if (soundRes.ok) {
             const buffer = Buffer.from(await soundRes.arrayBuffer());
-            const contentType =
-                soundRes.headers.get("content-type") ?? undefined;
+            const contentType = soundRes.headers.get("content-type") ?? undefined;
 
             const originalName = await fetchSoundName(id, interaction.client);
 
             const finalName = (providedName ?? originalName ?? "").trim();
             if (!finalName) {
                 return interaction.editReply({
-                    content:
-                        "Couldn't determine sound name. Please use the `name` option.",
+                    content: "Couldn't determine sound name. Please use the `name` option.",
                 });
             }
 
@@ -339,9 +301,7 @@ const command: SlashCommand = {
                     const finalName = (providedName ?? sticker.name).trim();
                     const added = await guild.stickers.create({
                         file: {
-                            attachment: Buffer.from(
-                                await stickerRes.arrayBuffer(),
-                            ),
+                            attachment: Buffer.from(await stickerRes.arrayBuffer()),
                             name: `sticker.${stickerExt}`,
                         },
                         name: finalName,
@@ -349,18 +309,13 @@ const command: SlashCommand = {
                     });
                     const embed = new EmbedBuilder()
                         .setTitle("Sticker Added")
-                        .setDescription(
-                            `Stole sticker **${added.name}** from message`,
-                        );
+                        .setDescription(`Stole sticker **${added.name}** from message`);
                     return interaction.editReply({ embeds: [embed] });
                 }
 
                 const emojis = [...message.content.matchAll(/<a?:\w+:\d+>/g)]
                     .map((match) => parseEmoji(match[0]))
-                    .filter(
-                        (e): e is PartialEmoji & { id: string } =>
-                            e?.id != null,
-                    );
+                    .filter((e): e is PartialEmoji & { id: string } => e?.id != null);
                 const results: string[] = [];
                 for (const emoji of emojis) {
                     const ext = emoji.animated ? "gif" : "png";
@@ -376,8 +331,7 @@ const command: SlashCommand = {
                     } catch (err) {
                         if (
                             err instanceof DiscordAPIError &&
-                            err.code ===
-                                RESTJSONErrorCodes.MaximumNumberOfEmojisReached
+                            err.code === RESTJSONErrorCodes.MaximumNumberOfEmojisReached
                         ) {
                             return interaction.editReply({
                                 content: `Reached max emojis. Successfully added: ${results.join(", ") || "none"}`,

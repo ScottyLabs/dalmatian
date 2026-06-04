@@ -19,9 +19,7 @@ export class EmbedPaginator {
     /** Extra component rows to include alongside page buttons. */
     private components: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     /** Called when there is a message interaction. */
-    private onCollect: (
-        interaction: MessageComponentInteraction,
-    ) => Promise<void>;
+    private onCollect: (interaction: MessageComponentInteraction) => Promise<void>;
     /** Called when the interaction collector times out. */
     private onEnd: () => Promise<void>;
 

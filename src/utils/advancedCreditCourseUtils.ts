@@ -1,19 +1,11 @@
 import { Course, GenEd } from "./index.ts";
 import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
 
-import apCreditData from "../data/advancedCredit/ap-credit.json" with {
-    type: "json",
-};
-import ibCreditData from "../data/advancedCredit/ib-credit.json" with {
-    type: "json",
-};
-import cambridgeCreditData from "../data/advancedCredit/cambridge-credit.json" with {
-    type: "json",
-};
+import apCreditData from "../data/advancedCredit/ap-credit.json" with { type: "json" };
+import ibCreditData from "../data/advancedCredit/ib-credit.json" with { type: "json" };
+import cambridgeCreditData from "../data/advancedCredit/cambridge-credit.json" with { type: "json" };
 
-import nonOfferedCourses from "../data/nonOfferedCourses.json" with {
-    type: "json",
-};
+import nonOfferedCourses from "../data/nonOfferedCourses.json" with { type: "json" };
 
 export type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 
@@ -57,9 +49,7 @@ export const SCORE_RANGES: Record<
     },
 };
 
-export async function loadCreditData(
-    creditType: AdvancedCreditType,
-): Promise<Exam[]> {
+export async function loadCreditData(creditType: AdvancedCreditType): Promise<Exam[]> {
     const exams: Exam[] = [];
 
     const creditData =
@@ -139,11 +129,7 @@ export async function loadCreditData(
 
             exams.push({
                 name: exam.name,
-                subject: entry.subject as
-                    | "STEM"
-                    | "Arts"
-                    | "Humanities"
-                    | "N/A",
+                subject: entry.subject as "STEM" | "Arts" | "Humanities" | "N/A",
                 school: entry.school as School[],
                 info: entry.info?.trim() || "",
                 overrideUnits: (entry as any).overrideUnits,
@@ -154,9 +140,6 @@ export async function loadCreditData(
     return exams;
 }
 
-export function getGenedsForCourse(
-    courseId: string,
-    geneds: GenEd[],
-): string[] {
+export function getGenedsForCourse(courseId: string, geneds: GenEd[]): string[] {
     return geneds.filter((g) => g.courseID === courseId).flatMap((g) => g.tags);
 }

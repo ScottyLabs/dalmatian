@@ -3,6 +3,7 @@
 Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMU Courses and CMU Eats right at your fingertips!
 
 <!--TODO: ## Features-->
+
 <!--TODO: ## Project Overview-->
 
 ## Getting Started
@@ -17,9 +18,10 @@ Dalmatian is a Discord bot designed for CMU students, providing easy access to c
 For detailed setup instructions including creating a Discord bot, obtaining API credentials, and configuring your development environment, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **Quick setup:**
+
 1. Install Bun and Docker (see links above)
-2. Create a Discord bot at https://discord.com/developers/applications
-3. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`
+1. Create a Discord bot at https://discord.com/developers/applications
+1. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`
 
 ### Running the Bot
 

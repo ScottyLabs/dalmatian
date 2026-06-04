@@ -62,8 +62,7 @@ const command: SlashCommand = {
 
         const fceData = FCE_DATA_BY_COURSE;
         const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
-        const summaryByInstructorByCourseCode =
-            FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
+        const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
 
         const validCourses: Array<ValidCourse> = [];
         const invalidCodes: string[] = [];
@@ -119,16 +118,10 @@ const command: SlashCommand = {
             const summary = summaryByCourseCode.get(code)!;
 
             const baseEmbed = new EmbedBuilder()
-                .setTitle(
-                    `${underline(`${code}: ${course.name}`)} (${course.units} units)`,
-                )
+                .setTitle(`${underline(`${code}: ${course.name}`)} (${course.units} units)`)
                 .setURL(`${SCOTTYLABS_URL}/course/${code}`);
 
-            function joinAndTruncate(
-                items: string[],
-                max = 7,
-                buffer = 2,
-            ): string {
+            function joinAndTruncate(items: string[], max = 7, buffer = 2): string {
                 if (items.length <= max) {
                     return items.join(", ");
                 }
@@ -223,9 +216,9 @@ const command: SlashCommand = {
                     index++;
 
                     if (chunk.length >= 5 || index === entries.length) {
-                        const embed = EmbedBuilder.from(
-                            baseEmbed,
-                        ).setDescription(chunk.join("\n\n"));
+                        const embed = EmbedBuilder.from(baseEmbed).setDescription(
+                            chunk.join("\n\n"),
+                        );
                         pages.push(embed);
                         chunk = [];
                     }
@@ -253,12 +246,11 @@ const command: SlashCommand = {
                 },
             ];
 
-            const selectRow =
-                new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                    new StringSelectMenuBuilder()
-                        .setCustomId("fce_select_menu")
-                        .addOptions(selectOptions),
-                );
+            const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+                new StringSelectMenuBuilder()
+                    .setCustomId("fce_select_menu")
+                    .addOptions(selectOptions),
+            );
 
             const paginator = new EmbedPaginator({
                 pages: selectOptions[0]!.pages,
@@ -266,9 +258,7 @@ const command: SlashCommand = {
                 async onCollect(collectInteraction) {
                     if (!collectInteraction.isStringSelectMenu()) return;
                     const choice = collectInteraction.values[0]!;
-                    const selected = selectOptions.find(
-                        (option) => option.value === choice,
-                    );
+                    const selected = selectOptions.find((option) => option.value === choice);
                     paginator.setPages(selected!.pages);
                     selectRow.components[0]?.setOptions(
                         selectOptions.map((option) => ({
@@ -302,16 +292,11 @@ const command: SlashCommand = {
             description +=
                 formatLine(
                     summary.workload,
-                    hyperlink(
-                        `${bold(code)} (${courseName})`,
-                        `${SCOTTYLABS_URL}/course/${code}`,
-                    ),
+                    hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`),
                 ) + "\n";
         }
 
-        const unitsDisplay = calculateTotalUnits(
-            validCourses.map(({ course }) => course.units),
-        );
+        const unitsDisplay = calculateTotalUnits(validCourses.map(({ course }) => course.units));
 
         const courseCodes = validCourses.map(({ code }) => code);
         const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
@@ -329,15 +314,11 @@ const command: SlashCommand = {
         }
 
         const embed = new EmbedBuilder()
-            .setTitle(
-                `FCE for ${validCourses.length} Courses (${unitsDisplay} units)`,
-            )
+            .setTitle(`FCE for ${validCourses.length} Courses (${unitsDisplay} units)`)
             .setDescription(description);
 
         const courseList = validCourses.map(({ code }) => code).join(",");
-        const url =
-            `http://courses.scottylabs.org/schedules/shared?courses=` +
-            courseList;
+        const url = `http://courses.scottylabs.org/schedules/shared?courses=` + courseList;
         const button = new ButtonBuilder()
             .setLabel("View schedule")
             .setURL(url)

@@ -6,19 +6,13 @@ import {
     type User,
 } from "discord.js";
 import type { Event } from "../types.d.ts";
-import {
-    checkReactionRedirect,
-    recordUserPing,
-} from "../utils/reactionRedirect.ts";
+import { checkReactionRedirect, recordUserPing } from "../utils/reactionRedirect.ts";
 import { logger, nodeError } from "../utils/log.ts";
 
 const event: Event<Events.MessageReactionAdd> = {
     name: Events.MessageReactionAdd,
     once: false,
-    async execute(
-        reaction: MessageReaction | PartialMessageReaction,
-        user: User | PartialUser,
-    ) {
+    async execute(reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
         try {
             // Ignore bot reactions
             if (user.bot) return;
@@ -42,9 +36,7 @@ const event: Event<Events.MessageReactionAdd> = {
             const message = reaction.message;
 
             if (!message.author || !message.guild) {
-                logger.error(
-                    "Cannot send redirect message: invalid message data",
-                );
+                logger.error("Cannot send redirect message: invalid message data");
                 return;
             }
 
@@ -54,9 +46,7 @@ const event: Event<Events.MessageReactionAdd> = {
             );
 
             if (!redirectChannel?.isSendable()) {
-                logger.error(
-                    "Cannot send redirect message: redirect channel not sendable",
-                );
+                logger.error("Cannot send redirect message: redirect channel not sendable");
                 return;
             }
 
@@ -66,14 +56,9 @@ const event: Event<Events.MessageReactionAdd> = {
             await redirectChannel.send(redirectMessage);
 
             // Record the ping for cooldown tracking
-            await recordUserPing(
-                message.author.id,
-                result.redirectionInstance.id,
-            );
+            await recordUserPing(message.author.id, result.redirectionInstance.id);
 
-            logger.info(
-                `Redirected ${user.tag} reaction to ${message.author.tag}'s message`,
-            );
+            logger.info(`Redirected ${user.tag} reaction to ${message.author.tag}'s message`);
         } catch (error) {
             logger.error("Error handling message reaction:", nodeError(error));
         }

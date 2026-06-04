@@ -6,21 +6,14 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 import { eq } from "drizzle-orm";
-import {
-    db,
-    emojiTriggers,
-    immuneRoles,
-    redirectionInstances,
-} from "../db/index.ts";
+import { db, emojiTriggers, immuneRoles, redirectionInstances } from "../db/index.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { displayEmoji } from "../utils/setupForm.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("redirect-list")
-        .setDescription(
-            "List all reaction redirect configurations (admin only)",
-        )
+        .setDescription("List all reaction redirect configurations (admin only)")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction: ChatInputCommandInteraction) {
@@ -42,8 +35,7 @@ const command: SlashCommand = {
 
         if (instances.length === 0) {
             await interaction.editReply({
-                content:
-                    "No reaction redirect configurations found for this server.",
+                content: "No reaction redirect configurations found for this server.",
             });
             return;
         }
@@ -67,9 +59,7 @@ const command: SlashCommand = {
                 .where(eq(emojiTriggers.redirectionInstanceId, instance.id));
 
             const rolesList =
-                immune.length > 0
-                    ? immune.map((r) => `<@&${r.roleId}>`).join(", ")
-                    : "None";
+                immune.length > 0 ? immune.map((r) => `<@&${r.roleId}>`).join(", ") : "None";
             const emojiList =
                 triggers.length > 0
                     ? triggers.map((t) => displayEmoji(t.emojiId)).join(", ")

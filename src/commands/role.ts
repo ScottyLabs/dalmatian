@@ -59,9 +59,7 @@ const command: SlashCommand = {
 
         //Check for member count mismatch, as Discord.js may slightly drift due to sharding behaviour
         await interaction.guild.fetch(); //discord.js dosen't guarantee we have up to date member count after shard reconnects, so we fetch the guild to get the latest member count, this is a non-expensive operation
-        if (
-            interaction.guild.members.cache.size < interaction.guild.memberCount
-        ) {
+        if (interaction.guild.members.cache.size < interaction.guild.memberCount) {
             logger.info(`Cache mismatch detected, refreshing member cache`);
 
             try {
@@ -78,9 +76,7 @@ const command: SlashCommand = {
         }
 
         function lookup(roleName: string): GuildMember[] {
-            const role = interaction.guild!.roles.cache.find(
-                (r) => r.name === roleName,
-            );
+            const role = interaction.guild!.roles.cache.find((r) => r.name === roleName);
 
             if (!role) {
                 throw new Error(`Role not found: ${roleName}`);
@@ -117,9 +113,7 @@ const command: SlashCommand = {
 
         const roleString = interaction.options.getString("role_string", true);
 
-        const singleRole = interaction.guild.roles.cache.find(
-            (r) => r.name === roleString,
-        );
+        const singleRole = interaction.guild.roles.cache.find((r) => r.name === roleString);
 
         const roleColor = singleRole?.colors.primaryColor;
 
@@ -142,8 +136,7 @@ const command: SlashCommand = {
         }
 
         if (interaction.options.getSubcommand() === "members") {
-            const useMentions =
-                interaction.options.getBoolean("mentions") ?? false;
+            const useMentions = interaction.options.getBoolean("mentions") ?? false;
 
             members.sort((a, b) => a.displayName.localeCompare(b.displayName));
             const membersCount = members.length;
@@ -158,9 +151,7 @@ const command: SlashCommand = {
                         "\n" +
                         chunk
                             .map((member) => {
-                                const username = escapeMarkdown(
-                                    member!.user.username,
-                                );
+                                const username = escapeMarkdown(member!.user.username);
                                 if (useMentions) {
                                     return `${userMention(member!.id)} (${username})`;
                                 }
@@ -212,9 +203,7 @@ const command: SlashCommand = {
 
         const input = focusedOption.value;
 
-        const roleNames = interaction.guild.roles.cache.map(
-            (role) => role.name,
-        );
+        const roleNames = interaction.guild.roles.cache.map((role) => role.name);
 
         const filtered = roleNames.filter((name) =>
             name.toLowerCase().includes(input.toLowerCase()),

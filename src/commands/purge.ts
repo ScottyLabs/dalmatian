@@ -41,9 +41,7 @@ async function purgeMessages(
         const deleted = await channel.bulkDelete(toDelete, true);
 
         deletedMessages.push(
-            ...Array.from(deleted.values()).filter(
-                (m): m is GuildMessage => !!m && !m.partial,
-            ),
+            ...Array.from(deleted.values()).filter((m): m is GuildMessage => !!m && !m.partial),
         );
 
         remaining -= deleted.size;
@@ -93,9 +91,7 @@ const command: SlashCommand = {
                 .addIntegerOption((option) =>
                     option
                         .setName("count")
-                        .setDescription(
-                            "Number of messages to delete (max: 500)",
-                        )
+                        .setDescription("Number of messages to delete (max: 500)")
                         .setRequired(true),
                 ),
         )
@@ -112,9 +108,7 @@ const command: SlashCommand = {
                 .addIntegerOption((option) =>
                     option
                         .setName("count")
-                        .setDescription(
-                            "Number of messages to delete (max: 500)",
-                        )
+                        .setDescription("Number of messages to delete (max: 500)")
                         .setRequired(true),
                 ),
         ),
@@ -161,9 +155,7 @@ const command: SlashCommand = {
             );
         }
 
-        return interaction.editReply(
-            `Purged ${deletedMessages.length} messages.`,
-        );
+        return interaction.editReply(`Purged ${deletedMessages.length} messages.`);
     },
 };
 

@@ -26,14 +26,7 @@ const libraryScheduleDaySchema = z.object({
     date: z.string(),
     rendered: z.string(),
     times: z.object({
-        status: z.enum([
-            "open",
-            "closed",
-            "text",
-            "ByApp",
-            "not-set",
-            "24hours",
-        ]),
+        status: z.enum(["open", "closed", "text", "ByApp", "not-set", "24hours"]),
         text: z.string().optional(),
         note: z.string().optional(),
         hours: z.array(libraryHoursRangeSchema).optional(),
@@ -46,9 +39,7 @@ const libraryScheduleResponseSchema = z.object({
             lid: z.number(),
             name: z.string(),
             color: z.custom<HexColorString>(
-                (value) =>
-                    typeof value === "string" &&
-                    /^#[0-9a-fA-F]{6}$/.test(value),
+                (value) => typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value),
             ),
             weeks: z.array(z.record(z.string(), libraryScheduleDaySchema)),
         }),
@@ -143,10 +134,7 @@ async function fetchJson(url: string) {
         .catch((_) => undefined);
 }
 
-function getLibraryNoteForDate(
-    libraryData: LibraryScheduleLocation,
-    etDate: string,
-) {
+function getLibraryNoteForDate(libraryData: LibraryScheduleLocation, etDate: string) {
     for (const week of libraryData.weeks) {
         for (const day of Object.values(week)) {
             if (day.date === etDate) {
@@ -163,14 +151,10 @@ const command: SlashCommand = {
         .setName("library")
         .setDescription("See which libraries are open!")
         .addSubcommand((subcommand) =>
-            subcommand
-                .setName("all")
-                .setDescription("Get status of all libraries!"),
+            subcommand.setName("all").setDescription("Get status of all libraries!"),
         )
         .addSubcommand((subcommand) =>
-            subcommand
-                .setName("open")
-                .setDescription("Find all open libraries!"),
+            subcommand.setName("open").setDescription("Find all open libraries!"),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -209,8 +193,7 @@ const command: SlashCommand = {
                 fetchJson(LIBRARY_SCHEDULE_ENDPOINT),
             ]);
 
-            const responseResult =
-                libraryStatusResponseSchema.safeParse(statusRaw);
+            const responseResult = libraryStatusResponseSchema.safeParse(statusRaw);
 
             if (!responseResult.success) {
                 const embed1 = new EmbedBuilder().setTitle(
@@ -224,11 +207,8 @@ const command: SlashCommand = {
             }
 
             const response = responseResult.data;
-            const scheduleResult =
-                libraryScheduleResponseSchema.safeParse(scheduleRaw);
-            const scheduleData = scheduleResult.success
-                ? scheduleResult.data
-                : undefined;
+            const scheduleResult = libraryScheduleResponseSchema.safeParse(scheduleRaw);
+            const scheduleData = scheduleResult.success ? scheduleResult.data : undefined;
 
             const etDate = new Intl.DateTimeFormat("en-CA", {
                 timeZone: "America/New_York",
@@ -272,10 +252,7 @@ const command: SlashCommand = {
                         if (!currentlyOpen) todayStatus.status = "closed"; // the api likes trolling and will tell us it's open even if we're out of hours
                     }
 
-                    if (
-                        subcommand === "open" &&
-                        todayStatus.status !== "open"
-                    ) {
+                    if (subcommand === "open" && todayStatus.status !== "open") {
                         continue;
                     }
 
@@ -298,8 +275,7 @@ const command: SlashCommand = {
                     }
 
                     if (todayNote) {
-                        if (fieldDescription.length > 0)
-                            fieldDescription += " • ";
+                        if (fieldDescription.length > 0) fieldDescription += " • ";
                         fieldDescription += `📝 **Note:** ${todayNote}`;
                     }
                 }
@@ -320,16 +296,12 @@ const command: SlashCommand = {
             const libraryName = interaction.options.getString("library", true);
             const libraryId = LIBRARY_FACILITIES[libraryName];
             const [statusRaw, responseRaw] = await Promise.all([
-                fetchJson(
-                    `${LIBRARY_HOURS_ENDPOINT}/${libraryId}?key=${LIBRARY_API_KEY}`,
-                ),
+                fetchJson(`${LIBRARY_HOURS_ENDPOINT}/${libraryId}?key=${LIBRARY_API_KEY}`),
                 fetchJson(LIBRARY_SCHEDULE_ENDPOINT),
             ]);
 
-            const _statusResult =
-                libraryStatusResponseSchema.safeParse(statusRaw);
-            const responseResult =
-                libraryScheduleResponseSchema.safeParse(responseRaw);
+            const _statusResult = libraryStatusResponseSchema.safeParse(statusRaw);
+            const responseResult = libraryScheduleResponseSchema.safeParse(responseRaw);
 
             if (!responseResult.success) {
                 const embed1 = new EmbedBuilder().setTitle(
@@ -348,9 +320,7 @@ const command: SlashCommand = {
             );
 
             if (!libraryId || !libraryData || libraryData.weeks.length === 0) {
-                const embed1 = new EmbedBuilder().setTitle(
-                    "Failed to find library.",
-                );
+                const embed1 = new EmbedBuilder().setTitle("Failed to find library.");
 
                 await interaction.followUp({
                     embeds: [embed1],
@@ -359,9 +329,7 @@ const command: SlashCommand = {
             }
 
             const embedColor =
-                libraryData.color !== "#000000"
-                    ? libraryData.color
-                    : DEFAULT_EMBED_COLOR;
+                libraryData.color !== "#000000" ? libraryData.color : DEFAULT_EMBED_COLOR;
 
             const etOffset = getETOffset();
             const tzString = `T00:00:00${etOffset}`;
@@ -390,9 +358,7 @@ const command: SlashCommand = {
                     if (i === days.length - 1) dateRange[1] = info.date;
                     //info.date is in EST
 
-                    const dayName = new Date(
-                        info.date + tzString,
-                    ).toLocaleDateString("en-US", {
+                    const dayName = new Date(info.date + tzString).toLocaleDateString("en-US", {
                         timeZone: "America/New_York",
                         weekday: "long",
                         month: "short",
@@ -411,10 +377,7 @@ const command: SlashCommand = {
                         fieldTitle = `⛔ ${dayName} (Closed)`;
                     } else if (info.times.status === "ByApp") {
                         fieldTitle = `⚠️ ${dayName} (Open by appointment)`;
-                    } else if (
-                        info.times.status === "text" ||
-                        info.times.status === "not-set"
-                    ) {
+                    } else if (info.times.status === "text" || info.times.status === "not-set") {
                         fieldTitle = info.times.text
                             ? `⛔ ${dayName} (${info.times.text})`
                             : `⚠️ ${dayName} (No status data available)`;
@@ -422,8 +385,7 @@ const command: SlashCommand = {
                         fieldTitle = `🟢 ${dayName} (Open 24 hours)`;
                     }
                     if (info.times.note) {
-                        if (fieldDescription.length > 0)
-                            fieldDescription += " • ";
+                        if (fieldDescription.length > 0) fieldDescription += " • ";
                         fieldDescription += `📝 **Note:** ${info.times.note}`;
                     }
 
@@ -433,21 +395,23 @@ const command: SlashCommand = {
                     });
                 }
 
-                const formattedStartDate = new Date(
-                    dateRange[0] + tzString,
-                ).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    timeZone: "America/New_York",
-                });
-                const formattedEndDate = new Date(
-                    dateRange[1] + tzString,
-                ).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    timeZone: "America/New_York",
-                });
+                const formattedStartDate = new Date(dateRange[0] + tzString).toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "short",
+                        day: "numeric",
+                        timeZone: "America/New_York",
+                    },
+                );
+                const formattedEndDate = new Date(dateRange[1] + tzString).toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        timeZone: "America/New_York",
+                    },
+                );
                 editEmbed.setTitle(
                     `${libraryName} Schedule - ${formattedStartDate} to ${formattedEndDate}`,
                 );

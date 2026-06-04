@@ -10,9 +10,7 @@ export default (client: Client) => {
     readdirSync(eventsDir).forEach((file) => {
         if (!file.endsWith(".ts")) return;
 
-        const event = require(join(eventsDir, file)).default as Event<
-            keyof ClientEvents
-        >;
+        const event = require(join(eventsDir, file)).default as Event<keyof ClientEvents>;
 
         if (event.once) {
             client.once(event.name, (...args) => event.execute(...args));

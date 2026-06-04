@@ -76,20 +76,14 @@ function isSummerLabel(label: string): boolean {
 }
 
 export function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
-    const uniqueSemesters = [
-        ...new Set(records.map((record) => record.semesterLabel)),
-    ];
-    const nonSummerRecords = records.filter(
-        (record) => !isSummerLabel(record.semesterLabel),
-    );
+    const uniqueSemesters = [...new Set(records.map((record) => record.semesterLabel))];
+    const nonSummerRecords = records.filter((record) => !isSummerLabel(record.semesterLabel));
 
     // exclude summer semesters when fall/spring data exists
     const shouldExcludeSummer = nonSummerRecords.length > 0;
     const includedRecords = shouldExcludeSummer ? nonSummerRecords : records;
     const semesterLabels = uniqueSemesters.map((label) =>
-        shouldExcludeSummer && isSummerLabel(label)
-            ? strikethrough(label)
-            : label,
+        shouldExcludeSummer && isSummerLabel(label) ? strikethrough(label) : label,
     );
 
     const n = includedRecords.length;
@@ -105,25 +99,10 @@ export function summarizeFCERecords(records: FCERecord[]): FCERecordSummary {
 
     return {
         teachingRate:
-            includedRecords.reduce(
-                (sum, record) => sum + record.overallTeachingRate,
-                0,
-            ) / n,
-        courseRate:
-            includedRecords.reduce(
-                (sum, record) => sum + record.overallCourseRate,
-                0,
-            ) / n,
-        workload:
-            includedRecords.reduce(
-                (sum, record) => sum + record.hrsPerWeek,
-                0,
-            ) / n,
-        responseRate:
-            includedRecords.reduce(
-                (sum, record) => sum + record.responseRate,
-                0,
-            ) / n,
+            includedRecords.reduce((sum, record) => sum + record.overallTeachingRate, 0) / n,
+        courseRate: includedRecords.reduce((sum, record) => sum + record.overallCourseRate, 0) / n,
+        workload: includedRecords.reduce((sum, record) => sum + record.hrsPerWeek, 0) / n,
+        responseRate: includedRecords.reduce((sum, record) => sum + record.responseRate, 0) / n,
         semesterLabels,
     };
 }
@@ -153,12 +132,8 @@ export function buildFCEData(
         const semesterLabel = formatSemesterLabel(semester, year);
 
         const hrsPerWeek = parseFloat(record["Hrs Per Week"] ?? "");
-        const overallTeachingRate = parseFloat(
-            record["Overall teaching rate"] ?? "",
-        );
-        const overallCourseRate = parseFloat(
-            record["Overall course rate"] ?? "",
-        );
+        const overallTeachingRate = parseFloat(record["Overall teaching rate"] ?? "");
+        const overallCourseRate = parseFloat(record["Overall course rate"] ?? "");
         const responseRate = parseFloat(record["Response Rate"] ?? "");
 
         if (
@@ -183,10 +158,7 @@ export function buildFCEData(
         const section = record["Section"] ?? "";
 
         if (!pendingByCourse[formattedCode]) {
-            pendingByCourse[formattedCode] = new Map<
-                string,
-                PendingFCERecord
-            >();
+            pendingByCourse[formattedCode] = new Map<string, PendingFCERecord>();
         }
 
         const dedupeKey = `${instructor}-${semesterLabel}`;
@@ -225,12 +197,9 @@ export function buildFCEData(
                 instructor: pendingRecord.instructor,
                 semesterLabel: pendingRecord.semesterLabel,
                 hrsPerWeek: pendingRecord.hrsPerWeekSum / pendingRecord.count,
-                overallTeachingRate:
-                    pendingRecord.overallTeachingRateSum / pendingRecord.count,
-                overallCourseRate:
-                    pendingRecord.overallCourseRateSum / pendingRecord.count,
-                responseRate:
-                    pendingRecord.responseRateSum / pendingRecord.count,
+                overallTeachingRate: pendingRecord.overallTeachingRateSum / pendingRecord.count,
+                overallCourseRate: pendingRecord.overallCourseRateSum / pendingRecord.count,
+                responseRate: pendingRecord.responseRateSum / pendingRecord.count,
             }),
         );
     }
@@ -248,9 +217,7 @@ export function calculateTotalWorkload(
         0,
     );
 
-    const fywMiniCourses = courseCodes.filter((code) =>
-        fywMiniCodes.includes(code),
-    );
+    const fywMiniCourses = courseCodes.filter((code) => fywMiniCodes.includes(code));
     if (fywMiniCourses.length === 2) {
         const miniWorkload = fywMiniCourses.reduce(
             (sum, code) => sum + (summaryByCourseCode.get(code)?.workload ?? 0),
@@ -299,37 +266,25 @@ export function calculateTotalUnits(units: string[]): string {
     return formatUnitsValue(totalUnits);
 }
 
-function buildFCEStartupCache(
-    fceDataByCourse: Record<string, FCEData>,
-): FCEStartupCache {
+function buildFCEStartupCache(fceDataByCourse: Record<string, FCEData>): FCEStartupCache {
     // <course code, aggregate summary>
     const summaryByCourseCode = new Map<string, FCERecordSummary>();
     // <course code, <instructor name, aggregate summary>>
-    const summaryByInstructorByCourseCode = new Map<
-        string,
-        Map<string, FCERecordSummary>
-    >();
+    const summaryByInstructorByCourseCode = new Map<string, Map<string, FCERecordSummary>>();
 
     for (const [courseCode, fceData] of Object.entries(fceDataByCourse)) {
-        summaryByCourseCode.set(
-            courseCode,
-            summarizeFCERecords(fceData.records),
-        );
+        summaryByCourseCode.set(courseCode, summarizeFCERecords(fceData.records));
 
         const recordsByInstructor = new Map<string, FCERecord[]>();
         for (const record of fceData.records) {
-            const instructorRecords =
-                recordsByInstructor.get(record.instructor) ?? [];
+            const instructorRecords = recordsByInstructor.get(record.instructor) ?? [];
             instructorRecords.push(record);
             recordsByInstructor.set(record.instructor, instructorRecords);
         }
 
         const instructorSummaries = new Map<string, FCERecordSummary>();
         for (const [instructor, instructorRecords] of recordsByInstructor) {
-            instructorSummaries.set(
-                instructor,
-                summarizeFCERecords(instructorRecords),
-            );
+            instructorSummaries.set(instructor, summarizeFCERecords(instructorRecords));
         }
         summaryByInstructorByCourseCode.set(courseCode, instructorSummaries);
     }

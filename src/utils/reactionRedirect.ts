@@ -23,9 +23,7 @@ export async function checkReactionRedirect(
     reaction: MessageReaction,
 ): Promise<RedirectCheckResult> {
     // Get the message and ensure it's fully fetched
-    const message = reaction.message.partial
-        ? await reaction.message.fetch()
-        : reaction.message;
+    const message = reaction.message.partial ? await reaction.message.fetch() : reaction.message;
 
     if (!message.channel.id || !message.author || !message.guildId) {
         return { shouldRedirect: false, reason: "Invalid message data" };
@@ -61,9 +59,7 @@ export async function checkReactionRedirect(
 
     // Check if the emoji matches a trigger
     const emojiId = reaction.emoji.id ?? reaction.emoji.name ?? "";
-    const isMatchingEmoji = triggers.some(
-        (trigger) => trigger.emojiId === emojiId,
-    );
+    const isMatchingEmoji = triggers.some((trigger) => trigger.emojiId === emojiId);
 
     if (!isMatchingEmoji) {
         return {
@@ -80,10 +76,7 @@ export async function checkReactionRedirect(
 
     // Check if message author has immune role
     const member =
-        message.member ??
-        (await message.guild?.members
-            .fetch(message.author.id)
-            .catch(() => null));
+        message.member ?? (await message.guild?.members.fetch(message.author.id).catch(() => null));
 
     if (member) {
         const hasImmuneRole = member.roles.cache.some((role) =>
@@ -100,9 +93,7 @@ export async function checkReactionRedirect(
     }
 
     // Check cooldown
-    const cooldownThreshold = new Date(
-        Date.now() - instance.cooldownSeconds * 1000,
-    );
+    const cooldownThreshold = new Date(Date.now() - instance.cooldownSeconds * 1000);
 
     const [recentPing] = await db
         .select()
@@ -129,10 +120,7 @@ export async function checkReactionRedirect(
 /**
  * Records that a user was pinged, updating cooldown tracking
  */
-export async function recordUserPing(
-    userId: string,
-    redirectionInstanceId: number,
-): Promise<void> {
+export async function recordUserPing(userId: string, redirectionInstanceId: number): Promise<void> {
     // Check if record exists
     const [existing] = await db
         .select()

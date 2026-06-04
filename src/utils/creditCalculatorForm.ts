@@ -11,10 +11,7 @@ import {
 } from "discord.js";
 
 import { DEFAULT_EMBED_COLOR } from "../constants.js";
-import {
-    AdvancedCreditType,
-    SCORE_RANGES,
-} from "./advancedCreditCourseUtils.js";
+import { AdvancedCreditType, SCORE_RANGES } from "./advancedCreditCourseUtils.js";
 export interface SetupField {
     key: string;
     label: string;
@@ -84,9 +81,7 @@ export class SetupForm {
         await this.handleInteractions();
     }
 
-    private buildComponentForField(
-        field: SetupField,
-    ): ActionRowBuilder<any> | null {
+    private buildComponentForField(field: SetupField): ActionRowBuilder<any> | null {
         switch (field.type) {
             case "string":
                 return this.buildStringSelect(field);
@@ -95,9 +90,7 @@ export class SetupForm {
         }
     }
 
-    private buildStringSelect(
-        field: SetupField,
-    ): ActionRowBuilder<StringSelectMenuBuilder> {
+    private buildStringSelect(field: SetupField): ActionRowBuilder<StringSelectMenuBuilder> {
         const select = new StringSelectMenuBuilder()
             .setCustomId(`setup;${this.schema.name};string;${field.key}`)
             .setPlaceholder("Select an exam");
@@ -114,9 +107,7 @@ export class SetupForm {
             select.setMaxValues(1);
         }
 
-        return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-            select,
-        );
+        return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(select);
     }
 
     private buildFormContainer(): ContainerBuilder {
@@ -124,18 +115,14 @@ export class SetupForm {
 
         const container = new ContainerBuilder()
             .setAccentColor(DEFAULT_EMBED_COLOR)
-            .addTextDisplayComponents((text) =>
-                text.setContent(`# ${this.schema.name}`),
-            );
+            .addTextDisplayComponents((text) => text.setContent(`# ${this.schema.name}`));
 
         for (const field of this.schema.fields) {
             let fieldText = `**${field.label}**`;
             if (field.description) fieldText += `\n${field.description}`;
             if (field.required) fieldText += "\n*Required*";
 
-            container.addTextDisplayComponents((text) =>
-                text.setContent(fieldText),
-            );
+            container.addTextDisplayComponents((text) => text.setContent(fieldText));
 
             const componentRow = this.buildComponentForField(field);
             if (componentRow) container.addActionRowComponents(componentRow);
@@ -148,9 +135,7 @@ export class SetupForm {
         );
 
         if (hasCollectedData) {
-            container.addTextDisplayComponents((text) =>
-                text.setContent("**Selected Exams**\n"),
-            );
+            container.addTextDisplayComponents((text) => text.setContent("**Selected Exams**\n"));
         }
         for (const key of Object.keys(this.state.collectedData)) {
             const items = this.state.collectedData[key];
@@ -160,9 +145,7 @@ export class SetupForm {
                 const display = item.score
                     ? `- ${item.examName} - Score: ${item.score}`
                     : `- ${item.examName} - Pending score`;
-                container.addTextDisplayComponents((text) =>
-                    text.setContent(display),
-                );
+                container.addTextDisplayComponents((text) => text.setContent(display));
             }
         }
 
@@ -180,16 +163,11 @@ export class SetupForm {
 
         if (hasCollectedData) {
             container.addActionRowComponents(
-                new ActionRowBuilder<ButtonBuilder>().addComponents(
-                    submitButton,
-                    clearButton,
-                ),
+                new ActionRowBuilder<ButtonBuilder>().addComponents(submitButton, clearButton),
             );
         } else {
             container.addActionRowComponents(
-                new ActionRowBuilder<ButtonBuilder>().addComponents(
-                    submitButton,
-                ),
+                new ActionRowBuilder<ButtonBuilder>().addComponents(submitButton),
             );
         }
 
@@ -205,19 +183,13 @@ export class SetupForm {
         });
 
         collector.on("collect", async (i) => {
-            if (
-                i.isButton() &&
-                i.customId === `setup;${this.schema.name};submit`
-            ) {
+            if (i.isButton() && i.customId === `setup;${this.schema.name};submit`) {
                 await i.deferUpdate();
                 collector.stop("submitted");
                 return;
             }
 
-            if (
-                i.isButton() &&
-                i.customId === `setup;${this.schema.name};clear`
-            ) {
+            if (i.isButton() && i.customId === `setup;${this.schema.name};clear`) {
                 for (const key of Object.keys(this.state.collectedData)) {
                     if (Array.isArray(this.state.collectedData[key])) {
                         this.state.collectedData[key] = [];
@@ -231,18 +203,14 @@ export class SetupForm {
 
             if (i.customId.startsWith(`setup;${this.schema.name};score;`)) {
                 await this.handleScoreSelect(i as StringSelectMenuInteraction);
-            } else if (
-                i.customId.startsWith(`setup;${this.schema.name};string;`)
-            ) {
+            } else if (i.customId.startsWith(`setup;${this.schema.name};string;`)) {
                 await this.handleStringSelect(i as StringSelectMenuInteraction);
             }
         });
 
         collector.on("end", async (_collected, reason) => {
             if (reason === "submitted") {
-                const resultContainer = await this.schema.onComplete(
-                    this.state.collectedData,
-                );
+                const resultContainer = await this.schema.onComplete(this.state.collectedData);
 
                 await this.interaction.editReply({
                     components: [resultContainer],
@@ -251,11 +219,8 @@ export class SetupForm {
             if (reason === "time") {
                 await this.interaction.editReply({
                     components: [
-                        new ContainerBuilder().addTextDisplayComponents(
-                            (text) =>
-                                text.setContent(
-                                    "Calculator timed out. Please try again.",
-                                ),
+                        new ContainerBuilder().addTextDisplayComponents((text) =>
+                            text.setContent("Calculator timed out. Please try again."),
                         ),
                     ],
                 });
@@ -263,9 +228,7 @@ export class SetupForm {
         });
     }
 
-    private async handleScoreSelect(
-        interaction: StringSelectMenuInteraction,
-    ): Promise<void> {
+    private async handleScoreSelect(interaction: StringSelectMenuInteraction): Promise<void> {
         const parts = interaction.customId.split(";");
 
         const fieldKey = parts[3];
@@ -275,9 +238,7 @@ export class SetupForm {
         if (!field) return;
 
         const raw = interaction.values[0];
-        const parsedScore = SCORE_RANGES[this.schema.type].options
-            ? raw
-            : Number(raw);
+        const parsedScore = SCORE_RANGES[this.schema.type].options ? raw : Number(raw);
 
         if (!this.state.collectedData[field.key]) {
             this.state.collectedData[field.key] = [];
@@ -297,9 +258,7 @@ export class SetupForm {
         });
     }
 
-    private async handleStringSelect(
-        interaction: StringSelectMenuInteraction,
-    ): Promise<void> {
+    private async handleStringSelect(interaction: StringSelectMenuInteraction): Promise<void> {
         const fieldKey = interaction.customId.split(";")[3];
         const field = this.schema.fields.find((f) => f.key === fieldKey);
         if (!field || !field.modal) return;
@@ -309,9 +268,7 @@ export class SetupForm {
 
         const container = this.buildFormContainer();
 
-        container.addActionRowComponents(
-            this.buildScoreSelect(field, examName),
-        );
+        container.addActionRowComponents(this.buildScoreSelect(field, examName));
 
         await interaction.update({
             components: [container],
@@ -331,15 +288,12 @@ export class SetupForm {
         // letter grades (Cambridge) vs numeric range (AP/IB)
         const scoreOptions = range.options
             ? range.options.map((o) => ({ label: o, value: o }))
-            : Array.from(
-                  { length: range.max! - range.min! + 1 },
-                  (_, i) => i + range.min!,
-              ).map((n) => ({ label: n.toString(), value: n.toString() }));
+            : Array.from({ length: range.max! - range.min! + 1 }, (_, i) => i + range.min!).map(
+                  (n) => ({ label: n.toString(), value: n.toString() }),
+              );
 
         scoreSelect.addOptions(scoreOptions);
 
-        return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-            scoreSelect,
-        );
+        return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(scoreSelect);
     }
 }

@@ -20,11 +20,7 @@ import {
     SCORE_RANGES,
     School,
 } from "../utils/advancedCreditCourseUtils.ts";
-import {
-    type SetupField,
-    SetupForm,
-    type SetupSchema,
-} from "../utils/creditCalculatorForm.ts";
+import { type SetupField, SetupForm, type SetupSchema } from "../utils/creditCalculatorForm.ts";
 import { Course, GenEd } from "../utils/index.ts";
 
 const command: SlashCommand = {
@@ -34,15 +30,11 @@ const command: SlashCommand = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("ap")
-                .setDescription(
-                    "Calculate units and courses waived through your APs",
-                )
+                .setDescription("Calculate units and courses waived through your APs")
                 .addStringOption((option) =>
                     option
                         .setName("school")
-                        .setDescription(
-                            "Enter College (DC, CIT, SCS, TEP, MCS, CFA)",
-                        )
+                        .setDescription("Enter College (DC, CIT, SCS, TEP, MCS, CFA)")
                         .setChoices(SCHOOLS.map((s) => ({ name: s, value: s })))
                         .setRequired(true),
                 ),
@@ -50,15 +42,11 @@ const command: SlashCommand = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("ib")
-                .setDescription(
-                    "Calculate units and courses waived through your IBs",
-                )
+                .setDescription("Calculate units and courses waived through your IBs")
                 .addStringOption((option) =>
                     option
                         .setName("school")
-                        .setDescription(
-                            "Enter College (DC, CIT, SCS, TEP, MCS, CFA)",
-                        )
+                        .setDescription("Enter College (DC, CIT, SCS, TEP, MCS, CFA)")
                         .setChoices(SCHOOLS.map((s) => ({ name: s, value: s })))
                         .setRequired(true),
                 ),
@@ -72,9 +60,7 @@ const command: SlashCommand = {
                 .addStringOption((option) =>
                     option
                         .setName("school")
-                        .setDescription(
-                            "Enter College (DC, CIT, SCS, TEP, MCS, CFA)",
-                        )
+                        .setDescription("Enter College (DC, CIT, SCS, TEP, MCS, CFA)")
                         .setChoices(SCHOOLS.map((s) => ({ name: s, value: s })))
                         .setRequired(true),
                 ),
@@ -83,11 +69,7 @@ const command: SlashCommand = {
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
         const coursesType: AdvancedCreditType =
-            subcommand === "ap"
-                ? "AP"
-                : subcommand === "ib"
-                  ? "IB"
-                  : "Cambridge";
+            subcommand === "ap" ? "AP" : subcommand === "ib" ? "IB" : "Cambridge";
 
         const userSchool = interaction.options.getString("school");
 
@@ -104,25 +86,16 @@ const command: SlashCommand = {
         const artsExams = exams.filter((e) => e.subject === "Arts");
         const humanitiesExams = exams.filter((e) => e.subject === "Humanities");
 
-        const stemExamsUnique = Array.from(
-            new Map(stemExams.map((e) => [e.name, e])).values(),
-        );
+        const stemExamsUnique = Array.from(new Map(stemExams.map((e) => [e.name, e])).values());
 
-        const artsExamsUnique = Array.from(
-            new Map(artsExams.map((e) => [e.name, e])).values(),
-        );
+        const artsExamsUnique = Array.from(new Map(artsExams.map((e) => [e.name, e])).values());
 
         const humanitiesExamsUnique = Array.from(
             new Map(humanitiesExams.map((e) => [e.name, e])).values(),
         );
 
         const artsSciencesUnique = Array.from(
-            new Map(
-                [...artsExamsUnique, ...stemExamsUnique].map((e) => [
-                    e.name,
-                    e,
-                ]),
-            ).values(),
+            new Map([...artsExamsUnique, ...stemExamsUnique].map((e) => [e.name, e])).values(),
         );
 
         const fields: SetupField[] = [
@@ -176,19 +149,15 @@ const command: SlashCommand = {
                     entries: { examName: string; score: number | string }[],
                 ) => {
                     entries.forEach(({ examName, score }) => {
-                        const sameName = exams.filter(
-                            (e) => e.name === examName,
-                        );
+                        const sameName = exams.filter((e) => e.name === examName);
 
                         const chosenExams = (() => {
                             const specific: typeof sameName = [];
                             const general: typeof sameName = [];
 
                             for (const e of sameName) {
-                                if (e.school?.includes(userSchool as School))
-                                    specific.push(e);
-                                else if (!e.school || e.school.length === 0)
-                                    general.push(e);
+                                if (e.school?.includes(userSchool as School)) specific.push(e);
+                                else if (!e.school || e.school.length === 0) general.push(e);
                             }
 
                             return specific.length > 0 ? specific : general;
@@ -219,9 +188,7 @@ const command: SlashCommand = {
 
                 if (awarded.length === 0) {
                     container.addTextDisplayComponents((t) =>
-                        t.setContent(
-                            "No credit awarded based on the selected exams.",
-                        ),
+                        t.setContent("No credit awarded based on the selected exams."),
                     );
                     return container;
                 }
@@ -243,9 +210,7 @@ const command: SlashCommand = {
                         geneds = SCSGenedData as GenEd[];
                     } else if (userSchool === "CFA" || userSchool === "TEP") {
                         container.addTextDisplayComponents((t) =>
-                            t.setContent(
-                                `Gened data not available for ${userSchool}`,
-                            ),
+                            t.setContent(`Gened data not available for ${userSchool}`),
                         );
                     }
 
@@ -254,21 +219,15 @@ const command: SlashCommand = {
 
                         allAwardedCourse.add(course);
 
-                        container.addSeparatorComponents(
-                            new SeparatorBuilder(),
-                        );
+                        container.addSeparatorComponents(new SeparatorBuilder());
 
-                        const units =
-                            exam.overrideUnits ?? (Number(course.units) || 0);
+                        const units = exam.overrideUnits ?? (Number(course.units) || 0);
                         genedCreditTotal += units;
 
-                        const courseName =
-                            courses[course.id]?.name ?? course.name;
+                        const courseName = courses[course.id]?.name ?? course.name;
 
                         const genedList =
-                            geneds && course.id
-                                ? getGenedsForCourse(course.id, geneds)
-                                : [];
+                            geneds && course.id ? getGenedsForCourse(course.id, geneds) : [];
 
                         const genedTags = genedList.length
                             ? genedList.map((g) => `${g}`).join(" ")
@@ -277,9 +236,7 @@ const command: SlashCommand = {
                         container.addTextDisplayComponents((t) =>
                             t.setContent(
                                 [
-                                    courseName.endsWith(
-                                        "(*Not Offered Course*)",
-                                    )
+                                    courseName.endsWith("(*Not Offered Course*)")
                                         ? `**${course.id}** — ${coursesType} ${courseName} (${units} units) `
                                         : hyperlink(
                                               `**${course.id}** — ${courseName} (${units} units)`,

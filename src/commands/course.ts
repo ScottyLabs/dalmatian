@@ -26,14 +26,11 @@ const command: SlashCommand = {
         ),
     async execute(interaction) {
         const coursesData = COURSES_DATA;
-        const courseCode = formatCourseNumber(
-            interaction.options.getString("course_code", true),
-        );
+        const courseCode = formatCourseNumber(interaction.options.getString("course_code", true));
 
         if (!courseCode) {
             return interaction.reply({
-                content:
-                    "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                content: "Please provide a valid course code in the format XX-XXX or XXXXX.",
                 flags: MessageFlags.Ephemeral,
             });
         }
@@ -48,10 +45,7 @@ const command: SlashCommand = {
         const course = coursesData[courseCode];
 
         const embed = new EmbedBuilder()
-            .setTitle(
-                bold(underline(`${course.id}: ${course.name}`)) +
-                    ` (${course.units} units)`,
-            )
+            .setTitle(bold(underline(`${course.id}: ${course.name}`)) + ` (${course.units} units)`)
             .setURL(`${SCOTTYLABS_URL}/course/${course.id}`)
             .setDescription(`${bold(course.department)}\n ${course.desc}`)
             .addFields(
@@ -62,10 +56,7 @@ const command: SlashCommand = {
                 },
                 {
                     name: "Corequisites",
-                    value:
-                        course.coreqs.length > 0
-                            ? course.coreqs.join(", ")
-                            : "None",
+                    value: course.coreqs.length > 0 ? course.coreqs.join(", ") : "None",
                     inline: true,
                 },
             );

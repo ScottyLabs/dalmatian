@@ -38,12 +38,8 @@ const command: UserContextCommand = {
         }
 
         try {
-            const oldRole = guild.roles.cache.find(
-                (r) => r.name === "Unverified",
-            );
-            const newRole = guild.roles.cache.find(
-                (r) => r.name === "Admitted",
-            );
+            const oldRole = guild.roles.cache.find((r) => r.name === "Unverified");
+            const newRole = guild.roles.cache.find((r) => r.name === "Admitted");
 
             if (!oldRole || !newRole) {
                 await interaction.editReply({

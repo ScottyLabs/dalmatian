@@ -1,10 +1,4 @@
-import {
-    bigint,
-    integer,
-    pgTable,
-    serial,
-    timestamp,
-} from "drizzle-orm/pg-core";
+import { bigint, integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
 
 /**
  * Reactions in any channel (except the redirect channel) trigger a redirect message

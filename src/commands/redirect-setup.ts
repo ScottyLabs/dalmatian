@@ -4,12 +4,7 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 import { z } from "zod";
-import {
-    db,
-    emojiTriggers,
-    immuneRoles,
-    redirectionInstances,
-} from "../db/index.ts";
+import { db, emojiTriggers, immuneRoles, redirectionInstances } from "../db/index.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { SetupForm, type SetupSchema } from "../utils/setupForm.ts";
 
@@ -32,9 +27,7 @@ type RedirectSetupData = z.infer<typeof redirectSetupSchema>;
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("redirect-setup")
-        .setDescription(
-            "Configure reaction redirect for a channel (admin only)",
-        )
+        .setDescription("Configure reaction redirect for a channel (admin only)")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction: ChatInputCommandInteraction) {
@@ -48,11 +41,8 @@ const command: SlashCommand = {
                     label: "Redirect Channel",
                     type: "channel",
                     required: true,
-                    zodSchema: z
-                        .string()
-                        .min(1, "Redirect channel ID is required"),
-                    description:
-                        "Select the channel where redirect messages will be sent",
+                    zodSchema: z.string().min(1, "Redirect channel ID is required"),
+                    description: "Select the channel where redirect messages will be sent",
                 },
                 {
                     key: "immuneRoleIds",
@@ -61,8 +51,7 @@ const command: SlashCommand = {
                     required: false,
                     multiple: true,
                     zodSchema: z.string().min(1, "Role ID cannot be empty"),
-                    description:
-                        "Select role(s) whose members won't be redirected when reacted to",
+                    description: "Select role(s) whose members won't be redirected when reacted to",
                 },
                 {
                     key: "emojiIds",
@@ -83,8 +72,7 @@ const command: SlashCommand = {
                         .number()
                         .int("Cooldown must be an integer")
                         .positive("Cooldown must be positive"),
-                    description:
-                        "How long (in seconds) before the same user can be pinged again",
+                    description: "How long (in seconds) before the same user can be pinged again",
                 },
             ],
             onComplete: async (data: RedirectSetupData) => {

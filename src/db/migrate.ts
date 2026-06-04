@@ -5,9 +5,7 @@ import { logger, nodeError } from "../utils/log.ts";
 
 export const runMigrations = async () => {
     if (!process.env.DATABASE_URL && !process.env.PGHOST) {
-        throw new Error(
-            "DATABASE_URL or PGHOST/PGDATABASE environment variables must be set",
-        );
+        throw new Error("DATABASE_URL or PGHOST/PGDATABASE environment variables must be set");
     }
 
     logger.info("Running database migrations...");

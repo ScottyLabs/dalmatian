@@ -16,9 +16,7 @@ const command: SlashCommand = {
         .addIntegerOption((option) =>
             option
                 .setName("id")
-                .setDescription(
-                    "The configuration ID to remove (from /redirect-list)",
-                )
+                .setDescription("The configuration ID to remove (from /redirect-list)")
                 .setRequired(true),
         ),
 
@@ -55,9 +53,7 @@ const command: SlashCommand = {
         }
 
         // Delete the configuration (cascade will remove related records)
-        await db
-            .delete(redirectionInstances)
-            .where(eq(redirectionInstances.id, configId));
+        await db.delete(redirectionInstances).where(eq(redirectionInstances.id, configId));
 
         await interaction.editReply({
             content: `Successfully removed configuration #${configId}`,

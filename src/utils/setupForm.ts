@@ -60,10 +60,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
     private state: SetupState;
     private interaction: ChatInputCommandInteraction;
 
-    constructor(
-        schema: SetupSchema<T>,
-        interaction: ChatInputCommandInteraction,
-    ) {
+    constructor(schema: SetupSchema<T>, interaction: ChatInputCommandInteraction) {
         this.schema = schema;
         this.interaction = interaction;
         this.state = {
@@ -93,9 +90,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         await this.handleInteractions();
     }
 
-    private buildComponentForField(
-        field: SetupField,
-    ): ActionRowBuilder<any> | null {
+    private buildComponentForField(field: SetupField): ActionRowBuilder<any> | null {
         switch (field.type) {
             case "channel":
                 return this.buildChannelSelect(field);
@@ -110,9 +105,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         }
     }
 
-    private buildChannelSelect(
-        field: SetupField,
-    ): ActionRowBuilder<ChannelSelectMenuBuilder> {
+    private buildChannelSelect(field: SetupField): ActionRowBuilder<ChannelSelectMenuBuilder> {
         const select = new ChannelSelectMenuBuilder()
             .setCustomId(`setup:${this.schema.name}:channel:${field.key}`)
             .setPlaceholder(field.label)
@@ -122,14 +115,10 @@ export class SetupForm<T extends z.ZodObject<any>> {
             select.setMinValues(0);
         }
 
-        return new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(
-            select,
-        );
+        return new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(select);
     }
 
-    private buildRoleSelect(
-        field: SetupField,
-    ): ActionRowBuilder<RoleSelectMenuBuilder> {
+    private buildRoleSelect(field: SetupField): ActionRowBuilder<RoleSelectMenuBuilder> {
         const select = new RoleSelectMenuBuilder()
             .setCustomId(`setup:${this.schema.name}:role:${field.key}`)
             .setPlaceholder(field.label);
@@ -142,14 +131,10 @@ export class SetupForm<T extends z.ZodObject<any>> {
             select.setMaxValues(1);
         }
 
-        return new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
-            select,
-        );
+        return new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(select);
     }
 
-    private buildTextInputButton(
-        field: SetupField,
-    ): ActionRowBuilder<ButtonBuilder> {
+    private buildTextInputButton(field: SetupField): ActionRowBuilder<ButtonBuilder> {
         const button = new ButtonBuilder()
             .setCustomId(`setup:${this.schema.name}:input:${field.key}`)
             .setLabel(field.label)
@@ -162,9 +147,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         // Build Components v2 container
         const container = new ContainerBuilder()
             .setAccentColor(0x393a41)
-            .addTextDisplayComponents((text) =>
-                text.setContent(`# ${this.schema.name}`),
-            );
+            .addTextDisplayComponents((text) => text.setContent(`# ${this.schema.name}`));
 
         // Add each field with its component
         for (const field of this.schema.fields) {
@@ -181,9 +164,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
             // Only show "Current:" for text input fields
             if (
                 value !== undefined &&
-                (field.type === "emoji" ||
-                    field.type === "number" ||
-                    field.type === "text")
+                (field.type === "emoji" || field.type === "number" || field.type === "text")
             ) {
                 if (Array.isArray(value)) {
                     if (field.type === "emoji") {
@@ -197,9 +178,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                 }
             }
 
-            container.addTextDisplayComponents((text) =>
-                text.setContent(fieldText),
-            );
+            container.addTextDisplayComponents((text) => text.setContent(fieldText));
 
             // Add interactive component
             const componentRow = this.buildComponentForField(field);
@@ -224,11 +203,10 @@ export class SetupForm<T extends z.ZodObject<any>> {
     }
 
     private async handleInteractions(): Promise<void> {
-        const collector =
-            this.interaction.channel?.createMessageComponentCollector({
-                filter: (i) => i.user.id === this.interaction.user.id,
-                time: 300000, // 5 minutes
-            });
+        const collector = this.interaction.channel?.createMessageComponentCollector({
+            filter: (i) => i.user.id === this.interaction.user.id,
+            time: 300000, // 5 minutes
+        });
 
         if (!collector) {
             await this.interaction.editReply({
@@ -242,19 +220,11 @@ export class SetupForm<T extends z.ZodObject<any>> {
             if (i.customId === `setup:${this.schema.name}:submit`) {
                 collector.stop("submitted");
                 await this.handleSubmit(i as ButtonInteraction);
-            } else if (
-                i.customId.startsWith(`setup:${this.schema.name}:channel:`)
-            ) {
-                await this.handleChannelSelect(
-                    i as ChannelSelectMenuInteraction,
-                );
-            } else if (
-                i.customId.startsWith(`setup:${this.schema.name}:role:`)
-            ) {
+            } else if (i.customId.startsWith(`setup:${this.schema.name}:channel:`)) {
+                await this.handleChannelSelect(i as ChannelSelectMenuInteraction);
+            } else if (i.customId.startsWith(`setup:${this.schema.name}:role:`)) {
                 await this.handleRoleSelect(i as RoleSelectMenuInteraction);
-            } else if (
-                i.customId.startsWith(`setup:${this.schema.name}:input:`)
-            ) {
+            } else if (i.customId.startsWith(`setup:${this.schema.name}:input:`)) {
                 await this.handleTextInputButton(i as ButtonInteraction);
             }
         });
@@ -271,9 +241,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         });
     }
 
-    private async handleChannelSelect(
-        interaction: ChannelSelectMenuInteraction,
-    ): Promise<void> {
+    private async handleChannelSelect(interaction: ChannelSelectMenuInteraction): Promise<void> {
         const fieldKey = interaction.customId.split(":")[3];
         const field = this.schema.fields.find((f) => f.key === fieldKey);
 
@@ -300,9 +268,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         }
     }
 
-    private async handleRoleSelect(
-        interaction: RoleSelectMenuInteraction,
-    ): Promise<void> {
+    private async handleRoleSelect(interaction: RoleSelectMenuInteraction): Promise<void> {
         const fieldKey = interaction.customId.split(":")[3];
         const field = this.schema.fields.find((f) => f.key === fieldKey);
 
@@ -310,9 +276,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
 
         try {
             if (field.multiple) {
-                const validated = z
-                    .array(field.zodSchema)
-                    .parse(interaction.values);
+                const validated = z.array(field.zodSchema).parse(interaction.values);
                 this.state.collectedData[field.key] = validated;
             } else {
                 const validated = field.zodSchema.parse(interaction.values[0]);
@@ -334,9 +298,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         }
     }
 
-    private async handleTextInputButton(
-        interaction: ButtonInteraction,
-    ): Promise<void> {
+    private async handleTextInputButton(interaction: ButtonInteraction): Promise<void> {
         const fieldKey = interaction.customId.split(":")[3];
         const field = this.schema.fields.find((f) => f.key === fieldKey);
 
@@ -366,9 +328,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
             }
         }
 
-        const row = new ActionRowBuilder<TextInputBuilder>().addComponents(
-            textInput,
-        );
+        const row = new ActionRowBuilder<TextInputBuilder>().addComponents(textInput);
 
         const modal = new ModalBuilder({
             customId: `setup:${this.schema.name}:modal:${field.key}`,
@@ -381,9 +341,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         // Wait for modal submission
         try {
             const modalSubmit = await interaction.awaitModalSubmit({
-                filter: (i) =>
-                    i.customId ===
-                    `setup:${this.schema.name}:modal:${field.key}`,
+                filter: (i) => i.customId === `setup:${this.schema.name}:modal:${field.key}`,
                 time: 120000, // 2 minutes
             });
 
@@ -461,16 +419,12 @@ export class SetupForm<T extends z.ZodObject<any>> {
     private async handleSubmit(interaction: ButtonInteraction): Promise<void> {
         // Final validation with complete schema
         try {
-            const validated = this.schema.zodSchema.parse(
-                this.state.collectedData,
-            );
+            const validated = this.schema.zodSchema.parse(this.state.collectedData);
 
             const savingContainer = new ContainerBuilder()
                 .setAccentColor(0x393a41)
                 .addTextDisplayComponents((text) =>
-                    text.setContent(
-                        `# ${this.schema.name}\n\nSaving configuration...`,
-                    ),
+                    text.setContent(`# ${this.schema.name}\n\nSaving configuration...`),
                 );
 
             await interaction.update({
@@ -483,9 +437,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
             const successContainer = new ContainerBuilder()
                 .setAccentColor(0x393a41)
                 .addTextDisplayComponents((text) =>
-                    text.setContent(
-                        `# ${this.schema.name}\n\nSetup completed successfully!`,
-                    ),
+                    text.setContent(`# ${this.schema.name}\n\nSetup completed successfully!`),
                 );
 
             await this.interaction.editReply({

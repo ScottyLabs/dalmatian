@@ -1,10 +1,5 @@
 import { createConnection } from "node:net";
-import {
-    codeBlock,
-    EmbedBuilder,
-    MessageFlags,
-    SlashCommandBuilder,
-} from "discord.js";
+import { codeBlock, EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
 const DEFAULT_HOST = "andrew.cmu.edu";
@@ -43,9 +38,7 @@ const command: SlashCommand = {
         .addStringOption((option) =>
             option
                 .setName("query")
-                .setDescription(
-                    "Username or user@host (defaults to @andrew.cmu.edu)",
-                )
+                .setDescription("Username or user@host (defaults to @andrew.cmu.edu)")
                 .setRequired(true),
         ),
     async execute(interaction) {
@@ -82,10 +75,7 @@ const command: SlashCommand = {
                 });
             }
 
-            const truncated =
-                trimmed.length > 4000
-                    ? `${trimmed.slice(0, 4000)}...`
-                    : trimmed;
+            const truncated = trimmed.length > 4000 ? `${trimmed.slice(0, 4000)}...` : trimmed;
 
             const embed = new EmbedBuilder()
                 .setTitle(`${user}@${host}`)

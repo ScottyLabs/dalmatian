@@ -1,13 +1,6 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import {
-    Client,
-    Collection,
-    EmbedBuilder,
-    GatewayIntentBits,
-    Options,
-    Partials,
-} from "discord.js";
+import { Client, Collection, EmbedBuilder, GatewayIntentBits, Options, Partials } from "discord.js";
 import { DEFAULT_EMBED_COLOR } from "./constants.ts";
 import { runMigrations } from "./db/migrate.ts";
 import type { ContextCommand, SlashCommand } from "./types.d.ts";
@@ -24,17 +17,11 @@ declare module "discord.js" {
     }
 }
 
-const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } =
-    GatewayIntentBits;
+const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } = GatewayIntentBits;
 
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages, GuildMessageReactions],
-    partials: [
-        Partials.Message,
-        Partials.Reaction,
-        Partials.User,
-        Partials.GuildMember,
-    ],
+    partials: [Partials.Message, Partials.Reaction, Partials.User, Partials.GuildMember],
     makeCache: Options.cacheEverything(),
 });
 

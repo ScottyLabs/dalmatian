@@ -5,23 +5,24 @@ Thank you for your interest in contributing to Dalmatian! This guide will help y
 ## How to Contribute
 
 1. **Fork the repository** or create a new branch if you have write access
-2. **Create a new branch** from `main` with a descriptive name:
+1. **Create a new branch** from `main` with a descriptive name:
    ```bash
    git checkout -b your-feature-name
    # or
    git checkout -b bug-description
    ```
-3. **Make your changes** following the code style and conventions
-4. **Test your changes** locally by running the bot
-5. **Commit using conventional commits** (see below)
-6. **Push to your fork** or branch
-7. **Open a Pull Request** with a clear description of your changes
+1. **Make your changes** following the code style and conventions
+1. **Test your changes** locally by running the bot
+1. **Commit using conventional commits** (see below)
+1. **Push to your fork** or branch
+1. **Open a Pull Request** with a clear description of your changes
 
 ## Conventional Commits
 
 This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 **Examples:**
+
 - `feat: add course search by instructor`
 - `fix: resolve dining hall location formatting issue`
 - `docs: update README installation steps`
@@ -56,8 +57,8 @@ Under the OAuth2 tab, grab the client ID for `DISCORD_CLIENT_ID`
 The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` keys. Optionally, you can set up `GOOGLE_MAPS_API_KEY` to debug `formatLocation` in `dining.ts`.
 
 1. Head to [Google Cloud Console](https://console.cloud.google.com/) and create a new project.
-2. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
-3. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
+1. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
+1. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
 
 ## Database Setup
 
@@ -69,13 +70,13 @@ The bot uses PostgreSQL for storing polls and reaction redirect configurations. 
    docker-compose up -d postgres
    ```
 
-2. Run database migrations to create the tables:
+1. Run database migrations to create the tables:
 
    ```bash
    bun run db:migrate
    ```
 
-3. (Optional) Open Drizzle Studio to inspect the database:
+1. (Optional) Open Drizzle Studio to inspect the database:
 
    ```bash
    bun run db:studio
@@ -110,12 +111,14 @@ Before you commit and open a pull request, make sure to:
 ## Project Priorities & Planning
 
 To understand current priorities, roadmap, and ongoing work:
+
 - Visit the [Dalmatian Development project](https://github.com/orgs/ScottyLabs/projects/20)
 - If you cannot access the board, ask a maintainer to add you to the ScottyLabs organization.
 
 ## Need Help?
 
 If you have questions or need help:
+
 - Open an issue on GitHub
 - Check existing issues and pull requests for similar questions
 

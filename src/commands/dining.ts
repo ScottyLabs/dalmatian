@@ -1,13 +1,6 @@
-import {
-    APIEmbedField,
-    EmbedBuilder,
-    MessageFlags,
-    SlashCommandBuilder,
-} from "discord.js";
+import { APIEmbedField, EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
-import diningLocationData from "../data/diningLocationData.json" with {
-    type: "json",
-};
+import diningLocationData from "../data/diningLocationData.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 
@@ -44,12 +37,9 @@ for (const item of diningLocationData) {
  * with local alias data for building name matching.
  */
 function getLocations(): Promise<Location[]> {
-    const request: Request = new Request(
-        "https://api.cmueats.com/v2/locations",
-        {
-            method: "GET",
-        },
-    );
+    const request: Request = new Request("https://api.cmueats.com/v2/locations", {
+        method: "GET",
+    });
 
     return fetch(request)
         .then((res) => res.json() as Promise<Location[]>)
@@ -118,9 +108,7 @@ function getTodaysHours(location: Location): string {
     const dayLength = 24 * 60 * 60 * 1000;
     if (total >= dayLength) return "Open all day";
 
-    return todaysTimes
-        .map((time) => formatTimeRange(time.start, time.end))
-        .join(", ");
+    return todaysTimes.map((time) => formatTimeRange(time.start, time.end)).join(", ");
 }
 
 /** Converts milliseconds into whole minutes. */
@@ -140,9 +128,7 @@ function getCurrentStatus(location: Location): {
     const currentlyOpen = isOpen(location, now);
 
     if (currentlyOpen) {
-        const openNow = location.times.find(
-            (time) => time.start <= now && now <= time.end,
-        );
+        const openNow = location.times.find((time) => time.start <= now && now <= time.end);
         if (openNow) {
             const msUntilClose = openNow.end - now;
             if (msUntilClose >= 0 && msUntilClose <= 60 * 60 * 1000) {
@@ -222,15 +208,10 @@ function formatLocationField(location: Location): APIEmbedField {
  * Verbose mode allows up to 25 locations per page; normal mode allows 10.
  * Enforces Discord's 6000-char embed limit.
  */
-function formatLocations(
-    locations: Location[],
-    verbose: boolean,
-): EmbedBuilder[] {
+function formatLocations(locations: Location[], verbose: boolean): EmbedBuilder[] {
     if (locations.length === 0) {
         return [
-            new EmbedBuilder().setDescription(
-                "No dining locations found matching your query.",
-            ),
+            new EmbedBuilder().setDescription("No dining locations found matching your query."),
         ];
     }
 
@@ -239,9 +220,7 @@ function formatLocations(
     }
 
     const embeds: EmbedBuilder[] = [];
-    let currentEmbed = new EmbedBuilder().setTitle(
-        `${locations.length} Dining Locations Found`,
-    );
+    let currentEmbed = new EmbedBuilder().setTitle(`${locations.length} Dining Locations Found`);
 
     const maxPerPage = verbose ? 25 : 10;
     let charCount = currentEmbed.data.title!.length;
@@ -280,28 +259,20 @@ const command: SlashCommand = {
         .setName("dining")
         .setDescription("Show on-campus dining locations & hours")
         .addSubcommand((subcommand) =>
-            subcommand
-                .setName("all")
-                .setDescription("Show all dining locations"),
+            subcommand.setName("all").setDescription("Show all dining locations"),
         )
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("all-verbose")
-                .setDescription(
-                    "Show all dining locations (all pages at once)",
-                ),
+                .setDescription("Show all dining locations (all pages at once)"),
         )
         .addSubcommand((subcommand) =>
-            subcommand
-                .setName("open")
-                .setDescription("Show currently open dining locations"),
+            subcommand.setName("open").setDescription("Show currently open dining locations"),
         )
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("open-verbose")
-                .setDescription(
-                    "Show currently open dining locations (all pages at once)",
-                ),
+                .setDescription("Show currently open dining locations (all pages at once)"),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -317,9 +288,7 @@ const command: SlashCommand = {
                 .addStringOption((option) =>
                     option
                         .setName("building")
-                        .setDescription(
-                            "Search by building for dining locations",
-                        )
+                        .setDescription("Search by building for dining locations")
                         .setRequired(false)
                         .setAutocomplete(true),
                 ),
@@ -340,9 +309,7 @@ const command: SlashCommand = {
         }
 
         if (subcommand === "open" || subcommand === "open-verbose") {
-            const openLocations = locations.filter((loc) =>
-                isOpen(loc, Date.now()),
-            );
+            const openLocations = locations.filter((loc) => isOpen(loc, Date.now()));
             const embeds = formatLocations(
                 openLocations.sort((a, b) => a.name.localeCompare(b.name)),
                 subcommand === "open-verbose",
@@ -354,11 +321,8 @@ const command: SlashCommand = {
         }
 
         if (subcommand === "search") {
-            const query =
-                interaction.options.getString("name")?.toLowerCase() ?? null;
-            const building =
-                interaction.options.getString("building")?.toLowerCase() ??
-                null;
+            const query = interaction.options.getString("name")?.toLowerCase() ?? null;
+            const building = interaction.options.getString("building")?.toLowerCase() ?? null;
 
             if (!building && !query) {
                 return interaction.reply({
@@ -368,15 +332,11 @@ const command: SlashCommand = {
             }
 
             const matchedLocations = locations.filter((location) => {
-                const nameMatches = query
-                    ? location.name.toLowerCase().includes(query)
-                    : true;
+                const nameMatches = query ? location.name.toLowerCase().includes(query) : true;
                 const buildingMatches = building
-                    ? search(
-                          building,
-                          [location.location, ...(location.locAliases ?? [])],
-                          { threshold: 0.8 },
-                      ).length > 0
+                    ? search(building, [location.location, ...(location.locAliases ?? [])], {
+                          threshold: 0.8,
+                      }).length > 0
                     : true;
                 return nameMatches && buildingMatches;
             });
@@ -421,9 +381,7 @@ const command: SlashCommand = {
 
             const buildings = Array.from(buildingMap.keys());
             const filteredChoices =
-                focusedValue === ""
-                    ? buildings
-                    : search(focusedValue, buildings);
+                focusedValue === "" ? buildings : search(focusedValue, buildings);
             choices = filteredChoices.slice(0, 25).map((name) => ({
                 name,
                 value: buildingMap.get(name)!,

@@ -1,9 +1,4 @@
-import {
-    EmbedBuilder,
-    hyperlink,
-    MessageFlags,
-    SlashCommandBuilder,
-} from "discord.js";
+import { EmbedBuilder, hyperlink, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { SCOTTYLABS_URL } from "../constants.js";
 import SyllabiData from "../data/course-api.syllabi.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
@@ -47,9 +42,7 @@ function loadSyllabiData(): Record<string, Syllabus[]> {
                 return b.year - a.year;
             }
 
-            return (
-                (seasonOrder[a.season] ?? 99) - (seasonOrder[b.season] ?? 99)
-            );
+            return (seasonOrder[a.season] ?? 99) - (seasonOrder[b.season] ?? 99);
         });
     }
 
@@ -63,9 +56,7 @@ const command: SlashCommand = {
         .addStringOption((option) =>
             option
                 .setName("course_id")
-                .setDescription(
-                    "Course code in XX-XXX or XXXXX format (e.g., 15-112)",
-                )
+                .setDescription("Course code in XX-XXX or XXXXX format (e.g., 15-112)")
                 .setRequired(true),
         ),
     async execute(interaction) {
@@ -73,14 +64,11 @@ const command: SlashCommand = {
         const syllabi = loadSyllabiData();
         const fceData = FCE_DATA_BY_COURSE;
 
-        const courseid = formatCourseNumber(
-            interaction.options.getString("course_id", true),
-        );
+        const courseid = formatCourseNumber(interaction.options.getString("course_id", true));
 
         if (!courseid) {
             return interaction.reply({
-                content:
-                    "Please provide a valid course code in the format XX-XXX or XXXXX.",
+                content: "Please provide a valid course code in the format XX-XXX or XXXXX.",
                 flags: MessageFlags.Ephemeral,
             });
         }
@@ -95,9 +83,7 @@ const command: SlashCommand = {
         }
 
         const foundSyllabi = syllabi[courseid];
-        const uniqueSyllabi = [
-            ...new Map(foundSyllabi.map((s) => [s.url, s])).values(),
-        ];
+        const uniqueSyllabi = [...new Map(foundSyllabi.map((s) => [s.url, s])).values()];
 
         const embeds: EmbedBuilder[] = [];
         let currentDesc = "";
@@ -117,10 +103,8 @@ const command: SlashCommand = {
             for (const rec of fceRecords) {
                 if (
                     rec.section === syllabus.section &&
-                    (rec.semesterLabel ===
-                        `${syllabus.season}${syllabus.year}` ||
-                        (syllabus.season === "N" &&
-                            rec.semesterLabel === `M${syllabus.year}`))
+                    (rec.semesterLabel === `${syllabus.season}${syllabus.year}` ||
+                        (syllabus.season === "N" && rec.semesterLabel === `M${syllabus.year}`))
                     // edge-case: syllabi summers before 2026 can start with M or N, but FCE data always start with M
                 ) {
                     fceEntry = rec;

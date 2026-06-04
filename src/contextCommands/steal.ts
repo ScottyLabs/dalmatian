@@ -33,10 +33,7 @@ const command: MessageContextCommand = {
 
         const message = interaction.targetMessage;
 
-        const emoteMatches = new Map<
-            string,
-            { name: string; animated: boolean }
-        >();
+        const emoteMatches = new Map<string, { name: string; animated: boolean }>();
         for (const raw of message.content.match(/<a?:\w+:\d+>/g) ?? []) {
             const parsed = parseEmoji(raw);
             if (parsed?.id && parsed.name && !emoteMatches.has(parsed.id)) {
@@ -47,8 +44,7 @@ const command: MessageContextCommand = {
             }
         }
 
-        const hasNamedContent =
-            emoteMatches.size > 0 || message.stickers.size > 0;
+        const hasNamedContent = emoteMatches.size > 0 || message.stickers.size > 0;
 
         const imageAttachment = message.attachments.find((a) =>
             a.contentType?.startsWith("image/"),
@@ -56,8 +52,7 @@ const command: MessageContextCommand = {
 
         if (!hasNamedContent && !imageAttachment) {
             await interaction.reply({
-                content:
-                    "No custom emotes, stickers, or images found in this message",
+                content: "No custom emotes, stickers, or images found in this message",
                 flags: MessageFlags.Ephemeral,
             });
             return;
@@ -90,8 +85,7 @@ const command: MessageContextCommand = {
             try {
                 submitted = await interaction.awaitModalSubmit({
                     filter: (i) =>
-                        i.customId === "steal_image_name" &&
-                        i.user.id === interaction.user.id,
+                        i.customId === "steal_image_name" && i.user.id === interaction.user.id,
                     time: 60_000,
                 });
             } catch {
@@ -112,15 +106,10 @@ const command: MessageContextCommand = {
                 });
                 const embed = new EmbedBuilder()
                     .setTitle("Emoji Added")
-                    .setDescription(
-                        `Added ${emoji.toString()} (\`${emoji.name}\`) to the server`,
-                    );
+                    .setDescription(`Added ${emoji.toString()} (\`${emoji.name}\`) to the server`);
                 await submitted.editReply({ embeds: [embed] });
             } catch (err) {
-                logger.error(
-                    "Failed to add emoji from image attachment",
-                    nodeError(err),
-                );
+                logger.error("Failed to add emoji from image attachment", nodeError(err));
                 await submitted.editReply({
                     content: "Failed to add emoji",
                 });
@@ -143,10 +132,7 @@ const command: MessageContextCommand = {
                 });
                 added.push(`${emoji.toString()} \`${emoji.name}\``);
             } catch (err) {
-                logger.error(
-                    `Failed to add emoji ${info.name}`,
-                    nodeError(err),
-                );
+                logger.error(`Failed to add emoji ${info.name}`, nodeError(err));
                 failed.push(`\`${info.name}\` — failed to add`);
             }
         }
@@ -185,10 +171,7 @@ const command: MessageContextCommand = {
                 });
                 added.push(`sticker **${created.name}**`);
             } catch (err) {
-                logger.error(
-                    `Failed to add sticker ${sticker.name}`,
-                    nodeError(err),
-                );
+                logger.error(`Failed to add sticker ${sticker.name}`, nodeError(err));
                 failed.push(`sticker \`${sticker.name}\` — failed to add`);
             }
         }
