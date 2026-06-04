@@ -45,7 +45,12 @@ bun start
 
 ## Deployment
 
-Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv and secretspec. For the legacy → Kennel cutover runbook (issues, fixes, checklist), see [docs/kennel-migration.md](docs/kennel-migration.md).
+Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv and secretspec ([deploying guide](https://codeberg.org/ScottyLabs/kennel/src/branch/main/sites/docs/src/guides/deploying.md), [secrets guide](https://codeberg.org/ScottyLabs/kennel/src/branch/main/sites/docs/src/guides/secrets.md)).
+
+- **Local:** `devenv up` then `secretspec run --profile dev -- bun run start` (or `devenv processes up`)
+- **Prod:** push to Codeberg `main`; Kennel builds `.#packages.x86_64-linux.dalmatian`
+
+Legacy → Kennel cutover runbook: [docs/kennel-migration.md](docs/kennel-migration.md).
 
 ## Contributing
 
