@@ -60,7 +60,8 @@ const event: Event<Events.MessageReactionAdd> = {
 
             logger.info(`Redirected ${user.tag} reaction to ${message.author.tag}'s message`);
         } catch (error) {
-            logger.error("Error handling message reaction:", nodeError(error));
+            const err = nodeError(error);
+            logger.error(`Error handling message reaction: ${err.message}`);
         }
     },
 };

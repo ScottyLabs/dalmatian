@@ -20,7 +20,9 @@ const event: Event<Events.InteractionCreate> = {
         if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
             const command = client.slashCommands.get(interaction.commandName);
             if (!command) {
-                logger.error(`No command matching "${interaction.commandName}" found`);
+                logger.warn(
+                    `No command matching "${interaction.commandName}" in memory (loaded: ${[...client.slashCommands.keys()].join(", ")})`,
+                );
                 return;
             }
 
@@ -61,7 +63,9 @@ const event: Event<Events.InteractionCreate> = {
         ) {
             const command = client.contextCommands.get(interaction.commandName);
             if (!command) {
-                logger.error(`No context command matching "${interaction.commandName}" found`);
+                logger.warn(
+                    `No context command matching "${interaction.commandName}" in memory (loaded: ${[...client.contextCommands.keys()].join(", ")})`,
+                );
                 return;
             }
 

@@ -28,18 +28,22 @@ const client = new Client({
 client.slashCommands = new Collection();
 client.contextCommands = new Collection();
 
-const handlersDir = join(__dirname, "./handlers");
-readdirSync(handlersDir).forEach(async (handler) => {
-    if (!handler.endsWith(".ts")) return;
+const handlersDir = join(import.meta.dirname, "./handlers");
+const handlerFiles = readdirSync(handlersDir)
+    .filter((handler) => handler.endsWith(".ts"))
+    .sort();
 
+for (const handler of handlerFiles) {
     try {
         const mod = await import(join(handlersDir, handler));
         const fn = mod.default ?? mod;
-        if (typeof fn === "function") fn(client);
+        if (typeof fn === "function") {
+            await fn(client);
+        }
     } catch (err) {
-        logger.error(`Failed to load handler ${handler}:`, nodeError(err));
+        logger.error(`Failed to load handler ${handler}: ${nodeError(err).message}`);
     }
-});
+}
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const origToJSON = EmbedBuilder.prototype.toJSON;

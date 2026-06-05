@@ -2,21 +2,28 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Client, ClientEvents } from "discord.js";
 import type { Event } from "../types.d.ts";
-import { logger } from "../utils/log.ts";
+import { logger, nodeError } from "../utils/log.ts";
 
-export default (client: Client) => {
-    const eventsDir = join(__dirname, "../events");
+const handlersDir = import.meta.dirname;
 
-    readdirSync(eventsDir).forEach((file) => {
-        if (!file.endsWith(".ts")) return;
+export default async (client: Client) => {
+    const eventsDir = join(handlersDir, "../events");
 
-        const event = require(join(eventsDir, file)).default as Event<keyof ClientEvents>;
+    for (const file of readdirSync(eventsDir).sort()) {
+        if (!file.endsWith(".ts")) continue;
 
-        if (event.once) {
-            client.once(event.name, (...args) => event.execute(...args));
-        } else {
-            client.on(event.name, (...args) => event.execute(...args));
+        try {
+            const mod = await import(join(eventsDir, file));
+            const event = (mod.default ?? mod) as Event<keyof ClientEvents>;
+
+            if (event.once) {
+                client.once(event.name, (...args) => event.execute(...args));
+            } else {
+                client.on(event.name, (...args) => event.execute(...args));
+            }
+            logger.info(`Loaded event ${event.name}`);
+        } catch (error) {
+            logger.error(`Failed to load event ${file}: ${nodeError(error).message}`);
         }
-        logger.info(`Loaded event ${event.name}`);
-    });
+    }
 };
