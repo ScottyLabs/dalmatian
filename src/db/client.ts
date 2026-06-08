@@ -1,34 +1,26 @@
-import { SQL } from "bun";
+import postgres, { type Sql } from "postgres";
 
 // Kennel and devenv use unix-socket URLs like postgresql:///dbname?host=/run/postgresql.
-// Bun mishandles that string form and falls back to TCP password auth.
+// postgres.js does not understand that query-string form, so we parse it out and
+// pass the socket directory via the `host` option instead.
 const UNIX_SOCKET_URL = /^postgresql:\/\/(?:[^@/]*@)?\/([^?]+)\?host=(.+)$/;
 
-function clearDatabaseUrl(): void {
-    // Bun still parses DATABASE_URL from the environment when options are passed,
-    // treating ?host= as a Postgres GUC ("unrecognized configuration parameter host").
-    Reflect.deleteProperty(process.env, "DATABASE_URL");
-}
-
-function createSocketClient(database: string, socketPath: string): SQL {
-    clearDatabaseUrl();
-
-    return new SQL({
+function createSocketClient(database: string, socketPath: string): Sql {
+    return postgres({
+        host: socketPath,
         database,
-        path: socketPath,
     });
 }
 
-export function createSqlClient(): SQL {
-    if (process.env.PGHOST) {
-        if (!process.env.PGDATABASE) {
-            throw new Error("PGDATABASE must be set when PGHOST is set");
-        }
+export function createSqlClient(): Sql {
+    const pgHost = Deno.env.get("PGHOST");
+    const pgDatabase = Deno.env.get("PGDATABASE");
 
-        return createSocketClient(process.env.PGDATABASE, process.env.PGHOST);
+    if (pgHost && pgDatabase) {
+        return createSocketClient(pgDatabase, pgHost);
     }
 
-    const databaseUrl = process.env.DATABASE_URL;
+    const databaseUrl = Deno.env.get("DATABASE_URL");
     if (!databaseUrl) {
         throw new Error("DATABASE_URL or PGHOST/PGDATABASE environment variables must be set");
     }
@@ -39,5 +31,5 @@ export function createSqlClient(): SQL {
         return createSocketClient(database, socketPath);
     }
 
-    return new SQL(databaseUrl);
+    return postgres(databaseUrl);
 }

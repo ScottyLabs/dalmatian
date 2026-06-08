@@ -11,7 +11,7 @@ import {
     StickerFormatType,
     TextInputStyle,
 } from "discord.js";
-
+import { Buffer } from "node:buffer";
 import type { MessageContextCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
 
@@ -148,7 +148,7 @@ const command: MessageContextCommand = {
                 continue;
             }
             try {
-                let stickerRes: Response | null = null;
+                let stickerRes = null;
                 let ext: "gif" | "png" = "gif";
                 for (const tryExt of ["gif", "png"] as const) {
                     const res = await fetch(

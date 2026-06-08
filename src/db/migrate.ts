@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/bun-sql";
-import { migrate } from "drizzle-orm/bun-sql/migrator";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { logger, nodeError } from "../utils/log.ts";
 import { createSqlClient } from "./client.ts";
 
@@ -16,7 +16,7 @@ export const runMigrations = async () => {
         logger.fatal("Migration failed:", nodeError(error));
         throw error;
     } finally {
-        await migrationClient.close();
+        await migrationClient.end();
     }
 };
 

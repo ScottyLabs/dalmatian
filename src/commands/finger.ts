@@ -1,4 +1,5 @@
 import { createConnection } from "node:net";
+import { Buffer } from "node:buffer";
 import { codeBlock, EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 

@@ -11,7 +11,7 @@ import CITGenedData from "../data/geneds/CITgeneds.json" with { type: "json" };
 import DCGenedData from "../data/geneds/DCgeneds.json" with { type: "json" };
 import MCSGenedData from "../data/geneds/MCSgeneds.json" with { type: "json" };
 import SCSGenedData from "../data/geneds/SCSgeneds.json" with { type: "json" };
-import type { SlashCommand } from "../types.js";
+import type { SlashCommand } from "../types.d.ts";
 import {
     AdvancedCreditType,
     Exam,

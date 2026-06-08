@@ -10,8 +10,8 @@ import {
     StringSelectMenuInteraction,
 } from "discord.js";
 
-import { DEFAULT_EMBED_COLOR } from "../constants.js";
-import { AdvancedCreditType, SCORE_RANGES } from "./advancedCreditCourseUtils.js";
+import { DEFAULT_EMBED_COLOR } from "../constants.ts";
+import { AdvancedCreditType, SCORE_RANGES } from "./advancedCreditCourseUtils.ts";
 export interface SetupField {
     key: string;
     label: string;
@@ -81,7 +81,7 @@ export class SetupForm {
         await this.handleInteractions();
     }
 
-    private buildComponentForField(field: SetupField): ActionRowBuilder<any> | null {
+    private buildComponentForField(field: SetupField) {
         switch (field.type) {
             case "string":
                 return this.buildStringSelect(field);

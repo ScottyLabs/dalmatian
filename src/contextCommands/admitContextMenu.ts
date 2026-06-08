@@ -7,7 +7,7 @@ import {
     UserContextMenuCommandInteraction,
 } from "discord.js";
 
-import type { UserContextCommand } from "../types.js";
+import type { UserContextCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
 
 const command: UserContextCommand = {

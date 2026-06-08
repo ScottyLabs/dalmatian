@@ -11,7 +11,7 @@ import {
 import type { ContextCommand, SlashCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
 
-const handlersDir = import.meta.dirname;
+const handlersDir = import.meta.dirname!;
 
 async function loadSlashCommands(
     client: Client,

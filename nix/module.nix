@@ -1,21 +1,11 @@
-{ self, bun2nix }:
+{ self }:
 
 { config, lib, pkgs, ... }:
 
 let
   cfg = config.services.dalmatian;
-  bun2nix' = bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-  dalmatianPkg = bun2nix'.writeBunApplication {
-    pname = "dalmatian";
-    version = "0.1.0";
-    src = self;
-    bunDeps = bun2nix'.fetchBunDeps {
-      bunNix = self + "/bun.nix";
-    };
-    startScript = "bun run start";
-    dontUseBunBuild = true;
-  };
+  dalmatianPkg = self.packages.${pkgs.stdenv.hostPlatform.system}.dalmatian;
 in
 {
   options.services.dalmatian = {

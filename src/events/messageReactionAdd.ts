@@ -1,10 +1,4 @@
-import {
-    Events,
-    type MessageReaction,
-    type PartialMessageReaction,
-    type PartialUser,
-    type User,
-} from "discord.js";
+import { Events } from "discord.js";
 import type { Event } from "../types.d.ts";
 import { checkReactionRedirect, recordUserPing } from "../utils/reactionRedirect.ts";
 import { logger, nodeError } from "../utils/log.ts";
@@ -12,7 +6,7 @@ import { logger, nodeError } from "../utils/log.ts";
 const event: Event<Events.MessageReactionAdd> = {
     name: Events.MessageReactionAdd,
     once: false,
-    async execute(reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
+    async execute(reaction, user) {
         try {
             // Ignore bot reactions
             if (user.bot) return;

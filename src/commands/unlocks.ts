@@ -6,7 +6,7 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.js";
+import { SCOTTYLABS_URL } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";

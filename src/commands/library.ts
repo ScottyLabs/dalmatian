@@ -1,5 +1,5 @@
 import { EmbedBuilder, HexColorString, SlashCommandBuilder } from "discord.js";
-import type { SlashCommand } from "../types.js";
+import type { SlashCommand } from "../types.d.ts";
 import { DEFAULT_EMBED_COLOR } from "../constants.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { z } from "zod";

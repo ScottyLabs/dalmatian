@@ -11,34 +11,21 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     devenv.url = "github:cachix/devenv";
-    bun2nix = {
-      url = "github:nix-community/bun2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, devenv, bun2nix, ... }:
+  outputs = { self, nixpkgs, devenv, ... }:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
-      nixosModules.default = import ./nix/module.nix { inherit self bun2nix; };
+      nixosModules.default = import ./nix/module.nix { inherit self; };
       nixosModules.dalmatian = self.nixosModules.default;
 
       packages = forAllSystems (system:
         let
-          bun2nix' = bun2nix.packages.${system}.default;
-          dalmatian = bun2nix'.writeBunApplication {
-            pname = "dalmatian";
-            version = "0.1.0";
-            src = self;
-            bunDeps = bun2nix'.fetchBunDeps {
-              bunNix = self + "/bun.nix";
-            };
-            startScript = "bun run start";
-            dontUseBunBuild = true;
-          };
+          pkgs = nixpkgs.legacyPackages.${system};
+          dalmatian = pkgs.callPackage ./nix/package.nix { };
         in
         {
           inherit dalmatian;

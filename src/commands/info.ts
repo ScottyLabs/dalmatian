@@ -7,8 +7,8 @@ import {
 } from "discord.js";
 import ms from "ms";
 import { z } from "zod";
-import { DEFAULT_EMBED_COLOR } from "../constants.js";
-import type { SlashCommand } from "../types.js";
+import { DEFAULT_EMBED_COLOR } from "../constants.ts";
+import type { SlashCommand } from "../types.d.ts";
 
 const commitSchema = z.array(
     z.object({
@@ -46,17 +46,9 @@ const command: SlashCommand = {
                         new Date(c.commit.committer.date) >
                         new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
                 ) //last 7 days
-                .filter(
-                    (
-                        c,
-                    ): c is typeof c & {
-                        author: NonNullable<typeof c.author>;
-                    } => c.author != null,
+                .flatMap((c) =>
+                    c.author ? [{ username: c.author.login, url: c.author.html_url }] : [],
                 )
-                .map((c) => ({
-                    username: c.author.login,
-                    url: c.author.html_url,
-                }))
                 .filter(
                     (value, index, self) =>
                         index === self.findIndex((t) => t.username === value.username),

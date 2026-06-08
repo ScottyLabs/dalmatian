@@ -11,7 +11,7 @@ import {
     StringSelectMenuBuilder,
     underline,
 } from "discord.js";
-import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.js";
+import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import {

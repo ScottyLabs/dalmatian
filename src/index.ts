@@ -28,7 +28,7 @@ const client = new Client({
 client.slashCommands = new Collection();
 client.contextCommands = new Collection();
 
-const handlersDir = join(import.meta.dirname, "./handlers");
+const handlersDir = join(import.meta.dirname!, "./handlers");
 const handlerFiles = readdirSync(handlersDir)
     .filter((handler) => handler.endsWith(".ts"))
     .sort();
@@ -55,4 +55,4 @@ EmbedBuilder.prototype.toJSON = function (this: EmbedBuilder) {
     return origToJSON.call(this);
 };
 
-await client.login(process.env.DISCORD_TOKEN);
+await client.login(Deno.env.get("DISCORD_TOKEN")!);

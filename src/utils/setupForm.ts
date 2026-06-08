@@ -8,6 +8,7 @@ import {
     ChannelType,
     type ChatInputCommandInteraction,
     ContainerBuilder,
+    type MessageActionRowComponentBuilder,
     MessageFlags,
     ModalBuilder,
     type ModalSubmitInteraction,
@@ -90,7 +91,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         await this.handleInteractions();
     }
 
-    private buildComponentForField(field: SetupField): ActionRowBuilder<any> | null {
+    private buildComponentForField(field: SetupField) {
         switch (field.type) {
             case "channel":
                 return this.buildChannelSelect(field);
@@ -105,7 +106,9 @@ export class SetupForm<T extends z.ZodObject<any>> {
         }
     }
 
-    private buildChannelSelect(field: SetupField): ActionRowBuilder<ChannelSelectMenuBuilder> {
+    private buildChannelSelect(
+        field: SetupField,
+    ): ActionRowBuilder<MessageActionRowComponentBuilder> {
         const select = new ChannelSelectMenuBuilder()
             .setCustomId(`setup:${this.schema.name}:channel:${field.key}`)
             .setPlaceholder(field.label)
@@ -118,7 +121,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
         return new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(select);
     }
 
-    private buildRoleSelect(field: SetupField): ActionRowBuilder<RoleSelectMenuBuilder> {
+    private buildRoleSelect(field: SetupField): ActionRowBuilder<MessageActionRowComponentBuilder> {
         const select = new RoleSelectMenuBuilder()
             .setCustomId(`setup:${this.schema.name}:role:${field.key}`)
             .setPlaceholder(field.label);
@@ -134,7 +137,9 @@ export class SetupForm<T extends z.ZodObject<any>> {
         return new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(select);
     }
 
-    private buildTextInputButton(field: SetupField): ActionRowBuilder<ButtonBuilder> {
+    private buildTextInputButton(
+        field: SetupField,
+    ): ActionRowBuilder<MessageActionRowComponentBuilder> {
         const button = new ButtonBuilder()
             .setCustomId(`setup:${this.schema.name}:input:${field.key}`)
             .setLabel(field.label)

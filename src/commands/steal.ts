@@ -3,13 +3,14 @@ import {
     DiscordAPIError,
     EmbedBuilder,
     parseEmoji,
+    type PartialEmoji,
     RESTJSONErrorCodes,
     SlashCommandBuilder,
     StickerFormatType,
-    PartialEmoji,
     PermissionsBitField,
     GuildMember,
 } from "discord.js";
+import { Buffer } from "node:buffer";
 import type { SlashCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
 
@@ -285,7 +286,7 @@ const command: SlashCommand = {
                             content: "Animated stickers aren't supported yet",
                         });
                     }
-                    let stickerRes: Response | null = null;
+                    let stickerRes = null;
                     let stickerExt: "gif" | "png" = "gif";
                     for (const tryExt of ["gif", "png"] as const) {
                         const res = await fetch(
@@ -315,7 +316,7 @@ const command: SlashCommand = {
 
                 const emojis = [...message.content.matchAll(/<a?:\w+:\d+>/g)]
                     .map((match) => parseEmoji(match[0]))
-                    .filter((e): e is PartialEmoji & { id: string } => e?.id != null);
+                    .filter((e): e is PartialEmoji => e != null && e.id != null);
                 const results: string[] = [];
                 for (const emoji of emojis) {
                     const ext = emoji.animated ? "gif" : "png";

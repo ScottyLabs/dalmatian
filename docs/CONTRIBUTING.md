@@ -30,37 +30,10 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 - `chore: update dependencies to latest versions`
 - `style: format code with biome`
 
-## Code Editor Setup
-
-We recommend using VSCode, and the following setup guide will assume you are using VSCode.
-
-Recommended VSCode extensions:
-
-- VSCode has builtin TypeScript language support
-- [Dependi](https://marketplace.visualstudio.com/items?itemName=fill-labs.dependi)
-- [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome)
-- [Oxc](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode)
-- [Typescript (Native Preview)](https://marketplace.visualstudio.com/items?itemName=typescriptteam.native-preview)
-
-You will also need git installed.
-
-## Creating your .env file
-
-Rename or copy `.env.example` into `.env`.
-
-Create [a new Discord bot](https://discord.com/developers/applications) or use one of your current ones.
-
-In your application, under the Bot tab, reset your token and copy the token for `DISCORD_TOKEN`
-
-Under the OAuth2 tab, grab the client ID for `DISCORD_CLIENT_ID`
-
-The bot will work fine with only the `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` keys. Optionally, you can set up `GOOGLE_MAPS_API_KEY` to debug `formatLocation` in `dining.ts`.
-
-1. Head to [Google Cloud Console](https://console.cloud.google.com/) and create a new project.
-1. In `APIs & Services`, enable the `Maps Javascript API` and `Maps Static API` products.
-1. Get a key from `Keys & Credentials` to input into `GOOGLE_MAPS_API_KEY`.
-
 ## Database Setup
+
+> [!WARNING]
+> This section is outdated and in need of attention. Please use this information with caution, and consider sending patches to update it.
 
 The bot uses PostgreSQL for storing polls and reaction redirect configurations. The database runs in Docker for local development.
 
@@ -94,10 +67,10 @@ bun run db:migrate
 
 Before you commit and open a pull request, make sure to:
 
-- Run `bun lint` and fix any errors/warnings
-- Run `bun format` to format your code
-- Run `bun test` to ensure all tests pass
-- Test your changes on your Discord bot by running `bun start`
+- Run `deno run lint` and fix any errors/warnings
+- Run `deno run format` to format your code
+- Run `deno run test` to ensure all tests pass
+- Test your changes on your Discord bot by running `devenv up`
 - Ensure your commits follow the conventional commit format
 - Update documentation if you added/changed features
 

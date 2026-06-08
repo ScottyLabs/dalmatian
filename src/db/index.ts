@@ -1,4 +1,4 @@
-import { drizzle } from "drizzle-orm/bun-sql";
+import { drizzle } from "drizzle-orm/postgres-js";
 import { createSqlClient } from "./client.ts";
 
 const client = createSqlClient();
@@ -9,11 +9,11 @@ export * from "./schema.ts";
 
 // Shutdown handlers
 process.on("SIGINT", async () => {
-    await client.close();
+    await client.end();
     process.exit(0);
 });
 
 process.on("SIGTERM", async () => {
-    await client.close();
+    await client.end();
     process.exit(0);
 });

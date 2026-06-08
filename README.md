@@ -10,47 +10,37 @@ Dalmatian is a Discord bot designed for CMU students, providing easy access to c
 
 ### Prerequisites
 
-- [Bun](https://bun.com/docs/installation) - JavaScript runtime and package manager
-- [Docker](https://docs.docker.com/get-docker/) - For running PostgreSQL database
+- [devenv](https://devenv.sh/getting-started/) - Developer environment
+- [direnv](https://direnv.net/docs/installation.html) - shell extension (that we use for devenv)
+
+(You'll need Nix as well, but devenv gives you that command.)
 
 ### Setup
 
-For detailed setup instructions including creating a Discord bot, obtaining API credentials, and configuring your development environment, see [CONTRIBUTING.md](CONTRIBUTING.md).
+For detailed setup instructions including creating a Discord bot, obtaining API credentials, and configuring your development environment, see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
 **Quick setup:**
 
-1. Install Bun and Docker (see links above)
-1. Create a Discord bot at https://discord.com/developers/applications
+1. Install devenv and direnv (see links above)
+1. Create a Discord bot at [https://discord.com/developers/applications]
 1. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`
 
 ### Running the Bot
 
 ```bash
-# 1. Install dependencies
-bun install
-
-# 2. Set up environment variables (see CONTRIBUTING.md for details)
+# Set up environment variables (see CONTRIBUTING.md for details)
 cp .env.example .env
 # Edit .env with your Discord bot credentials
 
-# 3. Set up the database
-docker compose up -d postgres
-bun run db:migrate
-
-# 4. Start the bot
-bun start
+# Start the environment
+devenv up
 ```
 
 <!--TODO: ## Project Structure-->
 
 ## Deployment
 
-Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv and secretspec ([deploying guide](https://codeberg.org/ScottyLabs/kennel/src/branch/main/sites/docs/src/guides/deploying.md), [secrets guide](https://codeberg.org/ScottyLabs/kennel/src/branch/main/sites/docs/src/guides/secrets.md)).
-
-- **Local:** `devenv up` then `secretspec run --profile dev -- bun run start` (or `devenv processes up`)
-- **Prod:** push to Codeberg `main`; Kennel builds `.#packages.x86_64-linux.dalmatian`
-
-Legacy → Kennel cutover runbook: [docs/kennel-migration.md](docs/kennel-migration.md).
+Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv and secretspec.
 
 ## Contributing
 

@@ -1,31 +1,27 @@
-{ pkgs, inputs, ... }:
+{ pkgs, lib, inputs, ... }:
 {
   imports = [
     inputs.scottylabs.devenvModules.default
   ];
 
+  git-hooks.hooks.oxlint.settings.deny = lib.mkForce [ "correctness" ];
+
   scottylabs = {
     enable = true;
     project.name = "dalmatian";
 
-    bun.enable = true;
+    deno.enable = true;
     postgres.enable = true;
     secrets.enable = true;
 
     kennel.services.dalmatian = { };
   };
 
-  processes.dalmatian.exec = "secretspec run --profile dev -- bun run start";
+  cachix.enable = false;
 
-  env = {
-    VAULT_ADDR = "https://secrets2.scottylabs.org";
-    SECRETSPEC_PROFILE = "dev";
-    SECRETSPEC_PROVIDER = "vault://secrets2.scottylabs.org/secret";
-  };
+  processes.dalmatian.exec = "secretspec run --profile dev -- deno run start";
 
-  packages = [
-    inputs.bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
+  env.VAULT_ADDR = "https://secrets2.scottylabs.org";
 
   treefmt.config.settings.global.excludes = [
     "src/data/**"

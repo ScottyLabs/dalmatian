@@ -296,7 +296,7 @@ function buildFCEStartupCache(fceDataByCourse: Record<string, FCEData>): FCEStar
 }
 
 function loadFCEData(): Record<string, FCEData> {
-    const csvPath = join(__dirname, "../data/fce_data.csv");
+    const csvPath = join(import.meta.dirname!, "../data/fce_data.csv");
     const csvContent = readFileSync(csvPath, "utf-8");
 
     const records = parse(csvContent, {
