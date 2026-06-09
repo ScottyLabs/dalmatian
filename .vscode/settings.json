@@ -29,5 +29,6 @@
     "typescript.experimental.useTsgo": false,
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "oxc.enable": true,
+    "deno.enable": true,
     "files.insertFinalNewline": true
 }

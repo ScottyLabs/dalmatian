@@ -63,6 +63,8 @@ const command: SlashCommand = {
                     : "No contributors in the last 7 days";
         }
 
+        const commitHash = Deno.env.get("COMMIT_HASH");
+
         const embed = new EmbedBuilder()
             .setTitle("Info about dalmatian")
             .setColor(DEFAULT_EMBED_COLOR)
@@ -89,8 +91,8 @@ const command: SlashCommand = {
                     name: "Latest Contributors",
                     value:
                         contributors +
-                        (process.env["COMMIT_HASH"]
-                            ? `\n\n-# commit [\`${process.env["COMMIT_HASH"].slice(0, 7)}\`](https://codeberg.org/ScottyLabs/dalmatian/commit/${process.env["COMMIT_HASH"]})`
+                        (commitHash
+                            ? `\n\n-# commit [\`${commitHash.slice(0, 7)}\`](https://codeberg.org/ScottyLabs/dalmatian/commit/${commitHash})`
                             : ""),
                 },
             );

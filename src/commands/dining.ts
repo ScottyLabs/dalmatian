@@ -187,7 +187,7 @@ function formatLocationEmbed(location: Location): EmbedBuilder {
         )
         .setURL(location.url);
 
-    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinateLat},${location.coordinateLng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinateLat},${location.coordinateLng}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinateLat},${location.coordinateLng}&zoom=17&size=400x200&markers=color:red%7C${location.coordinateLat},${location.coordinateLng}&key=${Deno.env.get("GOOGLE_MAPS_API_KEY")}`;
     embed.setImage(mapUrl);
 
     return embed;
