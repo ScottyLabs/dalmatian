@@ -23,9 +23,9 @@ export const runMigrations = async () => {
 // Run directly if this is the main module
 if (import.meta.main) {
     runMigrations()
-        .then(() => process.exit(0))
+        .then(() => Deno.exit(0))
         .catch((err) => {
             logger.fatal("Migration error:", nodeError(err));
-            process.exit(1);
+            Deno.exit(1);
         });
 }

@@ -8,12 +8,12 @@ export const db = drizzle({ client });
 export * from "./schema.ts";
 
 // Shutdown handlers
-process.on("SIGINT", async () => {
+Deno.addSignalListener("SIGINT", async () => {
     await client.end();
-    process.exit(0);
+    Deno.exit(0);
 });
 
-process.on("SIGTERM", async () => {
+Deno.addSignalListener("SIGTERM", async () => {
     await client.end();
-    process.exit(0);
+    Deno.exit(0);
 });
