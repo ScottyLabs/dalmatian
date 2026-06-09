@@ -3,11 +3,13 @@
   "specifiers": {
     "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/expect@*": "1.0.19",
+    "jsr:@std/expect@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.14",
     "jsr:@std/internal@^1.0.13": "1.0.14",
     "jsr:@std/internal@^1.0.14": "1.0.14",
     "jsr:@std/path@^1.1.4": "1.1.5",
     "jsr:@std/testing@*": "1.0.19",
+    "jsr:@std/testing@1": "1.0.19",
     "npm:@biomejs/biome@*": "2.4.16",
     "npm:@logtape/logtape@^2.1.1": "2.1.1",
     "npm:csv-parse@^6.1.0": "6.2.1",
@@ -674,6 +676,8 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@std/expect@1",
+      "jsr:@std/testing@1",
       "npm:@logtape/logtape@^2.1.1",
       "npm:csv-parse@^6.1.0",
       "npm:discord.js@14.24.0",

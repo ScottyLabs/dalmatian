@@ -20,7 +20,7 @@ jobs:
           cache: true
 
       - name: Cache dependencies
-        run: deno cache --frozen src/index.ts
+        run: deno cache --frozen src/index.ts tests/*.test.ts
 
       - name: Type check
         run: deno check src/
@@ -35,3 +35,6 @@ jobs:
           TSGO_BIN=$(find "$DENO_DIR/npm/registry.npmjs.org/@oxlint-tsgolint/$PLATFORM" -name tsgolint -type f | head -1)
           export PATH="$(dirname "$TSGO_BIN"):$PATH"
           deno task lint
+
+      - name: Test
+        run: deno task test
