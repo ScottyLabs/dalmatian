@@ -8,6 +8,7 @@ result
 result-*
 
 .env
+devenv.local.nix
 .DS_Store
 .claude/
 .mcp.json
