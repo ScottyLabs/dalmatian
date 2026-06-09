@@ -46,8 +46,14 @@ let
   # We run a throwaway `deno compile` (output discarded) purely to warm the cache
   # the same way the real build does, so denort + every dependency is present.
   #
-  # If you change dependencies (or the deno version), update the hash below: set
-  # it to `lib.fakeHash`, run the build once, and copy the "got:" hash here.
+  # The cache contents are platform-specific: `deno compile` downloads the
+  # denort runtime for the build platform, and npm packages with native
+  # binaries (e.g. biome) only cache the matching platform variant. So the
+  # output hash must be pinned per system below.
+  #
+  # If you change dependencies (or the deno version), update the hash for each
+  # system: set it to `lib.fakeHash`, run the build once, and copy the "got:"
+  # hash here.
   #
   # Deno's cache includes non-reproducible artifacts (analysis cache, registry
   # JSON key ordering). We strip/normalize those in postBuild so the FOD hash is
@@ -85,7 +91,9 @@ let
     # The cache is content-addressed, so this is a fixed-output derivation.
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-q8OUvNCrRtcZOaTbBUgMUpLvIKYO0qBgHPFgYkbu6y8=";
+    outputHash = {
+      x86_64-linux = "sha256-9kvZuttdCJe2GYOuuWWH2lbpVhon5HAzLC8mitWThMA=";
+    }.${stdenvNoCC.hostPlatform.system} or lib.fakeHash;
   };
 in
 stdenvNoCC.mkDerivation {
