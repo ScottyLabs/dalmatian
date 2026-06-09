@@ -26,8 +26,6 @@
         "drizzle/**": true
     },
     "biome.lsp.bin": "./node_modules/.bin/biome",
-    "typescript.experimental.useTsgo": false,
-    "typescript.preferences.importModuleSpecifier": "non-relative",
     "oxc.enable": true,
     "deno.enable": true,
     "files.insertFinalNewline": true
