@@ -65,7 +65,7 @@ export default async (client: Client) => {
         `Loaded ${slashCommands.length} slash commands and ${contextCommands.length} context commands`,
     );
 
-    const rest = new REST().setToken(process.env.DISCORD_TOKEN);
+    const rest = new REST().setToken(Deno.env.get("DISCORD_TOKEN")!);
 
     try {
         logger.info("Started refreshing application commands.");
@@ -75,7 +75,7 @@ export default async (client: Client) => {
             ...contextCommands.map((command) => command.toJSON()),
         ];
 
-        const data = await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), {
+        const data = await rest.put(Routes.applicationCommands(Deno.env.get("DISCORD_CLIENT_ID")!), {
             body: allCommands,
         });
 

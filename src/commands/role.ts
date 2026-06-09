@@ -3,7 +3,6 @@ import {
     EmbedBuilder,
     escapeMarkdown,
     GuildMember,
-    MessageFlags,
     SlashCommandBuilder,
     userMention,
 } from "discord.js";
@@ -56,6 +55,8 @@ const command: SlashCommand = {
                 content: "This command can only be used in a server.",
             });
         }
+
+        await interaction.deferReply();
 
         //Check for member count mismatch, as Discord.js may slightly drift due to sharding behaviour
         await interaction.guild.fetch(); //discord.js dosen't guarantee we have up to date member count after shard reconnects, so we fetch the guild to get the latest member count, this is a non-expensive operation
@@ -115,7 +116,7 @@ const command: SlashCommand = {
 
         const singleRole = interaction.guild.roles.cache.find((r) => r.name === roleString);
 
-        const roleColor = singleRole?.colors.primaryColor;
+        const roleColor = singleRole?.colors?.primaryColor;
 
         let members: GuildMember[];
         try {
@@ -129,9 +130,8 @@ const command: SlashCommand = {
                 universe,
             );
         } catch (error) {
-            return interaction.reply({
+            return interaction.editReply({
                 content: `${(error as Error).message}`,
-                flags: MessageFlags.Ephemeral,
             });
         }
 
@@ -187,7 +187,7 @@ const command: SlashCommand = {
                 .setDescription(`${members.length} members`);
 
             if (roleColor) embed.setColor(roleColor);
-            return interaction.reply({ embeds: [embed] });
+            return interaction.editReply({ embeds: [embed] });
         }
     },
 
