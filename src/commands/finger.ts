@@ -1,35 +1,26 @@
-import { createConnection } from "node:net";
-import { Buffer } from "node:buffer";
 import { codeBlock, EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 
 const DEFAULT_HOST = "andrew.cmu.edu";
 
-function finger(user: string, host: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const socket = createConnection({ host, port: 79 }, () => {
-            socket.write(`${user}\r\n`);
-        });
+async function finger(user: string, host: string): Promise<string> {
+    const conn = await Deno.connect({ hostname: host, port: 79 });
 
-        const chunks: Buffer[] = [];
+    let timedOut = false;
+    const timeout = setTimeout(() => {
+        timedOut = true;
+        conn.close();
+    }, 10_000);
 
-        socket.on("data", (data: Buffer) => {
-            chunks.push(data);
-        });
-
-        socket.on("end", () => {
-            resolve(Buffer.concat(chunks).toString("utf-8"));
-        });
-
-        socket.on("error", (err: Error) => {
-            reject(err);
-        });
-
-        socket.setTimeout(10_000, () => {
-            socket.destroy();
-            reject(new Error("Connection timed out"));
-        });
-    });
+    try {
+        await conn.write(new TextEncoder().encode(`${user}\r\n`));
+        return await new Response(conn.readable).text();
+    } catch (err) {
+        if (timedOut) throw new Error("Connection timed out");
+        throw err;
+    } finally {
+        clearTimeout(timeout);
+    }
 }
 
 const command: SlashCommand = {

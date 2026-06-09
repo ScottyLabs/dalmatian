@@ -70,7 +70,7 @@ const command: SlashCommand = {
             .addFields(
                 {
                     name: "Uptime",
-                    value: ms(Math.floor(process.uptime()) * 1000, {
+                    value: ms(Math.floor(performance.now()), {
                         long: true,
                     }),
                 },
