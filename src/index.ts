@@ -55,10 +55,4 @@ EmbedBuilder.prototype.toJSON = function (this: EmbedBuilder) {
     return origToJSON.call(this);
 };
 
-const discordToken = process.env.DISCORD_TOKEN;
-if (!discordToken) {
-    logger.fatal("DISCORD_TOKEN environment variable is required");
-    process.exit(1);
-}
-
-await client.login(discordToken);
+await client.login(Deno.env.get("DISCORD_TOKEN")!);
