@@ -13,14 +13,14 @@ function createSocketClient(database: string, socketPath: string): Sql {
 }
 
 export function createSqlClient(): Sql {
-    const pgHost = Deno.env.get("PGHOST");
-    const pgDatabase = Deno.env.get("PGDATABASE");
+    const pgHost = process.env.PGHOST;
+    const pgDatabase = process.env.PGDATABASE;
 
     if (pgHost && pgDatabase) {
         return createSocketClient(pgDatabase, pgHost);
     }
 
-    const databaseUrl = Deno.env.get("DATABASE_URL");
+    const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
         throw new Error("DATABASE_URL or PGHOST/PGDATABASE environment variables must be set");
     }
