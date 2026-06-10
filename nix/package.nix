@@ -1,9 +1,8 @@
 { lib
-, stdenv
 , stdenvNoCC
 , deno
 , jq
-, autoPatchelfHook
+, makeWrapper
 ,
 }:
 
@@ -101,46 +100,30 @@ let
     }.${stdenvNoCC.hostPlatform.system} or lib.fakeHash;
   };
 in
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   inherit pname version src;
 
-  nativeBuildInputs = [ deno autoPatchelfHook ];
-  buildInputs = [ stdenv.cc.cc.lib ];
+  nativeBuildInputs = [ deno makeWrapper ];
 
-  configurePhase = ''
-    runHook preConfigure
-
-    # deno compile needs a writable cache, so copy the FOD output in.
-    cp -r ${deps} ./.deno-dir
-    chmod -R u+w ./.deno-dir
-    export DENO_DIR="$PWD/.deno-dir"
-    export HOME="$TMPDIR"
-
-    runHook postConfigure
-  '';
-
-  buildPhase = ''
-    runHook preBuild
-
-    # --no-check mirrors the `start` task (`deno run`), which does not
-    # type-check. The codebase has pre-existing strictness errors that only
-    # surface under `deno check`/`deno compile`'s default type checking.
-    deno compile \
-      --cached-only \
-      --frozen \
-      --no-check \
-      --allow-all \
-      ${compileIncludeFlags} \
-      --output ${pname} \
-      src/index.ts
-
-    runHook postBuild
-  '';
+  dontConfigure = true;
+  dontBuild = true;
 
   installPhase = ''
     runHook preInstall
 
-    install -Dm755 ${pname} $out/bin/${pname}
+    app=$out/share/${pname}
+    mkdir -p $app $out/bin
+
+    cp deno.json deno.lock $app/
+    cp -r src $app/
+    cp -r ${deps} $app/.deno-dir
+
+    # deno compile + autoPatchelf corrupts Deno's embedded standalone section on
+    # NixOS; run from source with a pre-populated offline cache instead.
+    makeWrapper ${deno}/bin/deno $out/bin/${pname} \
+      --set DENO_DIR "$app/.deno-dir" \
+      --add-flags "run --cached-only --frozen --no-check --allow-all src/index.ts" \
+      --chdir "$app"
 
     runHook postInstall
   '';
