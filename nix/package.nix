@@ -78,6 +78,8 @@ let
       export DENO_DIR="$out"
       export HOME="$TMPDIR"
 
+      deno cache --frozen src/index.ts
+
       deno compile \
         --frozen \
         --no-check \

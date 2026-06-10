@@ -21,7 +21,6 @@
         "drizzle-orm/pg-core": "npm:drizzle-orm@1.0.0-rc.3/pg-core",
         "drizzle-orm/postgres-js": "npm:drizzle-orm@1.0.0-rc.3/postgres-js",
         "drizzle-orm/postgres-js/migrator": "npm:drizzle-orm@1.0.0-rc.3/postgres-js/migrator",
-        "drizzle-zod": "npm:drizzle-zod@^0.8.3",
         "fast-fuzzy": "npm:fast-fuzzy@^1.12.0",
         "ms": "npm:ms@^2.1.3",
         "postgres": "npm:postgres@^3.4.5",
