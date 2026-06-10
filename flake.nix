@@ -19,9 +19,6 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
-      nixosModules.default = import ./nix/module.nix { inherit self; };
-      nixosModules.dalmatian = self.nixosModules.default;
-
       packages = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
