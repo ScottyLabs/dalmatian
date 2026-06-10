@@ -3,6 +3,7 @@
 , stdenvNoCC
 , deno
 , jq
+, autoPatchelfHook
 ,
 }:
 
