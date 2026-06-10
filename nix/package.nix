@@ -16,6 +16,7 @@ let
       in !(builtins.elem base [
         ".devenv"
         ".direnv"
+        ".env"
         "build"
         "result"
         ".git"
