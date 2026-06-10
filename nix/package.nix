@@ -115,7 +115,7 @@ stdenvNoCC.mkDerivation {
     mkdir -p $app $out/bin
 
     cp deno.json deno.lock $app/
-    cp -r src $app/
+    cp -r src drizzle $app/
     cp -r ${deps} $app/.deno-dir
 
     # deno compile + autoPatchelf corrupts Deno's embedded standalone section on
