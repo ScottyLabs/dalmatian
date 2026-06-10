@@ -1,4 +1,5 @@
 { lib
+, stdenv
 , stdenvNoCC
 , deno
 , jq
@@ -99,10 +100,11 @@ let
     }.${stdenvNoCC.hostPlatform.system} or lib.fakeHash;
   };
 in
-stdenvNoCC.mkDerivation {
+stdenv.mkDerivation {
   inherit pname version src;
 
-  nativeBuildInputs = [ deno ];
+  nativeBuildInputs = [ deno autoPatchelfHook ];
+  buildInputs = [ stdenv.cc.cc.lib ];
 
   configurePhase = ''
     runHook preConfigure
