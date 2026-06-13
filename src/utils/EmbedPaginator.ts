@@ -8,6 +8,7 @@ import {
     MessageComponentInteraction,
     MessageFlags,
 } from "discord.js";
+import { logger, nodeError } from "./log.ts";
 
 export class EmbedPaginator {
     /** An array of pages, where each page is an array of embeds. */
@@ -192,7 +193,20 @@ export class EmbedPaginator {
                 row.components.forEach((c) => c.setDisabled(true));
             });
 
-            await response?.edit({ components });
+            // Uses interaction since that is still valid (15 mins until expiry)
+            // Notably, interaction contains the original token and not the message object like response, so webhook based instead of needing channel to be cached
+            try {
+                await interaction.editReply({ components });
+            } catch (err1) {
+                // This really shouldn't trigger, but it's some fallback logic
+                try {
+                    await response.edit({ components });
+                } catch (err2) {
+                    logger.error(
+                        `Failed to disable paginator components on timeout with ${nodeError(err1).message} and ${nodeError(err2).message}`,
+                    );
+                }
+            }
         });
     }
 }
