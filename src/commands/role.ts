@@ -10,7 +10,11 @@ import {
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { logger, nodeError } from "../utils/log.ts";
-import { parseAndEvaluate } from "../utils/operatorParser.ts";
+import {
+    BasicOperatorExecutionContext,
+    parseAndEvaluate,
+} from "../utils/parser/basicOperatorParser.ts";
+import { ParserError } from "../utils/parser/errors.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -121,16 +125,30 @@ const command: SlashCommand = {
         try {
             members = parseAndEvaluate<string, GuildMember>(
                 roleString,
-                (value) => {
-                    return value;
-                },
-                lookup,
-                equals,
-                universe,
+                new BasicOperatorExecutionContext<string, GuildMember>(
+                    (value) => {
+                        return value;
+                    },
+                    lookup,
+                    equals,
+                    universe,
+                ),
             );
         } catch (error) {
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
+            const locationInfo =
+                error instanceof ParserError && error.sourceLocation.index >= 0
+                    ? ` at index ${error.sourceLocation.index}`
+                    : "";
             return interaction.reply({
-                content: `${(error as Error).message}`,
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Error parsing role string")
+                        .setDescription(
+                            `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
+                        ),
+                ],
                 flags: MessageFlags.Ephemeral,
             });
         }
