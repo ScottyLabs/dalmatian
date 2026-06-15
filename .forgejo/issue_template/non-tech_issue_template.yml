@@ -4,21 +4,21 @@ description: (Non-Technical) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
 labels: ["needs-triage"]
 body:
-    - type: markdown
-      attributes:
-          value: "## Feature Request or Bug Report"
+  - type: markdown
+    attributes:
+      value: "## Feature Request or Bug Report"
 
-    - type: textarea
-      id: request
-      attributes:
-          label: Description
-          description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
-          placeholder: "e.g. The transition between the about and help page stutters randomly. Fix this bug if possible."
-      validations:
-          required: true
-    - type: markdown
-      attributes:
-          value: |
-              ### Help & Resources
-              - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
-              - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)
+  - type: textarea
+    id: request
+    attributes:
+      label: Description
+      description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
+      placeholder: "e.g. The transition between the about and help page stutters randomly. Fix this bug if possible."
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### Help & Resources
+        - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
+        - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)

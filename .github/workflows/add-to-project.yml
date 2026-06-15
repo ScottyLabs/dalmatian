@@ -1,102 +1,102 @@
 name: Add issue to project and set fields
 
 on:
-    issues:
-        types: [opened]
+  issues:
+    types: [opened]
 
 jobs:
-    add-to-project:
-        if: github.server_url == 'https://github.com'
-        runs-on: ubuntu-latest
-        steps:
-            - name: Add to project
-              uses: actions/add-to-project@v1.0.2
-              id: add-project
-              with:
-                  project-url: https://github.com/orgs/ScottyLabs/projects/20
-                  github-token: ${{ secrets.PROJECT_TOKEN }}
+  add-to-project:
+    if: github.server_url == 'https://github.com'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to project
+        uses: actions/add-to-project@v1.0.2
+        id: add-project
+        with:
+          project-url: https://github.com/orgs/ScottyLabs/projects/20
+          github-token: ${{ secrets.PROJECT_TOKEN }}
 
-            - name: Parse issue body fields
-              id: parse
-              uses: actions/github-script@v7
-              with:
-                  script: |
-                      const body = context.payload.issue.body || '';
+      - name: Parse issue body fields
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
 
-                      const extract = (label) => {
-                        const regex = new RegExp(`### ${label}\\s*\\n([^#]+)`);
-                        const match = body.match(regex);
-                        return match ? match[1].trim() : null;
-                      };
+            const extract = (label) => {
+              const regex = new RegExp(`### ${label}\\s*\\n([^#]+)`);
+              const match = body.match(regex);
+              return match ? match[1].trim() : null;
+            };
 
-                      // Single-select fields
-                      core.setOutput('size', extract('Size'));
-                      core.setOutput('priority', extract('Priority'));
-                      core.setOutput('status', extract('Status'));
+            // Single-select fields
+            core.setOutput('size', extract('Size'));
+            core.setOutput('priority', extract('Priority'));
+            core.setOutput('status', extract('Status'));
 
-                      // Multi-select: parse checked checkboxes
-                      const labelBlock = extract('Labels');
-                      const selectedLabels = labelBlock
-                        ? labelBlock
-                            .split('\n')
-                            .filter(l => /- \[x\]/i.test(l))
-                            .map(l => l.replace(/- \[x\]\s*/i, '').trim())
-                        : [];
+            // Multi-select: parse checked checkboxes
+            const labelBlock = extract('Labels');
+            const selectedLabels = labelBlock
+              ? labelBlock
+                  .split('\n')
+                  .filter(l => /- \[x\]/i.test(l))
+                  .map(l => l.replace(/- \[x\]\s*/i, '').trim())
+              : [];
 
-                      core.setOutput('labels', JSON.stringify(selectedLabels));
+            core.setOutput('labels', JSON.stringify(selectedLabels));
 
-            - name: Apply labels to issue
-              uses: actions/github-script@v7
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  script: |
-                      const labels = JSON.parse('${{ steps.parse.outputs.labels }}');
-                      if (labels.length === 0) return;
+      - name: Apply labels to issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labels = JSON.parse('${{ steps.parse.outputs.labels }}');
+            if (labels.length === 0) return;
 
-                      await github.rest.issues.addLabels({
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        issue_number: context.payload.issue.number,
-                        labels
-                      });
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels
+            });
 
-            - name: Set project fields
-              uses: actions/github-script@v7
-              env:
-                  PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
-              with:
-                  github-token: ${{ secrets.PROJECT_TOKEN }}
-                  script: |
-                      const projectId = 'PVT_kwDOABVDIs4BM2pz';
-                      const itemId = '${{ steps.add-project.outputs.itemId }}';
+      - name: Set project fields
+        uses: actions/github-script@v7
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        with:
+          github-token: ${{ secrets.PROJECT_TOKEN }}
+          script: |
+            const projectId = 'PVT_kwDOABVDIs4BM2pz';
+            const itemId = '${{ steps.add-project.outputs.itemId }}';
 
-                      const fields = [
-                        { key: 'size',     id: 'PVTSSF_lADOABVDIs4BM2pzzg8BJrc',     value: `${{ steps.parse.outputs.size }}`     },
-                        { key: 'priority', id: 'PVTSSF_lADOABVDIs4BM2pzzg8BJrY', value: `${{ steps.parse.outputs.priority }}` },
-                        { key: 'status',   id: 'PVTSSF_lADOABVDIs4BM2pzzg8BJho',   value: `${{ steps.parse.outputs.status }}`   },
-                      ];
+            const fields = [
+              { key: 'size',     id: 'PVTSSF_lADOABVDIs4BM2pzzg8BJrc',     value: `${{ steps.parse.outputs.size }}`     },
+              { key: 'priority', id: 'PVTSSF_lADOABVDIs4BM2pzzg8BJrY', value: `${{ steps.parse.outputs.priority }}` },
+              { key: 'status',   id: 'PVTSSF_lADOABVDIs4BM2pzzg8BJho',   value: `${{ steps.parse.outputs.status }}`   },
+            ];
 
-                      // Map option name -> option ID for each field
-                      // You need to pre-fetch these from the GraphQL query and hardcode them
-                      const optionIds = {
-                        size:     { XS: 'eff732af', S: '9592a5a3', M: '9728cbdc', L: 'c53df028', XL: '7b141a16' },
-                        priority: { P0: '79628723', P1: '0a877460', P2: 'da944a9c' },
-                        status:   { Ready: '08afe404', 'In progress': '47fc9ee4', Backlog: 'f75ad846', Done: '98236657' },
-                      };
+            // Map option name -> option ID for each field
+            // You need to pre-fetch these from the GraphQL query and hardcode them
+            const optionIds = {
+              size:     { XS: 'eff732af', S: '9592a5a3', M: '9728cbdc', L: 'c53df028', XL: '7b141a16' },
+              priority: { P0: '79628723', P1: '0a877460', P2: 'da944a9c' },
+              status:   { Ready: '08afe404', 'In progress': '47fc9ee4', Backlog: 'f75ad846', Done: '98236657' },
+            };
 
-                      for (const field of fields) {
-                        if (!field.value) continue;
-                        const optionId = optionIds[field.key][field.value];
-                        if (!optionId) continue;
+            for (const field of fields) {
+              if (!field.value) continue;
+              const optionId = optionIds[field.key][field.value];
+              if (!optionId) continue;
 
-                        await github.graphql(`
-                          mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
-                            updateProjectV2ItemFieldValue(input: {
-                              projectId: $projectId
-                              itemId: $itemId
-                              fieldId: $fieldId
-                              value: { singleSelectOptionId: $optionId }
-                            }) { projectV2Item { id } }
-                          }
-                        `, { projectId, itemId, fieldId: field.id, optionId });
-                      }
+              await github.graphql(`
+                mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: $projectId
+                    itemId: $itemId
+                    fieldId: $fieldId
+                    value: { singleSelectOptionId: $optionId }
+                  }) { projectV2Item { id } }
+                }
+              `, { projectId, itemId, fieldId: field.id, optionId });
+            }
