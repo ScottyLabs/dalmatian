@@ -2,6 +2,7 @@ node_modules/
 build/
 .devenv/
 .devenv.flake.nix
+devenv.local.nix
 .direnv/
 .pre-commit-config.yaml
 result
