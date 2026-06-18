@@ -11,7 +11,7 @@ import type { SlashCommand } from "../types.d.ts";
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("redirect-remove")
-        .setDescription("Remove a reaction redirect configuration (admin only)")
+        .setDescription("Remove a reaction redirect configuration")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addIntegerOption((option) =>
             option

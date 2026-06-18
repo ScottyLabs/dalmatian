@@ -27,7 +27,7 @@ type RedirectSetupData = z.infer<typeof redirectSetupSchema>;
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("redirect-setup")
-        .setDescription("Configure reaction redirect for a channel (admin only)")
+        .setDescription("Configure reaction redirect for a channel")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction: ChatInputCommandInteraction) {

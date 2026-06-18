@@ -13,7 +13,7 @@ import { displayEmoji } from "../utils/setupForm.ts";
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("redirect-list")
-        .setDescription("List all reaction redirect configurations (admin only)")
+        .setDescription("List all reaction redirect configurations")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction: ChatInputCommandInteraction) {
