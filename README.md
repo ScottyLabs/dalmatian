@@ -44,4 +44,4 @@ Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv a
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you contribute to this project!
+Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) before you contribute to this project!
