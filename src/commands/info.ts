@@ -32,7 +32,9 @@ const command: SlashCommand = {
     async execute(interaction) {
         await interaction.deferReply();
 
-        const commitRaw = await fetch("https://api.github.com/repos/scottylabs/dalmatian/commits")
+        const commitRaw = await fetch(
+            "https://codeberg.org/api/v1/repos/ScottyLabs/dalmatian/commits",
+        )
             .then((f) => f.json())
             .catch((_) => undefined);
 
@@ -88,20 +90,20 @@ const command: SlashCommand = {
                     value:
                         contributors +
                         (process.env["COMMIT_HASH"]
-                            ? `\n\n-# commit [\`${process.env["COMMIT_HASH"].slice(0, 7)}\`](https://github.com/ScottyLabs/dalmatian/commit/${process.env["COMMIT_HASH"]})`
+                            ? `\n\n-# commit [\`${process.env["COMMIT_HASH"].slice(0, 7)}\`](https://codeberg.org/ScottyLabs/dalmatian/commit/${process.env["COMMIT_HASH"]})`
                             : ""),
                 },
             );
 
         const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
             new ButtonBuilder()
-                .setLabel("Github Repo")
+                .setLabel("Codeberg Repo")
                 .setStyle(ButtonStyle.Link)
-                .setURL("https://github.com/ScottyLabs/dalmatian"),
+                .setURL("https://codeberg.org/ScottyLabs/dalmatian"),
             new ButtonBuilder()
                 .setLabel("Bug Report")
                 .setStyle(ButtonStyle.Link)
-                .setURL("https://github.com/ScottyLabs/dalmatian/issues/new"),
+                .setURL("https://codeberg.org/ScottyLabs/dalmatian/issues/new"),
         );
 
         await interaction.followUp({
