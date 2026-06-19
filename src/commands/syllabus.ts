@@ -1,6 +1,6 @@
 import { EmbedBuilder, hyperlink, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { SCOTTYLABS_URL } from "../constants.ts";
-import SyllabiData from "../data/course-api.syllabi.json" with { type: "json" };
+import SyllabiData from "../data/courseSyllabi.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { FCE_DATA_BY_COURSE } from "../utils/fceCache.ts";

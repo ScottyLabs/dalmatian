@@ -1,4 +1,4 @@
-import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+import CoursesData from "../data/courseCatalog.json" with { type: "json" };
 
 export type Session = {
     term: string;

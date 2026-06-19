@@ -1,6 +1,6 @@
 import { APIEmbedField, EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { search } from "fast-fuzzy";
-import diningLocationData from "../data/diningLocationData.json" with { type: "json" };
+import diningLocationData from "../data/diningLocationAliases.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 

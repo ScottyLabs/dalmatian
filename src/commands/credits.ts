@@ -6,11 +6,11 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 import { DEFAULT_EMBED_COLOR, SCHOOLS, SCOTTYLABS_URL } from "../constants.ts";
-import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
-import CITGenedData from "../data/geneds/CITgeneds.json" with { type: "json" };
-import DCGenedData from "../data/geneds/DCgeneds.json" with { type: "json" };
-import MCSGenedData from "../data/geneds/MCSgeneds.json" with { type: "json" };
-import SCSGenedData from "../data/geneds/SCSgeneds.json" with { type: "json" };
+import CoursesData from "../data/courseCatalog.json" with { type: "json" };
+import CITGenedData from "../data/geneds/cit.json" with { type: "json" };
+import DCGenedData from "../data/geneds/dietrich.json" with { type: "json" };
+import MCSGenedData from "../data/geneds/mcs.json" with { type: "json" };
+import SCSGenedData from "../data/geneds/scs.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import {
     AdvancedCreditType,

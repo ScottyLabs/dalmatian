@@ -1,11 +1,11 @@
 import { Course, GenEd } from "./index.ts";
-import CoursesData from "../data/finalCourseJSON.json" with { type: "json" };
+import CoursesData from "../data/courseCatalog.json" with { type: "json" };
 
-import apCreditData from "../data/advancedCredit/ap-credit.json" with { type: "json" };
-import ibCreditData from "../data/advancedCredit/ib-credit.json" with { type: "json" };
-import cambridgeCreditData from "../data/advancedCredit/cambridge-credit.json" with { type: "json" };
+import apCreditData from "../data/advancedCredit/ap.json" with { type: "json" };
+import ibCreditData from "../data/advancedCredit/ib.json" with { type: "json" };
+import cambridgeCreditData from "../data/advancedCredit/cambridge.json" with { type: "json" };
 
-import nonOfferedCourses from "../data/nonOfferedCourses.json" with { type: "json" };
+import nonOfferedCourses from "../data/advancedCredit/nonOfferedCourses.json" with { type: "json" };
 
 export type School = "DC" | "CIT" | "SCS" | "TEP" | "MCS" | "CFA";
 
