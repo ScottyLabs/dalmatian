@@ -1,10 +1,10 @@
-import { ASTNode, BaseExecutionContext, Parser, PrattRule } from "./parser.ts";
+import { ASTNode, BaseExecutionContext, BaseRuntimeVal, Parser, PrattRule } from "./parser.ts";
 import { BaseTokenType, TokenRule, tokenize } from "./tokenizer.ts";
 
 export type GrammarDefinition<
-    TToken extends BaseTokenType<any>,
+    TToken extends BaseTokenType<string>,
     TContext extends BaseExecutionContext,
-    TResult extends ASTNode<any, TContext>,
+    TResult extends ASTNode<BaseRuntimeVal, TContext>,
 > = {
     tokenizer: TokenRule<TToken>[];
     prattRules: PrattRule<TToken>[];
@@ -12,17 +12,17 @@ export type GrammarDefinition<
 };
 
 export type GrammarFactory<
-    _TToken extends BaseTokenType<any>,
+    _TToken extends BaseTokenType<string>,
     TContext extends BaseExecutionContext,
-    TResult extends ASTNode<any, TContext>,
+    TResult extends ASTNode<BaseRuntimeVal, TContext>,
 > = {
     parse: (input: string) => TResult;
 };
 
 export function createGrammarFactory<
-    TToken extends BaseTokenType<any>,
+    TToken extends BaseTokenType<string>,
     TContext extends BaseExecutionContext,
-    TResult extends ASTNode<any, TContext>,
+    TResult extends ASTNode<BaseRuntimeVal, TContext>,
 >(
     definition: GrammarDefinition<TToken, TContext, TResult>,
 ): GrammarFactory<TToken, TContext, TResult> {

@@ -92,10 +92,7 @@ abstract class BasicParserBaseASTNode<TLiteral, TResult> extends ASTNode<
 class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<TLiteral, TResult> {
     constructor(
         public readonly operator: "AND" | "OR" | "NOT",
-        public readonly operands: ASTNode<
-            BasicOperatorRuntimeVal<TResult>,
-            BasicOperatorExecutionContext<TLiteral, TResult>
-        >[],
+        public readonly operands: ASTNode<BaseRuntimeVal, BaseExecutionContext>[],
         loc: SourceLocation,
     ) {
         super("BooleanOperator", loc);
@@ -112,7 +109,7 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<T
             }
             const right = ops[0]!;
             const uni = context.universe();
-            const rightValue = right.evaluate(context).value;
+            const rightValue = right.evaluate(context).value as TResult[];
             const result = uni.filter((u) => !rightValue.some((r: TResult) => context.equal(u, r)));
             return new BasicOperatorRuntimeVal(result);
         }
@@ -125,8 +122,8 @@ class BooleanOperatorASTNode<TLiteral, TResult> extends BasicParserBaseASTNode<T
             const left = ops[0]!;
             const right = ops[1]!;
 
-            const leftValue = left.evaluate(context).value;
-            const rightValue = right.evaluate(context).value;
+            const leftValue = left.evaluate(context).value as TResult[];
+            const rightValue = right.evaluate(context).value as TResult[];
 
             let result: TResult[];
             if (this.operator === "AND") {
@@ -265,5 +262,5 @@ export function parseAndEvaluate<TLiteral, TResult>(
 ): TResult[] {
     const ast = basicOperatorGrammar.parse(input);
 
-    return ast.evaluate(context).value;
+    return ast.evaluate(context).value as TResult[];
 }
