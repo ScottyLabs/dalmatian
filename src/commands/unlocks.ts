@@ -96,8 +96,7 @@ const command: SlashCommand = {
                 ),
             );
         } catch (error) {
-            const errorMessage =
-                error instanceof Error ? error.message : "Unknown error";
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
             const locationInfo =
                 error instanceof ParserError && error.sourceLocation.index >= 0
                     ? ` at index ${error.sourceLocation.index}`
@@ -106,9 +105,7 @@ const command: SlashCommand = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Error parsing course string")
-                        .setDescription(
-                            `\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``,
-                        ),
+                        .setDescription(`\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``),
                 ],
                 flags: MessageFlags.Ephemeral,
             });
