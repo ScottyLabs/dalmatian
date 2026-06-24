@@ -1,42 +1,36 @@
 import { ASTNode, BaseExecutionContext, Parser, PrattRule } from "./parser.ts";
-import { BaseTokenType, TokenStream, Tokenizer } from "./tokenizer.ts";
+import { BaseTokenType, TokenRule, tokenize } from "./tokenizer.ts";
 
 export type GrammarDefinition<
     TToken extends BaseTokenType<any>,
     TContext extends BaseExecutionContext,
     TResult extends ASTNode<any, TContext>,
 > = {
-    tokenizer: Tokenizer<TToken>;
+    tokenizer: TokenRule<TToken>[];
     prattRules: PrattRule<TToken>[];
     base: (parser: Parser<TToken>) => TResult;
 };
 
-export class GrammarFactory<
+export type GrammarFactory<
+    _TToken extends BaseTokenType<any>,
+    TContext extends BaseExecutionContext,
+    TResult extends ASTNode<any, TContext>,
+> = {
+    parse: (input: string) => TResult;
+};
+
+export function createGrammarFactory<
     TToken extends BaseTokenType<any>,
     TContext extends BaseExecutionContext,
     TResult extends ASTNode<any, TContext>,
-> {
-    constructor(
-        private readonly definition: GrammarDefinition<
-            TToken,
-            TContext,
-            TResult
-        >,
-    ) {}
-
-    tokenize(input: string): TokenStream<TToken> {
-        return this.definition.tokenizer.tokenize(input);
-    }
-
-    createParser(input: string): Parser<TToken> {
-        return new Parser(
-            this.tokenize(input),
-            this.definition.prattRules,
-            this.definition.base,
-        );
-    }
-
-    parse(input: string): TResult {
-        return this.createParser(input).parse() as TResult;
-    }
+>(
+    definition: GrammarDefinition<TToken, TContext, TResult>,
+): GrammarFactory<TToken, TContext, TResult> {
+    return {
+        parse: (input: string): TResult => {
+            const tokens = tokenize(definition.tokenizer, input);
+            const parser = new Parser(tokens, definition.prattRules, definition.base);
+            return parser.parse() as TResult;
+        },
+    };
 }
