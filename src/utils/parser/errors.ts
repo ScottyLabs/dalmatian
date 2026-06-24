@@ -1,4 +1,4 @@
-import { getTokenLocation, SourceLocation, Token } from "./tokenizer.ts";
+import { getTokenDisplay, getTokenLocation, SourceLocation, Token } from "./tokenizer.ts";
 
 export class ParserError extends Error {
     constructor(
@@ -12,9 +12,11 @@ export class ParserError extends Error {
 export class UnexpectedTokenError extends ParserError {
     constructor(unexpectedToken: Token<any>, expectedTokenTypes?: string[]) {
         super(
-            `Unexpected token: ${unexpectedToken.toString()}` +
+            `Unexpected token: ${getTokenDisplay(unexpectedToken)}` +
                 (expectedTokenTypes?.length
-                    ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
+                    ? expectedTokenTypes.length === 1
+                        ? `. Expected ${expectedTokenTypes[0]}`
+                        : `. Expected one of: ${expectedTokenTypes.join(", ")}`
                     : ""),
             getTokenLocation(unexpectedToken),
         );
@@ -26,7 +28,9 @@ export class UnexpectedEndOfInputError extends ParserError {
         super(
             `Unexpected end of input` +
                 (expectedTokenTypes?.length
-                    ? `. Expected one of: ${expectedTokenTypes.join(", ")}`
+                    ? expectedTokenTypes.length === 1
+                        ? `. Expected ${expectedTokenTypes[0]}`
+                        : `. Expected one of: ${expectedTokenTypes.join(", ")}`
                     : ""),
             location ?? { index: -1 },
         );
@@ -41,10 +45,7 @@ export class InvalidTokenError extends ParserError {
 
 export class MaxCallDepthExceededError extends ParserError {
     constructor(maxCallDepth: number, location?: SourceLocation) {
-        super(
-            `Maximum call depth of ${maxCallDepth} exceeded`,
-            location || { index: -1 },
-        );
+        super(`Maximum call depth of ${maxCallDepth} exceeded`, location || { index: -1 });
     }
 }
 
