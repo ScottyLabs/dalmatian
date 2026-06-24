@@ -9,8 +9,8 @@
         "db:push": "deno run --allow-all npm:drizzle-kit push",
         "db:studio": "deno run --allow-all npm:drizzle-kit studio",
         "test": "deno test --allow-all tests/",
-        "lint": "deno run --allow-all npm:oxlint --type-aware --deny-warnings",
-        "format": "deno run --allow-all npm:@biomejs/biome format --write"
+        "lint": "oxlint",
+        "format": "treefmt --no-cache"
     },
     "imports": {
         "@logtape/logtape": "npm:@logtape/logtape@^2.1.1",
