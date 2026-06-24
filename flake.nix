@@ -9,11 +9,15 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     devenv.url = "github:cachix/devenv";
+    scottylabs = {
+      url = "git+https://codeberg.org/ScottyLabs/devenv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, devenv, ... }:
+  outputs = { self, nixpkgs, devenv, scottylabs, ... }:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
@@ -22,12 +26,16 @@
       packages = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          dalmatian = pkgs.callPackage ./nix/package.nix { };
+          helpers = scottylabs.mkLib pkgs;
         in
         {
-          inherit dalmatian;
-          default = dalmatian;
-          devenv = devenv.packages.${system}.devenv;
+          dalmatian = helpers.buildDenoTask {
+            src = ./.;
+            pname = "dalmatian";
+            entrypoint = "src/index.ts";
+            compile = true;
+          };
+          default = self.packages.${system}.dalmatian;
         }
       );
     };
