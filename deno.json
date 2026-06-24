@@ -1,9 +1,10 @@
 {
-    "nodeModulesDir": "none",
+    "nodeModulesDir": "auto",
     "lock": true,
     "exclude": [".devenv", ".direnv", "build", "drizzle", "src/data"],
     "tasks": {
         "start": "deno run --allow-all src/index.ts",
+        "build": "deno compile --frozen --no-check --allow-all --cached-only --include drizzle --include src --output dist/bin/dalmatian src/index.ts",
         "db:generate": "deno run --allow-all npm:drizzle-kit generate",
         "db:migrate": "deno run --allow-all src/db/migrate.ts",
         "db:push": "deno run --allow-all npm:drizzle-kit push",
