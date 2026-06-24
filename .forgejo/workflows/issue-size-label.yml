@@ -1,0 +1,86 @@
+name: Issue size label
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  label-size:
+    runs-on: docker
+    steps:
+      - name: Apply size label and remove Size section from body
+        env:
+          FORGEJO_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+          API_URL: ${{ forgejo.api_url }}
+          REPO_OWNER: ${{ forgejo.repository_owner }}
+          REPO_NAME: ${{ forgejo.event.repository.name }}
+          ISSUE_NUMBER: ${{ forgejo.event.issue.number }}
+        run: |
+          set -euo pipefail
+
+          auth_header="Authorization: token ${FORGEJO_TOKEN}"
+          issue_url="${API_URL}/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ISSUE_NUMBER}"
+
+          issue_json=$(curl -fsS -H "${auth_header}" "${issue_url}")
+
+          if [ "$(echo "${issue_json}" | jq -r '.pull_request // empty')" != "" ]; then
+            echo "Skipping pull request"
+            exit 0
+          fi
+
+          body=$(echo "${issue_json}" | jq -r '.body // ""')
+          size_value=$(printf '%s\n' "${body}" | awk '
+            /^### Size$/ { found=1; next }
+            found && /^### / { exit }
+            found && NF { gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print; exit }
+          ')
+
+          if [ -z "${size_value}" ]; then
+            echo "No Size field found in issue body"
+            exit 0
+          fi
+
+          case "${size_value}" in
+            XS) target_label="size/XS" ;;
+            S)  target_label="size/S" ;;
+            M)  target_label="size/M" ;;
+            L)  target_label="size/L" ;;
+            XL) target_label="size/XL" ;;
+            *)
+              echo "Unknown size value: ${size_value}"
+              exit 0
+              ;;
+          esac
+
+          current_labels=$(echo "${issue_json}" | jq -c '.labels // []')
+          has_target=$(echo "${current_labels}" | jq --arg name "${target_label}" 'any(.[]; .name == $name)')
+
+          if [ "${has_target}" != "true" ]; then
+            curl -fsS -X POST -H "${auth_header}" -H "Content-Type: application/json" \
+              -d "$(jq -n --arg label "${target_label}" '{labels: [$label]}')" \
+              "${issue_url}/labels"
+            echo "Applied label ${target_label}"
+          fi
+
+          echo "${current_labels}" | jq -r --arg keep "${target_label}" \
+            '.[] | select(.name | startswith("size/")) | select(.name != $keep) | .id' \
+            | while read -r label_id; do
+                curl -fsS -X DELETE -H "${auth_header}" \
+                  "${issue_url}/labels/${label_id}"
+              done
+
+          cleaned_body=$(printf '%s\n' "${body}" | awk '
+            BEGIN { skip=0 }
+            /^### Size$/ { skip=1; next }
+            skip && /^### / { skip=0 }
+            skip { next }
+            { print }
+          ' | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}')
+
+          if [ "${cleaned_body}" != "${body}" ]; then
+            patch_body=$(printf '%s' "${cleaned_body}" | jq -Rs '{body: .}')
+            curl -fsS -X PATCH -H "${auth_header}" -H "Content-Type: application/json" \
+              -d "${patch_body}" \
+              "${issue_url}"
+            echo "Removed Size section from issue body"
+          fi
