@@ -30,8 +30,8 @@ body:
     attributes:
       value: |
         ### Help & Resources
-        - [README](https://github.com/ScottyLabs/dalmatian/blob/main/README.md)
-        - [Contributing Guidelines](https://github.com/ScottyLabs/dalmatian/blob/main/CONTRIBUTING.md)
+        - [README](https://codeberg.org/ScottyLabs/dalmatian/src/branch/main/README.md)
+        - [Contributing Guidelines](https://codeberg.org/ScottyLabs/dalmatian/src/branch/main/docs/CONTRIBUTING.md)
   - type: dropdown
     id: size
     attributes:
