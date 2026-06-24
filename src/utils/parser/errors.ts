@@ -1,4 +1,10 @@
-import { getTokenDisplay, getTokenLocation, SourceLocation, Token } from "./tokenizer.ts";
+import {
+    BaseTokenType,
+    getTokenDisplay,
+    getTokenLocation,
+    SourceLocation,
+    Token,
+} from "./tokenizer.ts";
 
 export class ParserError extends Error {
     constructor(
@@ -10,7 +16,7 @@ export class ParserError extends Error {
 }
 
 export class UnexpectedTokenError extends ParserError {
-    constructor(unexpectedToken: Token<any>, expectedTokenTypes?: string[]) {
+    constructor(unexpectedToken: Token<BaseTokenType<string>>, expectedTokenTypes?: string[]) {
         super(
             `Unexpected token: ${getTokenDisplay(unexpectedToken)}` +
                 (expectedTokenTypes?.length

@@ -25,7 +25,7 @@ export abstract class BaseExecutionContext {
         this.currentCallDepth = 0;
     }
 
-    call(fn: () => any): any {
+    call<R>(fn: () => R): R {
         if (this.currentCallDepth >= this.config.maxCallDepth) {
             throw new MaxCallDepthExceededError(this.config.maxCallDepth);
         }
@@ -59,17 +59,23 @@ export abstract class ASTNode<R extends BaseRuntimeVal, C extends BaseExecutionC
     protected abstract evaluateInner(context: C): R;
 }
 
-export type PrattRule<T extends BaseTokenType<any>> = {
+export type PrattRule<T extends BaseTokenType<string>> = {
     operator: T;
     lbp: number; // left binding power
     rbp: number; // right binding power
-    nud?: (token: Token<T>, parser: Parser<T>) => ASTNode<any, any>; // prefix operators
-    led?: (left: ASTNode<any, any>, token: Token<T>, parser: Parser<T>) => ASTNode<any, any>; // infix/postfix operators
+    nud?: (token: Token<T>, parser: Parser<T>) => ASTNode<BaseRuntimeVal, BaseExecutionContext>; // prefix operators
+    led?: (
+        left: ASTNode<BaseRuntimeVal, BaseExecutionContext>,
+        token: Token<T>,
+        parser: Parser<T>,
+    ) => ASTNode<BaseRuntimeVal, BaseExecutionContext>; // infix/postfix operators
 };
 
-type BaseFunction = (parser: Parser<any>) => ASTNode<any, any>;
+type BaseFunction<T extends BaseTokenType<string>> = (
+    parser: Parser<T>,
+) => ASTNode<BaseRuntimeVal, BaseExecutionContext>;
 
-export class Parser<T extends BaseTokenType<any>> {
+export class Parser<T extends BaseTokenType<string>> {
     private readonly config: {
         maxParseDepth: number;
     };
@@ -79,7 +85,7 @@ export class Parser<T extends BaseTokenType<any>> {
     constructor(
         public readonly tokenStream: TokenStream<T>,
         private prattRules: PrattRule<T>[],
-        private base: BaseFunction,
+        private base: BaseFunction<T>,
         config = { maxParseDepth: 100 },
     ) {
         this.config = config;
@@ -118,7 +124,7 @@ export class Parser<T extends BaseTokenType<any>> {
         return this.tokenStream.consume();
     }
 
-    parsePratt(precedence = 0): ASTNode<any, any> {
+    parsePratt(precedence = 0): ASTNode<BaseRuntimeVal, BaseExecutionContext> {
         return this.callParse(() => {
             const token = this.consumeToken();
 
@@ -155,7 +161,7 @@ export class Parser<T extends BaseTokenType<any>> {
         });
     }
 
-    parse(): ASTNode<any, any> {
+    parse(): ASTNode<BaseRuntimeVal, BaseExecutionContext> {
         const node = this.base(this);
 
         if (!this.tokenStream.isEOX(this.peekToken())) {

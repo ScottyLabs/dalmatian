@@ -10,18 +10,18 @@ export interface SourceLocation {
 }
 
 // We will let token type be generic to allow for different token sets.
-export type Token<T extends BaseTokenType<any>> =
+export type Token<T extends BaseTokenType<string>> =
     | typeof EOX
     | {
           type: T;
           humanName?: string;
           loc: SourceLocation;
-          value: string;
+          value: unknown;
       };
 
-function createToken<T extends BaseTokenType<any>>(
+function createToken<T extends BaseTokenType<string>>(
     type: T,
-    value: string,
+    value: unknown,
     humanName: string,
     loc: SourceLocation,
 ): Token<T> {
@@ -33,7 +33,7 @@ function createToken<T extends BaseTokenType<any>>(
     };
 }
 
-export class TokenStream<T extends BaseTokenType<any>> {
+export class TokenStream<T extends BaseTokenType<string>> {
     private readonly tokens: Array<Token<T>>;
 
     constructor(tokens: Array<Token<T>>) {
@@ -61,29 +61,29 @@ export class TokenStream<T extends BaseTokenType<any>> {
     }
 }
 
-export function getTokenLocation(token: Token<any>): SourceLocation {
+export function getTokenLocation(token: Token<BaseTokenType<string>>): SourceLocation {
     if (typeof token === "object" && token !== null && "loc" in token) {
         return token.loc;
     }
     return { index: -1 };
 }
 
-export function getTokenDisplay(token: Token<any>): string {
+export function getTokenDisplay(token: Token<BaseTokenType<string>>): string {
     if (isTokenEOX(token)) return "End of Expression";
-    return token.humanName ?? token.value;
+    return token.humanName ?? String(token.value);
 }
 
-export function isTokenEOX<T extends BaseTokenType<any>>(token: Token<T>): token is typeof EOX {
+export function isTokenEOX<T extends BaseTokenType<string>>(token: Token<T>): token is typeof EOX {
     return token === EOX;
 }
-export type TokenRule<T extends BaseTokenType<any>> = {
+export type TokenRule<T extends BaseTokenType<string>> = {
     regex: RegExp;
     type: T;
     humanName: string;
-    transformer?: (value: string) => any;
+    transformer?: (value: string) => unknown;
 };
 
-function compileTokenRules<T extends BaseTokenType<any>>(rules: TokenRule<T>[]): TokenRule<T>[] {
+function compileTokenRules<T extends BaseTokenType<string>>(rules: TokenRule<T>[]): TokenRule<T>[] {
     return rules.map((rule) => {
         const flags = new Set(rule.regex.flags.split(""));
         flags.delete("g");
@@ -94,7 +94,7 @@ function compileTokenRules<T extends BaseTokenType<any>>(rules: TokenRule<T>[]):
         };
     });
 }
-export function tokenize<T extends BaseTokenType<any>>(
+export function tokenize<T extends BaseTokenType<string>>(
     rules: TokenRule<T>[],
     input: string,
 ): TokenStream<T> {
