@@ -9,32 +9,37 @@ on:
 jobs:
   checks:
     runs-on: docker
+    env:
+      SECRETSPEC_PROVIDER: dotenv
+      SECRETSPEC_PROFILE: dev
     steps:
       - name: Checkout
         uses: https://code.forgejo.org/actions/checkout@v6
 
-      - name: Setup Deno
-        uses: https://github.com/denoland/setup-deno@v2
-        with:
-          deno-version: "2.7.14"
-          cache: true
+      - name: Install Nix
+        uses: https://github.com/cachix/install-nix-action@v31
+
+      - name: Install devenv
+        run: nix profile install --accept-flake-config nixpkgs#devenv
+
+      - name: Placeholder secrets for CI
+        run: |
+          cat > .env <<'EOF'
+          DISCORD_TOKEN=meow
+          DISCORD_CLIENT_ID=meow
+          EOF
 
       - name: Cache dependencies
-        run: deno cache --frozen src/index.ts tests/*.test.ts
+        run: devenv shell -- deno cache --frozen src/index.ts tests/*.test.ts
 
       - name: Type check
-        run: deno check src/
+        run: devenv shell -- deno check src/
 
       - name: Format
-        run: deno run --allow-all npm:@biomejs/biome format
+        run: devenv shell -- treefmt --fail-on-change --no-cache
 
       - name: Lint
-        run: |
-          PLATFORM=$(deno eval 'const a=Deno.build.arch==="aarch64"?"arm64":Deno.build.arch==="x86_64"?"x64":Deno.build.arch;console.log(`${Deno.build.os}-${a}`)')
-          DENO_DIR=$(deno eval 'console.log(Deno.env.get("DENO_DIR")??`${Deno.env.get("HOME")}/.cache/deno`)')
-          TSGO_BIN=$(find "$DENO_DIR/npm/registry.npmjs.org/@oxlint-tsgolint/$PLATFORM" -name tsgolint -type f | head -1)
-          export PATH="$(dirname "$TSGO_BIN"):$PATH"
-          deno task lint
+        run: devenv shell -- oxlint --deny correctness
 
       - name: Test
-        run: deno task test
+        run: devenv shell -- deno task test
