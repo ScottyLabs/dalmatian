@@ -6,11 +6,6 @@ secretspec:
 inputs:
   scottylabs:
     url: git+https://codeberg.org/ScottyLabs/devenv
-  bun2nix:
-    url: github:nix-community/bun2nix
-    inputs:
-      nixpkgs:
-        follows: nixpkgs
   treefmt-nix:
     url: github:numtide/treefmt-nix
   git-hooks:
