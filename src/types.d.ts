@@ -3,6 +3,7 @@ import type {
     ChatInputCommandInteraction,
     Client,
     ClientEvents,
+    Collection,
     ContextMenuCommandBuilder,
     MessageContextMenuCommandInteraction,
     SlashCommandBuilder,
@@ -32,3 +33,10 @@ export interface MessageContextCommand {
 }
 
 export type ContextCommand = UserContextCommand | MessageContextCommand;
+
+declare module "discord.js" {
+    interface Client {
+        slashCommands: Collection<string, SlashCommand>;
+        contextCommands: Collection<string, ContextCommand>;
+    }
+}

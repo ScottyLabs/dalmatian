@@ -10,13 +10,6 @@ await configureLogger();
 
 await runMigrations();
 
-declare module "discord.js" {
-    interface Client {
-        slashCommands: Collection<string, SlashCommand>;
-        contextCommands: Collection<string, ContextCommand>;
-    }
-}
-
 const { Guilds, GuildMembers, GuildMessages, GuildMessageReactions } = GatewayIntentBits;
 
 const client = new Client({
@@ -25,8 +18,8 @@ const client = new Client({
     makeCache: Options.cacheEverything(),
 });
 
-client.slashCommands = new Collection();
-client.contextCommands = new Collection();
+client.slashCommands = new Collection<string, SlashCommand>();
+client.contextCommands = new Collection<string, ContextCommand>();
 
 const handlersDir = join(import.meta.dirname!, "./handlers");
 const handlerFiles = readdirSync(handlersDir)
