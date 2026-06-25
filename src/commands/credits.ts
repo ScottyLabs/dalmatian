@@ -1,11 +1,5 @@
-import {
-    ContainerBuilder,
-    hyperlink,
-    MessageFlags,
-    SeparatorBuilder,
-    SlashCommandBuilder,
-} from "discord.js";
-import { DEFAULT_EMBED_COLOR, SCHOOLS, SCOTTYLABS_URL } from "../constants.ts";
+import { hyperlink, MessageFlags, SlashCommandBuilder } from "discord.js";
+import { SCHOOLS, SCOTTYLABS_URL } from "../constants.ts";
 import CoursesData from "../data/courseCatalog.json" with { type: "json" };
 import CITGenedData from "../data/geneds/cit.json" with { type: "json" };
 import DCGenedData from "../data/geneds/dietrich.json" with { type: "json" };
@@ -17,11 +11,144 @@ import {
     Exam,
     getGenedsForCourse,
     loadCreditData,
-    SCORE_RANGES,
     School,
+    SCORE_RANGES,
 } from "../utils/advancedCreditCourseUtils.ts";
-import { type SetupField, SetupForm, type SetupSchema } from "../utils/creditCalculatorForm.ts";
+import {
+    type SelectedExam,
+    type SetupField,
+    SetupForm,
+    type SetupResult,
+    type SetupSchema,
+} from "../utils/creditCalculatorForm.ts";
 import { Course, GenEd } from "../utils/index.ts";
+
+function isSelectedExam(value: unknown): value is SelectedExam {
+    return (
+        typeof value === "object" &&
+        value !== null &&
+        "examName" in value &&
+        typeof value.examName === "string" &&
+        "score" in value &&
+        (typeof value.score === "number" || typeof value.score === "string")
+    );
+}
+
+function selectedExamsForKey(data: Record<string, unknown>, key: string): SelectedExam[] {
+    const value = data[key];
+    return Array.isArray(value) ? value.filter(isSelectedExam) : [];
+}
+
+function getGenedsForSchool(userSchool: School): GenEd[] {
+    if (userSchool === "DC") return DCGenedData as GenEd[];
+    if (userSchool === "CIT") return CITGenedData as GenEd[];
+    if (userSchool === "MCS") return MCSGenedData as GenEd[];
+    if (userSchool === "SCS") return SCSGenedData as GenEd[];
+    return [];
+}
+
+export function buildAdvancedCreditResult(
+    data: Record<string, unknown>,
+    exams: Exam[],
+    coursesType: AdvancedCreditType,
+    userSchool: School,
+): SetupResult {
+    const courses = CoursesData as Record<string, Course>;
+    const awarded: { exam: Exam; courses: Course[] }[] = [];
+
+    const processCategory = (entries: SelectedExam[]) => {
+        entries.forEach(({ examName, score }) => {
+            if (score === undefined) return;
+
+            const sameName = exams.filter((e) => e.name === examName);
+
+            const chosenExams = (() => {
+                const specific: typeof sameName = [];
+                const general: typeof sameName = [];
+
+                for (const e of sameName) {
+                    if (e.school?.includes(userSchool)) specific.push(e);
+                    else if (!e.school || e.school.length === 0) general.push(e);
+                }
+
+                return specific.length > 0 ? specific : general;
+            })();
+
+            const results = chosenExams.flatMap((exam) => {
+                const awardedCourses = exam.scores
+                    .filter((s) => s.score === score)
+                    .flatMap((s) => s.courses);
+
+                return awardedCourses.length ? [{ exam, courses: awardedCourses }] : [];
+            });
+
+            awarded.push(...results);
+        });
+    };
+
+    processCategory(selectedExamsForKey(data, "stem-arts"));
+    processCategory(selectedExamsForKey(data, "humanities"));
+
+    if (awarded.length === 0) {
+        return {
+            title: "Awarded CMU Credit",
+            description: "*Gened data is incomplete and partly outdated*",
+            emptyMessage: "No credit awarded based on the selected exams.",
+            items: [],
+        };
+    }
+
+    const notices: string[] = [];
+    if (userSchool === "CFA" || userSchool === "TEP") {
+        notices.push(`Gened data not available for ${userSchool}`);
+    }
+
+    let genedCreditTotal = 0;
+    const geneds = getGenedsForSchool(userSchool);
+    const allAwardedCourseIds = new Set<string>();
+    const items: string[] = [];
+
+    for (const { exam, courses: awardedCourses } of awarded) {
+        for (const course of awardedCourses) {
+            if (allAwardedCourseIds.has(course.id)) continue;
+
+            allAwardedCourseIds.add(course.id);
+
+            const units = exam.overrideUnits ?? (Number(course.units) || 0);
+            genedCreditTotal += units;
+
+            const courseName = courses[course.id]?.name ?? course.name;
+
+            const genedList = geneds && course.id ? getGenedsForCourse(course.id, geneds) : [];
+
+            const genedTags = genedList.length ? genedList.map((g) => `${g}`).join(" ") : "n/a";
+
+            items.push(
+                [
+                    courseName.endsWith("(*Not Offered Course*)")
+                        ? `**${course.id}** — ${coursesType} ${courseName} (${units} units) `
+                        : hyperlink(
+                              `**${course.id}** — ${courseName} (${units} units)`,
+                              `${SCOTTYLABS_URL}/course/${course.id}`,
+                          ),
+                    genedTags != "n/a"
+                        ? `${coursesType} ${exam.name} • Fulfills ${genedTags} Gened Requirement`
+                        : `${coursesType} ${exam.name}`,
+                    `${exam.info}`,
+                ].join("\n"),
+            );
+        }
+    }
+
+    return {
+        title: "Awarded CMU Credit",
+        description: "*Gened data is incomplete and partly outdated*",
+        emptyMessage: "No credit awarded based on the selected exams.",
+        notices,
+        items,
+        footer: `**Unit Total:** ${genedCreditTotal}`,
+    };
+}
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -141,121 +268,8 @@ const command: SlashCommand = {
             name: `${coursesType} Credit Calculator`,
             type: coursesType,
             fields,
-            onComplete: async (data) => {
-                const courses = CoursesData as Record<string, Course>;
-                const awarded: { exam: Exam; courses: Course[] }[] = [];
-
-                const processCategory = (
-                    entries: { examName: string; score: number | string }[],
-                ) => {
-                    entries.forEach(({ examName, score }) => {
-                        const sameName = exams.filter((e) => e.name === examName);
-
-                        const chosenExams = (() => {
-                            const specific: typeof sameName = [];
-                            const general: typeof sameName = [];
-
-                            for (const e of sameName) {
-                                if (e.school?.includes(userSchool as School)) specific.push(e);
-                                else if (!e.school || e.school.length === 0) general.push(e);
-                            }
-
-                            return specific.length > 0 ? specific : general;
-                        })();
-
-                        const results = chosenExams.flatMap((exam) => {
-                            const courses = exam.scores
-                                .filter((s) => s.score === score)
-                                .flatMap((s) => s.courses);
-
-                            return courses.length ? [{ exam, courses }] : [];
-                        });
-
-                        awarded.push(...results);
-                    });
-                };
-
-                processCategory(data["stem-arts"] ?? []);
-                processCategory(data["humanities"] ?? []);
-
-                const container = new ContainerBuilder()
-                    .setAccentColor(DEFAULT_EMBED_COLOR)
-                    .addTextDisplayComponents((t) =>
-                        t.setContent(
-                            "## Awarded CMU Credit\n*Gened data is incomplete and partly outdated*",
-                        ),
-                    );
-
-                if (awarded.length === 0) {
-                    container.addTextDisplayComponents((t) =>
-                        t.setContent("No credit awarded based on the selected exams."),
-                    );
-                    return container;
-                }
-
-                let genedCreditTotal = 0;
-
-                const allAwardedCourse: Set<Course> = new Set();
-
-                for (const { exam, courses: awardedCourses } of awarded) {
-                    let geneds: GenEd[] = [];
-
-                    if (userSchool === "DC") {
-                        geneds = DCGenedData as GenEd[];
-                    } else if (userSchool === "CIT") {
-                        geneds = CITGenedData as GenEd[];
-                    } else if (userSchool === "MCS") {
-                        geneds = MCSGenedData as GenEd[];
-                    } else if (userSchool === "SCS") {
-                        geneds = SCSGenedData as GenEd[];
-                    } else if (userSchool === "CFA" || userSchool === "TEP") {
-                        container.addTextDisplayComponents((t) =>
-                            t.setContent(`Gened data not available for ${userSchool}`),
-                        );
-                    }
-
-                    for (const course of awardedCourses) {
-                        if (allAwardedCourse.has(course)) continue;
-
-                        allAwardedCourse.add(course);
-
-                        container.addSeparatorComponents(new SeparatorBuilder());
-
-                        const units = exam.overrideUnits ?? (Number(course.units) || 0);
-                        genedCreditTotal += units;
-
-                        const courseName = courses[course.id]?.name ?? course.name;
-
-                        const genedList =
-                            geneds && course.id ? getGenedsForCourse(course.id, geneds) : [];
-
-                        const genedTags = genedList.length
-                            ? genedList.map((g) => `${g}`).join(" ")
-                            : "n/a";
-
-                        container.addTextDisplayComponents((t) =>
-                            t.setContent(
-                                [
-                                    courseName.endsWith("(*Not Offered Course*)")
-                                        ? `**${course.id}** — ${coursesType} ${courseName} (${units} units) `
-                                        : hyperlink(
-                                              `**${course.id}** — ${courseName} (${units} units)`,
-                                              `${SCOTTYLABS_URL}/course/${course.id}`,
-                                          ),
-                                    genedTags != "n/a"
-                                        ? `${coursesType} ${exam.name} • Fulfills ${genedTags} Gened Requirement`
-                                        : `${coursesType} ${exam.name}`,
-                                    `${exam.info}`,
-                                ].join("\n"),
-                            ),
-                        );
-                    }
-                }
-
-                container.addTextDisplayComponents((t) =>
-                    t.setContent(`**Unit Total:** ${genedCreditTotal}`),
-                );
-                return container;
+            onComplete: (data) => {
+                return buildAdvancedCreditResult(data, exams, coursesType, userSchool as School);
             },
         };
 
