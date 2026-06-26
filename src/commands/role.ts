@@ -3,13 +3,18 @@ import {
     EmbedBuilder,
     escapeMarkdown,
     GuildMember,
+    MessageFlags,
     SlashCommandBuilder,
     userMention,
 } from "discord.js";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { logger, nodeError } from "../utils/log.ts";
-import { parseAndEvaluate } from "../utils/operatorParser.ts";
+import {
+    BasicOperatorExecutionContext,
+    parseAndEvaluate,
+} from "../utils/parser/basicOperatorParser.ts";
+import { ParserError } from "../utils/parser/errors.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -55,8 +60,6 @@ const command: SlashCommand = {
                 content: "This command can only be used in a server.",
             });
         }
-
-        await interaction.deferReply();
 
         //Check for member count mismatch, as Discord.js may slightly drift due to sharding behaviour
         await interaction.guild.fetch(); //discord.js dosen't guarantee we have up to date member count after shard reconnects, so we fetch the guild to get the latest member count, this is a non-expensive operation
@@ -122,16 +125,28 @@ const command: SlashCommand = {
         try {
             members = parseAndEvaluate<string, GuildMember>(
                 roleString,
-                (value) => {
-                    return value;
-                },
-                lookup,
-                equals,
-                universe,
+                new BasicOperatorExecutionContext<string, GuildMember>(
+                    (value) => {
+                        return value;
+                    },
+                    lookup,
+                    equals,
+                    universe,
+                ),
             );
         } catch (error) {
-            return interaction.editReply({
-                content: `${(error as Error).message}`,
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            const locationInfo =
+                error instanceof ParserError && error.sourceLocation.index >= 0
+                    ? ` at index ${error.sourceLocation.index}`
+                    : "";
+            return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Error parsing role string")
+                        .setDescription(`\`\`\`\n${errorMessage}\n${locationInfo}\n\`\`\``),
+                ],
+                flags: MessageFlags.Ephemeral,
             });
         }
 
