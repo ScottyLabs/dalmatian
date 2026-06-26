@@ -1,4 +1,5 @@
 import { drizzle } from "drizzle-orm/postgres-js";
+import { join } from "node:path";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { logger, nodeError } from "../utils/log.ts";
 import { createSqlClient } from "./client.ts";
@@ -10,7 +11,7 @@ export const runMigrations = async () => {
     const db = drizzle({ client: migrationClient });
 
     try {
-        await migrate(db, { migrationsFolder: "./drizzle" });
+        await migrate(db, { migrationsFolder: join(import.meta.dirname!, "../../drizzle") });
         logger.info("Migrations completed successfully!");
     } catch (error) {
         logger.fatal("Migration failed:", nodeError(error));
