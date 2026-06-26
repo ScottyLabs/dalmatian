@@ -214,8 +214,8 @@ export function assertDiscordSafeComponents(components: MessageComponentBuilderL
     }
 }
 
-function paginateBlocks(blocks: string[]): string[] {
-    const pages: string[] = [];
+function paginateBlocks(blocks: string[]): string[][] {
+    const pages: string[][] = [];
     let currentBlocks: string[] = [];
     let currentLength = 0;
 
@@ -229,7 +229,7 @@ function paginateBlocks(blocks: string[]): string[] {
             (currentBlocks.length >= RESULT_ITEMS_PER_PAGE ||
                 nextLength > DISCORD_COMPONENT_LIMITS.textDisplayLength)
         ) {
-            pages.push(currentBlocks.join("\n\n"));
+            pages.push(currentBlocks);
             currentBlocks = [];
             currentLength = 0;
         }
@@ -239,10 +239,10 @@ function paginateBlocks(blocks: string[]): string[] {
     }
 
     if (currentBlocks.length > 0) {
-        pages.push(currentBlocks.join("\n\n"));
+        pages.push(currentBlocks);
     }
 
-    return pages.length > 0 ? pages : [""];
+    return pages.length > 0 ? pages : [[]];
 }
 
 export function buildResultContainer(
@@ -280,15 +280,17 @@ export function buildResultContainer(
             ),
         );
     } else {
-        container.addTextDisplayComponents((text) => text.setContent(pages[boundedPage]!));
+        pages[boundedPage]!.forEach((item, index) => {
+            if (index > 0) {
+                container.addSeparatorComponents(new SeparatorBuilder());
+            }
+
+            container.addTextDisplayComponents((text) => text.setContent(item));
+        });
     }
 
     const footerParts: string[] = [];
     if (result.footer) footerParts.push(result.footer);
-    if (pages.length > 1) {
-        footerParts.push(`Page ${boundedPage + 1} of ${pages.length}`);
-    }
-
     if (footerParts.length > 0) {
         container.addTextDisplayComponents((text) =>
             text.setContent(
@@ -301,13 +303,28 @@ export function buildResultContainer(
         container.addActionRowComponents(
             new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
-                    .setCustomId(`credit;${creditType};resultPrev`)
-                    .setLabel("Previous")
+                    .setCustomId(`credit;${creditType};resultFirst`)
+                    .setLabel("<<")
                     .setStyle(ButtonStyle.Primary)
                     .setDisabled(boundedPage === 0),
                 new ButtonBuilder()
+                    .setCustomId(`credit;${creditType};resultPrev`)
+                    .setLabel("<")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(boundedPage === 0),
+                new ButtonBuilder()
+                    .setCustomId(`credit;${creditType};resultInfo`)
+                    .setLabel(`${boundedPage + 1}/${pages.length}`)
+                    .setStyle(ButtonStyle.Secondary)
+                    .setDisabled(true),
+                new ButtonBuilder()
                     .setCustomId(`credit;${creditType};resultNext`)
-                    .setLabel("Next")
+                    .setLabel(">")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(boundedPage === pages.length - 1),
+                new ButtonBuilder()
+                    .setCustomId(`credit;${creditType};resultLast`)
+                    .setLabel(">>")
                     .setStyle(ButtonStyle.Primary)
                     .setDisabled(boundedPage === pages.length - 1),
             ),
@@ -565,6 +582,20 @@ export class SetupForm {
             return;
         }
 
+        if (i.isButton() && i.customId === `credit;${this.schema.type};resultFirst`) {
+            if (!this.state.result) return;
+            this.state.resultPage = 0;
+            await this.safeUpdate(i, [
+                buildResultContainer(
+                    this.state.result,
+                    this.schema.type,
+                    this.state.resultPage,
+                    true,
+                ),
+            ]);
+            return;
+        }
+
         if (i.isButton() && i.customId === `credit;${this.schema.type};resultPrev`) {
             if (!this.state.result) return;
             this.state.resultPage = Math.max(0, this.state.resultPage - 1);
@@ -583,6 +614,20 @@ export class SetupForm {
             if (!this.state.result) return;
             const pageCount = getResultPageCount(this.state.result);
             this.state.resultPage = Math.min(pageCount - 1, this.state.resultPage + 1);
+            await this.safeUpdate(i, [
+                buildResultContainer(
+                    this.state.result,
+                    this.schema.type,
+                    this.state.resultPage,
+                    true,
+                ),
+            ]);
+            return;
+        }
+
+        if (i.isButton() && i.customId === `credit;${this.schema.type};resultLast`) {
+            if (!this.state.result) return;
+            this.state.resultPage = getResultPageCount(this.state.result) - 1;
             await this.safeUpdate(i, [
                 buildResultContainer(
                     this.state.result,

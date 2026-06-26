@@ -23,6 +23,7 @@ import {
 type ComponentJson = {
     type?: number;
     custom_id?: string;
+    label?: string;
     components?: ComponentJson[];
     options?: { label?: string; value?: string }[];
 };
@@ -237,6 +238,22 @@ describe("credit calculator component rendering", () => {
                 }
             }
         }
+    });
+
+    test("uses embed paginator-style controls for paged credit results", () => {
+        const result: SetupResult = {
+            title: "Awarded CMU Credit",
+            emptyMessage: "No credit awarded based on the selected exams.",
+            items: Array.from({ length: 6 }, (_, index) => `Course ${index + 1}`),
+        };
+
+        const container = buildResultContainer(result, "AP", 0, true);
+        const buttonLabels = allComponents(container)
+            .filter((component) => component.type === 2)
+            .map((component) => component.label);
+
+        expect(buttonLabels).toEqual(["<<", "<", "1/2", ">", ">>"]);
+        assertDiscordSafeComponents([container]);
     });
 
     test("emits the unavailable gened notice once for TEP results", async () => {
