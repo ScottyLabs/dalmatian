@@ -56,3 +56,11 @@ EmbedBuilder.prototype.toJSON = function (this: EmbedBuilder) {
 };
 
 await client.login(Deno.env.get("DISCORD_TOKEN")!);
+
+const port = Number(Deno.env.get("PORT") ?? "8080");
+Deno.serve({ port }, (req) => {
+    if (new URL(req.url).pathname === "/api/health") {
+        return new Response("OK");
+    }
+    return new Response("Not Found", { status: 404 });
+});
