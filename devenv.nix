@@ -1,4 +1,8 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs
+, lib
+, inputs
+, ...
+}:
 {
   imports = [
     inputs.scottylabs.devenvModules.default
@@ -14,7 +18,10 @@
     postgres.enable = true;
     secrets.enable = true;
 
-    kennel.services.dalmatian = { };
+    kennel = {
+      previewDeployments = false;
+      services.dalmatian = { };
+    };
   };
 
   cachix.enable = false;

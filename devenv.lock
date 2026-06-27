@@ -91,11 +91,11 @@
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1782331842,
-        "narHash": "sha256-7CJ2EqNVPMq0ly39aaP6dGgdO627MqUtM/+Dm+QwNdU=",
+        "lastModified": 1782492839,
+        "narHash": "sha256-j9wrcB4al5QhMelEghJ0Qs+RQPT+wyCcI4070NEgPLQ=",
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "885e1c9d62cfa12232802de77b36aaded1ca609b",
+        "rev": "3d39d0817d62069f7b18821c34a617b5141cb278",
         "type": "github"
       },
       "original": {
@@ -638,11 +638,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1782330545,
-        "narHash": "sha256-b/M5aXxwocTv2uG4ee9Qk1GO6ab/QG9yJoAs9TQ/7+s=",
+        "lastModified": 1782582869,
+        "narHash": "sha256-QLECiyhoEMA/4gMO2Eaj+sYcNhbglXBWU9E/fKgW6yQ=",
         "ref": "refs/heads/main",
-        "rev": "27a6b7cd9f910e5705ec7f111ad50ea2e120cb0d",
-        "revCount": 50,
+        "rev": "b86c886ac62ad5e80432c9733b94ad657476f05e",
+        "revCount": 51,
         "type": "git",
         "url": "https://codeberg.org/ScottyLabs/devenv"
       },
