@@ -9,6 +9,8 @@ import {
     uniqueIndex,
 } from "drizzle-orm/pg-core";
 
+export type PollRoleType = "whitelist" | "blacklist";
+
 /**
  * Reactions in any channel (except the redirect channel) trigger a redirect message
  * to the configured redirectChannelId
@@ -82,10 +84,13 @@ export const polls = pgTable("polls", {
     createdBy: bigint("created_by", { mode: "string" }).notNull(),
     multiSelect: boolean("multi_select").notNull().default(false),
     anonymous: boolean("anonymous").notNull().default(false),
+    /** @deprecated use pollRoles table */
     roleWhitelistId: bigint("role_whitelist_id", { mode: "string" }),
+    /** @deprecated use pollRoles table */
     roleBlacklistId: bigint("role_blacklist_id", { mode: "string" }),
     expiresAt: timestamp("expires_at"),
     closed: boolean("closed").notNull().default(false),
+    rankedChoice: boolean("ranked_choice").notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -111,12 +116,21 @@ export const pollVotes = pgTable(
             .notNull()
             .references(() => pollOptions.id, { onDelete: "cascade" }),
         userId: bigint("user_id", { mode: "string" }).notNull(),
+        /** 1-based rank for ranked-choice polls; null otherwise */
+        rank: integer("rank"),
         votedAt: timestamp("voted_at").defaultNow().notNull(),
     },
-    (table) => [
-        uniqueIndex("poll_votes_option_user_idx").on(
-            table.pollOptionId,
-            table.userId,
-        ),
-    ],
+    (table) => [uniqueIndex("poll_votes_option_user_idx").on(table.pollOptionId, table.userId)],
 );
+
+/**
+ * Role whitelist/blacklist for a poll (replaces single-column approach)
+ */
+export const pollRoles = pgTable("poll_roles", {
+    id: serial("id").primaryKey(),
+    pollId: integer("poll_id")
+        .notNull()
+        .references(() => polls.id, { onDelete: "cascade" }),
+    roleId: bigint("role_id", { mode: "string" }).notNull(),
+    type: text("type").$type<PollRoleType>().notNull(),
+});

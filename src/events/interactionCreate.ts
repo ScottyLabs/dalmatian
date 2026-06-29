@@ -1,5 +1,6 @@
 import {
     type AutocompleteInteraction,
+    type ButtonInteraction,
     type ChatInputCommandInteraction,
     Client,
     Events,
@@ -11,13 +12,16 @@ import {
 } from "discord.js";
 import type { Event, MessageContextCommand, UserContextCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
-import { handlePollVote } from "../utils/pollVotes.ts";
+import { handlePollVoters, handlePollVote } from "../utils/pollVotes.ts";
 
 const event: Event<Events.InteractionCreate> = {
     name: Events.InteractionCreate,
     once: false,
     async execute(interaction) {
-        const client = interaction.client as Client;
+        const client = interaction.client as Client & {
+            slashCommands: Map<string, any>;
+            contextCommands: Map<string, any>;
+        };
 
         if (interaction.isChatInputCommand() || interaction.isAutocomplete()) {
             const command = client.slashCommands.get(interaction.commandName);
@@ -62,13 +66,23 @@ const event: Event<Events.InteractionCreate> = {
         } else if (interaction.isStringSelectMenu()) {
             if (interaction.customId.startsWith("poll:vote:")) {
                 try {
-                    await handlePollVote(
-                        interaction as StringSelectMenuInteraction,
-                    );
+                    await handlePollVote(interaction as StringSelectMenuInteraction);
                 } catch (error) {
                     console.error("Error handling poll vote:", error);
                     await interaction.reply({
                         content: "Failed to record your vote.",
+                        flags: MessageFlags.Ephemeral,
+                    });
+                }
+            }
+        } else if (interaction.isButton()) {
+            if (interaction.customId.startsWith("poll:voters:")) {
+                try {
+                    await handlePollVoters(interaction as ButtonInteraction);
+                } catch (error) {
+                    console.error("Error handling poll voters:", error);
+                    await interaction.reply({
+                        content: "Failed to load voter info.",
                         flags: MessageFlags.Ephemeral,
                     });
                 }
