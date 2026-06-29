@@ -5,10 +5,8 @@ import {
     Client,
     Events,
     InteractionType,
-    type MessageContextMenuCommandInteraction,
     MessageFlags,
     type StringSelectMenuInteraction,
-    type UserContextMenuCommandInteraction,
 } from "discord.js";
 import type { Event, MessageContextCommand, UserContextCommand } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
@@ -87,7 +85,7 @@ const event: Event<Events.InteractionCreate> = {
                     });
                 }
             }
-        } else if (interaction.isUserContextMenuCommand()) {
+        } else if (interaction.isContextMenuCommand()) {
             const command = client.contextCommands.get(interaction.commandName);
             if (!command) {
                 logger.warn(
@@ -98,13 +96,9 @@ const event: Event<Events.InteractionCreate> = {
 
             try {
                 if (interaction.isMessageContextMenuCommand()) {
-                    await (command as MessageContextCommand).execute(
-                        interaction as MessageContextMenuCommandInteraction,
-                    );
-                } else {
-                    await (command as UserContextCommand).execute(
-                        interaction as UserContextMenuCommandInteraction,
-                    );
+                    await (command as MessageContextCommand).execute(interaction);
+                } else if (interaction.isUserContextMenuCommand()) {
+                    await (command as UserContextCommand).execute(interaction);
                 }
 
                 logger.info(
