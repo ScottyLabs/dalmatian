@@ -1,4 +1,15 @@
-import { bigint, integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
+import {
+    bigint,
+    boolean,
+    integer,
+    pgTable,
+    serial,
+    text,
+    timestamp,
+    uniqueIndex,
+} from "drizzle-orm/pg-core";
+
+export type PollRoleType = "whitelist" | "blacklist";
 
 /**
  * Reactions in any channel (except the redirect channel) trigger a redirect message
@@ -50,4 +61,76 @@ export const userCooldowns = pgTable("user_cooldowns", {
         .notNull()
         .references(() => redirectionInstances.id, { onDelete: "cascade" }),
     lastPingedAt: timestamp("last_pinged_at").notNull(),
+});
+
+/**
+ * Guild-level configuration for the polls channel
+ */
+export const pollConfig = pgTable("poll_config", {
+    id: serial("id").primaryKey(),
+    guildId: bigint("guild_id", { mode: "string" }).notNull().unique(),
+    channelId: bigint("channel_id", { mode: "string" }).notNull(),
+});
+
+/**
+ * A poll created via the /poll command
+ */
+export const polls = pgTable("polls", {
+    id: serial("id").primaryKey(),
+    guildId: bigint("guild_id", { mode: "string" }).notNull(),
+    channelId: bigint("channel_id", { mode: "string" }).notNull(),
+    messageId: bigint("message_id", { mode: "string" }).notNull(),
+    question: text("question").notNull(),
+    createdBy: bigint("created_by", { mode: "string" }).notNull(),
+    multiSelect: boolean("multi_select").notNull().default(false),
+    anonymous: boolean("anonymous").notNull().default(false),
+    /** @deprecated use pollRoles table */
+    roleWhitelistId: bigint("role_whitelist_id", { mode: "string" }),
+    /** @deprecated use pollRoles table */
+    roleBlacklistId: bigint("role_blacklist_id", { mode: "string" }),
+    expiresAt: timestamp("expires_at"),
+    closed: boolean("closed").notNull().default(false),
+    rankedChoice: boolean("ranked_choice").notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+/**
+ * Options for a poll
+ */
+export const pollOptions = pgTable("poll_options", {
+    id: serial("id").primaryKey(),
+    pollId: integer("poll_id")
+        .notNull()
+        .references(() => polls.id, { onDelete: "cascade" }),
+    label: text("label").notNull(),
+});
+
+/**
+ * Individual votes on poll options
+ */
+export const pollVotes = pgTable(
+    "poll_votes",
+    {
+        id: serial("id").primaryKey(),
+        pollOptionId: integer("poll_option_id")
+            .notNull()
+            .references(() => pollOptions.id, { onDelete: "cascade" }),
+        userId: bigint("user_id", { mode: "string" }).notNull(),
+        /** 1-based rank for ranked-choice polls; null otherwise */
+        rank: integer("rank"),
+        votedAt: timestamp("voted_at").defaultNow().notNull(),
+    },
+    (table) => [uniqueIndex("poll_votes_option_user_idx").on(table.pollOptionId, table.userId)],
+);
+
+/**
+ * Role whitelist/blacklist for a poll (replaces single-column approach)
+ */
+export const pollRoles = pgTable("poll_roles", {
+    id: serial("id").primaryKey(),
+    pollId: integer("poll_id")
+        .notNull()
+        .references(() => polls.id, { onDelete: "cascade" }),
+    roleId: bigint("role_id", { mode: "string" }).notNull(),
+    type: text("type").$type<PollRoleType>().notNull(),
 });
