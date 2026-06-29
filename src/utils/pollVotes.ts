@@ -15,9 +15,8 @@ import { db, pollOptions, pollRoles, polls, pollVotes } from "../db/index.ts";
 const pollTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
 const MAX_DESCRIPTION_LENGTH = 4096;
-const MEDALS = ["🥇", "🥈", "🥉"];
+const MEDALS = ["**1.**", "**2.**", "**3.**"];
 const BAR_WIDTH = 20;
-const LIVE_BAR_WIDTH = 10;
 
 function truncateDescription(description: string) {
     if (description.length <= MAX_DESCRIPTION_LENGTH) return description;
@@ -26,7 +25,7 @@ function truncateDescription(description: string) {
 
 function buildBar(pct: number, width = BAR_WIDTH): string {
     const filled = Math.round((pct / 100) * width);
-    return "█".repeat(filled) + "░".repeat(width - filled);
+    return "`" + "█".repeat(filled) + "▒".repeat(width - filled) + "`";
 }
 
 function pollMessageUrl(guildId: string, channelId: string, messageId: string) {
@@ -57,7 +56,7 @@ export function buildPollEmbed(
         const count = votes.filter((v) => v.pollOptionId === opt.id).length;
         if (totalVotes === 0) return `**${opt.label}**`;
         const pct = Math.round((count / totalVotes) * 100);
-        return `**${opt.label}**\n${buildBar(pct, LIVE_BAR_WIDTH)} ${pct}% (${count})`;
+        return `**${opt.label}**\n${buildBar(pct)} ${pct}% (${count})`;
     });
 
     let header = `Poll by <@${createdBy}>`;
@@ -155,7 +154,7 @@ export function buildResultsEmbed(
     }
 
     const description = truncateDescription(
-        `__**📊 Results: ${poll.question}**__ · [Jump to poll](${pollUrl})\n\n${lines.join("\n\n")}`,
+        `__**Results: ${poll.question}**__ · [Jump to poll](${pollUrl})\n\n${lines.join("\n\n")}`,
     );
 
     return new EmbedBuilder()
