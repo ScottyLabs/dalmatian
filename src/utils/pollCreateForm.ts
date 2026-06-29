@@ -4,6 +4,7 @@ import {
     type ButtonInteraction,
     ButtonStyle,
     type ChatInputCommandInteraction,
+    type ModalSubmitInteraction,
     ContainerBuilder,
     MessageFlags,
     ModalBuilder,
@@ -415,11 +416,7 @@ export class PollCreateForm {
         }
     }
 
-    private async handleModalValue(
-        key: string,
-        value: string,
-        submit: { deferUpdate: () => Promise<void> },
-    ) {
+    private async handleModalValue(key: string, value: string, submit: ModalSubmitInteraction) {
         if (key === "question") {
             this.state.question = value;
         } else if (key === "add_option") {
