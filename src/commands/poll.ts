@@ -109,7 +109,12 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const form = new PollCreateForm(interaction, config.channelId);
+    const form = new PollCreateForm(
+        interaction,
+        config.channelId,
+        config.showProgressBars,
+        config.optionMarkerStyle,
+    );
     await form.start();
 }
 

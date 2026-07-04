@@ -11,19 +11,27 @@ import {
     RoleSelectMenuBuilder,
     type RoleSelectMenuInteraction,
     SeparatorBuilder,
-    StringSelectMenuBuilder,
     TextInputBuilder,
     TextInputStyle,
 } from "discord.js";
 import { eq } from "drizzle-orm";
-import { db, pollOptions, pollRoles, polls } from "../db/index.ts";
+import { db, type OptionMarkerStyle, pollOptions, pollRoles, polls } from "../db/index.ts";
 import { DEFAULT_EMBED_COLOR } from "../constants.ts";
-import { buildPollEmbed, buildSeeVotersRow, schedulePollExpiry } from "./pollVotes.ts";
+import {
+    buildPollContainer,
+    buildVoteRows,
+    optionMarkerEmoji,
+    optionMarkerText,
+    resolveRoleNames,
+    schedulePollExpiry,
+} from "./pollVotes.ts";
 
-const MAX_OPTIONS = 10;
+const MAX_OPTIONS = 20;
 const MAX_OPTION_LENGTH = 100;
 const MAX_QUESTION_LENGTH = 256;
 const MAX_DURATION_MS = 4 * 7 * 24 * 60 * 60 * 1000; // 4 weeks
+const BUTTON_LABEL_MAX = 80;
+const OPTIONS_PER_ROW = 5;
 
 const DURATION_MULTIPLIERS: Record<string, number> = {
     m: 60 * 1000,
@@ -44,7 +52,19 @@ function parseDuration(input: string): number | null {
     return ms;
 }
 
+function chunk<T>(items: T[], size: number): T[][] {
+    const out: T[][] = [];
+    for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+    return out;
+}
+
+function truncateButtonLabel(label: string): string {
+    if (label.length <= BUTTON_LABEL_MAX) return label;
+    return `${label.slice(0, BUTTON_LABEL_MAX - 1)}…`;
+}
+
 interface PollFormState {
+    view: "main" | "options";
     question: string | null;
     options: string[];
     duration: string | null;
@@ -55,8 +75,16 @@ interface PollFormState {
     blacklistRoleIds: string[];
 }
 
+/** Only one /poll create session may be active per user per guild; starting a new one cancels the old. */
+const activeSessions = new Map<string, PollCreateForm>();
+
+function sessionKey(interaction: ChatInputCommandInteraction): string {
+    return `${interaction.guildId}:${interaction.user.id}`;
+}
+
 export class PollCreateForm {
     private state: PollFormState = {
+        view: "main",
         question: null,
         options: [],
         duration: null,
@@ -67,15 +95,43 @@ export class PollCreateForm {
         blacklistRoleIds: [],
     };
 
+    private modalNonce = 0;
+    private collector?: any;
+    private readonly key: string;
+
     constructor(
         private interaction: ChatInputCommandInteraction,
         private pollChannelId: string,
-    ) {}
+        private showProgressBars: boolean,
+        private markerStyle: OptionMarkerStyle,
+    ) {
+        this.key = sessionKey(interaction);
+    }
 
     async start() {
+        const existing = activeSessions.get(this.key);
+        activeSessions.set(this.key, this);
+        if (existing && existing !== this) await existing.cancel();
+
         await this.interaction.deferReply({ flags: MessageFlags.Ephemeral });
         await this.render();
         await this.listen();
+    }
+
+    /** Stops this session's collector and lets the user know it was superseded by a newer one. */
+    private async cancel() {
+        this.collector?.stop("superseded");
+        await this.interaction
+            .editReply({
+                components: [
+                    new ContainerBuilder().addTextDisplayComponents((t) =>
+                        t.setContent(
+                            "This poll creation was cancelled because you started a new one.",
+                        ),
+                    ),
+                ],
+            })
+            .catch(() => {});
     }
 
     // ─── Render ────────────────────────────────────────────────────────────────
@@ -88,6 +144,10 @@ export class PollCreateForm {
     }
 
     private buildContainer(): ContainerBuilder {
+        return this.state.view === "options" ? this.buildOptionsView() : this.buildMainView();
+    }
+
+    private buildMainView(): ContainerBuilder {
         const {
             question,
             options,
@@ -121,37 +181,26 @@ export class PollCreateForm {
         // ── Options ──
         container.addSeparatorComponents(new SeparatorBuilder());
         const optionsLines = options.length
-            ? options.map((o, i) => `${i + 1}. ${o}`).join("\n")
+            ? options.map((o, i) => `${optionMarkerText(i, this.markerStyle)} ${o}`).join("\n")
             : "*No options yet*";
         const optionsHeader = `**Options** (${options.length}/${MAX_OPTIONS}) ${options.length < 2 ? "*\\*min 2 required*" : ""}`;
         container.addTextDisplayComponents((t) =>
             t.setContent(`${optionsHeader}\n${optionsLines}`),
         );
-
-        const optionBtns = [
-            new ButtonBuilder()
-                .setCustomId("poll:create:add_option")
-                .setLabel("+ Add option")
-                .setStyle(ButtonStyle.Secondary)
-                .setDisabled(options.length >= MAX_OPTIONS),
-        ];
-        if (options.length > 0) {
-            optionBtns.push(
-                new ButtonBuilder()
-                    .setCustomId("poll:create:remove_option")
-                    .setLabel("Remove last")
-                    .setStyle(ButtonStyle.Danger),
-            );
-        }
         container.addActionRowComponents(
-            new ActionRowBuilder<ButtonBuilder>().addComponents(...optionBtns),
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                    .setCustomId("poll:create:options:edit")
+                    .setLabel(options.length > 0 ? "Edit options" : "Add options")
+                    .setStyle(ButtonStyle.Secondary),
+            ),
         );
 
         // ── Duration ──
         container.addSeparatorComponents(new SeparatorBuilder());
         const durationText = duration
             ? `**Duration**\n> ${duration}`
-            : "**Duration** *(optional — e.g. 30m, 2h, 5d, 1w, max 4w)*";
+            : "**Duration** *(optional - e.g. 30m, 2h, 5d, 1w, max 4w)*";
         container.addTextDisplayComponents((t) => t.setContent(durationText));
         container.addActionRowComponents(
             new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -177,16 +226,15 @@ export class PollCreateForm {
             new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
                     .setCustomId("poll:create:toggle:anonymous")
-                    .setLabel(anonymous ? "✓ Anonymous" : "Anonymous")
+                    .setLabel("Anonymous")
                     .setStyle(anonymous ? ButtonStyle.Success : ButtonStyle.Secondary),
                 new ButtonBuilder()
                     .setCustomId("poll:create:toggle:multi_select")
-                    .setLabel(multiSelect ? "✓ Multi-select" : "Multi-select")
-                    .setStyle(multiSelect ? ButtonStyle.Success : ButtonStyle.Secondary)
-                    .setDisabled(rankedChoice),
+                    .setLabel("Multi-select")
+                    .setStyle(multiSelect ? ButtonStyle.Success : ButtonStyle.Secondary),
                 new ButtonBuilder()
                     .setCustomId("poll:create:toggle:ranked_choice")
-                    .setLabel(rankedChoice ? "✓ Ranked choice" : "Ranked choice")
+                    .setLabel("Ranked choice")
                     .setStyle(rankedChoice ? ButtonStyle.Success : ButtonStyle.Secondary),
             ),
         );
@@ -196,13 +244,13 @@ export class PollCreateForm {
 
         const conflictNote =
             whitelistRoleIds.length > 0 && blacklistRoleIds.length > 0
-                ? "\n⚠️ *Cannot use both whitelist and blacklist — clear one before creating*"
+                ? "\n⚠️ *Cannot use both whitelist and blacklist - clear one before creating*"
                 : "";
 
         const whitelistLabel =
             whitelistRoleIds.length > 0
-                ? `**Voter whitelist** (${whitelistRoleIds.length} role${whitelistRoleIds.length !== 1 ? "s" : ""} — must have any)\n${whitelistRoleIds.map((id) => `<@&${id}>`).join("  ")}`
-                : "**Voter whitelist** *(optional — only these roles can vote)*";
+                ? `**Voter whitelist** (${whitelistRoleIds.length} role${whitelistRoleIds.length !== 1 ? "s" : ""} - must have any)\n${whitelistRoleIds.map((id) => `<@&${id}>`).join("  ")}`
+                : "**Voter whitelist** *(optional - only these roles can vote)*";
         container.addTextDisplayComponents((t) => t.setContent(whitelistLabel));
         container.addActionRowComponents(
             new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
@@ -216,8 +264,8 @@ export class PollCreateForm {
 
         const blacklistLabel =
             blacklistRoleIds.length > 0
-                ? `**Voter blacklist** (${blacklistRoleIds.length} role${blacklistRoleIds.length !== 1 ? "s" : ""} — must not have any)\n${blacklistRoleIds.map((id) => `<@&${id}>`).join("  ")}`
-                : "**Voter blacklist** *(optional — these roles cannot vote)*";
+                ? `**Voter blacklist** (${blacklistRoleIds.length} role${blacklistRoleIds.length !== 1 ? "s" : ""} - must not have any)\n${blacklistRoleIds.map((id) => `<@&${id}>`).join("  ")}`
+                : "**Voter blacklist** *(optional - these roles cannot vote)*";
         container.addTextDisplayComponents((t) => t.setContent(blacklistLabel + conflictNote));
         container.addActionRowComponents(
             new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
@@ -249,15 +297,68 @@ export class PollCreateForm {
         return container;
     }
 
+    /** Dedicated sub-view where each option gets its own remove button (kept separate from the main view to stay under Discord's 40-component cap). */
+    private buildOptionsView(): ContainerBuilder {
+        const { options } = this.state;
+
+        const container = new ContainerBuilder()
+            .setAccentColor(DEFAULT_EMBED_COLOR)
+            .addTextDisplayComponents((t) => t.setContent("# Create Poll - Options"));
+
+        container.addSeparatorComponents(new SeparatorBuilder());
+        const header = `**Options** (${options.length}/${MAX_OPTIONS})${options.length < 2 ? " *\\*min 2 required*" : ""}\nTap an option to remove it.`;
+        container.addTextDisplayComponents((t) => t.setContent(header));
+
+        if (options.length > 0) {
+            chunk(options, OPTIONS_PER_ROW).forEach((row, rowIndex) => {
+                const startIndex = rowIndex * OPTIONS_PER_ROW;
+                container.addActionRowComponents(
+                    new ActionRowBuilder<ButtonBuilder>().addComponents(
+                        row.map((label, i) => {
+                            const index = startIndex + i;
+                            const emoji = optionMarkerEmoji(index, this.markerStyle);
+                            const marker = optionMarkerText(index, this.markerStyle);
+                            const button = new ButtonBuilder()
+                                .setCustomId(`poll:create:option:remove:${index}`)
+                                .setLabel(truncateButtonLabel(emoji ? label : `${marker} ${label}`))
+                                .setStyle(ButtonStyle.Danger);
+                            return emoji ? button.setEmoji(emoji) : button;
+                        }),
+                    ),
+                );
+            });
+        } else {
+            container.addTextDisplayComponents((t) => t.setContent("*No options yet*"));
+        }
+
+        container.addSeparatorComponents(new SeparatorBuilder());
+        container.addActionRowComponents(
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                    .setCustomId("poll:create:add_option")
+                    .setLabel("+ Add option")
+                    .setStyle(ButtonStyle.Secondary)
+                    .setDisabled(options.length >= MAX_OPTIONS),
+                new ButtonBuilder()
+                    .setCustomId("poll:create:options:done")
+                    .setLabel("Done")
+                    .setStyle(ButtonStyle.Primary),
+            ),
+        );
+
+        return container;
+    }
+
     // ─── Listener ──────────────────────────────────────────────────────────────
 
     private async listen() {
-        const collector = this.interaction.channel?.createMessageComponentCollector({
+        // Scoped to this reply message, not the whole channel, so concurrent sessions can't cross-talk.
+        const message = await this.interaction.fetchReply();
+        const collector = message.createMessageComponentCollector({
             filter: (i) => i.user.id === this.interaction.user.id,
             time: 10 * 60 * 1000, // 10 minutes
         });
-
-        if (!collector) return;
+        this.collector = collector;
 
         collector.on("collect", async (i) => {
             try {
@@ -270,7 +371,9 @@ export class PollCreateForm {
         });
 
         collector.on("end", async (_c, reason) => {
-            if (reason !== "submitted") {
+            if (activeSessions.get(this.key) === this) activeSessions.delete(this.key);
+
+            if (reason !== "submitted" && reason !== "superseded") {
                 await this.interaction
                     .editReply({
                         components: [
@@ -299,6 +402,18 @@ export class PollCreateForm {
             return;
         }
 
+        if (id === "poll:create:options:edit") {
+            this.state.view = "options";
+            await i.update({ components: [this.buildContainer()] });
+            return;
+        }
+
+        if (id === "poll:create:options:done") {
+            this.state.view = "main";
+            await i.update({ components: [this.buildContainer()] });
+            return;
+        }
+
         if (id === "poll:create:add_option") {
             const num = this.state.options.length + 1;
             await this.showModal(
@@ -312,8 +427,11 @@ export class PollCreateForm {
             return;
         }
 
-        if (id === "poll:create:remove_option") {
-            this.state.options.pop();
+        if (id.startsWith("poll:create:option:remove:")) {
+            const index = Number.parseInt(id.split(":")[4] ?? "", 10);
+            if (Number.isInteger(index) && index >= 0 && index < this.state.options.length) {
+                this.state.options.splice(index, 1);
+            }
             await i.update({ components: [this.buildContainer()] });
             return;
         }
@@ -345,13 +463,14 @@ export class PollCreateForm {
 
         if (id === "poll:create:toggle:multi_select") {
             this.state.multiSelect = !this.state.multiSelect;
+            if (this.state.multiSelect) this.state.rankedChoice = false; // mutually exclusive with ranked choice
             await i.update({ components: [this.buildContainer()] });
             return;
         }
 
         if (id === "poll:create:toggle:ranked_choice") {
             this.state.rankedChoice = !this.state.rankedChoice;
-            if (this.state.rankedChoice) this.state.multiSelect = false; // ranked implies multi
+            if (this.state.rankedChoice) this.state.multiSelect = false; // mutually exclusive with multi-select
             await i.update({ components: [this.buildContainer()] });
             return;
         }
@@ -384,6 +503,9 @@ export class PollCreateForm {
         maxLength: number,
         prefill?: string,
     ) {
+        // Unique per call so a double-triggered modal can't have two listeners resolve the same submission.
+        const customId = `poll:create:modal:${key}:${++this.modalNonce}`;
+
         const input = new TextInputBuilder()
             .setCustomId("value")
             .setLabel(title)
@@ -395,7 +517,7 @@ export class PollCreateForm {
         if (prefill) input.setValue(prefill);
 
         const modal = new ModalBuilder()
-            .setCustomId(`poll:create:modal:${key}`)
+            .setCustomId(customId)
             .setTitle(title)
             .addComponents(new ActionRowBuilder<TextInputBuilder>().addComponents(input));
 
@@ -403,16 +525,14 @@ export class PollCreateForm {
 
         try {
             const submit = await i.awaitModalSubmit({
-                filter: (m) =>
-                    m.customId === `poll:create:modal:${key}` &&
-                    m.user.id === this.interaction.user.id,
+                filter: (m) => m.customId === customId && m.user.id === this.interaction.user.id,
                 time: 120_000,
             });
 
             const value = submit.fields.getTextInputValue("value").trim();
             await this.handleModalValue(key, value, submit);
         } catch {
-            // User dismissed modal — no action needed
+            // User dismissed modal - no action needed
         }
     }
 
@@ -428,7 +548,7 @@ export class PollCreateForm {
         } else if (key === "duration") {
             const ms = parseDuration(value);
             if (!ms) {
-                // Show error via ephemeral — can't update ephemeral from modal submit directly
+                // Show error via ephemeral - can't update ephemeral from modal submit directly
                 await submit.deferUpdate();
                 await this.render();
                 await this.interaction.followUp({
@@ -512,6 +632,8 @@ export class PollCreateForm {
                     anonymous,
                     rankedChoice,
                     expiresAt,
+                    showProgressBars: this.showProgressBars,
+                    optionMarkerStyle: this.markerStyle,
                 })
                 .returning();
 
@@ -539,41 +661,34 @@ export class PollCreateForm {
                 await db.insert(pollRoles).values(roleRows);
             }
 
+            const roleNames = resolveRoleNames(this.interaction.guild ?? undefined, roleRows, {
+                roleWhitelistId: null,
+                roleBlacklistId: null,
+            });
+
             // Build poll message
-            const embed = buildPollEmbed(
+            const pollContainer = buildPollContainer(
                 question,
                 insertedOptions,
                 [],
-                anonymous,
                 this.interaction.user.id,
                 expiresAt,
                 rankedChoice,
+                this.showProgressBars,
+                this.markerStyle,
+                roleNames,
+            );
+            const voteRows = buildVoteRows(
+                { id: poll.id, rankedChoice, multiSelect, anonymous },
+                insertedOptions,
+                this.markerStyle,
             );
 
-            const isMultiChoice = multiSelect || rankedChoice;
-            const placeholder = rankedChoice
-                ? "Rank by preference"
-                : multiSelect
-                  ? "Vote for one or more options"
-                  : "Vote for an option";
-
-            const selectMenu = new StringSelectMenuBuilder()
-                .setCustomId(`poll:vote:${poll.id}`)
-                .setPlaceholder(placeholder)
-                .setMaxValues(isMultiChoice ? insertedOptions.length : 1)
-                .addOptions([
-                    ...insertedOptions.map((opt) => ({ label: opt.label, value: String(opt.id) })),
-                    { label: "Clear vote", value: "unvote" },
-                ]);
-
-            const components: ActionRowBuilder<any>[] = [
-                new ActionRowBuilder().addComponents(selectMenu),
-            ];
-            if (!anonymous) {
-                components.push(buildSeeVotersRow(poll.id));
-            }
-
-            const message = await channel.send({ embeds: [embed], components });
+            const message = await channel.send({
+                components: [pollContainer, ...voteRows],
+                flags: MessageFlags.IsComponentsV2,
+                allowedMentions: { parse: [] },
+            });
             await db.update(polls).set({ messageId: message.id }).where(eq(polls.id, poll.id));
 
             if (expiresAt) {
@@ -586,7 +701,7 @@ export class PollCreateForm {
                         .setAccentColor(DEFAULT_EMBED_COLOR)
                         .addTextDisplayComponents((t) =>
                             t.setContent(
-                                `# Create Poll\n\n✅ Poll created in <#${this.pollChannelId}>!`,
+                                `# Create Poll\n\nPoll created in <#${this.pollChannelId}>!`,
                             ),
                         ),
                 ],
