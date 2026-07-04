@@ -10,6 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 export type PollRoleType = "whitelist" | "blacklist";
+export type OptionMarkerStyle = "letter" | "number";
 
 /**
  * Reactions in any channel (except the redirect channel) trigger a redirect message
@@ -70,6 +71,13 @@ export const pollConfig = pgTable("poll_config", {
     id: serial("id").primaryKey(),
     guildId: bigint("guild_id", { mode: "string" }).notNull().unique(),
     channelId: bigint("channel_id", { mode: "string" }).notNull(),
+    /** Guild-wide default for newly created polls; can be overridden per-poll in the future */
+    showProgressBars: boolean("show_progress_bars").notNull().default(true),
+    /** Guild-wide default marker shown beside each option (letter emoji or plain numbers) */
+    optionMarkerStyle: text("option_marker_style")
+        .$type<OptionMarkerStyle>()
+        .notNull()
+        .default("letter"),
 });
 
 /**
@@ -91,6 +99,12 @@ export const polls = pgTable("polls", {
     expiresAt: timestamp("expires_at"),
     closed: boolean("closed").notNull().default(false),
     rankedChoice: boolean("ranked_choice").notNull().default(false),
+    /** Snapshot of the guild's poll-setup preferences at creation time */
+    showProgressBars: boolean("show_progress_bars").notNull().default(true),
+    optionMarkerStyle: text("option_marker_style")
+        .$type<OptionMarkerStyle>()
+        .notNull()
+        .default("letter"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
