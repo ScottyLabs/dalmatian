@@ -4,26 +4,29 @@ import {
     PermissionFlagsBits,
     SlashCommandBuilder,
 } from "discord.js";
-import { and, eq, inArray } from "drizzle-orm";
-import { z } from "zod";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { db, pollConfig, pollOptions, polls, pollVotes } from "../db/index.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { buildResultsEmbed, closePoll } from "../utils/pollVotes.ts";
 import { PollCreateForm } from "../utils/pollCreateForm.ts";
-import { SetupForm, type SetupSchema } from "../utils/setupForm.ts";
 
-const pollSetupSchema = z.object({
-    channelId: z.string().min(1, "Polls channel is required"),
-});
+/** Discord snowflakes are 64-bit unsigned integers, so they're always purely numeric. */
+const SNOWFLAKE_RE = /^\d{1,20}$/;
 
-type PollSetupData = z.infer<typeof pollSetupSchema>;
+function isSnowflake(value: string): boolean {
+    return SNOWFLAKE_RE.test(value);
+}
+
+async function replyInvalidMessageId(interaction: ChatInputCommandInteraction) {
+    await interaction.reply({
+        content: "That doesn't look like a valid message ID (it should be a string of numbers).",
+        flags: MessageFlags.Ephemeral,
+    });
+}
 
 const builder = new SlashCommandBuilder()
     .setName("poll")
     .setDescription("Create and manage polls")
-    .addSubcommand((sub) =>
-        sub.setName("setup").setDescription("Configure the polls channel (admin only)"),
-    )
     .addSubcommand((sub) => sub.setName("create").setDescription("Create a new poll"))
     .addSubcommand((sub) =>
         sub
@@ -75,9 +78,7 @@ const command: SlashCommand = {
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand === "setup") {
-            await handleSetup(interaction);
-        } else if (subcommand === "create") {
+        if (subcommand === "create") {
             await handleCreate(interaction);
         } else if (subcommand === "results") {
             await handleResults(interaction);
@@ -91,44 +92,6 @@ const command: SlashCommand = {
     },
 };
 
-async function handleSetup(interaction: ChatInputCommandInteraction) {
-    if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-        await interaction.reply({
-            content: "You need administrator permissions to configure polls.",
-            flags: MessageFlags.Ephemeral,
-        });
-        return;
-    }
-
-    const setupSchema: SetupSchema<typeof pollSetupSchema> = {
-        name: "Poll Setup",
-        zodSchema: pollSetupSchema,
-        fields: [
-            {
-                key: "channelId",
-                label: "Polls Channel",
-                type: "channel",
-                required: true,
-                zodSchema: z.string().min(1, "Polls channel ID is required"),
-                description: "Select the channel where polls will be posted",
-            },
-        ],
-        onComplete: async (data: PollSetupData) => {
-            if (!interaction.guildId) throw new Error("This command must be run in a server.");
-            await db
-                .insert(pollConfig)
-                .values({ guildId: interaction.guildId, channelId: data.channelId })
-                .onConflictDoUpdate({
-                    target: pollConfig.guildId,
-                    set: { channelId: data.channelId },
-                });
-        },
-    };
-
-    const form = new SetupForm(setupSchema, interaction);
-    await form.start();
-}
-
 async function handleCreate(interaction: ChatInputCommandInteraction) {
     if (!interaction.guildId) return;
 
@@ -140,7 +103,7 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
 
     if (!config) {
         await interaction.reply({
-            content: "No polls channel configured. An admin must run `/poll setup` first.",
+            content: "No polls channel configured. An admin must run `/pollsetup` first.",
             flags: MessageFlags.Ephemeral,
         });
         return;
@@ -152,6 +115,11 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
 
 async function handleResults(interaction: ChatInputCommandInteraction) {
     const messageId = interaction.options.getString("message_id", true);
+    if (!isSnowflake(messageId)) {
+        await replyInvalidMessageId(interaction);
+        return;
+    }
+
     const [poll] = await db.select().from(polls).where(eq(polls.messageId, messageId)).limit(1);
 
     if (!poll) {
@@ -162,7 +130,11 @@ async function handleResults(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const options = await db.select().from(pollOptions).where(eq(pollOptions.pollId, poll.id));
+    const options = await db
+        .select()
+        .from(pollOptions)
+        .where(eq(pollOptions.pollId, poll.id))
+        .orderBy(asc(pollOptions.id));
     const votes = await db
         .select()
         .from(pollVotes)
@@ -179,6 +151,11 @@ async function handleResults(interaction: ChatInputCommandInteraction) {
 
 async function handleMyVote(interaction: ChatInputCommandInteraction) {
     const messageId = interaction.options.getString("message_id", true);
+    if (!isSnowflake(messageId)) {
+        await replyInvalidMessageId(interaction);
+        return;
+    }
+
     const [poll] = await db.select().from(polls).where(eq(polls.messageId, messageId)).limit(1);
 
     if (!poll) {
@@ -189,7 +166,11 @@ async function handleMyVote(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const options = await db.select().from(pollOptions).where(eq(pollOptions.pollId, poll.id));
+    const options = await db
+        .select()
+        .from(pollOptions)
+        .where(eq(pollOptions.pollId, poll.id))
+        .orderBy(asc(pollOptions.id));
 
     const myVotes = await db
         .select()
@@ -229,6 +210,11 @@ async function handleMyVote(interaction: ChatInputCommandInteraction) {
 
 async function handleClose(interaction: ChatInputCommandInteraction) {
     const messageId = interaction.options.getString("message_id", true);
+    if (!isSnowflake(messageId)) {
+        await replyInvalidMessageId(interaction);
+        return;
+    }
+
     const [poll] = await db.select().from(polls).where(eq(polls.messageId, messageId)).limit(1);
 
     if (!poll) {
@@ -246,12 +232,12 @@ async function handleClose(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const isAdmin = interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
+    const canManage = interaction.memberPermissions?.has(PermissionFlagsBits.ManageMessages);
     const isAuthor = poll.createdBy === interaction.user.id;
 
-    if (!isAdmin && !isAuthor) {
+    if (!canManage && !isAuthor) {
         await interaction.reply({
-            content: "Only the poll author or an admin can close this poll.",
+            content: "Only the poll author or someone with Manage Messages can close this poll.",
             flags: MessageFlags.Ephemeral,
         });
         return;
@@ -263,6 +249,11 @@ async function handleClose(interaction: ChatInputCommandInteraction) {
 
 async function handleDelete(interaction: ChatInputCommandInteraction) {
     const messageId = interaction.options.getString("message_id", true);
+    if (!isSnowflake(messageId)) {
+        await replyInvalidMessageId(interaction);
+        return;
+    }
+
     const [poll] = await db.select().from(polls).where(eq(polls.messageId, messageId)).limit(1);
 
     if (!poll) {
@@ -273,12 +264,12 @@ async function handleDelete(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const isAdmin = interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
+    const canManage = interaction.memberPermissions?.has(PermissionFlagsBits.ManageMessages);
     const isAuthor = poll.createdBy === interaction.user.id;
 
-    if (!isAdmin && !isAuthor) {
+    if (!canManage && !isAuthor) {
         await interaction.reply({
-            content: "Only the poll author or an admin can delete this poll.",
+            content: "Only the poll author or someone with Manage Messages can delete this poll.",
             flags: MessageFlags.Ephemeral,
         });
         return;
