@@ -1,6 +1,7 @@
 import { Events } from "discord.js";
 import type { Event } from "../types.d.ts";
 import { logger, nodeError } from "../utils/log.ts";
+import { recoverPollTimers } from "../utils/pollVotes.ts";
 
 const event: Event<Events.ClientReady> = {
     name: Events.ClientReady,
@@ -17,6 +18,8 @@ const event: Event<Events.ClientReady> = {
                 logger.error(`Failed to cache members for guild ${guild.id}:`, nodeError(error));
             }
         }
+
+        await recoverPollTimers(client);
     },
 };
 

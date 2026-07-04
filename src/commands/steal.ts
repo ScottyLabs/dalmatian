@@ -122,9 +122,7 @@ function parseEmojiInput(input: string): {
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("steal")
-        .setDescription(
-            "Steals emotes, stickers, or soundboards from another server",
-        )
+        .setDescription("Steals emotes, stickers, or soundboards from another server")
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuildExpressions)
         .addStringOption((option) =>
             option
