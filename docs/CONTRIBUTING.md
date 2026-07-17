@@ -46,13 +46,13 @@ The bot uses PostgreSQL for storing polls and reaction redirect configurations. 
 1. Run database migrations to create the tables:
 
    ```bash
-   bun run db:migrate
+   deno run db:migrate
    ```
 
 1. (Optional) Open Drizzle Studio to inspect the database:
 
    ```bash
-   bun run db:studio
+   deno run db:studio
    ```
 
 The database will persist data in a Docker volume. To completely reset the database, run:
@@ -60,7 +60,7 @@ The database will persist data in a Docker volume. To completely reset the datab
 ```bash
 docker-compose down -v
 docker-compose up -d postgres
-bun run db:migrate
+deno run db:migrate
 ```
 
 ## Before Submitting
