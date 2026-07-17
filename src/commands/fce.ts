@@ -11,7 +11,7 @@ import {
     StringSelectMenuBuilder,
     underline,
 } from "discord.js";
-import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.ts";
+import { FYW_MINIS, SCOTTYLABS_URL, NON_FACTORABLE_COURSES } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import {
@@ -58,6 +58,7 @@ const command: SlashCommand = {
             code: string;
             course: Course;
             fce: FCEData;
+            isFactorable: boolean;
         };
 
         const fceData = FCE_DATA_BY_COURSE;
@@ -87,10 +88,14 @@ const command: SlashCommand = {
                 continue;
             }
 
+            const isFactorable = NON_FACTORABLE_COURSES.every(
+                (prefix) => !courseCode.startsWith(prefix),
+            );
             validCourses.push({
                 code: courseCode,
                 course: coursesData[courseCode],
                 fce: fceData[courseCode],
+                isFactorable,
             });
         }
 
@@ -286,17 +291,23 @@ const command: SlashCommand = {
         }
 
         let description = "";
-        for (const { code, fce } of validCourses) {
+        for (const { code, course, fce, isFactorable } of validCourses) {
             const summary = summaryByCourseCode.get(code)!;
             const courseName = fce.courseName.toUpperCase();
+            const units = italic(`(${calculateTotalUnits([course.units])})`);
             description +=
                 formatLine(
                     summary.workload,
-                    hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`),
-                ) + "\n";
+                    hyperlink(`${bold(code)}: ${courseName}`, `${SCOTTYLABS_URL}/course/${code}`),
+                ) + `${isFactorable ? "" : "\\*"} ${units}\n`;
         }
 
         const unitsDisplay = calculateTotalUnits(validCourses.map(({ course }) => course.units));
+        const factorableUnits = calculateTotalUnits(
+            validCourses
+                .filter(({ isFactorable }) => isFactorable)
+                .map(({ course }) => course.units),
+        );
 
         const courseCodes = validCourses.map(({ code }) => code);
         const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
@@ -316,6 +327,11 @@ const command: SlashCommand = {
         const embed = new EmbedBuilder()
             .setTitle(`FCE for ${validCourses.length} Courses (${unitsDisplay} units)`)
             .setDescription(description);
+        if (factorableUnits !== unitsDisplay) {
+            embed.setFooter({
+                text: `* Not counted towards your max units. Total factorable units: ${factorableUnits}`,
+            });
+        }
 
         const courseList = validCourses.map(({ code }) => code).join(",");
         const url = `http://courses.scottylabs.org/schedules/shared?courses=` + courseList;
