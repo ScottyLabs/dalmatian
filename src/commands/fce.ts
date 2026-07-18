@@ -98,7 +98,7 @@ export async function handleFCECommand(
 
     const notFound = [...invalidCodes, ...noCourseData, ...noFCEData];
 
-    if (validCourses.length === 1) {
+    if (validCourses.length === 1 && !options.alwaysList) {
         const { code, course, fce } = validCourses[0]!;
         const summary = summaryByCourseCode.get(code)!;
 
