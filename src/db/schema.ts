@@ -1,4 +1,4 @@
-import { bigint, integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
+import { bigint, integer, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 /**
  * Reactions in any channel (except the redirect channel) trigger a redirect message
@@ -51,3 +51,15 @@ export const userCooldowns = pgTable("user_cooldowns", {
         .references(() => redirectionInstances.id, { onDelete: "cascade" }),
     lastPingedAt: timestamp("last_pinged_at").notNull(),
 });
+
+/**
+ * User-associated courses for the ``/mycourses`` command group
+ */
+export const myCourses = pgTable(
+    "my_courses",
+    {
+        userId: bigint("user_id", { mode: "string" }).notNull(),
+        courseCode: text("course_code").notNull(),
+    },
+    (table) => [primaryKey({ columns: [table.userId, table.courseCode] })],
+);

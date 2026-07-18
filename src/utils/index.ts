@@ -46,3 +46,7 @@ export function formatCourseNumber(courseNumber: string): string | null {
 
     return null;
 }
+
+export function splitCourseList(input: string): string[] {
+    return input.split(/[\s,]+/).filter((code) => code.trim());
+}

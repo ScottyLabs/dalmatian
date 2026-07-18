@@ -10,6 +10,7 @@ import {
     SlashCommandBuilder,
     StringSelectMenuBuilder,
     underline,
+    type ChatInputCommandInteraction,
 } from "discord.js";
 import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
@@ -21,7 +22,291 @@ import {
     FCE_STARTUP_CACHE,
     FCEData,
 } from "../utils/fceCache.ts";
-import { COURSES_DATA, Course, formatCourseNumber } from "../utils/index.ts";
+import { COURSES_DATA, Course, formatCourseNumber, splitCourseList } from "../utils/index.ts";
+
+interface HandleFCECommandOptions {
+    alwaysList?: boolean;
+}
+
+export async function handleFCECommand(
+    interaction: ChatInputCommandInteraction,
+    rawCodes: string[],
+    options: HandleFCECommandOptions = {},
+) {
+    type ValidCourse = {
+        code: string;
+        course: Course;
+        fce: FCEData;
+    };
+
+    const coursesData = COURSES_DATA;
+    const fceData = FCE_DATA_BY_COURSE;
+    const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
+    const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
+
+    const validCourses: Array<ValidCourse> = [];
+    const invalidCodes: string[] = [];
+    const noCourseData: string[] = [];
+    const noFCEData: string[] = [];
+
+    for (const rawCode of rawCodes) {
+        const courseCode = formatCourseNumber(rawCode);
+
+        if (!courseCode) {
+            invalidCodes.push(rawCode);
+            continue;
+        }
+
+        if (!coursesData[courseCode]) {
+            noCourseData.push(courseCode);
+            continue;
+        }
+
+        if (!fceData[courseCode]) {
+            noFCEData.push(courseCode);
+            continue;
+        }
+
+        validCourses.push({
+            code: courseCode,
+            course: coursesData[courseCode],
+            fce: fceData[courseCode],
+        });
+    }
+
+    if (validCourses.length === 0) {
+        let errorMsg = "No valid courses with FCE data found.\n";
+        if (invalidCodes.length > 0) {
+            errorMsg += `Invalid format: ${invalidCodes.join(", ")}`;
+        }
+        if (noCourseData.length > 0) {
+            errorMsg += `Not found: ${noCourseData.join(", ")}`;
+        }
+        if (noFCEData.length > 0) {
+            errorMsg += `No FCE data: ${noFCEData.join(", ")}`;
+        }
+        return interaction.reply({
+            content: errorMsg,
+            flags: MessageFlags.Ephemeral,
+        });
+    }
+
+    const notFound = [...invalidCodes, ...noCourseData, ...noFCEData];
+
+    if (validCourses.length === 1 && !options.alwaysList) {
+        const { code, course, fce } = validCourses[0]!;
+        const summary = summaryByCourseCode.get(code)!;
+
+        const baseEmbed = new EmbedBuilder()
+            .setTitle(`${underline(`${code}: ${course.name}`)} (${course.units} units)`)
+            .setURL(`${SCOTTYLABS_URL}/course/${code}`);
+
+        function joinAndTruncate(items: string[], max = 7, buffer = 2): string {
+            if (items.length <= max) {
+                return items.join(", ");
+            }
+
+            const cutoff = max - buffer;
+            const shown = items.slice(0, cutoff).join(", ");
+            const hidden = items.length - cutoff;
+
+            return `${shown}, and ${hidden} more...`;
+        }
+
+        function createFCEEntry(
+            title: string,
+            semesterLabels: string[],
+            teachingRate: number,
+            courseRate: number,
+            workload: number,
+            responseRate: number,
+        ) {
+            return (
+                `${bold(title)} ${italic(`(${joinAndTruncate(semesterLabels)})`)}\n` +
+                `Teaching: ${bold(teachingRate.toFixed(2))}/5 • ` +
+                `Course: ${bold(courseRate.toFixed(2))}/5\n` +
+                `Workload: ${bold(workload.toFixed(2))} hrs/wk • ` +
+                `Response Rate: ${bold(`${responseRate.toFixed(1)}%`)}`
+            );
+        }
+
+        const summaryPage = EmbedBuilder.from(baseEmbed).addFields(
+            {
+                name: "Teaching",
+                value: `${bold(summary.teachingRate.toFixed(1))}/5`,
+                inline: true,
+            },
+            {
+                name: "Course",
+                value: `${bold(summary.courseRate.toFixed(1))}/5`,
+                inline: true,
+            },
+            {
+                name: "Workload",
+                value: `${bold(summary.workload.toFixed(1))} hrs/wk`,
+                inline: true,
+            },
+        );
+
+        const instructorMap = summaryByInstructorByCourseCode.get(code);
+        const byInstructorEntries = Array.from(
+            instructorMap ?? [],
+            ([instructor, instructorSummary]) => {
+                const name = instructor.toUpperCase();
+                const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
+
+                return createFCEEntry(
+                    hyperlink(name, url),
+                    instructorSummary.semesterLabels,
+                    instructorSummary.teachingRate,
+                    instructorSummary.courseRate,
+                    instructorSummary.workload,
+                    instructorSummary.responseRate,
+                );
+            },
+        );
+
+        const allSemesterEntries = fce.records.map((record) => {
+            const name = record.instructor.toUpperCase();
+            const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
+
+            return createFCEEntry(
+                hyperlink(name, url),
+                [record.semesterLabel],
+                record.overallTeachingRate,
+                record.overallCourseRate,
+                record.hrsPerWeek,
+                record.responseRate,
+            );
+        });
+
+        function buildFCEPages(entries: string[]): EmbedBuilder[] {
+            const pages: EmbedBuilder[] = [];
+            let chunk: string[] = [];
+            let index = 0;
+
+            if (notFound.length > 0) {
+                chunk.push(
+                    `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
+                );
+            }
+
+            for (const entry of entries) {
+                chunk.push(entry);
+                index++;
+
+                if (chunk.length >= 5 || index === entries.length) {
+                    const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n\n"));
+                    pages.push(embed);
+                    chunk = [];
+                }
+            }
+
+            return pages;
+        }
+
+        const selectOptions = [
+            {
+                label: "Summary",
+                value: "summary",
+                default: true,
+                pages: [summaryPage],
+            },
+            {
+                label: "Aggregate By Instructor",
+                value: "aggregate_by_instructor",
+                pages: buildFCEPages(byInstructorEntries),
+            },
+            {
+                label: "All Semesters",
+                value: "all_semesters",
+                pages: buildFCEPages(allSemesterEntries),
+            },
+        ];
+
+        const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            new StringSelectMenuBuilder().setCustomId("fce_select_menu").addOptions(selectOptions),
+        );
+
+        const paginator = new EmbedPaginator({
+            pages: selectOptions[0]!.pages,
+            components: [selectRow],
+            async onCollect(collectInteraction) {
+                if (!collectInteraction.isStringSelectMenu()) return;
+                const choice = collectInteraction.values[0]!;
+                const selected = selectOptions.find((option) => option.value === choice);
+                paginator.setPages(selected!.pages);
+                selectRow.components[0]?.setOptions(
+                    selectOptions.map((option) => ({
+                        ...option,
+                        default: option.value === choice,
+                    })),
+                );
+            },
+        });
+        await paginator.send(interaction);
+        return;
+    }
+
+    function formatLine(workload: number, text: string, total = false) {
+        let left = `${bold(workload.toFixed(1))} hrs/wk`;
+        let right = text;
+        if (total) {
+            left = underline(left);
+            right = underline(right);
+        }
+        if (workload.toFixed(1).length === 3) {
+            return `${left} — ${right}`;
+        }
+        return `${left} - ${right}`;
+    }
+
+    let description = "";
+    for (const { code, fce } of validCourses) {
+        const summary = summaryByCourseCode.get(code)!;
+        const courseName = fce.courseName.toUpperCase();
+        description +=
+            formatLine(
+                summary.workload,
+                hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`),
+            ) + "\n";
+    }
+
+    const unitsDisplay = calculateTotalUnits(validCourses.map(({ course }) => course.units));
+
+    const courseCodes = validCourses.map(({ code }) => code);
+    const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
+        courseCodes,
+        summaryByCourseCode,
+        FYW_MINIS,
+    );
+
+    description += formatLine(totalWorkload, bold("Total FCE"), true);
+    if (fywMinisAveraged) {
+        description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
+    }
+    if (notFound.length > 0) {
+        description += `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+    }
+
+    const plural = validCourses.length === 1 ? "Course" : "Courses";
+    const embed = new EmbedBuilder()
+        .setTitle(`FCE for ${validCourses.length} ${plural} (${unitsDisplay} units)`)
+        .setDescription(description);
+
+    const courseList = validCourses.map(({ code }) => code).join(",");
+    const url = `http://courses.scottylabs.org/schedules/shared?courses=` + courseList;
+    const button = new ButtonBuilder()
+        .setLabel("View schedule")
+        .setURL(url)
+        .setStyle(ButtonStyle.Link);
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
+
+    return interaction.reply({
+        embeds: [embed],
+        components: [row],
+    });
+}
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -36,9 +321,7 @@ const command: SlashCommand = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        const coursesData = COURSES_DATA;
-        const input = interaction.options.getString("course_codes", true);
-        const rawCodes = input.split(/[\s,]+/).filter((code) => code.trim());
+        const rawCodes = splitCourseList(interaction.options.getString("course_codes", true));
 
         if (rawCodes.length === 0) {
             return interaction.reply({
@@ -54,281 +337,7 @@ const command: SlashCommand = {
             });
         }
 
-        type ValidCourse = {
-            code: string;
-            course: Course;
-            fce: FCEData;
-        };
-
-        const fceData = FCE_DATA_BY_COURSE;
-        const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
-        const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
-
-        const validCourses: Array<ValidCourse> = [];
-        const invalidCodes: string[] = [];
-        const noCourseData: string[] = [];
-        const noFCEData: string[] = [];
-
-        for (const rawCode of rawCodes) {
-            const courseCode = formatCourseNumber(rawCode);
-
-            if (!courseCode) {
-                invalidCodes.push(rawCode);
-                continue;
-            }
-
-            if (!coursesData[courseCode]) {
-                noCourseData.push(courseCode);
-                continue;
-            }
-
-            if (!fceData[courseCode]) {
-                noFCEData.push(courseCode);
-                continue;
-            }
-
-            validCourses.push({
-                code: courseCode,
-                course: coursesData[courseCode],
-                fce: fceData[courseCode],
-            });
-        }
-
-        if (validCourses.length === 0) {
-            let errorMsg = "No valid courses with FCE data found.\n";
-            if (invalidCodes.length > 0) {
-                errorMsg += `Invalid format: ${invalidCodes.join(", ")}`;
-            }
-            if (noCourseData.length > 0) {
-                errorMsg += `Not found: ${noCourseData.join(", ")}`;
-            }
-            if (noFCEData.length > 0) {
-                errorMsg += `No FCE data: ${noFCEData.join(", ")}`;
-            }
-            return interaction.reply({
-                content: errorMsg,
-                flags: MessageFlags.Ephemeral,
-            });
-        }
-
-        const notFound = [...invalidCodes, ...noCourseData, ...noFCEData];
-
-        if (validCourses.length === 1) {
-            const { code, course, fce } = validCourses[0]!;
-            const summary = summaryByCourseCode.get(code)!;
-
-            const baseEmbed = new EmbedBuilder()
-                .setTitle(`${underline(`${code}: ${course.name}`)} (${course.units} units)`)
-                .setURL(`${SCOTTYLABS_URL}/course/${code}`);
-
-            function joinAndTruncate(items: string[], max = 7, buffer = 2): string {
-                if (items.length <= max) {
-                    return items.join(", ");
-                }
-
-                const cutoff = max - buffer;
-                const shown = items.slice(0, cutoff).join(", ");
-                const hidden = items.length - cutoff;
-
-                return `${shown}, and ${hidden} more...`;
-            }
-
-            function createFCEEntry(
-                title: string,
-                semesterLabels: string[],
-                teachingRate: number,
-                courseRate: number,
-                workload: number,
-                responseRate: number,
-            ) {
-                return (
-                    `${bold(title)} ${italic(`(${joinAndTruncate(semesterLabels)})`)}\n` +
-                    `Teaching: ${bold(teachingRate.toFixed(2))}/5 • ` +
-                    `Course: ${bold(courseRate.toFixed(2))}/5\n` +
-                    `Workload: ${bold(workload.toFixed(2))} hrs/wk • ` +
-                    `Response Rate: ${bold(`${responseRate.toFixed(1)}%`)}`
-                );
-            }
-
-            const summaryPage = EmbedBuilder.from(baseEmbed).addFields(
-                {
-                    name: "Teaching",
-                    value: `${bold(summary.teachingRate.toFixed(1))}/5`,
-                    inline: true,
-                },
-                {
-                    name: "Course",
-                    value: `${bold(summary.courseRate.toFixed(1))}/5`,
-                    inline: true,
-                },
-                {
-                    name: "Workload",
-                    value: `${bold(summary.workload.toFixed(1))} hrs/wk`,
-                    inline: true,
-                },
-            );
-
-            const instructorMap = summaryByInstructorByCourseCode.get(code);
-            const byInstructorEntries = Array.from(
-                instructorMap ?? [],
-                ([instructor, instructorSummary]) => {
-                    const name = instructor.toUpperCase();
-                    const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
-
-                    return createFCEEntry(
-                        hyperlink(name, url),
-                        instructorSummary.semesterLabels,
-                        instructorSummary.teachingRate,
-                        instructorSummary.courseRate,
-                        instructorSummary.workload,
-                        instructorSummary.responseRate,
-                    );
-                },
-            );
-
-            const allSemesterEntries = fce.records.map((record) => {
-                const name = record.instructor.toUpperCase();
-                const url = `${SCOTTYLABS_URL}/instructor/${encodeURIComponent(name)}`;
-
-                return createFCEEntry(
-                    hyperlink(name, url),
-                    [record.semesterLabel],
-                    record.overallTeachingRate,
-                    record.overallCourseRate,
-                    record.hrsPerWeek,
-                    record.responseRate,
-                );
-            });
-
-            function buildFCEPages(entries: string[]): EmbedBuilder[] {
-                const pages: EmbedBuilder[] = [];
-                let chunk: string[] = [];
-                let index = 0;
-
-                if (notFound.length > 0) {
-                    chunk.push(
-                        `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
-                    );
-                }
-
-                for (const entry of entries) {
-                    chunk.push(entry);
-                    index++;
-
-                    if (chunk.length >= 5 || index === entries.length) {
-                        const embed = EmbedBuilder.from(baseEmbed).setDescription(
-                            chunk.join("\n\n"),
-                        );
-                        pages.push(embed);
-                        chunk = [];
-                    }
-                }
-
-                return pages;
-            }
-
-            const selectOptions = [
-                {
-                    label: "Summary",
-                    value: "summary",
-                    default: true,
-                    pages: [summaryPage],
-                },
-                {
-                    label: "Aggregate By Instructor",
-                    value: "aggregate_by_instructor",
-                    pages: buildFCEPages(byInstructorEntries),
-                },
-                {
-                    label: "All Semesters",
-                    value: "all_semesters",
-                    pages: buildFCEPages(allSemesterEntries),
-                },
-            ];
-
-            const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                new StringSelectMenuBuilder()
-                    .setCustomId("fce_select_menu")
-                    .addOptions(selectOptions),
-            );
-
-            const paginator = new EmbedPaginator({
-                pages: selectOptions[0]!.pages,
-                components: [selectRow],
-                async onCollect(collectInteraction) {
-                    if (!collectInteraction.isStringSelectMenu()) return;
-                    const choice = collectInteraction.values[0]!;
-                    const selected = selectOptions.find((option) => option.value === choice);
-                    paginator.setPages(selected!.pages);
-                    selectRow.components[0]?.setOptions(
-                        selectOptions.map((option) => ({
-                            ...option,
-                            default: option.value === choice,
-                        })),
-                    );
-                },
-            });
-            await paginator.send(interaction);
-            return;
-        }
-
-        function formatLine(workload: number, text: string, total = false) {
-            let left = `${bold(workload.toFixed(1))} hrs/wk`;
-            let right = text;
-            if (total) {
-                left = underline(left);
-                right = underline(right);
-            }
-            if (workload.toFixed(1).length === 3) {
-                return `${left} — ${right}`;
-            }
-            return `${left} - ${right}`;
-        }
-
-        let description = "";
-        for (const { code, fce } of validCourses) {
-            const summary = summaryByCourseCode.get(code)!;
-            const courseName = fce.courseName.toUpperCase();
-            description +=
-                formatLine(
-                    summary.workload,
-                    hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`),
-                ) + "\n";
-        }
-
-        const unitsDisplay = calculateTotalUnits(validCourses.map(({ course }) => course.units));
-
-        const courseCodes = validCourses.map(({ code }) => code);
-        const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
-            courseCodes,
-            summaryByCourseCode,
-            FYW_MINIS,
-        );
-
-        description += formatLine(totalWorkload, bold("Total FCE"), true);
-        if (fywMinisAveraged) {
-            description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
-        }
-        if (notFound.length > 0) {
-            description += `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
-        }
-
-        const embed = new EmbedBuilder()
-            .setTitle(`FCE for ${validCourses.length} Courses (${unitsDisplay} units)`)
-            .setDescription(description);
-
-        const courseList = validCourses.map(({ code }) => code).join(",");
-        const url = `http://courses.scottylabs.org/schedules/shared?courses=` + courseList;
-        const button = new ButtonBuilder()
-            .setLabel("View schedule")
-            .setURL(url)
-            .setStyle(ButtonStyle.Link);
-        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
-
-        return interaction.reply({
-            embeds: [embed],
-            components: [row],
-        });
+        await handleFCECommand(interaction, rawCodes);
     },
 };
 
