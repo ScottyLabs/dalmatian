@@ -17,13 +17,23 @@
     };
   };
 
-  outputs = { self, nixpkgs, devenv, scottylabs, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      scottylabs,
+      ...
+    }:
     let
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
-      packages = forAllSystems (system:
+      packages = forAllSystems (
+        system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           helpers = scottylabs.mkLib pkgs;

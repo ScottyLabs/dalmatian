@@ -10,9 +10,9 @@ import {
     SlashCommandBuilder,
     StringSelectMenuBuilder,
     underline,
-    type ChatInputCommandInteraction,
+    ChatInputCommandInteraction,
 } from "discord.js";
-import { FYW_MINIS, SCOTTYLABS_URL } from "../constants.ts";
+import { FYW_MINIS, SCOTTYLABS_URL, NON_FACTORABLE_COURSES } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import {
@@ -37,8 +37,9 @@ export async function handleFCECommand(
         code: string;
         course: Course;
         fce: FCEData;
+        isFactorable: boolean;
     };
-
+    
     const coursesData = COURSES_DATA;
     const fceData = FCE_DATA_BY_COURSE;
     const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
@@ -67,10 +68,14 @@ export async function handleFCECommand(
             continue;
         }
 
+        const isFactorable = NON_FACTORABLE_COURSES.every(
+            (prefix) => !courseCode.startsWith(prefix),
+        );
         validCourses.push({
             code: courseCode,
             course: coursesData[courseCode],
             fce: fceData[courseCode],
+            isFactorable,
         });
     }
 
@@ -93,7 +98,7 @@ export async function handleFCECommand(
 
     const notFound = [...invalidCodes, ...noCourseData, ...noFCEData];
 
-    if (validCourses.length === 1 && !options.alwaysList) {
+    if (validCourses.length === 1) {
         const { code, course, fce } = validCourses[0]!;
         const summary = summaryByCourseCode.get(code)!;
 
@@ -196,7 +201,9 @@ export async function handleFCECommand(
                 index++;
 
                 if (chunk.length >= 5 || index === entries.length) {
-                    const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n\n"));
+                    const embed = EmbedBuilder.from(baseEmbed).setDescription(
+                        chunk.join("\n\n"),
+                    );
                     pages.push(embed);
                     chunk = [];
                 }
@@ -225,7 +232,9 @@ export async function handleFCECommand(
         ];
 
         const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-            new StringSelectMenuBuilder().setCustomId("fce_select_menu").addOptions(selectOptions),
+            new StringSelectMenuBuilder()
+                .setCustomId("fce_select_menu")
+                .addOptions(selectOptions),
         );
 
         const paginator = new EmbedPaginator({
@@ -262,17 +271,23 @@ export async function handleFCECommand(
     }
 
     let description = "";
-    for (const { code, fce } of validCourses) {
+    for (const { code, course, fce, isFactorable } of validCourses) {
         const summary = summaryByCourseCode.get(code)!;
         const courseName = fce.courseName.toUpperCase();
+        const units = italic(`(${calculateTotalUnits([course.units])})`);
         description +=
             formatLine(
                 summary.workload,
-                hyperlink(`${bold(code)} (${courseName})`, `${SCOTTYLABS_URL}/course/${code}`),
-            ) + "\n";
+                hyperlink(`${bold(code)}: ${courseName}`, `${SCOTTYLABS_URL}/course/${code}`),
+            ) + `${isFactorable ? "" : "\\*"} ${units}\n`;
     }
 
     const unitsDisplay = calculateTotalUnits(validCourses.map(({ course }) => course.units));
+    const factorableUnits = calculateTotalUnits(
+        validCourses
+            .filter(({ isFactorable }) => isFactorable)
+            .map(({ course }) => course.units),
+    );
 
     const courseCodes = validCourses.map(({ code }) => code);
     const { totalWorkload, fywMinisAveraged } = calculateTotalWorkload(
@@ -293,6 +308,11 @@ export async function handleFCECommand(
     const embed = new EmbedBuilder()
         .setTitle(`FCE for ${validCourses.length} ${plural} (${unitsDisplay} units)`)
         .setDescription(description);
+    if (factorableUnits !== unitsDisplay) {
+        embed.setFooter({
+            text: `* Not counted towards your max units. Total factorable units: ${factorableUnits}`,
+        });
+    }
 
     const courseList = validCourses.map(({ code }) => code).join(",");
     const url = `http://courses.scottylabs.org/schedules/shared?courses=` + courseList;
