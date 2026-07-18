@@ -1,18 +1,10 @@
-import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    bold,
-    EmbedBuilder,
-    MessageFlags,
-    SlashCommandBuilder,
-    underline,
-} from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.ts";
+import { bold, EmbedBuilder, SlashCommandBuilder, underline } from "discord.js";
+
 import { search } from "fast-fuzzy";
-import { FCE_DATA_BY_COURSE } from "../utils/fceCache.ts";
+import { FCE_DATA_BY_COURSE, FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
+import { logger } from "../utils/log.ts";
 
 // TODO: move this to fceCache.ts probably
 const ALL_INSTRUCTORS = (() => {
@@ -49,6 +41,14 @@ function getAllInstructors(): Record<string, string[]> {
     return ALL_INSTRUCTORS;
 }
 
+export function resolveCourseCode(rawCourseCode: string | null | undefined): string | null {
+    if (!rawCourseCode?.trim()) {
+        return null;
+    }
+
+    return formatCourseNumber(rawCourseCode.trim());
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("instructor")
@@ -72,49 +72,35 @@ const command: SlashCommand = {
     async execute(interaction) {
         // TODO: make this return FCE data and not the course data
         const coursesData = COURSES_DATA;
-        const courseCode = formatCourseNumber(interaction.options.getString("course_code", true));
-
+        const courseCode = resolveCourseCode(interaction.options.getString("course_code"));
+        const instructor = interaction.options.getString("instructor_name", true);
+        const fceData = FCE_DATA_BY_COURSE;
+        const _summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
+        const _summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
+        const instructors = getAllInstructors();
+        logger.info(`hello`);
+        const baseEmbed = new EmbedBuilder().setTitle(bold(underline(`${instructor}`)));
         if (!courseCode) {
-            return interaction.reply({
-                content: "Please provide a valid course code in the format XX-XXX or XXXXX.",
-                flags: MessageFlags.Ephemeral,
-            });
-        }
+            const description = [];
+            for (const course of instructors[instructor]!) {
+                const _courseData = coursesData[course]!;
+                const _courseFCEData = fceData[course]!;
 
-        if (!coursesData[courseCode]) {
-            return interaction.reply({
-                content: `Course with code ${courseCode} not found.`,
-                flags: MessageFlags.Ephemeral,
-            });
-        }
+                description.push(`${course}`);
+            }
 
-        const course = coursesData[courseCode];
+            const embed = EmbedBuilder.from(baseEmbed).setDescription(`${description.join("\n")}`);
 
-        const embed = new EmbedBuilder()
-            .setTitle(bold(underline(`${course.id}: ${course.name}`)) + ` (${course.units} units)`)
-            .setURL(`${SCOTTYLABS_URL}/course/${course.id}`)
-            .setDescription(`${bold(course.department)}\n ${course.desc}`)
-            .addFields(
-                {
-                    name: "Prerequisites",
-                    value: course.prereqString || "None",
-                    inline: true,
-                },
-                {
-                    name: "Corequisites",
-                    value: course.coreqs.length > 0 ? course.coreqs.join(", ") : "None",
-                    inline: true,
-                },
+            return interaction.reply({ embeds: [embed] });
+        } else {
+            const course = coursesData[courseCode]!;
+
+            const embed = EmbedBuilder.from(baseEmbed).setDescription(
+                `${bold(course.department)}\n ${course.desc}`,
             );
 
-        const button = new ButtonBuilder()
-            .setLabel("View prerequisite graph")
-            .setURL(`https://prereqs.blejdle.christmas/?course=${course.id}`)
-            .setStyle(ButtonStyle.Link);
-
-        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
-
-        return interaction.reply({ embeds: [embed], components: [row] });
+            return interaction.reply({ embeds: [embed] });
+        }
     },
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
