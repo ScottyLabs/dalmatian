@@ -56,7 +56,7 @@ const command: SlashCommand = {
 
     execute: async (interaction) => {
         const subcommand = interaction.options.getSubcommand();
-        await subcommandHandlers[subcommand](interaction);
+        await subcommandHandlers[subcommand]?.(interaction);
     },
 };
 
