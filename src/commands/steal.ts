@@ -171,7 +171,7 @@ const command: SlashCommand = {
                     .setDescription(`Added ${added.toString()} (\`${added.name}\`) to the server`);
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                logger.error("Failed to add emoji", nodeError(err));
+                logger.error("Failed to add emoji: {error}", { error: nodeError(err) });
                 return interaction.editReply({
                     content: "Failed to add emoji",
                 });
@@ -201,7 +201,7 @@ const command: SlashCommand = {
                         content: "This server has reached the maximum number of stickers.",
                     });
                 }
-                logger.error("Failed to add sticker", nodeError(err));
+                logger.error("Failed to add sticker: {error}", { error: nodeError(err) });
                 return interaction.editReply({
                     content: "Failed to add sticker",
                 });
@@ -236,7 +236,7 @@ const command: SlashCommand = {
                     );
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                logger.error("Failed to add sound", nodeError(err));
+                logger.error("Failed to add sound: {error}", { error: nodeError(err) });
                 return interaction.editReply({
                     content: "Failed to add sound",
                 });
@@ -258,8 +258,8 @@ const command: SlashCommand = {
                     continue;
                 }
                 logger.warn(
-                    `unexpected error fetching message ${id} in #${channel.name}:`,
-                    nodeError(err),
+                    `unexpected error fetching message ${id} in #${channel.name}: {error}`,
+                    { error: nodeError(err) },
                 );
                 continue;
             }
@@ -330,7 +330,7 @@ const command: SlashCommand = {
                                 content: `Reached max emojis. Successfully added: ${results.join(", ") || "none"}`,
                             });
                         }
-                        logger.error("Failed to steal emoji", nodeError(err));
+                        logger.error("Failed to steal emoji: {error}", { error: nodeError(err) });
                     }
                 }
 
@@ -345,7 +345,7 @@ const command: SlashCommand = {
                     .setDescription(`Stole ${results.join(", ")} from message`);
                 return interaction.editReply({ embeds: [embed] });
             } catch (err) {
-                logger.error("Failed to steal from message", nodeError(err));
+                logger.error("Failed to steal from message: {error}", { error: nodeError(err) });
                 return interaction.editReply({
                     content: "Failed to steal from message",
                 });

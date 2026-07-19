@@ -70,8 +70,8 @@ const command: SlashCommand = {
                 );
             } catch (error) {
                 logger.error(
-                    `Failed to update member cache for guild ${interaction.guild.id}:`,
-                    nodeError(error),
+                    `Failed to update member cache for guild ${interaction.guild.id}: {error}`,
+                    { error: nodeError(error) },
                 );
             }
         }

@@ -268,7 +268,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                logger.error("Error in handleChannelSelect:", nodeError(error));
+                logger.error("Error in handleChannelSelect: {error}", { error: nodeError(error) });
             }
         }
     }
@@ -298,7 +298,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                logger.error("Error in handleRoleSelect:", nodeError(error));
+                logger.error("Error in handleRoleSelect: {error}", { error: nodeError(error) });
             }
         }
     }
@@ -352,7 +352,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
 
             await this.handleModalSubmit(modalSubmit, field);
         } catch (error) {
-            logger.error("Error waiting for modal submit:", nodeError(error));
+            logger.error("Error waiting for modal submit: {error}", { error: nodeError(error) });
         }
     }
 
@@ -416,7 +416,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                logger.error("Error in handleModalSubmit:", nodeError(error));
+                logger.error("Error in handleModalSubmit: {error}", { error: nodeError(error) });
             }
         }
     }
@@ -456,7 +456,7 @@ export class SetupForm<T extends z.ZodObject<any>> {
                     flags: MessageFlags.Ephemeral,
                 });
             } else {
-                logger.error("Setup completion error:", nodeError(error));
+                logger.error("Setup completion error: {error}", { error: nodeError(error) });
                 await interaction.reply({
                     content: `Failed to complete setup: ${error instanceof Error ? error.message : "Unknown error"}`,
                     flags: MessageFlags.Ephemeral,

@@ -14,7 +14,7 @@ export const runMigrations = async () => {
         await migrate(db, { migrationsFolder: join(import.meta.dirname!, "../../drizzle") });
         logger.info("Migrations completed successfully!");
     } catch (error) {
-        logger.fatal("Migration failed:", nodeError(error));
+        logger.fatal("Migration failed: {error}", { error: nodeError(error) });
         throw error;
     } finally {
         await migrationClient.end();
@@ -26,7 +26,7 @@ if (import.meta.main) {
     runMigrations()
         .then(() => Deno.exit(0))
         .catch((err) => {
-            logger.fatal("Migration error:", nodeError(err));
+            logger.fatal("Migration error: {error}", { error: nodeError(err) });
             Deno.exit(1);
         });
 }
