@@ -8,6 +8,7 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
+
 import { SCOTTYLABS_URL } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
@@ -34,7 +35,6 @@ const command: SlashCommand = {
                 flags: MessageFlags.Ephemeral,
             });
         }
-
         if (!coursesData[courseCode]) {
             return interaction.reply({
                 content: `Course with code ${courseCode} not found.`,

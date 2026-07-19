@@ -1,10 +1,18 @@
-import { bold, EmbedBuilder, SlashCommandBuilder, underline } from "discord.js";
+import {
+    bold,
+    EmbedBuilder,
+    SlashCommandBuilder,
+    underline,
+    hyperlink,
+    italic,
+    MessageFlags,
+} from "discord.js";
 
 import { search } from "fast-fuzzy";
 import { FCE_DATA_BY_COURSE, FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
-import { logger } from "../utils/log.ts";
+import { SCOTTYLABS_URL } from "../constants.ts";
 
 // TODO: move this to fceCache.ts probably
 const ALL_INSTRUCTORS = (() => {
@@ -70,34 +78,110 @@ const command: SlashCommand = {
                 .setAutocomplete(true),
         ),
     async execute(interaction) {
-        // TODO: make this return FCE data and not the course data
+        function joinAndTruncate(items: string[], max = 7, buffer = 2): string {
+            if (items.length <= max) {
+                return items.join(", ");
+            }
+
+            const cutoff = max - buffer;
+            const shown = items.slice(0, cutoff).join(", ");
+            const hidden = items.length - cutoff;
+
+            return `${shown}, and ${hidden} more...`;
+        }
+        function createFCEEntry(
+            title: string,
+            semesterLabels: string[],
+            teachingRate: number,
+            courseRate: number,
+            workload: number,
+            responseRate: number,
+        ) {
+            return (
+                `${bold(title)} ${italic(`(${joinAndTruncate(semesterLabels)})`)}\n` +
+                `Teaching: ${bold(teachingRate.toFixed(2))}/5 • ` +
+                `Course: ${bold(courseRate.toFixed(2))}/5\n` +
+                `Workload: ${bold(workload.toFixed(2))} hrs/wk • ` +
+                `Response Rate: ${bold(`${responseRate.toFixed(1)}%`)}`
+            );
+        }
         const coursesData = COURSES_DATA;
         const courseCode = resolveCourseCode(interaction.options.getString("course_code"));
         const instructor = interaction.options.getString("instructor_name", true);
         const fceData = FCE_DATA_BY_COURSE;
         const _summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
-        const _summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
+        const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
         const instructors = getAllInstructors();
-        logger.info(`hello`);
-        const baseEmbed = new EmbedBuilder().setTitle(bold(underline(`${instructor}`)));
+        const baseEmbed = new EmbedBuilder()
+            .setTitle(bold(underline(`${instructor}`)))
+            .setURL(`${SCOTTYLABS_URL}/instructor/${encodeURIComponent(instructor)}`);
+
         if (!courseCode) {
+            //TODO: add pagination
             const description = [];
             for (const course of instructors[instructor]!) {
-                const _courseData = coursesData[course]!;
+                const courseData = coursesData[course]!;
                 const _courseFCEData = fceData[course]!;
+                const instructorSummary = summaryByInstructorByCourseCode
+                    .get(course)
+                    ?.get(instructor);
+                if (!instructorSummary) {
+                    return interaction.reply({
+                        content: "Something went wrong",
+                        flags: MessageFlags.Ephemeral,
+                    });
+                }
+                const url = `${SCOTTYLABS_URL}/course/${encodeURIComponent(course)}`;
 
-                description.push(`${course}`);
+                description.push(
+                    createFCEEntry(
+                        hyperlink(`${course}: ${courseData.name}`, url),
+                        instructorSummary.semesterLabels,
+                        instructorSummary.teachingRate,
+                        instructorSummary.courseRate,
+                        instructorSummary.workload,
+                        instructorSummary.responseRate,
+                    ),
+                );
             }
-
-            const embed = EmbedBuilder.from(baseEmbed).setDescription(`${description.join("\n")}`);
+            const embed = EmbedBuilder.from(baseEmbed).setDescription(
+                `${description.join("\n \n")}`,
+            );
 
             return interaction.reply({ embeds: [embed] });
         } else {
             const course = coursesData[courseCode]!;
-
-            const embed = EmbedBuilder.from(baseEmbed).setDescription(
-                `${bold(course.department)}\n ${course.desc}`,
+            const instructorSummary = summaryByInstructorByCourseCode
+                .get(course.id)
+                ?.get(instructor);
+            const otherCourses = (instructors[instructor] ?? []).filter((c) => c !== courseCode);
+            const otherCoursesValue = otherCourses.length ? otherCourses.join(", ") : "None";
+            if (!instructorSummary) {
+                return interaction.reply({
+                    content: "Something went wrong",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+            const FCEdesc = createFCEEntry(
+                ` `,
+                instructorSummary.semesterLabels,
+                instructorSummary.teachingRate,
+                instructorSummary.courseRate,
+                instructorSummary.workload,
+                instructorSummary.responseRate,
             );
+            const embed = EmbedBuilder.from(baseEmbed)
+                .setDescription(
+                    `${hyperlink(
+                        `${bold(course.id)}: ${course.name})`,
+                        `${SCOTTYLABS_URL}/course/${encodeURIComponent(course.id)}`,
+                    )} \n ${course.desc} \n \n ${FCEdesc}`,
+                )
+                .addFields({
+                    name: "Other courses taught: ",
+                    value: otherCoursesValue,
+                    inline: true,
+                });
 
             return interaction.reply({ embeds: [embed] });
         }
