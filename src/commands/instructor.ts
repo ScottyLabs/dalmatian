@@ -99,10 +99,10 @@ const command: SlashCommand = {
         function semesterLabelToNum(semLabel: string): number {
             const sem = semLabel.slice(0, 1);
             const year = parseInt(semLabel.slice(1));
-            if (sem === "M") {
+            if (sem === "F") {
                 return year + 0.6;
-            } else if (sem === "S") {
-                return year + 0.5;
+            } else if (sem === "M") {
+                return year + 0.3;
             }
             return year;
         }
@@ -119,6 +119,8 @@ const command: SlashCommand = {
                 flags: MessageFlags.Ephemeral,
             });
         }
+
+        //sort in descending order so more recently taught courses show up first
         instructorCourses.sort(
             (a, b) =>
                 semesterLabelToNum(
