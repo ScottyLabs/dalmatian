@@ -67,15 +67,6 @@ const command: SlashCommand = {
                 .setDescription("The name of the instructor")
                 .setRequired(true)
                 .setAutocomplete(true),
-        )
-        .addStringOption((option) =>
-            option
-                .setName("course_code")
-                .setDescription(
-                    "The course code, if not provided will list all courses taught by the instructor",
-                )
-                .setRequired(false)
-                .setAutocomplete(true),
         ),
     async execute(interaction) {
         function joinAndTruncate(items: string[], max = 7, buffer = 2): string {
@@ -105,86 +96,71 @@ const command: SlashCommand = {
                 `Response Rate: ${bold(`${responseRate.toFixed(1)}%`)}`
             );
         }
+        function semesterLabelToNum(semLabel: string): number {
+            const sem = semLabel.slice(0, 1);
+            const year = parseInt(semLabel.slice(1));
+            if (sem === "M") {
+                return year + 0.6;
+            } else if (sem === "S") {
+                return year + 0.5;
+            }
+            return year;
+        }
         const coursesData = COURSES_DATA;
-        const courseCode = resolveCourseCode(interaction.options.getString("course_code"));
         const instructor = interaction.options.getString("instructor_name", true);
         const fceData = FCE_DATA_BY_COURSE;
         const _summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
         const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
         const instructors = getAllInstructors();
+        const instructorCourses = instructors[instructor];
+        if (!instructorCourses) {
+            return interaction.reply({
+                content: "Something went wrong",
+                flags: MessageFlags.Ephemeral,
+            });
+        }
+        instructorCourses.sort(
+            (a, b) =>
+                semesterLabelToNum(
+                    summaryByInstructorByCourseCode.get(b)?.get(instructor)?.semesterLabels[0]!,
+                ) -
+                semesterLabelToNum(
+                    summaryByInstructorByCourseCode.get(a)?.get(instructor)?.semesterLabels[0]!,
+                ),
+        );
         const baseEmbed = new EmbedBuilder()
             .setTitle(bold(underline(`${instructor}`)))
             .setURL(`${SCOTTYLABS_URL}/instructor/${encodeURIComponent(instructor)}`);
 
-        if (!courseCode) {
-            //TODO: add pagination
-            const description = [];
-            for (const course of instructors[instructor]!) {
-                const courseData = coursesData[course]!;
-                const _courseFCEData = fceData[course]!;
-                const instructorSummary = summaryByInstructorByCourseCode
-                    .get(course)
-                    ?.get(instructor);
-                if (!instructorSummary) {
-                    return interaction.reply({
-                        content: "Something went wrong",
-                        flags: MessageFlags.Ephemeral,
-                    });
-                }
-                const url = `${SCOTTYLABS_URL}/course/${encodeURIComponent(course)}`;
+        //TODO: add pagination
+        const description = [];
 
-                description.push(
-                    createFCEEntry(
-                        hyperlink(`${course}: ${courseData.name}`, url),
-                        instructorSummary.semesterLabels,
-                        instructorSummary.teachingRate,
-                        instructorSummary.courseRate,
-                        instructorSummary.workload,
-                        instructorSummary.responseRate,
-                    ),
-                );
-            }
-            const embed = EmbedBuilder.from(baseEmbed).setDescription(
-                `${description.join("\n \n")}`,
-            );
-
-            return interaction.reply({ embeds: [embed] });
-        } else {
-            const course = coursesData[courseCode]!;
-            const instructorSummary = summaryByInstructorByCourseCode
-                .get(course.id)
-                ?.get(instructor);
-            const otherCourses = (instructors[instructor] ?? []).filter((c) => c !== courseCode);
-            const otherCoursesValue = otherCourses.length ? otherCourses.join(", ") : "None";
+        for (const course of instructors[instructor]!) {
+            const courseData = coursesData[course]!;
+            const _courseFCEData = fceData[course]!;
+            const instructorSummary = summaryByInstructorByCourseCode.get(course)?.get(instructor);
             if (!instructorSummary) {
                 return interaction.reply({
                     content: "Something went wrong",
                     flags: MessageFlags.Ephemeral,
                 });
             }
-            const FCEdesc = createFCEEntry(
-                ` `,
-                instructorSummary.semesterLabels,
-                instructorSummary.teachingRate,
-                instructorSummary.courseRate,
-                instructorSummary.workload,
-                instructorSummary.responseRate,
-            );
-            const embed = EmbedBuilder.from(baseEmbed)
-                .setDescription(
-                    `${hyperlink(
-                        `${bold(course.id)}: ${course.name})`,
-                        `${SCOTTYLABS_URL}/course/${encodeURIComponent(course.id)}`,
-                    )} \n ${course.desc} \n \n ${FCEdesc}`,
-                )
-                .addFields({
-                    name: "Other courses taught: ",
-                    value: otherCoursesValue,
-                    inline: true,
-                });
+            const url = `${SCOTTYLABS_URL}/course/${encodeURIComponent(course)}`;
 
-            return interaction.reply({ embeds: [embed] });
+            description.push(
+                createFCEEntry(
+                    hyperlink(`${course}: ${courseData.name}`, url),
+                    instructorSummary.semesterLabels,
+                    instructorSummary.teachingRate,
+                    instructorSummary.courseRate,
+                    instructorSummary.workload,
+                    instructorSummary.responseRate,
+                ),
+            );
         }
+        const embed = EmbedBuilder.from(baseEmbed).setDescription(`${description.join("\n \n")}`);
+
+        return interaction.reply({ embeds: [embed] });
     },
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
