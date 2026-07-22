@@ -14,7 +14,9 @@ const event: Event<Events.ClientReady> = {
                 await guild.members.fetch();
                 logger.info(`Cached ${guild.members.cache.size} members for guild ${guild.name}`);
             } catch (error) {
-                logger.error(`Failed to cache members for guild ${guild.id}:`, nodeError(error));
+                logger.error(`Failed to cache members for guild ${guild.id}: {error}`, {
+                    error: nodeError(error),
+                });
             }
         }
     },

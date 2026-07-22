@@ -109,7 +109,9 @@ const command: MessageContextCommand = {
                     .setDescription(`Added ${emoji.toString()} (\`${emoji.name}\`) to the server`);
                 await submitted.editReply({ embeds: [embed] });
             } catch (err) {
-                logger.error("Failed to add emoji from image attachment", nodeError(err));
+                logger.error("Failed to add emoji from image attachment: {error}", {
+                    error: nodeError(err),
+                });
                 await submitted.editReply({
                     content: "Failed to add emoji",
                 });
@@ -132,7 +134,9 @@ const command: MessageContextCommand = {
                 });
                 added.push(`${emoji.toString()} \`${emoji.name}\``);
             } catch (err) {
-                logger.error(`Failed to add emoji ${info.name}`, nodeError(err));
+                logger.error(`Failed to add emoji ${info.name}: {error}`, {
+                    error: nodeError(err),
+                });
                 failed.push(`\`${info.name}\` — failed to add`);
             }
         }
@@ -171,7 +175,9 @@ const command: MessageContextCommand = {
                 });
                 added.push(`sticker **${created.name}**`);
             } catch (err) {
-                logger.error(`Failed to add sticker ${sticker.name}`, nodeError(err));
+                logger.error(`Failed to add sticker ${sticker.name}: {error}`, {
+                    error: nodeError(err),
+                });
                 failed.push(`sticker \`${sticker.name}\` — failed to add`);
             }
         }

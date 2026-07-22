@@ -34,7 +34,7 @@ const event: Event<Events.InteractionCreate> = {
                         `Executed command "${interaction.commandName}" for user ${interaction.user.tag}`,
                     );
                 } catch (error) {
-                    logger.error("Error executing command:", nodeError(error));
+                    logger.error("Error executing command: {error}", { error: nodeError(error) });
                     if (interaction.deferred || interaction.replied) {
                         await interaction.editReply({
                             content: "There was an error while executing this command!",
@@ -54,7 +54,7 @@ const event: Event<Events.InteractionCreate> = {
                 try {
                     await command.autocomplete(client, interaction as AutocompleteInteraction);
                 } catch (error) {
-                    logger.error("Error in autocomplete:", nodeError(error));
+                    logger.error("Error in autocomplete: {error}", { error: nodeError(error) });
                 }
             }
         } else if (
@@ -84,7 +84,9 @@ const event: Event<Events.InteractionCreate> = {
                     `Executed context command "${interaction.commandName}" for user ${interaction.user.tag}`,
                 );
             } catch (error) {
-                logger.error("Error executing context command:", nodeError(error));
+                logger.error("Error executing context command: {error}", {
+                    error: nodeError(error),
+                });
                 if (interaction.deferred || interaction.replied) {
                     await interaction.editReply({
                         content: "There was an error while executing this context menu command!",
