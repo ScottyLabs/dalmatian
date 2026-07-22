@@ -10,7 +10,7 @@ import {
 } from "discord.js";
 import { SCOTTYLABS_URL } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
-import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
+import { COURSES_DATA, formatCourseNumber, queryCourse } from "../utils/index.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -22,7 +22,8 @@ const command: SlashCommand = {
                 .setDescription(
                     "The course code (a two-digit number followed by a three-digit number, e.g., 15-112 or 21127)",
                 )
-                .setRequired(true),
+                .setRequired(true)
+                .setAutocomplete(true),
         ),
     async execute(interaction) {
         const coursesData = COURSES_DATA;
@@ -69,6 +70,18 @@ const command: SlashCommand = {
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
 
         return interaction.reply({ embeds: [embed], components: [row] });
+    },
+    async autocomplete(_client, interaction) {
+        const focusedOption = interaction.options.getFocused(true);
+        if (focusedOption.name !== "course_code") return;
+        
+        const choices = queryCourse(focusedOption.value);
+        await interaction.respond(
+            choices.slice(0, 25).map(({ id, name }) => ({
+                name: `${id}: ${name}`,
+                value: id,
+            })),
+        );
     },
 };
 

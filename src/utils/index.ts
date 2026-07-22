@@ -1,4 +1,5 @@
 import CoursesData from "../data/courseCatalog.json" with { type: "json" };
+import { search } from "fast-fuzzy";
 
 export type Session = {
     term: string;
@@ -45,4 +46,21 @@ export function formatCourseNumber(courseNumber: string): string | null {
     }
 
     return null;
+}
+
+export function queryCourse(input: string): Course[] {
+    const entries = Object.values(COURSES_DATA);
+    
+    input = input.toLowerCase().trim();
+    if (!input) return entries;
+
+    // if actively typing a course code (but in wrong format), normalize it
+    if (/^\d{3,5}$/.test(input)) 
+        input = `${input.slice(0, 2)}-${input.slice(2)}`;
+    else if (/^\d{2}\s\d{1,3}$/.test(input)) 
+        input = `${input.slice(0, 2)}-${input.slice(3)}`;
+
+    return search(input, entries, {
+        keySelector: (course) => `${course.id} ${course.name}`,
+    });
 }
