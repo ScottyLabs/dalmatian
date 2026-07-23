@@ -7,7 +7,7 @@ import {
     italic,
     MessageFlags,
 } from "discord.js";
-
+import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { search } from "fast-fuzzy";
 import { FCE_DATA_BY_COURSE, FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 import type { SlashCommand } from "../types.d.ts";
@@ -134,8 +134,9 @@ const command: SlashCommand = {
             .setTitle(bold(underline(`${instructor}`)))
             .setURL(`${SCOTTYLABS_URL}/instructor/${encodeURIComponent(instructor)}`);
 
-        //TODO: add pagination
-        const description = [];
+        const pages: EmbedBuilder[] = [];
+        let chunk: string[] = [];
+        let index = 0;
 
         for (const course of instructors[instructor]!) {
             const courseData = coursesData[course]!;
@@ -149,20 +150,27 @@ const command: SlashCommand = {
             }
             const url = `${SCOTTYLABS_URL}/course/${encodeURIComponent(course)}`;
 
-            description.push(
-                createFCEEntry(
-                    hyperlink(`${course}: ${courseData.name}`, url),
-                    instructorSummary.semesterLabels,
-                    instructorSummary.teachingRate,
-                    instructorSummary.courseRate,
-                    instructorSummary.workload,
-                    instructorSummary.responseRate,
-                ),
+            const entry = createFCEEntry(
+                hyperlink(`${course}: ${courseData.name}`, url),
+                instructorSummary.semesterLabels,
+                instructorSummary.teachingRate,
+                instructorSummary.courseRate,
+                instructorSummary.workload,
+                instructorSummary.responseRate,
             );
-        }
-        const embed = EmbedBuilder.from(baseEmbed).setDescription(`${description.join("\n \n")}`);
+            chunk.push(entry);
+            index++;
 
-        return interaction.reply({ embeds: [embed] });
+            if (chunk.length >= 5 || index === instructors[instructor]!.length) {
+                const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n\n"));
+                pages.push(embed);
+                chunk = [];
+            }
+        }
+
+        const paginator = new EmbedPaginator({ pages });
+        await paginator.send(interaction);
+        return;
     },
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
