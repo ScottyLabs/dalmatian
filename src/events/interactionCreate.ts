@@ -35,15 +35,22 @@ const event: Event<Events.InteractionCreate> = {
                     );
                 } catch (error) {
                     logger.error("Error executing command: {error}", { error: nodeError(error) });
-                    if (interaction.deferred || interaction.replied) {
-                        await interaction.editReply({
-                            content: "There was an error while executing this command!",
+                    try {
+                        if (interaction.deferred || interaction.replied) {
+                            await interaction.editReply({
+                                content: "There was an error while executing this command!",
+                            });
+                        } else {
+                            await interaction.reply({
+                                content: "There was an error while executing this command!",
+                                flags: MessageFlags.Ephemeral,
+                            });
+                        }
+                    } catch (replyError) {
+                        logger.error("Failed to send error reply (interaction likely expired): {error}", {
+                            error: nodeError(replyError),
                         });
-                    } else
-                        await interaction.reply({
-                            content: "There was an error while executing this command!",
-                            flags: MessageFlags.Ephemeral,
-                        });
+                    }
                 }
             }
 
@@ -87,14 +94,20 @@ const event: Event<Events.InteractionCreate> = {
                 logger.error("Error executing context command: {error}", {
                     error: nodeError(error),
                 });
-                if (interaction.deferred || interaction.replied) {
-                    await interaction.editReply({
-                        content: "There was an error while executing this context menu command!",
-                    });
-                } else {
-                    await interaction.reply({
-                        content: "There was an error while executing this context menu command!",
-                        flags: MessageFlags.Ephemeral,
+                try {
+                    if (interaction.deferred || interaction.replied) {
+                        await interaction.editReply({
+                            content: "There was an error while executing this context menu command!",
+                        });
+                    } else {
+                        await interaction.reply({
+                            content: "There was an error while executing this context menu command!",
+                            flags: MessageFlags.Ephemeral,
+                        });
+                    }
+                } catch (replyError) {
+                    logger.error("Failed to send error reply (interaction likely expired): {error}", {
+                        error: nodeError(replyError),
                     });
                 }
             }
