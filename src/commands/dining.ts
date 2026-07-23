@@ -39,6 +39,7 @@ for (const item of diningLocationData) {
 function getLocations(): Promise<Location[]> {
     const request: Request = new Request("https://api.cmueats.com/v2/locations", {
         method: "GET",
+        signal: AbortSignal.timeout(10_000),
     });
 
     return fetch(request)

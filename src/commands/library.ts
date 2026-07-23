@@ -129,7 +129,7 @@ function inTimePeriod(from: string, to: string, now = new Date()) {
 }
 
 async function fetchJson(url: string) {
-    return fetch(url)
+    return fetch(url, { signal: AbortSignal.timeout(10_000) })
         .then((res) => res.json())
         .catch((_) => undefined);
 }
