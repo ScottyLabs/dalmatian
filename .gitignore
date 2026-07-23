@@ -2,12 +2,7 @@ node_modules/
 dist/
 build/
 .devenv/
-.devenv.flake.nix
-devenv.local.nix
-.direnv/
 .pre-commit-config.yaml
-result
-result-*
 
 .env
 .DS_Store
