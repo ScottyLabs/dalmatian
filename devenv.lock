@@ -91,11 +91,11 @@
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1784248563,
-        "narHash": "sha256-rRjR2qADMZbvrDkZzeYrdssLKpbTGymNXLnVdbT6XpQ=",
+        "lastModified": 1784758116,
+        "narHash": "sha256-vcjRSkJHM5/2rLmtCZBhms/WDJpyPNXW9Gi6xeSfc/Y=",
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "d77304696697c43672e10f29d1da401b33ab2778",
+        "rev": "9767a1f458fbd99b487dbb600a130917d4cd2b13",
         "type": "github"
       },
       "original": {
@@ -211,11 +211,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783008725,
-        "narHash": "sha256-jGiy6+sxjNWXSjp25uoJuNfyH9zBK1PEDY0lVoL4ibQ=",
+        "lastModified": 1784288435,
+        "narHash": "sha256-ReRHaLgr/uVqdD8afFSn+myXIfpHeOhP0yYe0TJqAA8=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "bca82caa46d5ec0f5d422c61fb1e30bc51313cbe",
+        "rev": "43b3c1ab9d40fb1dbb008f451988a91e375825e9",
         "type": "github"
       },
       "original": {
@@ -415,11 +415,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1784120854,
-        "narHash": "sha256-KesHgItiZPgGX740axSiQLcIQ8D24MDqNpkKYWIek8k=",
+        "lastModified": 1784497964,
+        "narHash": "sha256-vlHUuqAcbcH2RKmHbPiuQzbv1pnzzavXnI62RD0bqCU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "753cc8a3a87467296ddd1fa93f0cc3e81120ee46",
+        "rev": "241313f4e8e508cb9b13278c2b0fa25b9ca27163",
         "type": "github"
       },
       "original": {
@@ -580,11 +580,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1784309355,
-        "narHash": "sha256-0lI99/hJkJgWVf2V90fJbYhXzkRgIGG3O45YFsDhJLs=",
+        "lastModified": 1784704982,
+        "narHash": "sha256-MfJQXGCo5kY9khZvhuWHPpRCO2NeYJeaFG/xfmIDo9M=",
         "ref": "refs/heads/main",
-        "rev": "815fee688eaefcad6ad90fcdfb9fd00e2793218b",
-        "revCount": 102,
+        "rev": "ae4cf56c2375c51169c481dc8cfac078e45ff494",
+        "revCount": 112,
         "type": "git",
         "url": "https://codeberg.org/ScottyLabs/devenv"
       },
@@ -643,11 +643,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1780220602,
-        "narHash": "sha256-eynAfOmbmxJnkp7YewvCEbShNnnYJ9gLLqkzsYtBPeM=",
+        "lastModified": 1784369104,
+        "narHash": "sha256-47cxbcZODibHv3rELFQ9vZly0vUNkND/atn/U7HLeb0=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "db947814a175b7ca6ded66e21383d938df01c227",
+        "rev": "df3c0640565d04a0261253cdd89fce78ec50168a",
         "type": "github"
       },
       "original": {
