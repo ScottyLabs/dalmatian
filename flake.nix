@@ -21,6 +21,7 @@
     {
       self,
       nixpkgs,
+      devenv,
       scottylabs,
       ...
     }:

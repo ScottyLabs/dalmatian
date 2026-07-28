@@ -1,6 +1,6 @@
 secretspec:
   enable: true
-  provider: vault://secrets2.scottylabs.org/secret
+  provider: vault://secrets.scottylabs.org/secret
   profile: dev
 
 inputs:
