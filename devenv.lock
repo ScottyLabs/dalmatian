@@ -603,7 +603,7 @@
         "lastModified": 1784704982,
         "narHash": "sha256-MfJQXGCo5kY9khZvhuWHPpRCO2NeYJeaFG/xfmIDo9M=",
         "ref": "refs/heads/main",
-        "rev": "ae4cf56c2375c51169c481dc8cfac078e45ff494",
+        "rev": "56c5e806bf7a5a6e73d09403ea9828c13d7dd4c5",
         "revCount": 112,
         "type": "git",
         "url": "https://codeberg.org/ScottyLabs/devenv"
