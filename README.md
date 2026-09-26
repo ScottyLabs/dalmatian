@@ -40,7 +40,7 @@ devenv up
 
 ## Deployment
 
-Production runs on [Kennel](https://codeberg.org/ScottyLabs/kennel) via devenv and secretspec.
+Production runs on [Kennel](https://git.cmu.dev/ScottyLabs/kennel) via devenv and secretspec.
 
 ## Contributing
 
