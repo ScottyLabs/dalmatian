@@ -681,11 +681,11 @@
         "rev": "ddc58bcad0bb2b898f900a3c13c94c263e797ad2",
         "revCount": 4,
         "type": "git",
-        "url": "https://codeberg.org/anish/ricochet"
+        "url": "https://git.cmu.dev/anish/ricochet"
       },
       "original": {
         "type": "git",
-        "url": "https://codeberg.org/anish/ricochet"
+        "url": "https://git.cmu.dev/anish/ricochet"
       }
     },
     "root": {
@@ -758,11 +758,11 @@
         "rev": "ae4cf56c2375c51169c481dc8cfac078e45ff494",
         "revCount": 112,
         "type": "git",
-        "url": "https://codeberg.org/ScottyLabs/devenv"
+        "url": "https://git.cmu.dev/ScottyLabs/devenv"
       },
       "original": {
         "type": "git",
-        "url": "https://codeberg.org/ScottyLabs/devenv"
+        "url": "https://git.cmu.dev/ScottyLabs/devenv"
       }
     },
     "treefmt-nix": {

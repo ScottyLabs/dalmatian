@@ -12,7 +12,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     devenv.url = "github:cachix/devenv";
     scottylabs = {
-      url = "git+https://codeberg.org/ScottyLabs/devenv";
+      url = "git+https://git.cmu.dev/ScottyLabs/kennel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -21,7 +21,6 @@
     {
       self,
       nixpkgs,
-      devenv,
       scottylabs,
       ...
     }:

@@ -4,8 +4,13 @@ secretspec:
   profile: dev
 
 inputs:
+  nixpkgs:
+    url: github:nixos/nixpkgs/nixos-unstable
   scottylabs:
-    url: git+https://codeberg.org/ScottyLabs/devenv
+    url: git+https://git.cmu.dev/ScottyLabs/kennel
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
   treefmt-nix:
     url: github:numtide/treefmt-nix
   git-hooks:
