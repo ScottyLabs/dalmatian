@@ -1,4 +1,3 @@
----
 name: Task (Leadership)
 description: (Leadership) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
@@ -8,18 +7,15 @@ body:
     id: objective
     attributes:
       label: Overall Objective
-      description: What is this issue trying to accomplish and why? If applicable
-        where does the project stand right now?
-      placeholder: e.g. Users currently see stale data because the cache isn't
-        invalidated on update. This issue fixes that.
+      description: What is this issue trying to accomplish and why? If applicable where does the project stand right now?
+      placeholder: e.g. Users currently see stale data because the cache isn't invalidated on update. This issue fixes that.
     validations:
       required: true
   - type: textarea
     id: approach
     attributes:
       label: Suggested Approach
-      description: What might be a good direction to go down or what might be good
-        resources/ideas to start from
+      description: What might be a good direction to go down or what might be good resources/ideas to start from
       placeholder: |
         1. Use X to do Y
         2. I suggest looking up the docs for X
@@ -30,8 +26,8 @@ body:
     attributes:
       value: |
         ### Help & Resources
-        - [README](https://codeberg.org/ScottyLabs/dalmatian/src/branch/main/README.md)
-        - [Contributing Guidelines](https://codeberg.org/ScottyLabs/dalmatian/src/branch/main/docs/CONTRIBUTING.md)
+        - [README](https://git.cmu.dev/ScottyLabs/dalmatian/src/branch/main/README.md)
+        - [Contributing Guidelines](https://git.cmu.dev/ScottyLabs/dalmatian/src/branch/main/docs/CONTRIBUTING.md)
   - type: dropdown
     id: size
     attributes:

@@ -74,7 +74,7 @@ const command: SlashCommand = {
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
         if (focusedOption.name !== "course_code") return;
-        
+
         const choices = queryCourse(focusedOption.value);
         await interaction.respond(
             choices.slice(0, 25).map(({ id, name }) => ({

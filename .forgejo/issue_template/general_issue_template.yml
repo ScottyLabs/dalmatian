@@ -1,4 +1,3 @@
----
 name: Task (General)
 description: (General) Standard Dalmatian Development issue
 title: "[BRIEF DESCRIPTION]"
@@ -20,5 +19,5 @@ body:
     attributes:
       value: |
         ### Help & Resources
-        - [README](https://codeberg.org/ScottyLabs/dalmatian/src/branch/main/README.md)
-        - [Contributing Guidelines](https://codeberg.org/ScottyLabs/dalmatian/src/branch/main/docs/CONTRIBUTING.md)
+        - [README](https://git.cmu.dev/ScottyLabs/dalmatian/src/branch/main/README.md)
+        - [Contributing Guidelines](https://git.cmu.dev/ScottyLabs/dalmatian/src/branch/main/docs/CONTRIBUTING.md)

@@ -47,9 +47,12 @@ const event: Event<Events.InteractionCreate> = {
                             });
                         }
                     } catch (replyError) {
-                        logger.error("Failed to send error reply (interaction likely expired): {error}", {
-                            error: nodeError(replyError),
-                        });
+                        logger.error(
+                            "Failed to send error reply (interaction likely expired): {error}",
+                            {
+                                error: nodeError(replyError),
+                            },
+                        );
                     }
                 }
             }
@@ -97,18 +100,23 @@ const event: Event<Events.InteractionCreate> = {
                 try {
                     if (interaction.deferred || interaction.replied) {
                         await interaction.editReply({
-                            content: "There was an error while executing this context menu command!",
+                            content:
+                                "There was an error while executing this context menu command!",
                         });
                     } else {
                         await interaction.reply({
-                            content: "There was an error while executing this context menu command!",
+                            content:
+                                "There was an error while executing this context menu command!",
                             flags: MessageFlags.Ephemeral,
                         });
                     }
                 } catch (replyError) {
-                    logger.error("Failed to send error reply (interaction likely expired): {error}", {
-                        error: nodeError(replyError),
-                    });
+                    logger.error(
+                        "Failed to send error reply (interaction likely expired): {error}",
+                        {
+                            error: nodeError(replyError),
+                        },
+                    );
                 }
             }
         }
