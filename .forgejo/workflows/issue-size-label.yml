@@ -6,7 +6,7 @@ on:
 
 jobs:
   label-size:
-    runs-on: docker
+    runs-on: native
     steps:
       - name: Apply size label and remove Size section from body
         env:
