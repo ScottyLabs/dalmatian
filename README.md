@@ -10,31 +10,29 @@ Dalmatian is a Discord bot designed for CMU students, providing easy access to c
 
 ### Prerequisites
 
-- [devenv](https://devenv.sh/getting-started/) - Developer environment
-- [direnv](https://direnv.net/docs/installation.html) - shell extension (that we use for devenv)
-
-(You'll need Nix as well, but devenv gives you that command.)
+- [devenv](https://devenv.sh/getting-started/) - provides Deno and other tooling via Nix
 
 ### Setup
 
-For detailed setup instructions including creating a Discord bot, obtaining API credentials, and configuring your development environment, see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+For detailed setup instructions including creating a Discord bot, obtaining API credentials, and configuring your development environment, see [docs/SETUP.md](docs/SETUP.md).
 
 **Quick setup:**
 
-1. Install devenv and direnv (see links above)
-1. Create a Discord bot at [https://discord.com/developers/applications]
-1. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`
+1. Install devenv (see link above)
+1. Create a Discord bot at <https://discord.com/developers/applications> and invite it to a server you can test in
+1. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` and put them in `.env`:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your Discord bot credentials
+   ```
 
 ### Running the Bot
 
 ```bash
-# Set up environment variables (see CONTRIBUTING.md for details)
-cp .env.example .env
-# Edit .env with your Discord bot credentials
-
-# Start the environment
 devenv up
 ```
+
+This starts a local PostgreSQL database and the bot. Database migrations and slash command registration happen automatically when the bot starts. The first run may take a while as devenv downloads its tooling.
 
 <!--TODO: ## Project Structure-->
 

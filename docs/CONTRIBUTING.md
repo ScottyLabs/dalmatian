@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to Dalmatian! This guide will help you get started.
 
+If this is your first time, follow [SETUP.md](SETUP.md) first to create your Discord bot and run it locally.
+
 ## How to Contribute
 
 1. **Fork the repository** or create a new branch if you have write access
@@ -32,36 +34,17 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 
 ## Database Setup
 
-> [!WARNING]
-> This section is outdated and in need of attention. Please use this information with caution, and consider sending patches to update it.
+The bot uses PostgreSQL for storing polls and reaction redirect configurations. You don't need to install or start it yourself. `devenv up` runs a local PostgreSQL server, and the bot applies any pending migrations when it starts.
 
-The bot uses PostgreSQL for storing polls and reaction redirect configurations. The database runs in Docker for local development.
-
-1. Start the PostgreSQL database using Docker:
-
-   ```bash
-   docker-compose up -d postgres
-   ```
-
-1. Run database migrations to create the tables:
-
-   ```bash
-   deno run db:migrate
-   ```
-
-1. (Optional) Open Drizzle Studio to inspect the database:
-
-   ```bash
-   deno run db:studio
-   ```
-
-The database will persist data in a Docker volume. To completely reset the database, run:
+If you change the schema in `src/db/`, generate a new migration with:
 
 ```bash
-docker-compose down -v
-docker-compose up -d postgres
-deno run db:migrate
+deno run db:generate
 ```
+
+To inspect the database, run `deno run db:studio` inside `devenv shell` while `devenv up` is running.
+
+To completely reset the database, stop `devenv up`, delete `.devenv/state/postgres`, and start `devenv up` again.
 
 ## Before Submitting
 
@@ -83,10 +66,7 @@ Before you commit and open a pull request, make sure to:
 
 ## Project Priorities & Planning
 
-To understand current priorities, roadmap, and ongoing work:
-
-- Visit the [Dalmatian Development project](https://github.com/orgs/ScottyLabs/projects/20)
-- If you cannot access the board, ask a maintainer to add you to the ScottyLabs organization.
+To understand current priorities, roadmap, and ongoing work, please check the [issues board](https://git.cmu.dev/ScottyLabs/dalmatian/issues).
 
 ## Need Help?
 
