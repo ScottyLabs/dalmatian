@@ -99,7 +99,7 @@ const command: SlashCommand = {
 
         const components = new ActionRowBuilder<ButtonBuilder>().addComponents(
             new ButtonBuilder()
-                .setLabel("Codeberg Repo")
+                .setLabel("git.cmu.dev Repo")
                 .setStyle(ButtonStyle.Link)
                 .setURL("https://git.cmu.dev/ScottyLabs/dalmatian"),
             new ButtonBuilder()
