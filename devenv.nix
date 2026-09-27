@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   inputs,
   ...
@@ -29,7 +28,7 @@
 
   processes.dalmatian.exec = "secretspec run --profile dev -- deno run start";
 
-  env.VAULT_ADDR = "https://secrets2.scottylabs.org";
+  env.VAULT_ADDR = "https://secrets.scottylabs.org";
 
   treefmt.config.settings.global.excludes = [
     "src/data/**"
