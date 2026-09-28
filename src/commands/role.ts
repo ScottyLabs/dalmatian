@@ -175,7 +175,7 @@ const command: SlashCommand = {
                             .join("\n");
 
                     const embed = new EmbedBuilder()
-                        .setTitle(`"${roleString}"`)
+                        .setTitle(roleString)
                         .setDescription(description);
 
                     if (roleColor) embed.setColor(roleColor);
@@ -186,7 +186,7 @@ const command: SlashCommand = {
 
             if (embeds.length === 0) {
                 const embed = new EmbedBuilder()
-                    .setTitle(`"${roleString}"`)
+                    .setTitle(roleString)
                     .setDescription(`No members found.`);
 
                 if (roleColor) embed.setColor(roleColor);
@@ -198,7 +198,7 @@ const command: SlashCommand = {
         }
         if (interaction.options.getSubcommand() === "count") {
             const embed = new EmbedBuilder()
-                .setTitle(`"${roleString}"`)
+                .setTitle(roleString)
                 .setDescription(`${members.length} members`);
 
             if (roleColor) embed.setColor(roleColor);
@@ -227,7 +227,7 @@ const command: SlashCommand = {
         await interaction.respond(
             filtered.slice(0, 25).map((name) => ({
                 name,
-                value: name,
+                value: `"${name}"`,
             })),
         );
     },
