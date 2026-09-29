@@ -72,7 +72,7 @@ To understand current priorities, roadmap, and ongoing work, please check the [i
 
 If you have questions or need help:
 
-- Open an issue on GitHub
+- Open an issue
 - Check existing issues and pull requests for similar questions
 
 Remember to follow conventional committing guidelines while contributing!
