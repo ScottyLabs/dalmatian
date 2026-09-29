@@ -237,9 +237,9 @@ const command: SlashCommand = {
                             t.setContent(
                                 [
                                     courseName.endsWith("(*Not Offered Course*)")
-                                        ? `**${course.id}** — ${coursesType} ${courseName} (${units} units) `
+                                        ? `**${course.id}** - ${coursesType} ${courseName} (${units} units) `
                                         : hyperlink(
-                                              `**${course.id}** — ${courseName} (${units} units)`,
+                                              `**${course.id}** - ${courseName} (${units} units)`,
                                               `${SCOTTYLABS_URL}/course/${course.id}`,
                                           ),
                                     genedTags != "n/a"

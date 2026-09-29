@@ -37,7 +37,7 @@ export class EmbedPaginator {
         pages,
         components = [],
         verbose = false,
-        onCollect = async (_) => {},
+        onCollect = async () => {},
         onEnd = async () => {},
     }: {
         pages: EmbedBuilder[];

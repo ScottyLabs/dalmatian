@@ -285,7 +285,7 @@ const command: SlashCommand = {
                 right = underline(right);
             }
             if (workload.toFixed(1).length === 3) {
-                return `${left} — ${right}`;
+                return `${left} \u2014 ${right}`;
             }
             return `${left} - ${right}`;
         }

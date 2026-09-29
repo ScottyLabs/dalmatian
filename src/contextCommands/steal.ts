@@ -137,7 +137,7 @@ const command: MessageContextCommand = {
                 logger.error(`Failed to add emoji ${info.name}: {error}`, {
                     error: nodeError(err),
                 });
-                failed.push(`\`${info.name}\` — failed to add`);
+                failed.push(`\`${info.name}\` - failed to add`);
             }
         }
 
@@ -178,7 +178,7 @@ const command: MessageContextCommand = {
                 logger.error(`Failed to add sticker ${sticker.name}: {error}`, {
                     error: nodeError(err),
                 });
-                failed.push(`sticker \`${sticker.name}\` — failed to add`);
+                failed.push(`sticker \`${sticker.name}\` - failed to add`);
             }
         }
 
