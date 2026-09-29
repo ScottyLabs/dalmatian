@@ -28,11 +28,19 @@ For detailed setup instructions including creating a Discord bot, obtaining API 
 
 ### Running the Bot
 
+Authenticate once per machine with:
+
+```
+nix run git+https://git.cmu.dev/ScottyLabs/kennel#login
+```
+
+Then start the bot and a local PostgreSQL database:
+
 ```bash
 devenv up
 ```
 
-This starts a local PostgreSQL database and the bot. Database migrations and slash command registration happen automatically when the bot starts. The first run may take a while as devenv downloads its tooling.
+Database migrations and slash command registration happen automatically when the bot starts. The first run may take a while as devenv downloads its tooling.
 
 <!--TODO: ## Project Structure-->
 
