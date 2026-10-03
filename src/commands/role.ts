@@ -198,7 +198,7 @@ const command: SlashCommand = {
         }
         if (interaction.options.getSubcommand() === "count") {
             const embed = new EmbedBuilder()
-                .setTitle(`"${roleString}"`)
+                .setTitle(`"${roleString}"`.slice(0, 254))
                 .setDescription(`${members.length} members`);
 
             if (roleColor) embed.setColor(roleColor);
