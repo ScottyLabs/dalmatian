@@ -1,6 +1,14 @@
 # Dalmatian
 
-Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMU Courses and CMU Eats right at your fingertips!
+Dalmatian is a Discord bot designed for CMU students, providing easy access to campus resources like CMU Courses and CMU Eats right at your fingertips! Made in TypeScript using Discord.js.
+
+Try some of dalmatian's bot commands!
+
+- `/fce` - View and compare [Faculty Course Evaluations (FCEs)](https://www.cmu.edu/hub/fce/) across semesters and professors
+- `/dining` - View the statuses of dining locations on campus
+- `/course` - Look up information about a specific course
+
+To add Dalmatian to your server, click [here](https://discord.com/oauth2/authorize?client_id=1433596352515932212)!
 
 <!--TODO: ## Features-->
 
@@ -10,6 +18,7 @@ Dalmatian is a Discord bot designed for CMU students, providing easy access to c
 
 ### Prerequisites
 
+- Be a member of [Community-Based Projects](https://git.cmu.dev/ScottyLabs/governance/src/branch/main/data/teams/cbp.toml)
 - [devenv](https://devenv.sh/getting-started/) - provides Deno and other tooling via Nix
 
 ### Setup
@@ -30,7 +39,7 @@ For detailed setup instructions including creating a Discord bot, obtaining API 
 
 Authenticate once per machine with:
 
-```
+```bash
 nix run git+https://git.cmu.dev/ScottyLabs/kennel#login
 ```
 
