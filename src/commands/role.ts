@@ -175,7 +175,7 @@ const command: SlashCommand = {
                             .join("\n");
 
                     const embed = new EmbedBuilder()
-                        .setTitle(roleString)
+                        .setTitle(roleString.slice(0, 251) + "...")
                         .setDescription(description);
 
                     if (roleColor) embed.setColor(roleColor);
@@ -186,7 +186,7 @@ const command: SlashCommand = {
 
             if (embeds.length === 0) {
                 const embed = new EmbedBuilder()
-                    .setTitle(roleString)
+                    .setTitle(roleString.slice(0, 251) + "...")
                     .setDescription(`No members found.`);
 
                 if (roleColor) embed.setColor(roleColor);
@@ -198,7 +198,7 @@ const command: SlashCommand = {
         }
         if (interaction.options.getSubcommand() === "count") {
             const embed = new EmbedBuilder()
-                .setTitle(roleString)
+                .setTitle(roleString.slice(0, 251) + "...")
                 .setDescription(`${members.length} members`);
 
             if (roleColor) embed.setColor(roleColor);
