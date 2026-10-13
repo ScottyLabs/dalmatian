@@ -10,7 +10,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    devenv.url = "github:cachix/devenv";
     scottylabs = {
       url = "git+https://git.cmu.dev/ScottyLabs/kennel";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -191,17 +191,15 @@ export function buildFCEData(
         const pendingCourseRecords = pendingByCourse[courseCode];
         if (!pendingCourseRecords) continue;
 
-        data.records = [...pendingCourseRecords.values()].map(
-            (pendingRecord): FCERecord => ({
-                section: pendingRecord.section,
-                instructor: pendingRecord.instructor,
-                semesterLabel: pendingRecord.semesterLabel,
-                hrsPerWeek: pendingRecord.hrsPerWeekSum / pendingRecord.count,
-                overallTeachingRate: pendingRecord.overallTeachingRateSum / pendingRecord.count,
-                overallCourseRate: pendingRecord.overallCourseRateSum / pendingRecord.count,
-                responseRate: pendingRecord.responseRateSum / pendingRecord.count,
-            }),
-        );
+        data.records = [...pendingCourseRecords.values()].map((pendingRecord): FCERecord => ({
+            section: pendingRecord.section,
+            instructor: pendingRecord.instructor,
+            semesterLabel: pendingRecord.semesterLabel,
+            hrsPerWeek: pendingRecord.hrsPerWeekSum / pendingRecord.count,
+            overallTeachingRate: pendingRecord.overallTeachingRateSum / pendingRecord.count,
+            overallCourseRate: pendingRecord.overallCourseRateSum / pendingRecord.count,
+            responseRate: pendingRecord.responseRateSum / pendingRecord.count,
+        }));
     }
 
     return fceMap;

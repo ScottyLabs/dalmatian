@@ -24,11 +24,7 @@
     };
   };
 
-  cachix.enable = false;
-
   processes.dalmatian.exec = "secretspec run --profile dev -- deno run start";
-
-  env.VAULT_ADDR = "https://secrets.scottylabs.org";
 
   treefmt.config.settings.global.excludes = [
     "src/data/**"
