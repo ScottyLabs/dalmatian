@@ -11,7 +11,7 @@ import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { search } from "fast-fuzzy";
 import { FCE_DATA_BY_COURSE, FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 import type { SlashCommand } from "../types.d.ts";
-import { COURSES_DATA, formatCourseNumber } from "../utils/index.ts";
+import { COURSES_DATA } from "../utils/index.ts";
 import { SCOTTYLABS_URL } from "../constants.ts";
 
 // TODO: move this to fceCache.ts probably
@@ -44,18 +44,6 @@ const ALL_INSTRUCTORS = (() => {
             .map(({ name, courseCodes }) => [name, Array.from(courseCodes).sort()]),
     ) as Record<string, string[]>;
 })();
-
-function getAllInstructors(): Record<string, string[]> {
-    return ALL_INSTRUCTORS;
-}
-
-export function resolveCourseCode(rawCourseCode: string | null | undefined): string | null {
-    if (!rawCourseCode?.trim()) {
-        return null;
-    }
-
-    return formatCourseNumber(rawCourseCode.trim());
-}
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -96,40 +84,18 @@ const command: SlashCommand = {
                 `Response Rate: ${bold(`${responseRate.toFixed(1)}%`)}`
             );
         }
-        function semesterLabelToNum(semLabel: string): number {
-            const sem = semLabel.slice(0, 1);
-            const year = parseInt(semLabel.slice(1));
-            if (sem === "F") {
-                return year + 0.6;
-            } else if (sem === "M") {
-                return year + 0.3;
-            }
-            return year;
-        }
+
         const coursesData = COURSES_DATA;
         const instructor = interaction.options.getString("instructor_name", true);
-        const fceData = FCE_DATA_BY_COURSE;
-        const _summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
         const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
-        const instructors = getAllInstructors();
-        const instructorCourses = instructors[instructor];
+        const instructorCourses = ALL_INSTRUCTORS[instructor];
         if (!instructorCourses) {
             return interaction.reply({
-                content: "Something went wrong",
+                content: "No instructor data found",
                 flags: MessageFlags.Ephemeral,
             });
         }
 
-        //sort in descending order so more recently taught courses show up first
-        instructorCourses.sort(
-            (a, b) =>
-                semesterLabelToNum(
-                    summaryByInstructorByCourseCode.get(b)?.get(instructor)?.semesterLabels[0]!,
-                ) -
-                semesterLabelToNum(
-                    summaryByInstructorByCourseCode.get(a)?.get(instructor)?.semesterLabels[0]!,
-                ),
-        );
         const baseEmbed = new EmbedBuilder()
             .setTitle(bold(underline(`${instructor}`)))
             .setURL(`${SCOTTYLABS_URL}/instructor/${encodeURIComponent(instructor)}`);
@@ -138,13 +104,12 @@ const command: SlashCommand = {
         let chunk: string[] = [];
         let index = 0;
 
-        for (const course of instructors[instructor]!) {
+        for (const course of ALL_INSTRUCTORS[instructor]!) {
             const courseData = coursesData[course]!;
-            const _courseFCEData = fceData[course]!;
             const instructorSummary = summaryByInstructorByCourseCode.get(course)?.get(instructor);
             if (!instructorSummary) {
                 return interaction.reply({
-                    content: "Something went wrong",
+                    content: "No instructor summary data found",
                     flags: MessageFlags.Ephemeral,
                 });
             }
@@ -161,7 +126,7 @@ const command: SlashCommand = {
             chunk.push(entry);
             index++;
 
-            if (chunk.length >= 5 || index === instructors[instructor]!.length) {
+            if (chunk.length >= 5 || index === ALL_INSTRUCTORS[instructor]!.length) {
                 const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n\n"));
                 pages.push(embed);
                 chunk = [];
@@ -170,16 +135,12 @@ const command: SlashCommand = {
 
         const paginator = new EmbedPaginator({ pages });
         await paginator.send(interaction);
-        return;
     },
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
         const focusedValue = focusedOption.value.toLowerCase();
 
-        const instructors = getAllInstructors();
-        const instructorNames = Object.keys(instructors);
-
-        let choices: { name: string; value: string }[] = [];
+        const instructorNames = Object.keys(ALL_INSTRUCTORS);
 
         if (focusedOption.name === "instructor_name") {
             const filteredChoices =
@@ -188,28 +149,12 @@ const command: SlashCommand = {
                     : search(focusedValue, instructorNames, {
                           keySelector: (name) => name,
                       });
-            choices = filteredChoices.slice(0, 10).map((name) => ({
+            const choices = filteredChoices.slice(0, 10).map((name) => ({
                 name,
                 value: name,
             }));
-        } else if (focusedOption.name === "course_code") {
-            const selectedInstructor = interaction.options.getString("instructor_name")?.trim();
-            if (selectedInstructor) {
-                const courseCodes = instructors[selectedInstructor] ?? [];
-                const filteredChoices =
-                    focusedValue === ""
-                        ? courseCodes
-                        : search(focusedValue, courseCodes, {
-                              keySelector: (code) => code,
-                          });
-                choices = filteredChoices.slice(0, 10).map((code) => ({
-                    name: code,
-                    value: code,
-                }));
-            }
+            await interaction.respond(choices);
         }
-
-        await interaction.respond(choices);
     },
 };
 
