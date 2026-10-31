@@ -1,0 +1,15 @@
+{
+  "semesters": [
+    { "name": "Fall 2026", "start": "2026-08-23", "end": "2026-12-14" },
+    { "name": "Spring 2027", "start": "2027-01-17", "end": "2027-05-11" }
+  ],
+  "plans": [
+    { "id": "green", "name": "Green Plan", "blocks": 292, "flex": 280 },
+    { "id": "blue", "name": "Blue Plan", "blocks": 252, "flex": 540 },
+    { "id": "red", "name": "Red Plan", "blocks": 205, "flex": 880 },
+    { "id": "yellow", "name": "Yellow Plan", "blocks": 125, "flex": 195 },
+    { "id": "scottys-choice", "name": "Scotty's Choice", "blocks": 85, "flex": 655 },
+    { "id": "whitfields-favor", "name": "Whitfield's Favor", "blocks": 54, "flex": 500 },
+    { "id": "piper-select", "name": "Piper Select", "blocks": 32, "flex": 350 }
+  ]
+}
