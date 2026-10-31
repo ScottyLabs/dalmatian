@@ -11,7 +11,6 @@ export type Session = {
 export type Course = {
     id: string;
     name: string;
-    syllabi: Session[];
     desc: string;
     prereqs: string[];
     prereqString: string;
