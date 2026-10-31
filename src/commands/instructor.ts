@@ -105,7 +105,7 @@ const command: SlashCommand = {
         let index = 0;
 
         for (const course of ALL_INSTRUCTORS[instructor]!) {
-            const courseData = coursesData[course]!;
+            const courseData = coursesData[course];
             const instructorSummary = summaryByInstructorByCourseCode.get(course)?.get(instructor);
             if (!instructorSummary) {
                 return interaction.reply({
@@ -116,7 +116,7 @@ const command: SlashCommand = {
             const url = `${SCOTTYLABS_URL}/course/${encodeURIComponent(course)}`;
 
             const entry = createFCEEntry(
-                hyperlink(`${course}: ${courseData.name}`, url),
+                hyperlink(`${course}: ${courseData?.name ?? "Unknown Course"}`, url),
                 instructorSummary.semesterLabels,
                 instructorSummary.teachingRate,
                 instructorSummary.courseRate,
