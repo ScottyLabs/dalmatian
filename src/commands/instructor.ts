@@ -45,6 +45,15 @@ const ALL_INSTRUCTORS = (() => {
     ) as Record<string, string[]>;
 })();
 
+function searchInstructors(query: string): string[] {
+    return search(query.replace(/,/g, " ").trim(), Object.keys(ALL_INSTRUCTORS), {
+        keySelector: (name) => {
+            const [last = "", first = ""] = name.split(",").map((s) => s.trim());
+            return [`${last} ${first}`, `${first} ${last}`];
+        },
+    });
+}
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("instructor")
@@ -86,7 +95,10 @@ const command: SlashCommand = {
         }
 
         const coursesData = COURSES_DATA;
-        const instructor = interaction.options.getString("instructor_name", true);
+        const instructorInput = interaction.options.getString("instructor_name", true);
+        const instructor = ALL_INSTRUCTORS[instructorInput]
+            ? instructorInput
+            : (searchInstructors(instructorInput)[0] ?? instructorInput);
         const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
         const instructorCourses = ALL_INSTRUCTORS[instructor];
         if (!instructorCourses) {
@@ -144,14 +156,7 @@ const command: SlashCommand = {
 
         if (focusedOption.name === "instructor_name") {
             const filteredChoices =
-                focusedValue === ""
-                    ? instructorNames
-                    : search(focusedValue.replace(/,/g, " ").trim(), instructorNames, {
-                          keySelector: (name) => {
-                              const [last = "", first = ""] = name.split(",").map((s) => s.trim());
-                              return [`${last} ${first}`, `${first} ${last}`];
-                          },
-                      });
+                focusedValue === "" ? instructorNames : searchInstructors(focusedValue);
             const choices = filteredChoices.slice(0, 10).map((name) => ({
                 name: name.toUpperCase(),
                 value: name,
