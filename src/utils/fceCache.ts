@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "csv-parse/sync";
 import { strikethrough } from "discord.js";
-import { formatCourseNumber } from "./index.ts";
+import { formatCourseNumber, semesterToNumber } from "./index.ts";
 
 const YEARS_BACK = 5;
 
@@ -39,6 +39,10 @@ export type FCEStartupCache = {
      * <course code, <instructor name, aggregated summary for that instructor in that course>>
      */
     summaryByInstructorByCourseCode: Map<string, Map<string, FCERecordSummary>>;
+    /**
+     * <instructor name, <course code, aggregated summary>>, courses most recently taught first
+     */
+    summaryByCourseCodeByInstructor: Map<string, Map<string, FCERecordSummary>>;
 };
 
 type PendingFCERecord = {
@@ -269,6 +273,11 @@ function buildFCEStartupCache(fceDataByCourse: Record<string, FCEData>): FCEStar
     const summaryByCourseCode = new Map<string, FCERecordSummary>();
     // <course code, <instructor name, aggregate summary>>
     const summaryByInstructorByCourseCode = new Map<string, Map<string, FCERecordSummary>>();
+    // <instructor name, courses they taught with the most recent semester taught>
+    const coursesByInstructor = new Map<
+        string,
+        { courseCode: string; latestSemester: number; summary: FCERecordSummary }[]
+    >();
 
     for (const [courseCode, fceData] of Object.entries(fceDataByCourse)) {
         summaryByCourseCode.set(courseCode, summarizeFCERecords(fceData.records));
@@ -282,14 +291,34 @@ function buildFCEStartupCache(fceDataByCourse: Record<string, FCEData>): FCEStar
 
         const instructorSummaries = new Map<string, FCERecordSummary>();
         for (const [instructor, instructorRecords] of recordsByInstructor) {
-            instructorSummaries.set(instructor, summarizeFCERecords(instructorRecords));
+            const summary = summarizeFCERecords(instructorRecords);
+            instructorSummaries.set(instructor, summary);
+
+            const latestSemester = Math.max(
+                ...instructorRecords.map((r) => semesterToNumber(r.semesterLabel)),
+            );
+            const courses = coursesByInstructor.get(instructor) ?? [];
+            courses.push({ courseCode, latestSemester, summary });
+            coursesByInstructor.set(instructor, courses);
         }
         summaryByInstructorByCourseCode.set(courseCode, instructorSummaries);
     }
 
+    const summaryByCourseCodeByInstructor = new Map(
+        [...coursesByInstructor].map(([instructor, courses]) => [
+            instructor,
+            new Map(
+                courses
+                    .sort((a, b) => b.latestSemester - a.latestSemester)
+                    .map(({ courseCode, summary }) => [courseCode, summary]),
+            ),
+        ]),
+    );
+
     return {
         summaryByCourseCode,
         summaryByInstructorByCourseCode,
+        summaryByCourseCodeByInstructor,
     };
 }
 

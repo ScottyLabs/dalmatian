@@ -62,3 +62,8 @@ export function queryCourse(input: string): Course[] {
         keySelector: (course) => `${course.id} ${course.name}`,
     });
 }
+
+export function semesterToNumber(semester: string) {
+    const [term, year] = [semester[0]!, Number(semester.slice(1))];
+    return "SMF".indexOf(term) + year * 10;
+}

@@ -8,50 +8,25 @@ import {
     MessageFlags,
 } from "discord.js";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
-import { search } from "fast-fuzzy";
-import { FCE_DATA_BY_COURSE, FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
+import { Searcher } from "fast-fuzzy";
+import { FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { COURSES_DATA } from "../utils/index.ts";
 import { SCOTTYLABS_URL } from "../constants.ts";
 
-// TODO: move this to fceCache.ts probably
-const ALL_INSTRUCTORS = (() => {
-    const instructorsMap = new Map<string, { name: string; courseCodes: Set<string> }>();
+const ALL_INSTRUCTORS = FCE_STARTUP_CACHE.summaryByCourseCodeByInstructor;
 
-    for (const courseData of Object.values(FCE_DATA_BY_COURSE)) {
-        const courseCode = courseData.courseNum.trim();
-        if (!courseCode) continue;
+const INSTRUCTOR_NAMES = [...ALL_INSTRUCTORS.keys()];
 
-        for (const record of courseData.records) {
-            const instructorName = record.instructor.trim();
-            if (!instructorName) continue;
-
-            const existingInstructor = instructorsMap.get(instructorName);
-            if (!existingInstructor) {
-                instructorsMap.set(instructorName, {
-                    name: instructorName,
-                    courseCodes: new Set<string>(),
-                });
-            }
-
-            instructorsMap.get(instructorName)!.courseCodes.add(courseCode);
-        }
-    }
-
-    return Object.fromEntries(
-        Array.from(instructorsMap.values())
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map(({ name, courseCodes }) => [name, Array.from(courseCodes).sort()]),
-    ) as Record<string, string[]>;
-})();
+const instructorSearcher = new Searcher(INSTRUCTOR_NAMES, {
+    keySelector: (name) => {
+        const [last = "", first = ""] = name.split(",").map((s) => s.trim());
+        return [`${last} ${first}`, `${first} ${last}`];
+    },
+});
 
 function searchInstructors(query: string): string[] {
-    return search(query.replace(/,/g, " ").trim(), Object.keys(ALL_INSTRUCTORS), {
-        keySelector: (name) => {
-            const [last = "", first = ""] = name.split(",").map((s) => s.trim());
-            return [`${last} ${first}`, `${first} ${last}`];
-        },
-    });
+    return instructorSearcher.search(query.replace(/,/g, " ").trim());
 }
 
 const command: SlashCommand = {
@@ -96,11 +71,10 @@ const command: SlashCommand = {
 
         const coursesData = COURSES_DATA;
         const instructorInput = interaction.options.getString("instructor_name", true);
-        const instructor = ALL_INSTRUCTORS[instructorInput]
+        const instructor = ALL_INSTRUCTORS.has(instructorInput)
             ? instructorInput
             : (searchInstructors(instructorInput)[0] ?? instructorInput);
-        const summaryByInstructorByCourseCode = FCE_STARTUP_CACHE.summaryByInstructorByCourseCode;
-        const instructorCourses = ALL_INSTRUCTORS[instructor];
+        const instructorCourses = ALL_INSTRUCTORS.get(instructor);
         if (!instructorCourses) {
             return interaction.reply({
                 content: "No instructor data found",
@@ -116,15 +90,8 @@ const command: SlashCommand = {
         let chunk: string[] = [];
         let index = 0;
 
-        for (const course of ALL_INSTRUCTORS[instructor]!) {
+        for (const [course, instructorSummary] of instructorCourses) {
             const courseData = coursesData[course];
-            const instructorSummary = summaryByInstructorByCourseCode.get(course)?.get(instructor);
-            if (!instructorSummary) {
-                return interaction.reply({
-                    content: "No instructor summary data found",
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
             const url = `${SCOTTYLABS_URL}/course/${encodeURIComponent(course)}`;
 
             const entry = createFCEEntry(
@@ -138,7 +105,7 @@ const command: SlashCommand = {
             chunk.push(entry);
             index++;
 
-            if (chunk.length >= 5 || index === ALL_INSTRUCTORS[instructor]!.length) {
+            if (chunk.length >= 5 || index === instructorCourses.size) {
                 const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n\n"));
                 pages.push(embed);
                 chunk = [];
@@ -152,11 +119,9 @@ const command: SlashCommand = {
         const focusedOption = interaction.options.getFocused(true);
         const focusedValue = focusedOption.value;
 
-        const instructorNames = Object.keys(ALL_INSTRUCTORS);
-
         if (focusedOption.name === "instructor_name") {
             const filteredChoices =
-                focusedValue === "" ? instructorNames : searchInstructors(focusedValue);
+                focusedValue === "" ? INSTRUCTOR_NAMES : searchInstructors(focusedValue);
             const choices = filteredChoices.slice(0, 10).map((name) => ({
                 name: name.toUpperCase(),
                 value: name,
