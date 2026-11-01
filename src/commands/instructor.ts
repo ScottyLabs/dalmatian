@@ -97,8 +97,8 @@ const command: SlashCommand = {
         }
 
         const baseEmbed = new EmbedBuilder()
-            .setTitle(bold(underline(`${instructor}`)))
-            .setURL(`${SCOTTYLABS_URL}/instructor/${encodeURIComponent(instructor)}`);
+            .setTitle(bold(underline(instructor.toUpperCase())))
+            .setURL(`${SCOTTYLABS_URL}/instructor/${encodeURIComponent(instructor.toUpperCase())}`);
 
         const pages: EmbedBuilder[] = [];
         let chunk: string[] = [];
@@ -138,7 +138,7 @@ const command: SlashCommand = {
     },
     async autocomplete(_client, interaction) {
         const focusedOption = interaction.options.getFocused(true);
-        const focusedValue = focusedOption.value.toLowerCase();
+        const focusedValue = focusedOption.value;
 
         const instructorNames = Object.keys(ALL_INSTRUCTORS);
 
@@ -150,7 +150,7 @@ const command: SlashCommand = {
                           keySelector: (name) => name,
                       });
             const choices = filteredChoices.slice(0, 10).map((name) => ({
-                name,
+                name: name.toUpperCase(),
                 value: name,
             }));
             await interaction.respond(choices);
