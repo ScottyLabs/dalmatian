@@ -146,8 +146,11 @@ const command: SlashCommand = {
             const filteredChoices =
                 focusedValue === ""
                     ? instructorNames
-                    : search(focusedValue, instructorNames, {
-                          keySelector: (name) => name,
+                    : search(focusedValue.replace(/,/g, " ").trim(), instructorNames, {
+                          keySelector: (name) => {
+                              const [last = "", first = ""] = name.split(",").map((s) => s.trim());
+                              return [`${last} ${first}`, `${first} ${last}`];
+                          },
                       });
             const choices = filteredChoices.slice(0, 10).map((name) => ({
                 name: name.toUpperCase(),
