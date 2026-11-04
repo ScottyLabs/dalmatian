@@ -102,13 +102,13 @@ const command: SlashCommand = {
         if (validCourses.length === 0) {
             let errorMsg = "No valid courses with FCE data found.\n";
             if (invalidCodes.length > 0) {
-                errorMsg += `Invalid format: ${invalidCodes.join(", ")}`;
+                errorMsg += `Invalid format: ${invalidCodes.join(", ")} \n`;
             }
             if (noCourseData.length > 0) {
-                errorMsg += `Not found: ${noCourseData.join(", ")}`;
+                errorMsg += `Not found: ${noCourseData.join(", ")} \n`;
             }
             if (noFCEData.length > 0) {
-                errorMsg += `No FCE data: ${noFCEData.join(", ")}`;
+                errorMsg += `No FCE data: ${noFCEData.join(", ")} \n`;
             }
             return interaction.reply({
                 content: errorMsg,
@@ -211,9 +211,17 @@ const command: SlashCommand = {
                 let index = 0;
 
                 if (notFound.length > 0) {
-                    chunk.push(
-                        `:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`,
-                    );
+                    let errorMsg = `:warning: ${bold("Warning:")} `;
+                    if (invalidCodes.length > 0) {
+                        errorMsg += `Invalid format: ${invalidCodes.join(", ")}, `;
+                    }
+                    if (noCourseData.length > 0) {
+                        errorMsg += `Not found: ${noCourseData.join(", ")}, `;
+                    }
+                    if (noFCEData.length > 0) {
+                        errorMsg += `No FCE data: ${noFCEData.join(", ")}, `;
+                    }
+                    chunk.push(errorMsg.substring(0, errorMsg.length - 2));
                 }
 
                 for (const entry of entries) {
@@ -321,7 +329,18 @@ const command: SlashCommand = {
             description += `\n:pencil: ${bold("Note:")} First-year writing minis averaged`;
         }
         if (notFound.length > 0) {
-            description += `\n:warning: ${bold("Warning:")} ${notFound.length === 1 ? "Course" : "Courses"} ${notFound.join(", ")} not found`;
+            let errorMsg = "";
+            if (invalidCodes.length > 0) {
+                errorMsg += `Invalid format: ${invalidCodes.join(", ")}, `;
+            }
+            if (noCourseData.length > 0) {
+                errorMsg += `Not found: ${noCourseData.join(", ")}, `;
+            }
+            if (noFCEData.length > 0) {
+                errorMsg += `No FCE data: ${noFCEData.join(", ")}, `;
+            }
+
+            description += `\n:warning: ${bold("Warning:")} ${errorMsg.substring(0, errorMsg.length - 2)}`;
         }
 
         const embed = new EmbedBuilder()
