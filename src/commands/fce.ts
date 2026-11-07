@@ -57,7 +57,7 @@ const command: SlashCommand = {
         type ValidCourse = {
             code: string;
             course: Course;
-            fce: FCEData;
+            fce?: FCEData;
             isFactorable: boolean;
         };
 
@@ -85,7 +85,6 @@ const command: SlashCommand = {
 
             if (!fceData[courseCode]) {
                 noFCEData.push(courseCode);
-                continue;
             }
 
             const isFactorable = NON_FACTORABLE_COURSES.every(
@@ -120,6 +119,13 @@ const command: SlashCommand = {
 
         if (validCourses.length === 1) {
             const { code, course, fce } = validCourses[0]!;
+            if (fce === undefined) {
+                const errorMsg = `No FCE data: ${noFCEData.join(", ")} \n`;
+                return interaction.reply({
+                    content: errorMsg,
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
             const summary = summaryByCourseCode.get(code)!;
 
             const baseEmbed = new EmbedBuilder()
@@ -285,27 +291,31 @@ const command: SlashCommand = {
             return;
         }
 
-        function formatLine(workload: number, text: string, total = false) {
-            let left = `${bold(workload.toFixed(1))} hrs/wk`;
+        function formatLine(workload: number | undefined, text: string, total = false) {
+            let left = `${bold(`N/A`)} hrs/wk`;
+            if (workload) {
+                left = `${bold(workload.toFixed(1))} hrs/wk`;
+            }
             let right = text;
             if (total) {
                 left = underline(left);
                 right = underline(right);
             }
-            if (workload.toFixed(1).length === 3) {
+            if (workload && workload.toFixed(1).length === 3) {
                 return `${left} \u2014 ${right}`;
             }
             return `${left} - ${right}`;
         }
 
         let description = "";
-        for (const { code, course, fce, isFactorable } of validCourses) {
-            const summary = summaryByCourseCode.get(code)!;
-            const courseName = fce.courseName.toUpperCase();
+        for (const { code, course, isFactorable } of validCourses) {
+            const summary = summaryByCourseCode.get(code);
+            const courseName = course.name.toUpperCase();
             const units = italic(`(${calculateTotalUnits([course.units])})`);
+
             description +=
                 formatLine(
-                    summary.workload,
+                    summary?.workload,
                     hyperlink(`${bold(code)}: ${courseName}`, `${SCOTTYLABS_URL}/course/${code}`),
                 ) + `${isFactorable ? "" : "\\*"} ${units}\n`;
         }
