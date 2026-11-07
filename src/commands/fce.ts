@@ -308,9 +308,12 @@ const command: SlashCommand = {
         }
 
         let description = "";
-        for (const { code, course, isFactorable } of validCourses) {
+        for (const { code, course, fce, isFactorable } of validCourses) {
             const summary = summaryByCourseCode.get(code);
-            const courseName = course.name.toUpperCase();
+            let courseName = course.name.toUpperCase();
+            if (fce) {
+                courseName = fce.courseName.toUpperCase();
+            }
             const units = italic(`(${calculateTotalUnits([course.units])})`);
 
             description +=
