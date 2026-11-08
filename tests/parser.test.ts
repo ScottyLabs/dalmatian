@@ -19,7 +19,6 @@ function make<T>(base: T, overrides: Partial<T> = {}): T {
 const baseCourse: Course = {
     id: "00-000",
     name: "",
-    syllabi: [],
     desc: "",
     prereqs: [],
     prereqString: "",

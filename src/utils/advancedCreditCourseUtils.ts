@@ -67,7 +67,6 @@ export async function loadCreditData(creditType: AdvancedCreditType): Promise<Ex
                 id: course.id,
                 name: course.name,
                 units: course.units,
-                syllabi: [],
                 desc: "",
                 prereqs: [],
                 prereqString: "",
@@ -87,7 +86,6 @@ export async function loadCreditData(creditType: AdvancedCreditType): Promise<Ex
                     return {
                         id,
                         name: "Equivalent Course not Found",
-                        syllabi: [],
                         desc: "",
                         prereqs: [],
                         prereqString: "",
@@ -104,7 +102,6 @@ export async function loadCreditData(creditType: AdvancedCreditType): Promise<Ex
                     return {
                         id,
                         name: exam.name + " (*Not Offered Course*)",
-                        syllabi: [],
                         desc: "",
                         prereqs: [],
                         prereqString: "",
