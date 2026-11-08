@@ -90,6 +90,8 @@ function compileTokenRules<T extends BaseTokenType<string>>(rules: TokenRule<T>[
         flags.add("y");
         return {
             ...rule,
+            // rules come from the parser's own patterns
+            // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
             regex: new RegExp(rule.regex.source, [...flags].join("")),
         };
     });

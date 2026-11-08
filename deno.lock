@@ -10,7 +10,6 @@
     "jsr:@std/path@^1.1.4": "1.1.5",
     "jsr:@std/testing@*": "1.0.19",
     "jsr:@std/testing@1": "1.0.19",
-    "npm:@biomejs/biome@*": "2.4.16",
     "npm:@logtape/logtape@^2.1.1": "2.1.1",
     "npm:csv-parse@^6.1.0": "6.2.1",
     "npm:discord.js@14.24.0": "14.24.0",
@@ -58,60 +57,6 @@
     }
   },
   "npm": {
-    "@biomejs/biome@2.4.16": {
-      "integrity": "sha512-x9ajFh1zChVybCiM3TN6OD4phAqLgtPZjFrZF+aTMYCPjwBO+k529TX7PPsAqtGNLeV4UgzwQnowEgS7bGmzcA==",
-      "optionalDependencies": [
-        "@biomejs/cli-darwin-arm64",
-        "@biomejs/cli-darwin-x64",
-        "@biomejs/cli-linux-arm64",
-        "@biomejs/cli-linux-arm64-musl",
-        "@biomejs/cli-linux-x64",
-        "@biomejs/cli-linux-x64-musl",
-        "@biomejs/cli-win32-arm64",
-        "@biomejs/cli-win32-x64"
-      ],
-      "bin": true
-    },
-    "@biomejs/cli-darwin-arm64@2.4.16": {
-      "integrity": "sha512-wxPvu4XOA85YJk9ixSWUmq/QBHbid85BISbOAqqBM/5xQpPk9ayjk5375tOlSC0BeCwNSbPFafQBm+vBumXq0A==",
-      "os": ["darwin"],
-      "cpu": ["arm64"]
-    },
-    "@biomejs/cli-darwin-x64@2.4.16": {
-      "integrity": "sha512-xFCqGPwYusQJp4N4NJLi1XJiZqjwFdjhT+KqtNy+Ug3qgfczqnTa6MSDvxJF6TkuDLoYJItMapz6tAf7kCekFw==",
-      "os": ["darwin"],
-      "cpu": ["x64"]
-    },
-    "@biomejs/cli-linux-arm64-musl@2.4.16": {
-      "integrity": "sha512-oYxnW0ARfJkr72ezzF2OR8N/rtkgLUQeYtF8cFhVswbknHxtTcmzSsanVJP8yQKnGpGpc2ck6c5zLvHahL6Cbg==",
-      "os": ["linux"],
-      "cpu": ["arm64"]
-    },
-    "@biomejs/cli-linux-arm64@2.4.16": {
-      "integrity": "sha512-2kFb4//jxfZaP6D+Rj5VkHkxgyD9EoRAVBEQb8PKRv+s4NO2zYNJKXFaJmK1CmhufJOWEfpHKaRbOja7qjmdhQ==",
-      "os": ["linux"],
-      "cpu": ["arm64"]
-    },
-    "@biomejs/cli-linux-x64-musl@2.4.16": {
-      "integrity": "sha512-iHDS+MCM65DPqWGu+ECC3uoALyj2H7F4nVUPxIPjz/PIl94EUu+EDfGZDzFP+NY1EOPVt9NQvwFqq7HdMmowdg==",
-      "os": ["linux"],
-      "cpu": ["x64"]
-    },
-    "@biomejs/cli-linux-x64@2.4.16": {
-      "integrity": "sha512-NbcBbi/nJqn5baae6wqRXdS7Gadf2uRpehSh6vMSYpG8OhkXl/Xg8aorWrJ+9VWqAT5ml90alLvorkpMW0nBwQ==",
-      "os": ["linux"],
-      "cpu": ["x64"]
-    },
-    "@biomejs/cli-win32-arm64@2.4.16": {
-      "integrity": "sha512-0rgImMsNb5v/chhkIFe3wu7PEFClS6RBAYUijGL9UsYN3PanSaoK24HSSuSJb1pYbYYVjzAyZTl3gtjJ84BM8A==",
-      "os": ["win32"],
-      "cpu": ["arm64"]
-    },
-    "@biomejs/cli-win32-x64@2.4.16": {
-      "integrity": "sha512-Kp85jgoBHa05gix6UIRjfCDiUV3w/8VIdZ247VyyO2gEjaw12WEVhdIjlxp/AMzXxqxQwbxNTDVZ3Mwd2RG5rw==",
-      "os": ["win32"],
-      "cpu": ["x64"]
-    },
     "@discordjs/builders@1.14.1": {
       "integrity": "sha512-gSKkhXLqs96TCzk66VZuHHl8z2bQMJFGwrXC0f33ngK+FLNau4hU1PYny3DNJfNdSH+gVMzE85/d5FQ2BpcNwQ==",
       "dependencies": [

@@ -49,6 +49,7 @@ const libraryScheduleResponseSchema = z.object({
 type LibraryScheduleResponse = z.infer<typeof libraryScheduleResponseSchema>;
 type LibraryScheduleLocation = LibraryScheduleResponse["locations"][number];
 
+// nosemgrep: generic.secrets.security.detected-generic-api-key.detected-generic-api-key
 const LIBRARY_API_KEY = "f350ce8f5f34fd1cae1ccee509352e59"; // This is just the one the CMU website uses, hopefully nobody is too angy that I hopped it
 const LIBRARY_HOURS_ENDPOINT = "https://cmu.libcal.com/api/1.0/hours";
 const LIBRARY_SCHEDULE_ENDPOINT =

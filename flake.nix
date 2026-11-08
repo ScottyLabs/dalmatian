@@ -9,43 +9,45 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    scottylabs = {
-      url = "git+https://git.cmu.dev/ScottyLabs/kennel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    scottylabs.url = "git+https://git.cmu.dev/ScottyLabs/kennel";
+    nixpkgs.follows = "scottylabs/nixpkgs";
+    flake-parts.follows = "scottylabs/flake-parts";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      scottylabs,
-      ...
-    }:
-    let
-      supportedSystems = [
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [ inputs.scottylabs.flakeModules.default ];
+      systems = [
         "x86_64-linux"
         "aarch64-linux"
+        "aarch64-darwin"
       ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-    in
-    {
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-          helpers = scottylabs.mkLib pkgs;
-        in
+
+      perSystem =
+        { lib, helpers, ... }:
         {
-          dalmatian = helpers.buildDenoTask {
+          scottylabs = {
+            project.name = "dalmatian";
+            deno.enable = true;
+            postgres.enable = true;
+            previewDeployments = false;
+            processes.dalmatian = {
+              run = "secretspec run --profile dev -- deno run start";
+              depends = [ "postgres-setup" ];
+            };
+          };
+
+          pre-commit.settings.hooks.oxlint.settings.deny = lib.mkForce [ "correctness" ];
+
+          treefmt.settings.global.excludes = [ "src/data/**" ];
+
+          services.dalmatian.package = helpers.buildDenoTask {
             src = ./.;
             pname = "dalmatian";
             entrypoint = "src/index.ts";
             compile = true;
           };
-          default = self.packages.${system}.dalmatian;
-        }
-      );
+        };
     };
 }

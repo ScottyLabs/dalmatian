@@ -21,7 +21,7 @@ If this is your first time, follow [SETUP.md](SETUP.md) first to create your Dis
 
 ## Conventional Commits
 
-This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), which kennel's [git hooks](https://docs.kennel.scottylabs.org/guides/local-development/#git-hooks) check on every commit.
 
 **Examples:**
 
@@ -30,31 +30,27 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 - `docs: update README installation steps`
 - `refactor: simplify embed pagination logic`
 - `chore: update dependencies to latest versions`
-- `style: format code with biome`
+- `style: format code with treefmt`
 
 ## Database Setup
 
-The bot uses PostgreSQL for storing polls and reaction redirect configurations. You don't need to install or start it yourself. `devenv up` runs a local PostgreSQL server, and the bot applies any pending migrations when it starts.
+The bot uses PostgreSQL for storing polls and reaction redirect configurations. You don't need to install or start it yourself. `pitchfork start --local` runs a local PostgreSQL server, and the bot applies any pending migrations when it starts.
 
 If you change the schema in `src/db/`, generate a new migration with:
 
 ```bash
-deno run db:generate
+deno task db:generate
 ```
 
-To inspect the database, run `deno run db:studio` inside `devenv shell` while `devenv up` is running.
+To inspect the database, run `deno task db:studio` inside `nix develop` while PostgreSQL is running.
 
-To completely reset the database, stop `devenv up`, delete `.devenv/state/postgres`, and start `devenv up` again.
+To completely reset the database, run `pitchfork stop --local`, delete `.scottylabs/postgres`, and start it again.
 
 ## Before Submitting
 
-Before you commit and open a pull request, make sure to:
+Kennel's [git hooks](https://docs.kennel.scottylabs.org/guides/local-development/#git-hooks) run the linter, formatter, and tests on every commit. Before you open a pull request, also make sure to:
 
-- Run `deno run lint` and fix any errors/warnings
-- Run `deno run format` to format your code
-- Run `deno run test` to ensure all tests pass
-- Test your changes on your Discord bot by running `devenv up`
-- Ensure your commits follow the conventional commit format
+- Test your changes on your Discord bot by running `pitchfork start --local`
 - Update documentation if you added/changed features
 
 ## Pull Request Guidelines
@@ -74,5 +70,3 @@ If you have questions or need help:
 
 - Open an issue
 - Check existing issues and pull requests for similar questions
-
-Remember to follow conventional committing guidelines while contributing!

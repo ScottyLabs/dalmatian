@@ -34,16 +34,11 @@ Optionally, add `GOOGLE_MAPS_API_KEY` to `.env`. This is useful if you are worki
 
 ## Running the bot
 
-First authenticate if you haven't done so before:
+Log in to OpenBao as described in kennel's [secrets guide](https://docs.kennel.scottylabs.org/guides/secrets/#local-development) if you haven't done so before, then enter the dev shell and start the bot and its database:
 
 ```bash
-nix run git+https://git.cmu.dev/ScottyLabs/kennel#login
+nix develop
+pitchfork start --local
 ```
 
-Then start the bot and its database:
-
-```bash
-devenv up
-```
-
-This starts a local PostgreSQL database and the Discord bot, and loads your `.env` values through secretspec. Migrations and slash command registration run automatically on startup. You should see your bot go online in Discord if everything worked! To stop your program, hit `Ctrl+C`.
+This starts a local PostgreSQL database and the Discord bot, and loads your `.env` values through secretspec. Migrations and slash command registration run automatically on startup. You should see your bot go online in Discord if everything worked!

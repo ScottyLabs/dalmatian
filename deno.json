@@ -1,7 +1,7 @@
 {
     "nodeModulesDir": "auto",
     "lock": true,
-    "exclude": [".devenv", ".direnv", "build", "drizzle", "src/data"],
+    "exclude": [".scottylabs", "build", "drizzle", "src/data"],
     "tasks": {
         "start": "deno run --allow-all src/index.ts",
         "build": "deno compile --frozen --no-check --allow-all --cached-only --include drizzle --include src --output dist/bin/dalmatian src/index.ts",

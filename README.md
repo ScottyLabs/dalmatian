@@ -18,8 +18,8 @@ To add Dalmatian to your server, click [here](https://discord.com/oauth2/authori
 
 ### Prerequisites
 
-- Be a member of [Community-Based Projects](https://git.cmu.dev/ScottyLabs/governance/src/branch/main/data/teams/cbp.toml)
-- [devenv](https://devenv.sh/getting-started/) - provides Deno and other tooling via Nix
+- Be a member of [Community-Based Projects](https://git.cmu.dev/ScottyLabs/governance/src/branch/main/data/teams/cbp.yaml), which you can [join through governance](https://git.cmu.dev/ScottyLabs/governance#joining-a-team)
+- Lix, installed by following kennel's [local development guide](https://docs.kennel.scottylabs.org/guides/local-development/#installing-nix)
 
 ### Setup
 
@@ -27,7 +27,7 @@ For detailed setup instructions including creating a Discord bot, obtaining API 
 
 **Quick setup:**
 
-1. Install devenv (see link above)
+1. Install Lix (see above)
 1. Create a Discord bot at <https://discord.com/developers/applications> and invite it to a server you can test in
 1. Get your `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` and put them in `.env`:
    ```bash
@@ -37,25 +37,20 @@ For detailed setup instructions including creating a Discord bot, obtaining API 
 
 ### Running the Bot
 
-Authenticate once per machine with:
+Log in to OpenBao as described in kennel's [secrets guide](https://docs.kennel.scottylabs.org/guides/secrets/#local-development), then enter the dev shell and start the bot and a local PostgreSQL database:
 
 ```bash
-nix run git+https://git.cmu.dev/ScottyLabs/kennel#login
+nix develop
+pitchfork start --local
 ```
 
-Then start the bot and a local PostgreSQL database:
-
-```bash
-devenv up
-```
-
-Database migrations and slash command registration happen automatically when the bot starts. The first run may take a while as devenv downloads its tooling.
+Database migrations and slash command registration happen automatically when the bot starts.
 
 <!--TODO: ## Project Structure-->
 
 ## Deployment
 
-Production runs on [Kennel](https://git.cmu.dev/ScottyLabs/kennel) via devenv and secretspec.
+Production runs on [Kennel](https://docs.kennel.scottylabs.org/guides/deploying/).
 
 ## Contributing
 
