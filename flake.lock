@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "collar": {
+      "inputs": {
+        "flake-parts": [
+          "scottylabs",
+          "collar",
+          "scottylabs",
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "scottylabs",
+          "collar",
+          "scottylabs",
+          "nixpkgs"
+        ],
+        "scottylabs": [
+          "scottylabs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794199406,
+        "narHash": "sha256-op3uNSKCbLgQZ2GM7rRkgnRZK9S8IoECYAb8aURMoOg=",
+        "ref": "refs/heads/main",
+        "rev": "056ac533f69235c0046cf65a6b1d5198c978c2dc",
+        "revCount": 53,
+        "type": "git",
+        "url": "https://git.cmu.dev/ScottyLabs/collar"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.cmu.dev/ScottyLabs/collar"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1793836618,
@@ -213,6 +245,7 @@
     },
     "scottylabs": {
       "inputs": {
+        "collar": "collar",
         "crane": "crane",
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
@@ -225,11 +258,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1794177572,
-        "narHash": "sha256-AWKMVyOmXGtneQtYp9GXJW79qyeDoI6d1i4F5hXs3QU=",
+        "lastModified": 1794200805,
+        "narHash": "sha256-+FRXNZWvt8lJkx9PwlStOsatg+lSG93gY4hRYSRvcfw=",
         "ref": "refs/heads/main",
-        "rev": "92e9e1ee3d3382b11809166664889a17f1777347",
-        "revCount": 429,
+        "rev": "28d606f615702a5121032bbe5567cb5ed45bd569",
+        "revCount": 434,
         "type": "git",
         "url": "https://git.cmu.dev/ScottyLabs/kennel"
       },
