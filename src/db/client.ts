@@ -1,8 +1,7 @@
 import postgres, { type Sql } from "postgres";
 
 // Kennel and the dev shell use unix-socket URLs like postgresql:///dbname?host=/run/postgresql.
-// postgres.js does not understand that query-string form, so we parse it out and
-// pass the socket directory via the `host` option instead.
+// postgres.js does not understand that query-string form, so we parse it out and pass the socket directory via the `host` option instead.
 const UNIX_SOCKET_URL = /^postgresql:\/\/(?:[^@/]*@)?\/([^?]+)\?host=(.+)$/;
 
 function createSocketClient(database: string, socketPath: string): Sql {
