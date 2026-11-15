@@ -7,15 +7,16 @@ import {
     SlashCommandBuilder,
     underline,
 } from "discord.js";
-import { SCOTTYLABS_URL } from "../constants.ts";
-import type { SlashCommand } from "../types.d.ts";
-import { COURSES_DATA } from "../utils/index.ts";
 import { search } from "fast-fuzzy";
+
+import { SCOTTYLABS_URL } from "../constants.ts";
 import CITData from "../data/geneds/cit.json" with { type: "json" };
 import DCData from "../data/geneds/dietrich.json" with { type: "json" };
 import MCSData from "../data/geneds/mcs.json" with { type: "json" };
 import SCSData from "../data/geneds/scs.json" with { type: "json" };
+import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
+import { COURSES_DATA } from "../utils/index.ts";
 
 type Gened = {
     courseID: string;
@@ -72,8 +73,14 @@ const command: SlashCommand = {
         if (category) {
             genedData = genedData.filter((c) => c.tags.includes(category));
         }
+        if (genedData.length === 0) {
+            return interaction.reply({
+                content: `No geneds found for ${school}${category ? ` in "${category}"` : ""}.`,
+                flags: MessageFlags.Ephemeral,
+            });
+        }
         const baseEmbed = new EmbedBuilder()
-            .setTitle(bold(underline(`${school} geneds: ${category ? category : "any"}`)))
+            .setTitle(bold(underline(`${school} Geneds: ${category ? category : "any"}`)))
             .setURL(`${SCOTTYLABS_URL}/geneds`)
             .setDescription(`List of geneds`);
 
@@ -84,10 +91,12 @@ const command: SlashCommand = {
         for (const gened of genedData) {
             const courseCode = gened.courseID;
             const course = coursesData[courseCode];
-            const entry = hyperlink(
-                `${bold(courseCode)}: ${course?.name}`,
-                `${SCOTTYLABS_URL}/course/${courseCode}`,
-            );
+            const entry = course
+                ? hyperlink(
+                      `${bold(courseCode)}: ${course.name}`,
+                      `${SCOTTYLABS_URL}/course/${courseCode}`,
+                  )
+                : `${bold(courseCode)}: Course details unavailable`;
             chunk.push(entry);
             index++;
 
