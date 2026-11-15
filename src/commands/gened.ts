@@ -1,10 +1,12 @@
 import {
+    ActionRowBuilder,
     bold,
     EmbedBuilder,
     hyperlink,
     italic,
     MessageFlags,
     SlashCommandBuilder,
+    StringSelectMenuBuilder,
     underline,
 } from "discord.js";
 import { search } from "fast-fuzzy";
@@ -25,6 +27,40 @@ type Gened = {
     lastUpdated: string;
 };
 const schools = ["CIT", "DC", "SCS", "MCS"];
+const CITtags = [
+    "Free Elective Only",
+    "General Education Elective",
+    "Innovation & Internationalization",
+    "People, Places, & Cultures",
+    "Social Analysis & Decision Making",
+    "Writing & Expression",
+];
+const DCtags = [
+    "Additional Disciplines",
+    "Communication",
+    "Computational Thinking",
+    "Contextual Thinking",
+    "Data Analysis",
+    "Grand Challenge Seminar",
+    "Humanities",
+    "Intercultural and Global Inquiry",
+    "Logic/Mathematical Reasoning",
+    "Perspectives on Justice and Injustice",
+    "Scientific Inquiry",
+    "Social Sciences",
+    "The Arts",
+];
+const SCStags = ["Science", "Lab", "FYW", "Cat 1", "Cat 2", "Cat 3", "Unconstrained"];
+const MCStags = [
+    "Life Sciences",
+    "Physical Sciences",
+    "Math/Stats/CS",
+    "First Year",
+    "Science and Society",
+    "Engage",
+    "Cultural/Global Understanding",
+];
+
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("gened")
@@ -55,23 +91,24 @@ const command: SlashCommand = {
             });
         }
         let genedData: Gened[] = [];
-
+        let tags: string[] = [];
         switch (school) {
             case "CIT":
                 genedData = CITData as Gened[];
+                tags = CITtags;
                 break;
             case "MCS":
                 genedData = MCSData as Gened[];
+                tags = MCStags;
                 break;
             case "SCS":
                 genedData = SCSData as Gened[];
+                tags = SCStags;
                 break;
             case "DC":
                 genedData = DCData as Gened[];
+                tags = DCtags;
                 break;
-        }
-        if (category) {
-            genedData = genedData.filter((c) => c.tags.includes(category));
         }
         if (genedData.length === 0) {
             return interaction.reply({
@@ -79,35 +116,87 @@ const command: SlashCommand = {
                 flags: MessageFlags.Ephemeral,
             });
         }
-        const baseEmbed = new EmbedBuilder()
-            .setTitle(bold(underline(`${school} Geneds: ${category ? category : "any"}`)))
-            .setURL(`${SCOTTYLABS_URL}/geneds`)
-            .setDescription(`List of geneds`);
+        function buildGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
+            const baseEmbed = new EmbedBuilder()
+                .setTitle(bold(underline(`${school} Geneds: ${label}`)))
+                .setURL(`${SCOTTYLABS_URL}/geneds`)
+                .setDescription(`List of geneds`);
+            const pages: EmbedBuilder[] = [];
+            let chunk: string[] = [];
+            let index = 0;
 
-        const pages: EmbedBuilder[] = [];
-        let chunk: string[] = [];
-        let index = 0;
+            for (const gened of entries) {
+                const courseCode = gened.courseID;
+                const course = coursesData[courseCode];
+                const entry = course
+                    ? hyperlink(
+                          `${bold(courseCode)}: ${course.name}`,
+                          `${SCOTTYLABS_URL}/course/${courseCode}`,
+                      )
+                    : `${bold(courseCode)}: Course details unavailable`;
+                chunk.push(entry);
+                index++;
 
-        for (const gened of genedData) {
-            const courseCode = gened.courseID;
-            const course = coursesData[courseCode];
-            const entry = course
-                ? hyperlink(
-                      `${bold(courseCode)}: ${course.name}`,
-                      `${SCOTTYLABS_URL}/course/${courseCode}`,
-                  )
-                : `${bold(courseCode)}: Course details unavailable`;
-            chunk.push(entry);
-            index++;
-
-            if (chunk.length >= 15 || index === genedData.length) {
-                chunk.push(italic("Gened data may be out of date"));
-                const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
-                pages.push(embed);
-                chunk = [];
+                if (chunk.length >= 15 || index === entries.length) {
+                    chunk.push(italic("Gened data may be out of date"));
+                    const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
+                    pages.push(embed);
+                    chunk = [];
+                }
             }
+            if (pages.length === 0) {
+                pages.push(EmbedBuilder.from(baseEmbed).setDescription("No geneds found."));
+            }
+            return pages;
         }
-        const paginator = new EmbedPaginator({ pages });
+        if (category) {
+            genedData = genedData.filter((c) => c.tags.includes(category));
+            const pages = buildGenedPages(genedData, category);
+            const paginator = new EmbedPaginator({ pages });
+            await paginator.send(interaction);
+            return;
+        }
+        // no category given
+
+        const selectOptions = [
+            {
+                label: "All",
+                value: "all",
+                default: true,
+                pages: buildGenedPages(genedData, "any"),
+            },
+        ];
+        for (const tag of tags) {
+            selectOptions.push({
+                label: `${tag}`,
+                value: tag,
+                default: false,
+                pages: buildGenedPages(
+                    genedData.filter((c) => c.tags.includes(tag)),
+                    tag,
+                ),
+            });
+        }
+        const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            new StringSelectMenuBuilder().setCustomId("fce_select_menu").addOptions(selectOptions),
+        );
+
+        const paginator = new EmbedPaginator({
+            pages: selectOptions[0]!.pages,
+            components: [selectRow],
+            async onCollect(collectInteraction) {
+                if (!collectInteraction.isStringSelectMenu()) return;
+                const choice = collectInteraction.values[0]!;
+                const selected = selectOptions.find((option) => option.value === choice);
+                paginator.setPages(selected!.pages);
+                selectRow.components[0]?.setOptions(
+                    selectOptions.map((option) => ({
+                        ...option,
+                        default: option.value === choice,
+                    })),
+                );
+            },
+        });
         await paginator.send(interaction);
         return;
     },
@@ -132,45 +221,16 @@ const command: SlashCommand = {
             let options: string[] = [];
             switch (selectedSchool) {
                 case "CIT":
-                    options = [
-                        "Free Elective Only",
-                        "General Education Elective",
-                        "Innovation & Internationalization",
-                        "People, Places, & Cultures",
-                        "Social Analysis & Decision Making",
-                        "Writing & Expression",
-                    ];
+                    options = CITtags;
                     break;
                 case "MCS":
-                    options = [
-                        "Life Sciences",
-                        "Physical Sciences",
-                        "Math/Stats/CS",
-                        "First Year",
-                        "Science and Society",
-                        "Engage",
-                        "Cultural/Global Understanding",
-                    ];
+                    options = MCStags;
                     break;
                 case "SCS":
-                    options = ["Science", "Lab", "FYW", "Cat 1", "Cat 2", "Cat 3", "Unconstrained"];
+                    options = SCStags;
                     break;
                 case "DC":
-                    options = [
-                        "Additional Disciplines",
-                        "Communication",
-                        "Computational Thinking",
-                        "Contextual Thinking",
-                        "Data Analysis",
-                        "Grand Challenge Seminar",
-                        "Humanities",
-                        "Intercultural and Global Inquiry",
-                        "Logic/Mathematical Reasoning",
-                        "Perspectives on Justice and Injustice",
-                        "Scientific Inquiry",
-                        "Social Sciences",
-                        "The Arts",
-                    ];
+                    options = DCtags;
                     break;
             }
             const filteredOptions =
