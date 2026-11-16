@@ -19,6 +19,7 @@ import SCSData from "../data/geneds/scs.json" with { type: "json" };
 import type { SlashCommand } from "../types.d.ts";
 import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA } from "../utils/index.ts";
+import { FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 
 type Gened = {
     courseID: string;
@@ -149,36 +150,130 @@ const command: SlashCommand = {
             }
             return pages;
         }
-        if (category) {
-            genedData = genedData.filter((c) => c.tags.includes(category));
-            const pages = buildGenedPages(genedData, category);
-            const paginator = new EmbedPaginator({ pages });
-            await paginator.send(interaction);
-            return;
-        }
-        // no category given
+        const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
+        function buildFCEGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
+            const baseEmbed = new EmbedBuilder()
+                .setTitle(bold(underline(`${school} Geneds: ${label}`)))
+                .setURL(`${SCOTTYLABS_URL}/geneds`)
+                .setDescription(`List of geneds`);
+            const pages: EmbedBuilder[] = [];
+            let chunk: string[] = [];
+            let index = 0;
+            chunk.push("Course rating - FCE \u2014 Course");
+            for (const gened of entries) {
+                const courseCode = gened.courseID;
+                const course = coursesData[courseCode];
+                const fce = summaryByCourseCode.get(courseCode);
+                let entry = `${
+                    fce
+                        ? `${fce.courseRate.toFixed(2)}/5 - ${fce.workload.toFixed(
+                              2,
+                          )} hrs/wk \u2014 `
+                        : `N/A`
+                }`;
+                entry += course
+                    ? hyperlink(
+                          `${bold(courseCode)}: ${course.name}`,
+                          `${SCOTTYLABS_URL}/course/${courseCode}`,
+                      )
+                    : `${bold(courseCode)}: Course details unavailable`;
+                chunk.push(entry);
+                index++;
 
-        const selectOptions = [
-            {
+                if (chunk.length >= 10 || index === entries.length) {
+                    chunk.push(italic("Gened data may be out of date"));
+                    const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
+                    pages.push(embed);
+                    chunk = [];
+                }
+            }
+            if (pages.length === 0) {
+                pages.push(EmbedBuilder.from(baseEmbed).setDescription("No geneds found."));
+            }
+            return pages;
+        }
+
+        const selectOptions: {
+            label: string;
+            value: string;
+            default: boolean;
+            pages: EmbedBuilder[];
+        }[] = [];
+
+        if (category) {
+            //TODO: Use a select row to switch between all, sort FCE, sort course
+            //TODO: modify select options
+            if (!tags.includes(category)) {
+                return interaction.reply({
+                    content: "Please input a category",
+                    flags: MessageFlags.Ephemeral,
+                });
+            }
+            genedData = genedData.filter((c) => c.tags.includes(category));
+            selectOptions.push({
+                label: category,
+                value: category,
+                default: true,
+                pages: buildGenedPages(genedData, category),
+            });
+            selectOptions.push({
+                label: "FCE Ascending",
+                value: "fce",
+                default: false,
+                pages: buildFCEGenedPages(
+                    genedData.sort((a, b) => {
+                        const aWorkload = summaryByCourseCode.get(a.courseID)?.workload;
+                        const bWorkload = summaryByCourseCode.get(b.courseID)?.workload;
+                        if (aWorkload === undefined) {
+                            return bWorkload === undefined ? 0 : 1;
+                        }
+                        if (bWorkload === undefined) return -1;
+                        return aWorkload - bWorkload;
+                    }),
+                    category,
+                ),
+            });
+            selectOptions.push({
+                label: "Course Rating Descending",
+                value: "course",
+                default: false,
+                pages: buildFCEGenedPages(
+                    genedData.sort((a, b) => {
+                        const aWorkload = summaryByCourseCode.get(a.courseID)?.courseRate;
+                        const bWorkload = summaryByCourseCode.get(b.courseID)?.courseRate;
+                        if (aWorkload === undefined) {
+                            return bWorkload === undefined ? 0 : 1;
+                        }
+                        if (bWorkload === undefined) return -1;
+                        return bWorkload - aWorkload;
+                    }),
+                    category,
+                ),
+            });
+        } // no category given
+        else {
+            selectOptions.push({
                 label: "All",
                 value: "all",
                 default: true,
-                pages: buildGenedPages(genedData, "any"),
-            },
-        ];
-        for (const tag of tags) {
-            selectOptions.push({
-                label: `${tag}`,
-                value: tag,
-                default: false,
-                pages: buildGenedPages(
-                    genedData.filter((c) => c.tags.includes(tag)),
-                    tag,
-                ),
+                pages: buildGenedPages(genedData, "All"),
             });
+            for (const tag of tags) {
+                selectOptions.push({
+                    label: `${tag}`,
+                    value: tag,
+                    default: false,
+                    pages: buildGenedPages(
+                        genedData.filter((c) => c.tags.includes(tag)),
+                        tag,
+                    ),
+                });
+            }
         }
         const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-            new StringSelectMenuBuilder().setCustomId("fce_select_menu").addOptions(selectOptions),
+            new StringSelectMenuBuilder()
+                .setCustomId("gened_select_menu")
+                .addOptions(selectOptions),
         );
 
         const paginator = new EmbedPaginator({
