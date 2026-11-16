@@ -29,6 +29,7 @@ type Gened = {
 };
 const schools = ["CIT", "DC", "SCS", "MCS"];
 const CITtags = [
+    "All",
     "Free Elective Only",
     "General Education Elective",
     "Innovation & Internationalization",
@@ -37,6 +38,7 @@ const CITtags = [
     "Writing & Expression",
 ];
 const DCtags = [
+    "All",
     "Additional Disciplines",
     "Communication",
     "Computational Thinking",
@@ -51,8 +53,9 @@ const DCtags = [
     "Social Sciences",
     "The Arts",
 ];
-const SCStags = ["Science", "Lab", "FYW", "Cat 1", "Cat 2", "Cat 3", "Unconstrained"];
+const SCStags = ["All", "Science", "Lab", "FYW", "Cat 1", "Cat 2", "Cat 3", "Unconstrained"];
 const MCStags = [
+    "All",
     "Life Sciences",
     "Physical Sciences",
     "Math/Stats/CS",
@@ -65,7 +68,7 @@ const MCStags = [
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("gened")
-        .setDescription("List all possible geneds")
+        .setDescription("List all possible geneds, provide a category to use sorting")
         .addStringOption((option) =>
             option
                 .setName("school")
@@ -121,7 +124,7 @@ const command: SlashCommand = {
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
                 .setURL(`${SCOTTYLABS_URL}/geneds`)
-                .setDescription(`List of geneds`);
+                .setDescription(`List of geneds, use dropdown to select category`);
             const pages: EmbedBuilder[] = [];
             let chunk: string[] = [];
             let index = 0;
@@ -151,11 +154,29 @@ const command: SlashCommand = {
             return pages;
         }
         const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
+        function sortFCE(a: Gened, b: Gened) {
+            const aWorkload = summaryByCourseCode.get(a.courseID)?.workload;
+            const bWorkload = summaryByCourseCode.get(b.courseID)?.workload;
+            if (aWorkload === undefined) {
+                return bWorkload === undefined ? 0 : 1;
+            }
+            if (bWorkload === undefined) return -1;
+            return aWorkload - bWorkload;
+        }
+        function sortCourseRating(a: Gened, b: Gened) {
+            const aRating = summaryByCourseCode.get(a.courseID)?.courseRate;
+            const bRating = summaryByCourseCode.get(b.courseID)?.courseRate;
+            if (aRating === undefined) {
+                return bRating === undefined ? 0 : 1;
+            }
+            if (bRating === undefined) return -1;
+            return aRating - bRating;
+        }
         function buildFCEGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
                 .setURL(`${SCOTTYLABS_URL}/geneds`)
-                .setDescription(`List of geneds`);
+                .setDescription(`List of geneds, use dropdown to sort geneds`);
             const pages: EmbedBuilder[] = [];
             let chunk: string[] = [];
             let index = 0;
@@ -169,7 +190,7 @@ const command: SlashCommand = {
                         ? `${fce.courseRate.toFixed(2)}/5 - ${fce.workload.toFixed(
                               2,
                           )} hrs/wk \u2014 `
-                        : `N/A`
+                        : `N/A     \u2014     `
                 }`;
                 entry += course
                     ? hyperlink(
@@ -201,15 +222,15 @@ const command: SlashCommand = {
         }[] = [];
 
         if (category) {
-            //TODO: Use a select row to switch between all, sort FCE, sort course
-            //TODO: modify select options
             if (!tags.includes(category)) {
                 return interaction.reply({
                     content: "Please input a category",
                     flags: MessageFlags.Ephemeral,
                 });
             }
-            genedData = genedData.filter((c) => c.tags.includes(category));
+            if (category != "All") {
+                genedData = genedData.filter((c) => c.tags.includes(category));
+            }
             selectOptions.push({
                 label: category,
                 value: category,
@@ -218,18 +239,28 @@ const command: SlashCommand = {
             });
             selectOptions.push({
                 label: "FCE Ascending",
-                value: "fce",
+                value: "fceAsc",
                 default: false,
                 pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => {
-                        const aWorkload = summaryByCourseCode.get(a.courseID)?.workload;
-                        const bWorkload = summaryByCourseCode.get(b.courseID)?.workload;
-                        if (aWorkload === undefined) {
-                            return bWorkload === undefined ? 0 : 1;
-                        }
-                        if (bWorkload === undefined) return -1;
-                        return aWorkload - bWorkload;
-                    }),
+                    genedData.sort((a, b) => sortFCE(a, b)),
+                    category,
+                ),
+            });
+            selectOptions.push({
+                label: "FCE Descending",
+                value: "fceDesc",
+                default: false,
+                pages: buildFCEGenedPages(
+                    genedData.sort((a, b) => sortFCE(b, a)),
+                    category,
+                ),
+            });
+            selectOptions.push({
+                label: "Course Rating Ascending",
+                value: "course",
+                default: false,
+                pages: buildFCEGenedPages(
+                    genedData.sort((a, b) => sortCourseRating(a, b)),
                     category,
                 ),
             });
@@ -238,15 +269,7 @@ const command: SlashCommand = {
                 value: "course",
                 default: false,
                 pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => {
-                        const aWorkload = summaryByCourseCode.get(a.courseID)?.courseRate;
-                        const bWorkload = summaryByCourseCode.get(b.courseID)?.courseRate;
-                        if (aWorkload === undefined) {
-                            return bWorkload === undefined ? 0 : 1;
-                        }
-                        if (bWorkload === undefined) return -1;
-                        return bWorkload - aWorkload;
-                    }),
+                    genedData.sort((a, b) => sortCourseRating(b, a)),
                     category,
                 ),
             });
