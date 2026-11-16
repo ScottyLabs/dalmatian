@@ -154,23 +154,23 @@ const command: SlashCommand = {
             return pages;
         }
         const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
-        function sortFCE(a: Gened, b: Gened) {
+        function sortFCE(a: Gened, b: Gened, descending = false) {
             const aWorkload = summaryByCourseCode.get(a.courseID)?.workload;
             const bWorkload = summaryByCourseCode.get(b.courseID)?.workload;
             if (aWorkload === undefined) {
                 return bWorkload === undefined ? 0 : 1;
             }
             if (bWorkload === undefined) return -1;
-            return aWorkload - bWorkload;
+            return descending ? bWorkload - aWorkload : aWorkload - bWorkload;
         }
-        function sortCourseRating(a: Gened, b: Gened) {
+        function sortCourseRating(a: Gened, b: Gened, descending = false) {
             const aRating = summaryByCourseCode.get(a.courseID)?.courseRate;
             const bRating = summaryByCourseCode.get(b.courseID)?.courseRate;
             if (aRating === undefined) {
                 return bRating === undefined ? 0 : 1;
             }
             if (bRating === undefined) return -1;
-            return aRating - bRating;
+            return descending ? bRating - aRating : aRating - bRating;
         }
         function buildFCEGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
             const baseEmbed = new EmbedBuilder()
@@ -254,7 +254,7 @@ const command: SlashCommand = {
                 value: "fceDesc",
                 default: false,
                 pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => sortFCE(b, a)),
+                    genedData.sort((a, b) => sortFCE(a, b, true)),
                     category,
                 ),
             });
@@ -272,7 +272,7 @@ const command: SlashCommand = {
                 value: "courseDesc",
                 default: false,
                 pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => sortCourseRating(b, a)),
+                    genedData.sort((a, b) => sortCourseRating(a, b, true)),
                     category,
                 ),
             });
