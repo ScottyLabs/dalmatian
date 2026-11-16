@@ -221,6 +221,9 @@ const command: SlashCommand = {
             pages: EmbedBuilder[];
         }[] = [];
 
+        //! If we display which category each gened is, we need to remove this, as some geneds appear multiple times under different categories, and this would get rid of that data by removing the duplicate entry
+        genedData.filter((item, index) => genedData.indexOf(item) === index);
+
         if (category) {
             if (!tags.includes(category)) {
                 return interaction.reply({
@@ -257,7 +260,7 @@ const command: SlashCommand = {
             });
             selectOptions.push({
                 label: "Course Rating Ascending",
-                value: "course",
+                value: "courseAsc",
                 default: false,
                 pages: buildFCEGenedPages(
                     genedData.sort((a, b) => sortCourseRating(a, b)),
@@ -266,7 +269,7 @@ const command: SlashCommand = {
             });
             selectOptions.push({
                 label: "Course Rating Descending",
-                value: "course",
+                value: "courseDesc",
                 default: false,
                 pages: buildFCEGenedPages(
                     genedData.sort((a, b) => sortCourseRating(b, a)),
