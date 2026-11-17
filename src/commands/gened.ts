@@ -3,7 +3,6 @@ import {
     bold,
     EmbedBuilder,
     hyperlink,
-    italic,
     MessageFlags,
     SlashCommandBuilder,
     StringSelectMenuBuilder,
@@ -64,7 +63,6 @@ const MCStags = [
     "Engage",
     "Cultural/Global Understanding",
 ];
-
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("gened")
@@ -124,7 +122,10 @@ const command: SlashCommand = {
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
                 .setURL(`${SCOTTYLABS_URL}/geneds`)
-                .setDescription(`List of geneds, use dropdown to select category`);
+                .setDescription(`List of geneds, use dropdown to select category`)
+                .setFooter({
+                    text: `Gened data may not be up to date. Please check the ${school} website for the most accurate info.`,
+                });
             const pages: EmbedBuilder[] = [];
             let chunk: string[] = [];
             let index = 0;
@@ -142,7 +143,6 @@ const command: SlashCommand = {
                 index++;
 
                 if (chunk.length >= 15 || index === entries.length) {
-                    chunk.push(italic("Gened data may be out of date"));
                     const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
                     pages.push(embed);
                     chunk = [];
@@ -176,7 +176,10 @@ const command: SlashCommand = {
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
                 .setURL(`${SCOTTYLABS_URL}/geneds`)
-                .setDescription(`List of geneds, use dropdown to sort geneds`);
+                .setDescription(`List of geneds, use dropdown to sort geneds`)
+                .setFooter({
+                    text: `Gened data may not be up to date. Please check the ${school} website for the most accurate info.`,
+                });
             const pages: EmbedBuilder[] = [];
             let chunk: string[] = [];
             let index = 0;
@@ -187,8 +190,8 @@ const command: SlashCommand = {
                 const fce = summaryByCourseCode.get(courseCode);
                 let entry = `${
                     fce
-                        ? `${fce.courseRate.toFixed(2)}/5 - ${fce.workload.toFixed(
-                              2,
+                        ? `${bold(fce.courseRate.toFixed(2))}/5 - ${bold(
+                              fce.workload.toFixed(2),
                           )} hrs/wk \u2014 `
                         : `N/A     \u2014     `
                 }`;
@@ -202,7 +205,6 @@ const command: SlashCommand = {
                 index++;
 
                 if (chunk.length >= 10 || index === entries.length) {
-                    chunk.push(italic("Gened data may be out of date"));
                     const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
                     pages.push(embed);
                     chunk = [];
@@ -278,19 +280,13 @@ const command: SlashCommand = {
             });
         } // no category given
         else {
-            selectOptions.push({
-                label: "All",
-                value: "all",
-                default: true,
-                pages: buildGenedPages(genedData, "All"),
-            });
             for (const tag of tags) {
                 selectOptions.push({
                     label: `${tag}`,
                     value: tag,
-                    default: false,
+                    default: tag === "All" ? true : false,
                     pages: buildGenedPages(
-                        genedData.filter((c) => c.tags.includes(tag)),
+                        tag != "All" ? genedData.filter((c) => c.tags.includes(tag)) : genedData,
                         tag,
                     ),
                 });
