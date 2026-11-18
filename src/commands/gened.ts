@@ -142,7 +142,7 @@ const command: SlashCommand = {
                 chunk.push(entry);
                 index++;
 
-                if (chunk.length >= 15 || index === entries.length) {
+                if (chunk.length >= 20 || index === entries.length) {
                     const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
                     pages.push(embed);
                     chunk = [];
@@ -204,7 +204,7 @@ const command: SlashCommand = {
                 chunk.push(entry);
                 index++;
 
-                if (chunk.length >= 10 || index === entries.length) {
+                if (chunk.length >= 20 || index === entries.length) {
                     const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
                     pages.push(embed);
                     chunk = [];
