@@ -91,8 +91,8 @@ const command: SlashCommand = {
     async execute(interaction) {
         const coursesData = COURSES_DATA;
         const school = interaction.options.getString("school", true);
-        const category = interaction.options.getString("category", false);
-
+        let category = interaction.options.getString("category", false);
+        category = category ?? "All";
         if (!schools.includes(school)) {
             return interaction.reply({
                 content: "Please input a valid school",
@@ -139,10 +139,13 @@ const command: SlashCommand = {
         }
         /** returns a page listing geneds with no additional info */
         function buildGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
+            const description = `List of geneds, use dropdowns to select category and sort, total: ${bold(
+                String(entries.length),
+            )}`;
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
                 .setURL(`${SCOTTYLABS_URL}/geneds`)
-                .setDescription(`List of geneds, use dropdown to select category`)
+                .setDescription(description)
                 .setFooter({
                     text: `Gened data may not be up to date. Please check the ${school} website for the most accurate info.`,
                 });
@@ -163,13 +166,19 @@ const command: SlashCommand = {
                 index++;
 
                 if (chunk.length >= 20 || index === entries.length) {
-                    const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
+                    const embed = EmbedBuilder.from(baseEmbed).setDescription(
+                        `${description}\n${chunk.join("\n")}`,
+                    );
                     pages.push(embed);
                     chunk = [];
                 }
             }
             if (pages.length === 0) {
-                pages.push(EmbedBuilder.from(baseEmbed).setDescription("No geneds found."));
+                pages.push(
+                    EmbedBuilder.from(baseEmbed).setDescription(
+                        `${description}\n\nNo geneds found.`,
+                    ),
+                );
             }
             return pages;
         }
@@ -196,10 +205,13 @@ const command: SlashCommand = {
         }
         /** returns a page listing geneds with course ratings and fce listed */
         function buildFCEGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
+            const description = `List of sorted geneds, use dropdowns to select category and sort, total: ${bold(
+                String(entries.length),
+            )}`;
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
                 .setURL(`${SCOTTYLABS_URL}/geneds`)
-                .setDescription(`List of geneds, use dropdown to sort geneds`)
+                .setDescription(description)
                 .setFooter({
                     text: `Gened data may not be up to date. Please check the ${school} website for the most accurate info.`,
                 });
@@ -228,13 +240,19 @@ const command: SlashCommand = {
                 index++;
 
                 if (chunk.length >= 20 || index === entries.length) {
-                    const embed = EmbedBuilder.from(baseEmbed).setDescription(chunk.join("\n"));
+                    const embed = EmbedBuilder.from(baseEmbed).setDescription(
+                        `${description}\n${chunk.join("\n")}`,
+                    );
                     pages.push(embed);
                     chunk = [];
                 }
             }
             if (pages.length === 0) {
-                pages.push(EmbedBuilder.from(baseEmbed).setDescription("No geneds found."));
+                pages.push(
+                    EmbedBuilder.from(baseEmbed).setDescription(
+                        `${description}\n\nNo geneds found.`,
+                    ),
+                );
             }
             return pages;
         }
@@ -281,7 +299,7 @@ const command: SlashCommand = {
             selectOptions.push({
                 label: `${tag}`,
                 value: tag,
-                default: tag === "All",
+                default: tag === category,
                 pages: buildGenedPages(tag != "All" ? filterGeneds(tag) : filterGeneds("All"), tag),
             });
         }
@@ -292,13 +310,12 @@ const command: SlashCommand = {
             default: boolean;
             pages: EmbedBuilder[];
         }[] = [];
-        const sortCategory = category ?? "All";
         for (const sort of Object.values(Sort)) {
             sortOptions.push({
                 label: sort,
                 value: sort,
                 default: sort === Sort.None,
-                pages: buildGenedPages(genedData, sortCategory),
+                pages: buildGenedPages(genedData, category),
             });
         }
         const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -309,23 +326,25 @@ const command: SlashCommand = {
         const selectRowSort = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
             new StringSelectMenuBuilder().setCustomId("gened_sort_menu").addOptions(sortOptions),
         );
-        let selectCategory: string = category ?? "All";
+
         let sortType: Sort = Sort.None;
         const paginator = new EmbedPaginator({
-            pages: selectOptions[0]!.pages,
+            // find where category is so we have it selected as the default option
+            pages:
+                selectOptions.find((option) => option.value === category)?.pages ??
+                selectOptions[0]!.pages,
             components: [selectRow, selectRowSort],
             async onCollect(collectInteraction) {
                 if (!collectInteraction.isStringSelectMenu()) return;
                 const choice = collectInteraction.values[0]!;
 
+                // check if the category was changed
                 let selected = selectOptions.find((option) => option.value === choice);
 
+                // if selected is not null, the category is the one that changed
                 if (selected) {
                     // change category
-                    //   sortType = sortOptions.find((option) =>
-                    //     option.default === true
-                    //   )!.value;
-                    selectCategory = selected.value;
+                    category = selected.value!;
                     selectRow.components[0]?.setOptions(
                         selectOptions.map((option) => ({
                             ...option,
@@ -336,10 +355,9 @@ const command: SlashCommand = {
                     //change sort
                     selected = sortOptions.find((option) => option.value === choice)!;
 
+                    //convert string to Sort enum
                     sortType = Object.values(Sort).find((s) => s === selected!.value)!;
-                    //   selectCategory = selectOptions.find((option) =>
-                    //     option.default === true
-                    //   )!.value;
+
                     selectRowSort.components[0]?.setOptions(
                         sortOptions.map((option) => ({
                             ...option,
@@ -349,11 +367,7 @@ const command: SlashCommand = {
                 }
 
                 //build new page
-                selected!.pages = buildSortedPage(
-                    filterGeneds(selectCategory),
-                    selectCategory,
-                    sortType,
-                );
+                selected!.pages = buildSortedPage(filterGeneds(category!), category!, sortType);
 
                 //update page
                 paginator.setPages(selected!.pages);
