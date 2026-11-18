@@ -20,6 +20,13 @@ import { EmbedPaginator } from "../utils/EmbedPaginator.ts";
 import { COURSES_DATA } from "../utils/index.ts";
 import { FCE_STARTUP_CACHE } from "../utils/fceCache.ts";
 
+enum Sort {
+    None = "Sort: None",
+    FceAsc = "Sort: FCE Ascending",
+    FceDesc = "Sort: FCE Descending",
+    CourseAsc = "Sort: Course Rating Ascending",
+    CourseDesc = "Sort: Course Rating Descending",
+}
 type Gened = {
     courseID: string;
     school: string;
@@ -66,7 +73,7 @@ const MCStags = [
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("gened")
-        .setDescription("List all possible geneds, provide a category to use sorting")
+        .setDescription("List all possible geneds by school with sorting")
         .addStringOption((option) =>
             option
                 .setName("school")
@@ -94,6 +101,8 @@ const command: SlashCommand = {
         }
         let genedData: Gened[] = [];
         let tags: string[] = [];
+
+        // select the correct data
         switch (school) {
             case "CIT":
                 genedData = CITData as Gened[];
@@ -118,6 +127,17 @@ const command: SlashCommand = {
                 flags: MessageFlags.Ephemeral,
             });
         }
+        /** returns genedData filtered to one of the categories, if category is All, removes duplicates*/
+        function filterGeneds(category: string): Gened[] {
+            const entries =
+                category === "All" ? genedData : genedData.filter((c) => c.tags.includes(category));
+
+            return entries.filter(
+                (item, index) =>
+                    entries.findIndex((entry) => entry.courseID === item.courseID) === index,
+            );
+        }
+        /** returns a page listing geneds with no additional info */
         function buildGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
@@ -154,6 +174,7 @@ const command: SlashCommand = {
             return pages;
         }
         const summaryByCourseCode = FCE_STARTUP_CACHE.summaryByCourseCode;
+        /** comparison function to use with .sort */
         function sortFCE(a: Gened, b: Gened, descending = false) {
             const aWorkload = summaryByCourseCode.get(a.courseID)?.workload;
             const bWorkload = summaryByCourseCode.get(b.courseID)?.workload;
@@ -163,6 +184,7 @@ const command: SlashCommand = {
             if (bWorkload === undefined) return -1;
             return descending ? bWorkload - aWorkload : aWorkload - bWorkload;
         }
+        /** comparison function to use with .sort */
         function sortCourseRating(a: Gened, b: Gened, descending = false) {
             const aRating = summaryByCourseCode.get(a.courseID)?.courseRate;
             const bRating = summaryByCourseCode.get(b.courseID)?.courseRate;
@@ -172,6 +194,7 @@ const command: SlashCommand = {
             if (bRating === undefined) return -1;
             return descending ? bRating - aRating : aRating - bRating;
         }
+        /** returns a page listing geneds with course ratings and fce listed */
         function buildFCEGenedPages(entries: Gened[], label: string): EmbedBuilder[] {
             const baseEmbed = new EmbedBuilder()
                 .setTitle(bold(underline(`${school} Geneds: ${label}`)))
@@ -215,6 +238,37 @@ const command: SlashCommand = {
             }
             return pages;
         }
+        /** returns the appropriate page by either calling buildGenedPages or buildFCEGenedPages */
+        function buildSortedPage(entries: Gened[], label: string, sortType: Sort): EmbedBuilder[] {
+            switch (sortType) {
+                case Sort.None:
+                    return buildGenedPages(entries, label);
+
+                case Sort.FceAsc:
+                    return buildFCEGenedPages(
+                        entries.sort((a, b) => sortFCE(a, b)),
+                        label,
+                    );
+
+                case Sort.FceDesc:
+                    return buildFCEGenedPages(
+                        entries.sort((a, b) => sortFCE(a, b, true)),
+                        label,
+                    );
+
+                case Sort.CourseAsc:
+                    return buildFCEGenedPages(
+                        entries.sort((a, b) => sortCourseRating(a, b)),
+                        label,
+                    );
+
+                case Sort.CourseDesc:
+                    return buildFCEGenedPages(
+                        entries.sort((a, b) => sortCourseRating(a, b, true)),
+                        label,
+                    );
+            }
+        }
 
         const selectOptions: {
             label: string;
@@ -223,95 +277,86 @@ const command: SlashCommand = {
             pages: EmbedBuilder[];
         }[] = [];
 
-        //! If we display which category each gened is, we need to remove this, as some geneds appear multiple times under different categories, and this would get rid of that data by removing the duplicate entry
-        genedData.filter((item, index) => genedData.indexOf(item) === index);
+        for (const tag of tags) {
+            selectOptions.push({
+                label: `${tag}`,
+                value: tag,
+                default: tag === "All",
+                pages: buildGenedPages(tag != "All" ? filterGeneds(tag) : filterGeneds("All"), tag),
+            });
+        }
 
-        if (category) {
-            if (!tags.includes(category)) {
-                return interaction.reply({
-                    content: "Please input a category",
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
-            if (category != "All") {
-                genedData = genedData.filter((c) => c.tags.includes(category));
-            }
-            selectOptions.push({
-                label: category,
-                value: category,
-                default: true,
-                pages: buildGenedPages(genedData, category),
+        const sortOptions: {
+            label: string;
+            value: Sort;
+            default: boolean;
+            pages: EmbedBuilder[];
+        }[] = [];
+        const sortCategory = category ?? "All";
+        for (const sort of Object.values(Sort)) {
+            sortOptions.push({
+                label: sort,
+                value: sort,
+                default: sort === Sort.None,
+                pages: buildGenedPages(genedData, sortCategory),
             });
-            selectOptions.push({
-                label: "FCE Ascending",
-                value: "fceAsc",
-                default: false,
-                pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => sortFCE(a, b)),
-                    category,
-                ),
-            });
-            selectOptions.push({
-                label: "FCE Descending",
-                value: "fceDesc",
-                default: false,
-                pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => sortFCE(a, b, true)),
-                    category,
-                ),
-            });
-            selectOptions.push({
-                label: "Course Rating Ascending",
-                value: "courseAsc",
-                default: false,
-                pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => sortCourseRating(a, b)),
-                    category,
-                ),
-            });
-            selectOptions.push({
-                label: "Course Rating Descending",
-                value: "courseDesc",
-                default: false,
-                pages: buildFCEGenedPages(
-                    genedData.sort((a, b) => sortCourseRating(a, b, true)),
-                    category,
-                ),
-            });
-        } // no category given
-        else {
-            for (const tag of tags) {
-                selectOptions.push({
-                    label: `${tag}`,
-                    value: tag,
-                    default: tag === "All" ? true : false,
-                    pages: buildGenedPages(
-                        tag != "All" ? genedData.filter((c) => c.tags.includes(tag)) : genedData,
-                        tag,
-                    ),
-                });
-            }
         }
         const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
             new StringSelectMenuBuilder()
                 .setCustomId("gened_select_menu")
                 .addOptions(selectOptions),
         );
-
+        const selectRowSort = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            new StringSelectMenuBuilder().setCustomId("gened_sort_menu").addOptions(sortOptions),
+        );
+        let selectCategory: string = category ?? "All";
+        let sortType: Sort = Sort.None;
         const paginator = new EmbedPaginator({
             pages: selectOptions[0]!.pages,
-            components: [selectRow],
+            components: [selectRow, selectRowSort],
             async onCollect(collectInteraction) {
                 if (!collectInteraction.isStringSelectMenu()) return;
                 const choice = collectInteraction.values[0]!;
-                const selected = selectOptions.find((option) => option.value === choice);
-                paginator.setPages(selected!.pages);
-                selectRow.components[0]?.setOptions(
-                    selectOptions.map((option) => ({
-                        ...option,
-                        default: option.value === choice,
-                    })),
+
+                let selected = selectOptions.find((option) => option.value === choice);
+
+                if (selected) {
+                    // change category
+                    //   sortType = sortOptions.find((option) =>
+                    //     option.default === true
+                    //   )!.value;
+                    selectCategory = selected.value;
+                    selectRow.components[0]?.setOptions(
+                        selectOptions.map((option) => ({
+                            ...option,
+                            default: option.value === choice,
+                        })),
+                    );
+                } else {
+                    //change sort
+                    selected = sortOptions.find((option) => option.value === choice)!;
+
+                    sortType = Object.values(Sort).find((s) => s === selected!.value)!;
+                    //   selectCategory = selectOptions.find((option) =>
+                    //     option.default === true
+                    //   )!.value;
+                    selectRowSort.components[0]?.setOptions(
+                        sortOptions.map((option) => ({
+                            ...option,
+                            default: option.value === choice,
+                        })),
+                    );
+                }
+
+                //build new page
+                selected!.pages = buildSortedPage(
+                    filterGeneds(selectCategory),
+                    selectCategory,
+                    sortType,
                 );
+
+                //update page
+                paginator.setPages(selected!.pages);
             },
         });
         await paginator.send(interaction);
