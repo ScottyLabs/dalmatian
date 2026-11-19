@@ -17,6 +17,7 @@
         "@logtape/logtape": "npm:@logtape/logtape@^2.1.1",
         "@std/expect": "jsr:@std/expect@^1",
         "@std/testing/bdd": "jsr:@std/testing@^1/bdd",
+        "chart.js": "npm:chart.js@^4.4.8",
         "csv-parse": "npm:csv-parse@^6.1.0",
         "discord.js": "npm:discord.js@14.24.0",
         "drizzle-kit": "npm:drizzle-kit@1.0.0-rc.3",
@@ -36,5 +37,15 @@
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true
+    },
+    "allowScripts": {
+        "allow": [],
+        "deny": [
+            "npm:bun2nix@2.1.2",
+            "npm:canvas@3.2.3",
+            "npm:esbuild@0.18.20",
+            "npm:esbuild@0.25.12",
+            "npm:esbuild@0.28.2"
+        ]
     }
 }
