@@ -70,6 +70,41 @@ const MCStags = [
     "Engage",
     "Cultural/Global Understanding",
 ];
+function checkGened(course: string, data: Gened[]): string[] | undefined {
+    const gened = data.filter((c) => c.courseID === course);
+    if (gened.length === 0) {
+        return undefined;
+    }
+    const output: string[] = [];
+    for (const course of gened) {
+        output.push(...course.tags);
+    }
+    return output;
+}
+export function getGenedString(course: string): string {
+    const genedDataCIT = CITData as Gened[];
+    const genedDataMCS = MCSData as Gened[];
+    const genedDataSCS = SCSData as Gened[];
+    const genedDataDC = DCData as Gened[];
+    const output: string[] = [];
+    let temp = checkGened(course, genedDataCIT);
+    if (temp) {
+        output.push(`${bold("CIT")}: ${temp.join(", ")}`);
+    }
+    temp = checkGened(course, genedDataMCS);
+    if (temp) {
+        output.push(`${bold("MCS")}: ${temp.join(", ")}`);
+    }
+    temp = checkGened(course, genedDataSCS);
+    if (temp) {
+        output.push(`${bold("SCS")}: ${temp.join(", ")}`);
+    }
+    temp = checkGened(course, genedDataDC);
+    if (temp) {
+        output.push(`${bold("DC")}: ${temp.join(", ")}`);
+    }
+    return output.join("\n");
+}
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
         .setName("gened")

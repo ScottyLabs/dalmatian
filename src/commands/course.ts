@@ -1,8 +1,8 @@
 import {
     ActionRowBuilder,
+    bold,
     ButtonBuilder,
     ButtonStyle,
-    bold,
     EmbedBuilder,
     MessageFlags,
     SlashCommandBuilder,
@@ -11,6 +11,7 @@ import {
 import { SCOTTYLABS_URL } from "../constants.ts";
 import type { SlashCommand } from "../types.d.ts";
 import { COURSES_DATA, formatCourseNumber, queryCourse } from "../utils/index.ts";
+import { getGenedString } from "./gened.ts";
 
 const command: SlashCommand = {
     data: new SlashCommandBuilder()
@@ -61,6 +62,17 @@ const command: SlashCommand = {
                     inline: true,
                 },
             );
+        const genedString = getGenedString(course.id);
+        if (genedString) {
+            embed.addFields({
+                name: "Gened data",
+                value: genedString,
+                inline: true,
+            });
+            embed.setFooter({
+                text: `Gened data may not be up to date. Please check your school website for the most accurate info.`,
+            });
+        }
 
         const button = new ButtonBuilder()
             .setLabel("View prerequisite graph")
