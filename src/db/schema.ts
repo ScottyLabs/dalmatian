@@ -51,3 +51,11 @@ export const userCooldowns = pgTable("user_cooldowns", {
         .references(() => redirectionInstances.id, { onDelete: "cascade" }),
     lastPingedAt: timestamp("last_pinged_at").notNull(),
 });
+/**
+ * Poll settings store which channel /poll create sends polls to, one channel per server
+ */
+export const pollSettings = pgTable("pollSettings", {
+    guildId: bigint("guild_id", { mode: "string" }).primaryKey(),
+    channelId: bigint("channel_id", { mode: "string" }).notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
