@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "anti-slop": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791937113,
+        "narHash": "sha256-S+8TNTjmuwSBIuANG63a0eg6W72Bd9gZXueL8uyWOqE=",
+        "owner": "dmmulroy",
+        "repo": "anti-slop",
+        "rev": "13909c9e07590f5a85d93c62712259fe14a883f7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dmmulroy",
+        "repo": "anti-slop",
+        "type": "github"
+      }
+    },
     "collar": {
       "inputs": {
         "flake-parts": [
@@ -19,11 +35,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794378719,
-        "narHash": "sha256-duSnTEcx0t1Sba5nhaR+8RnHlOTX76cvnMYkcQm6AV4=",
+        "lastModified": 1794860602,
+        "narHash": "sha256-IDVrFzd/oSHfGSWpJ3Nh4GOa0ADQjfkkEq+b0osdOWM=",
         "ref": "refs/heads/main",
-        "rev": "1388af1ec59f20d7daade19cb42b80fccdb2bc60",
-        "revCount": 63,
+        "rev": "4e46cbee16d048af1c2179740893704be0b7b5c3",
+        "revCount": 74,
         "type": "git",
         "url": "https://git.cmu.dev/ScottyLabs/collar"
       },
@@ -34,11 +50,11 @@
     },
     "crane": {
       "locked": {
-        "lastModified": 1793836618,
-        "narHash": "sha256-TREenflwEjxOSq292FYwbc3kEm7TDRtXCZRNWEdjBmg=",
+        "lastModified": 1794870543,
+        "narHash": "sha256-RQc417nQURjHvaUkVFLyvaQ6Px18G7ZHjRF9bYUkScg=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "79fd63528501446749c09f08cad486a58c7d173e",
+        "rev": "dbd1288af7a7ec997cb912c034b1a1962938173e",
         "type": "github"
       },
       "original": {
@@ -123,11 +139,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1793876309,
-        "narHash": "sha256-Wojg9lIH/hDH91iDVH2/EPw8oDSpxjxhXONbU1yf4Zg=",
+        "lastModified": 1794537146,
+        "narHash": "sha256-Wpz/7x/YWnDIBu7yj6ixe8j6fIMsidd9Y+o1PqPF3iM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f9a75f41be3a74eab55d3a7679d34ad6cc0da977",
+        "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
         "type": "github"
       },
       "original": {
@@ -139,11 +155,11 @@
     },
     "nixpkgs-garage": {
       "locked": {
-        "lastModified": 1794219129,
-        "narHash": "sha256-g92k252bVL1UDzpud2tzOLmOKANmCf6FkMG2nmvGO7I=",
+        "lastModified": 1794805767,
+        "narHash": "sha256-QbTpklyCI4H7VLANQXeYn5SpoNO0/hoCXG4iA+kbEU4=",
         "owner": "ap-1",
         "repo": "nixpkgs",
-        "rev": "da94e00dee59f9c562068a55fb5b03efc75bff05",
+        "rev": "279126c1d91e76df1b17a3072a870a8a258b5886",
         "type": "github"
       },
       "original": {
@@ -153,35 +169,35 @@
         "type": "github"
       }
     },
-    "nixpkgs-pitchfork": {
+    "nixpkgs-oxlint": {
       "locked": {
-        "lastModified": 1794174645,
-        "narHash": "sha256-JxwKVhDG+EEUhpkSULBAv+f0APglnWOArg227J1EWUo=",
-        "owner": "ap-1",
+        "lastModified": 1794976841,
+        "narHash": "sha256-HW2d7/kp6IPQUh0XR05AOZSQzQ0swtAt7ZcONs/SQfM=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "009e3966fd020815a3b251c3f45e1bc74019d7b3",
+        "rev": "e5fce2c8934b4f890746204316b6a379e9d37e54",
         "type": "github"
       },
       "original": {
-        "owner": "ap-1",
-        "ref": "pitchfork",
+        "owner": "nixos",
         "repo": "nixpkgs",
+        "rev": "e5fce2c8934b4f890746204316b6a379e9d37e54",
         "type": "github"
       }
     },
-    "nixpkgs-semgrep": {
+    "nixpkgs-tsrs": {
       "locked": {
-        "lastModified": 1794177463,
-        "narHash": "sha256-2k9vPqWGbNsR1hcYDkH3kJ8MR9kOGPYYrDorxQ0ECFw=",
-        "owner": "NixOS",
+        "lastModified": 1794980197,
+        "narHash": "sha256-H7/Ngy2RK1SHTDmZIXxxfD44Y+goo6Rfw4/52T7kDPs=",
+        "owner": "ap-1",
         "repo": "nixpkgs",
-        "rev": "91c7535628c543445974573b6a394f7b65263788",
+        "rev": "0c864f08ec7b010e8db86c09c3c3f918a73452ac",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
+        "owner": "ap-1",
         "repo": "nixpkgs",
-        "rev": "91c7535628c543445974573b6a394f7b65263788",
+        "rev": "0c864f08ec7b010e8db86c09c3c3f918a73452ac",
         "type": "github"
       }
     },
@@ -278,11 +294,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794561628,
-        "narHash": "sha256-oWtItM1eQqkp9OJXq2/Zo10Y9Vu9PDE6O8JRjj4+EkE=",
+        "lastModified": 1794820811,
+        "narHash": "sha256-z43rmhOmnCG4gN2EcSm4tzHUSRg7DG5SaGscYreafzg=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "84edd48f141b0c8910dffdd0296ddd577e829132",
+        "rev": "2ff7d39b901d79ee26d26f9fa32f90511eecaa0e",
         "type": "github"
       },
       "original": {
@@ -293,14 +309,15 @@
     },
     "scottylabs": {
       "inputs": {
+        "anti-slop": "anti-slop",
         "collar": "collar",
         "crane": "crane",
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
         "nixpkgs": "nixpkgs",
         "nixpkgs-garage": "nixpkgs-garage",
-        "nixpkgs-pitchfork": "nixpkgs-pitchfork",
-        "nixpkgs-semgrep": "nixpkgs-semgrep",
+        "nixpkgs-oxlint": "nixpkgs-oxlint",
+        "nixpkgs-tsrs": "nixpkgs-tsrs",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",
         "ricochet": "ricochet",
@@ -309,11 +326,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1794694978,
-        "narHash": "sha256-Lrq74M/WY7bcWS5IpnpZfMDhL2IaDBx5OYoFSiypc0M=",
+        "lastModified": 1795125896,
+        "narHash": "sha256-omDCo/TVjFUv7euzPdOQRI2SNEu2QQgHPf4GSauKM5I=",
         "ref": "refs/heads/main",
-        "rev": "fca06604406d5b1d1619e75962eccb2ee60dea21",
-        "revCount": 463,
+        "rev": "94c75ecd2d7ba6b607e49854f6f143774e547a32",
+        "revCount": 484,
         "type": "git",
         "url": "https://git.cmu.dev/ScottyLabs/kennel"
       },
